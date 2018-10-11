@@ -14,8 +14,8 @@ var DatenbankLog = null;
  */
 exports.Initialisieren = function ()
 {
-    DatenbankWichteln = VerbindeMitDatenbank('wichteln');
-    DatenbankLog = VerbindeMitDatenbank('log');
+    DatenbankWichteln = VerbindeMitDatenbank('Wichteln');
+    DatenbankLog = VerbindeMitDatenbank('Log');
 }
 
 /**
