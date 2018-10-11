@@ -4,7 +4,9 @@
     "description": "Ein Bot fürs Wichtöööln!",
     "main": "Wichtelbot.js",
     "author": "Benedikt Magnus",
+    "license": "MIT",
     "dependencies": {
-        "discord.js": ""
+        "discord.js": "",
+        "sqlite3": ""
     }
 }
