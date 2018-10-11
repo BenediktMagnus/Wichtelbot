@@ -1,0 +1,10 @@
+{
+    "name": "Wichtelbot",
+    "version": "0.1.0",
+    "description": "Ein Bot fürs Wichtöööln!",
+    "main": "Wichtelbot.js",
+    "author": "Benedikt Magnus",
+    "dependencies": {
+        "discord.js": ""
+    }
+}
