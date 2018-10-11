@@ -7,6 +7,11 @@ console.log('Initialisiere Datenbanken...');
 const Datenbank = require('./skripte/datenbank.js');
 Datenbank.Initialisieren();
 
+//Nachrichtenverarbeitung starten:
+console.log('Initialisiere Nachrichtenverarbeitung...');
+const Nachrichten = require('./skripte/nachrichten.js');
+Nachrichten.Initialisieren();
+
 //Discordbot laden und erstellen:
 console.log('Initialisiere Discordbot...');
 const Bot = require('./config/bot.json');
@@ -22,7 +27,7 @@ Klient.on('ready', () => {
 
 Klient.on('message', function (Nachricht)
   {
-    console.log(Nachricht.channel);
+    Nachrichten.Verarbeiten(Nachricht);
   }
 );
 

@@ -25,7 +25,7 @@ exports.Initialisieren = function ()
  */
 function VerbindeMitDatenbank (Name)
 {
-    let Datenbank = new SQLite.Database('./daten/' + Name + '.sqlite', (Fehler) =>
+    let Datenbank = new SQLite.Database('./daten/' + Name + '.sqlite', SQLite.OPEN_READWRITE, (Fehler) =>
         {
             if (Fehler) console.error(Fehler);
         }
