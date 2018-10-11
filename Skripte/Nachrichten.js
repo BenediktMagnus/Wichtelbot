@@ -1,5 +1,5 @@
-const Config = require('../config/Config.json');
-const Texte = require('../config/Texte.json');
+const Config = require('../Config/Config.json');
+const Texte = require('../Config/Texte.json');
 
 /**
  * Initialisiert die Nachrichtenverarbeitung.

@@ -1,20 +1,20 @@
 console.log('Bot startet...')
 
-const Config = require('./config/Config.json');
+const Config = require('./Config/Config.json');
 
 //Datenbanken laden und Modul initialisieren:
 console.log('Initialisiere Datenbanken...');
-const Datenbank = require('./skripte/Datenbank.js');
+const Datenbank = require('./Skripte/Datenbank.js');
 Datenbank.Initialisieren();
 
 //Nachrichtenverarbeitung starten:
 console.log('Initialisiere Nachrichtenverarbeitung...');
-const Nachrichten = require('./skripte/Nachrichten.js');
+const Nachrichten = require('./Skripte/Nachrichten.js');
 Nachrichten.Initialisieren();
 
 //Discordbot laden und erstellen:
 console.log('Initialisiere Discordbot...');
-const Bot = require('./config/Bot.json');
+const Bot = require('./Config/Bot.json');
 const Discord = require('discord.js');
 const Klient = new Discord.Client();
 
