@@ -3,11 +3,11 @@ const SQLite = require('sqlite3');
 /**
  * Die Datenbank mit allen Tabellen rund um das Wichteln.
  */
-const DatenbankWichteln = null;
+var DatenbankWichteln = null;
 /**
  * Die Datenbank mit einer Tabelle als Zugriffslog auf den Bot.
  */
-const DatenbankLog = null;
+var DatenbankLog = null;
 
 /**
  * Initialisiert die Datenbankverbindungen.
@@ -25,9 +25,14 @@ exports.Initialisieren = function ()
  */
 function VerbindeMitDatenbank (Name)
 {
-    return new SQLite.Database('./daten/' + Name + '.sqlite', (Fehler) =>
-    {
-        if (Fehler) console.error(Fehler);
-    }
-);
+    let Datenbank = new SQLite.Database('./daten/' + Name + '.sqlite', (Fehler) =>
+        {
+            if (Fehler) console.error(Fehler);
+        }
+    );
+
+    //Versetzt die Datenbank in den seriellen Modus, sodass Datenbankabfragen immer nacheinander abgearbeitet werden anstatt gleichzeitig:
+    Datenbank.serialize();
+
+    return Datenbank;
 }
