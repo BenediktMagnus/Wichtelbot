@@ -1,20 +1,23 @@
 Tabellen:
 
+-Mods
+    NutzerId, Nickname
+
 -Bekannte Nutzer/PN-Kanäle.
-    Id, Discord, Name, Nickname, Zeit, Zustand
+    NutzerId, Discord, Name, Nickname, Zeit, Zustand
 
 -Alle angegebenen Informationen (Adresse, Wunsch, Analog/Digital, Freitext etc.).
-    Id, Änderungszeit, AnalogDigitalSelbst, AnalogDigitalWichtel, Anschrift, Land, Steam, International,
+    NutzerId, Zeit, AnalogDigitalSelbst, AnalogDigitalWichtel, Anschrift, Land, Steam, International,
     Wunschliste, Links, Allergien, AusschlussGeschenk, AusschlussWichtel, Freitext
 
 -Unerwünschte Wichtelpartner.
-    Id, Id, Grund
+    NutzerId, WichtelId
 
 -Geloste Wichtel.
-    Termin, Id, Id
+    Termin, NutzerId, WichtelId
 
 -Versandte Pakete mit Zeiten, Sendungsnummern und wann angekommen.
-    IdSender, IdEmpfänger, Sendungsnummer, Sendezeitpunkt, Empfangszeitpunkt
+    IdSender, IdEmpfaenger, Sendungsnummer, Sendezeitpunkt, Empfangszeitpunkt
 
 -Log.
-    Id, Zeit, Eingabe
+    NutzerId, Name, Zeit, Eingabe
