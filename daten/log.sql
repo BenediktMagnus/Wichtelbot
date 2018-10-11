@@ -1,0 +1,8 @@
+BEGIN TRANSACTION;
+CREATE TABLE `Log` (
+	`NutzerId`	INTEGER,
+	`Name`	TEXT,
+	`Zeit`	INTEGER,
+	`Eingabe`	TEXT
+);
+COMMIT;
