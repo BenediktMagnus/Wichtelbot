@@ -28,7 +28,7 @@ build/Release
 node_modules
 
 # Konfiguration (Token etc.)
-config/bot.json
+config/Bot.json
 
 # Datenbanken
 daten/*.sqlite
