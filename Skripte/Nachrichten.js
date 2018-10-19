@@ -7,6 +7,21 @@ const Texte = require('../Config/Texte.json');
  */
 const Befehle = require('../Config/Befehle.json');
 
+const Definitionen = {
+    Befehle = {
+        "!wichtöööln": {
+            Text: Texte.Kontaktaufnahme
+        },
+        "registrieren": {
+            Text: Texte.Registriert
+        }
+    },
+    Zustaende = {
+        Nichts: undefined
+    }
+};
+
+/*
 const Zustaende = {
     Nichts: undefined,
     Registrierung: 1,
@@ -22,7 +37,7 @@ const Zustaende = {
     AusschlussWichtel: 11,
     Freitext: 12
 }
-
+*/
 // NutzerId, Zeit, AnalogDigitalSelbst, AnalogDigitalWichtel, Anschrift, Land, Steam, International,
 // Wunschliste, Links, Allergien, AusschlussGeschenk, AusschlussWichtel, Freitext
 
@@ -56,6 +71,8 @@ exports.Verarbeiten = function (Nachricht)
     //Keine Nachrichten von einem selbst oder anderen Bots verarbeiten:
     if (Nachricht.author.bot)
         return;
+
+    
 
     if (Nachricht.channel.type == 'dm')
     {
