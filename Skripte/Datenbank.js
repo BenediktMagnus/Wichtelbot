@@ -23,13 +23,15 @@ exports.Initialisieren = function ()
  */
 exports.NutzerSpeichern = function (Nutzer)
 {
+    Nutzer.Zeit = AktuelleUnixzeit();
+
     DatenbankWichteln.run(
         'INSERT INTO Nutzer (NutzerId, Discord, Name, Nickname, Zeit, Zustand) VALUES (?, ?, ?, ?, ?, ?)',
         Nutzer.Id,
         Nutzer.Discord,
         Nutzer.Name,
         Nutzer.Nickname,
-        AktuelleUnixzeit(),
+        Nutzer.Zeit,
         Nutzer.Zustand,
         Fehlerbehandlung
     );

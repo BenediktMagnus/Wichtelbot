@@ -39,7 +39,7 @@ exports.Initialisieren = function (Datenbankbibliothek)
  * Erzeugt ein leeres Nutzerobjekt.
  * @returns {Object} Das leere Nutzerobjekt.
  */
-exports.ErzeugeLeerenNutzer = function ()
+exports.LeerenNutzerErzeugen = function ()
 {
     return {
         Id: 0,
@@ -47,7 +47,7 @@ exports.ErzeugeLeerenNutzer = function ()
         Name: '',
         Nickname: '',
         Zeit: 0,
-        Zustand: ''
+        Zustand: 'Neu'
     };
 }
 
@@ -55,8 +55,8 @@ exports.ErzeugeLeerenNutzer = function ()
  * Fügt einen Nutzer zur Nutzerliste hinzu und speichert ihn in der Datenbank.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
  */
-exports.NutzerHinzufuegen = function (Nutzer)
+exports.Hinzufuegen = function (Nutzer)
 {
     Nutzerliste.set(Nutzer.Id, Nutzer);
-    Datenbank.NutzerHinzufuegen(Nutzer);
+    Datenbank.NutzerSpeichern(Nutzer);
 };

@@ -10,7 +10,7 @@ Datenbank.Initialisieren();
 //Nachrichtenverarbeitung starten:
 console.log('Initialisiere Nachrichtenverarbeitung...');
 const Nachrichten = require('./Skripte/Nachrichten.js');
-Nachrichten.Initialisieren();
+Nachrichten.Initialisieren(Datenbank);
 
 //Discordbot laden und erstellen:
 console.log('Initialisiere Discordbot...');

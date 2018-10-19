@@ -2,54 +2,78 @@
  * Eine Sammlung aller vom Bot benutzten Texte.
  */
 const Texte = require('../Config/Texte.json');
-/**
- * Eine Sammlung aller für den Bot verfügbaren Befehle.
- */
-const Befehle = require('../Config/Befehle.json');
 
 const Definitionen = {
-    Befehle = {
-        "!wichtöööln": {
-            Text: Texte.Kontaktaufnahme
-        },
-        "registrieren": {
-            Text: Texte.Registriert
+    //Die maximale Länge, die ein Befehl haben darf: (Optimiert die Erkennung von Befehlen.)
+    MaximaleBefehlslaenge: 16,
+    //Nur auf dem Server möglich:
+    Kontaktaufnahme: {
+        Befehl: "!wichtöööln",
+        Text: Texte.Kontaktaufnahme
+    },
+    //Jederzeit möglich:
+    Befehle: {
+        "abbruch": {
+
         }
     },
-    Zustaende = {
-        Nichts: undefined
+    //Nur in einem bestimmten Zustand gültig:
+    Zustaende: {
+        Neu: {
+            "registrieren": {
+                Text: Texte.Registriert,
+                Ziel: 'Registrierung'
+            }
+        },
+        Registrierung: {
+
+        },
+        AnalogDigitalSelbst: {
+
+        },
+        AnalogDigitalWichtel: {
+            
+        },
+        Anschrift: {
+            Datenaufnahme: true
+        },
+        Steam: {
+            Datenaufnahme: true
+        },
+        International: {
+            
+        },
+        Wunschliste: {
+            Datenaufnahme: true
+        },
+        Links: {
+            Datenaufnahme: true
+        },
+        Allergien: {
+            Datenaufnahme: true
+        },
+        AusschlussGeschenk: {
+            Datenaufnahme: true
+        },
+        AusschlussWichtel: {
+            Datenaufnahme: true
+        },
+        Freitext: {
+            Datenaufnahme: true
+        },
+        Leer: {}
+    },
+    NichtVerstanden: {
+        Text: Texte.NichtVerstanden
     }
 };
 
-/*
-const Zustaende = {
-    Nichts: undefined,
-    Registrierung: 1,
-    AnalogDigitalSelbst: 2,
-    AnalogDigitalWichtel: 3,
-    Anschrift: 4,
-    Steam: 5,
-    International: 6,
-    Wunschliste: 7,
-    Links: 8,
-    Allergien: 9,
-    AusschlussGeschenk: 10,
-    AusschlussWichtel: 11,
-    Freitext: 12
-}
-*/
-// NutzerId, Zeit, AnalogDigitalSelbst, AnalogDigitalWichtel, Anschrift, Land, Steam, International,
-// Wunschliste, Links, Allergien, AusschlussGeschenk, AusschlussWichtel, Freitext
-
-/**
- * Die Nutzerverwaltung.
- */
-const Nutzer = require('./Nutzer.js');
+const Nutzerverwaltung = require('./Nutzer.js');
 
 /**
  * Die Datenbanverwaltung.
  */
-var Datenbank;
+var Datenbanverwaltung;
 
 /**
  * Initialisiert die Nachrichtenverarbeitung.
@@ -57,9 +81,9 @@ var Datenbank;
  */
 exports.Initialisieren = function (Datenbankbibliothek)
 {
-    Datenbank = Datenbankbibliothek;
+    Datenbanverwaltung = Datenbankbibliothek;
 
-    Nutzer.Initialisieren(Datenbank);
+    Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
 }
 
 /**
@@ -72,65 +96,55 @@ exports.Verarbeiten = function (Nachricht)
     if (Nachricht.author.bot)
         return;
 
-    
+    let Befehl;
+    if (Nachricht.content.length < Definitionen.MaximaleBefehlslaenge)
+        Befehl = Nachricht.content.toLowerCase();
+
+    let Autor = Nachricht.author;
 
     if (Nachricht.channel.type == 'dm')
     {
-        switch (Nachricht.content.toLowerCase())
+        //Wenn kein Nutzer vorhanden ist bei direkter Kommunikation, impliziere eine Kontaktaufnahme:
+        if (!Nutzerverwaltung.Liste.has(Autor.id))
         {
-            case Befehle.Registrieren:
-                Registrieren(Nachricht);
-                break;
-            default: 
-                if (!NachrichtMitZustandVerarbeiten(Nachricht))
-                    Nachricht.reply(Texte.NichtVerstanden);
+            Kontaktaufnahme(Autor);
+            return;
         }
+
+        let Nutzer = Nutzerverwaltung.Liste.get(Autor.id);
+        let Zustand = Definitionen.Zustaende[Nutzer.Zustand];
+
+        if (Zustand[Befehl]) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
+            Zustand[Befehl].Funktion(Nachricht)
+        else if (Definitionen.Befehle[Befehl]) //Es gibt einen allgemeinen Befehl, der immer gültig ist.
+            Definitionen.Befehle[Befehl].Funktion(Nachricht)
+        else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
+            Zustand.Funktion(Nachricht)
+        else //Es gibt keine passende Aktion für die Nachricht.
+            Nachricht.reply(Definitionen.NichtVerstanden.Text);
     }
-    else
+    else //Nachricht wurde auf einem Server geschrieben.
     {
-        if (Nachricht.content == Befehle.Kontaktaufnahme)
-        {
-            Nachricht.author.send(Texte.Begruessung);
-        }
+        if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
+            Kontaktaufnahme(Autor);
     }
 }
 
 /**
- * Verarbeitet Nachrichten, die während eines bestimmten Zustandes relevant sind.
- * @param {Object} Nachricht Das vom Discordbot übergebene Nachrichtenobjekt.
- * @returns {Boolean} True, wenn verarbeitet, false, wenn unbehandelt.
+ * Erzeugt einen neuen Nutzer anhand eines Discordnutzers und nimmt Kontakt per privater Nachricht auf.
+ * @param {Object} Autor Der Autor einer Nachricht in Discord, ein Discordnutzerobjekt.
  */
-function NachrichtMitZustandVerarbeiten (Nachricht)
+function Kontaktaufnahme (Autor)
 {
-    if (!Nutzerliste.has(Nachricht.author.id))
-        return false;
-
-    let Nutzer = Nutzerliste.get(Nachricht.author.id);
-
-    switch (Nutzer.Zustand)
+    if (!Nutzerverwaltung.Liste.has(Autor.id)) //Nur einen neuen Nutzer erzeugen, wenn er nicht bereits vorhanden ist...
     {
-        case Zustaende.Registrierung:
-            break;
-        default:
-            return false;
+        let NeuerNutzer = Nutzerverwaltung.LeerenNutzerErzeugen();
+        NeuerNutzer.Id = Autor.id;
+        NeuerNutzer.Discord = Autor.tag;
+        NeuerNutzer.Name = Autor.username;
+        NeuerNutzer.Nickname = Autor.username;
+        Nutzerverwaltung.Hinzufuegen(NeuerNutzer);
     }
 
-    //Wenn hier angelangt, wurde einer der Fälle durchlaufen, womit die Verarbeitung durchlaufen ist.
-    return true;
-}
-
-/**
- * Startet den Registrierungsprozess.
- * @param {Object} Nachricht Das vom Discordbot übergebene Nachrichtenobjekt.
- */
-function Registrieren (Nachricht)
-{
-    let Nutzer = {
-        Id: Nachricht.author.id,
-        Zustand: Zustaende.Registrierung
-    };
-
-    Nutzerliste.set(Nutzer.Id, Nutzer);
-
-    Nachricht.reply(Texte.Registriert);
+    Autor.send(Definitionen.Kontaktaufnahme.Text);
 }
