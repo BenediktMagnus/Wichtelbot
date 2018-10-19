@@ -27,16 +27,24 @@ const Zustaende = {
 // Wunschliste, Links, Allergien, AusschlussGeschenk, AusschlussWichtel, Freitext
 
 /**
- * Eine Zuordnungsliste aller bekannten Nutzer und ihrer derzeitigen Unterhaltungszustände.
+ * Die Nutzerverwaltung.
  */
-var Nutzerliste;
+const Nutzer = require('./Nutzer.js');
+
+/**
+ * Die Datenbanverwaltung.
+ */
+var Datenbank;
 
 /**
  * Initialisiert die Nachrichtenverarbeitung.
+ * @param {Object} Datenbankbibliothek
  */
-exports.Initialisieren = function ()
+exports.Initialisieren = function (Datenbankbibliothek)
 {
-    Nutzerliste = new Map();
+    Datenbank = Datenbankbibliothek;
+
+    Nutzer.Initialisieren(Datenbank);
 }
 
 /**
