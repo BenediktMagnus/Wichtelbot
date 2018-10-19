@@ -19,6 +19,22 @@ exports.Initialisieren = function ()
 }
 
 /**
+ * Loggt die Eingabe eines Nutzers.
+ * @param {Number} NutzerId Die Discord-ID des Nutzers.
+ * @param {String} Name Der Discordname des Nutzers.
+ * @param {String} Eingabe Die Eingabe des Nutzers.
+ */
+exports.Log = function (NutzerId, Name, Eingabe)
+{
+    DatenbankLog.run('INSERT INTO Log (NutzerId, Name, Eingabe, Zeit) VALUES (?, ?, ?, ?)',
+                     NutzerId,
+                     Name,
+                     Eingabe,
+                     Math.floor(new Date() / 1000)
+    );
+}
+
+/**
  * Erzeugt eine neue Datenbankverbindung.
  * @param {String} Name Name der Datenbankdatei.
  * @returns {Object} Das Objekt der Datenbankverbindung.
@@ -35,4 +51,14 @@ function VerbindeMitDatenbank (Name)
     Datenbank.serialize();
 
     return Datenbank;
+}
+
+/**
+ * Behandelt auftretende Fehler.
+ * @param {String} Fehler Der Fehlertext, den die Datenbank zurückgibt.
+ */
+function Fehlerbehandlung (Fehler)
+{
+    if (Fehler)
+        console.error(Fehler);
 }
