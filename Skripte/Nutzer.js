@@ -69,3 +69,26 @@ exports.Aktualisieren = function (Nutzer)
 {
     Datenbank.NutzerAktualisieren(Nutzer);
 };
+
+/**
+ * Überprüft, ob ein Nutzer mit dieser Id in der Liste vorhanden ist.
+ * @param {Number} Id Die Id des Nutzers.
+ * @returns {Boolean} True, wenn vorhanden, andernfalls false.
+ */
+exports.IdIstVorhanden = function (Id)
+{
+    return Nutzerliste.has(Id);
+};
+
+/**
+ * Holt ein Nutzerobjekt aus der Liste anhand seiner Id.
+ * @param {Number} Id Die Id des Nutzers.
+ * @returns {Object} Das Nutzerobjekt.
+ */
+exports.VonId = function (Id)
+{
+    if (!Nutzerliste.has(Id))
+        console.error('FEHLER: Konnte Nutzer nicht anhand der Id ' + Id + ' ermitteln.');
+
+    return Nutzerliste.get(Id);
+};

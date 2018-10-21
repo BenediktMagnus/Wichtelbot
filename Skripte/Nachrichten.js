@@ -105,13 +105,13 @@ exports.Verarbeiten = function (Nachricht)
     if (Nachricht.channel.type == 'dm')
     {
         //Wenn kein Nutzer vorhanden ist bei direkter Kommunikation, impliziere eine Kontaktaufnahme:
-        if (!Nutzerverwaltung.Liste.has(Autor.id))
+        if (!Nutzerverwaltung.IdIstVorhanden(Autor.id))
         {
             Kontaktaufnahme(Autor);
             return;
         }
 
-        let Nutzer = Nutzerverwaltung.Liste.get(Autor.id);
+        let Nutzer = Nutzerverwaltung.VonId(Autor.id);
         let Zustand = Definitionen.Zustaende[Nutzer.Zustand];
 
         if (Zustand[Befehl]) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
@@ -136,7 +136,7 @@ exports.Verarbeiten = function (Nachricht)
  */
 function Kontaktaufnahme (Autor)
 {
-    if (!Nutzerverwaltung.Liste.has(Autor.id)) //Nur einen neuen Nutzer erzeugen, wenn er nicht bereits vorhanden ist...
+    if (!Nutzerverwaltung.IdIstVorhanden(Autor.id)) //Nur einen neuen Nutzer erzeugen, wenn er nicht bereits vorhanden ist...
     {
         let NeuerNutzer = Nutzerverwaltung.LeerenNutzerErzeugen();
         NeuerNutzer.Id = Autor.id;
