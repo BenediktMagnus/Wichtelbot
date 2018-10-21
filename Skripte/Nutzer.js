@@ -60,3 +60,12 @@ exports.Hinzufuegen = function (Nutzer)
     Nutzerliste.set(Nutzer.Id, Nutzer);
     Datenbank.NutzerSpeichern(Nutzer);
 };
+
+/**
+ * Aktualisiert einen Nutzer in der Liste und speichert die neuen Werte in der Datenbank.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ */
+exports.Aktualisieren = function (Nutzer)
+{
+    Datenbank.NutzerAktualisieren(Nutzer);
+};

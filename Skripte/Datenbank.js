@@ -19,6 +19,7 @@ exports.Initialisieren = function ()
 };
 
 /**
+ * Speichert einen Nutzer in der Datenbank.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
  */
 exports.NutzerSpeichern = function (Nutzer)
@@ -33,6 +34,26 @@ exports.NutzerSpeichern = function (Nutzer)
         Nutzer.Nickname,
         Nutzer.Zeit,
         Nutzer.Zustand,
+        Fehlerbehandlung
+    );
+};
+
+/**
+ * Aktualisiert einen Nutzer in der Datenbank.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ */
+exports.NutzerAktualisieren = function (Nutzer)
+{
+    Nutzer.Zeit = AktuelleUnixzeit();
+
+    DatenbankWichteln.run(
+        'UPDATE Nutzer SET Discord = ?, Name = ?, Nickname = ?, Zeit = ?, Zustand = ? WHERE NutzerId = ?',
+        Nutzer.Discord,
+        Nutzer.Name,
+        Nutzer.Nickname,
+        Nutzer.Zeit,
+        Nutzer.Zustand,
+        Nutzer.Id,
         Fehlerbehandlung
     );
 };
