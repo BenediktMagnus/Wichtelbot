@@ -148,3 +148,32 @@ function Kontaktaufnahme (Autor)
 
     Autor.send(Definitionen.Kontaktaufnahme.Text);
 }
+
+/**
+ * Setzt den nächsten Zustand ohne Datenaufnahme.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
+ */
+function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
+{
+    Nutzer.Zustand = Befehlsobjekt.Ziel;
+
+    if (Befehlsobjekt.ZustandIstPersistent)
+        Nutzerverwaltung.Aktualisieren(Nutzer);
+    
+    Nachricht.reply(Befehlsobjekt.Text);
+}
+
+/**
+ * Nimmt die gesendeten Daten auf und fährt mit dem nächsten Ziel fort.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
+ */
+function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
+{
+    Nutzer.Daten[Nutzer.Zustand] = Nachricht.content;
+
+    Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
+}
