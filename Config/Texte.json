@@ -1,5 +1,10 @@
 {
-    "Kontaktaufnahme": "Hallo!\nDu möchtest also am Wichteln teilnehmen?",
+    "NichtVerstanden": "Ich habe dich leider nicht verstanden.",
+    "Kontaktaufnahme": "Hallo! \n Du möchtest also am Wichteln teilnehmen? Schreibe \"registrieren\", um dich anzumelden.",
     "Registriert": "Glückwunsch! Jetzt biste dabei.",
-    "NichtVerstanden": "Ich habe dich leider nicht verstanden."
+    "Regeln": "Akzeptierst du die Regeln?",
+    "AnalogDigitalSelbst": "Möchtest du selbst digital und/oder analog bewichtelt werden? \n Du hast die Wahl zwischen \"analog\", \"digital\" und \"beides\".",
+    "AnalogDigitalWichtel": "Möchtest du deinen Wichtel lieber digital oder analog bewichteln? \n Du hast die Wahl zwischen \"analog\", \"digital\" und \"beides\".",
+    "Anschrift": "Wie lautet deine Adresse?",
+    "Steam": "Wie lautet dein Steamname?"
 }

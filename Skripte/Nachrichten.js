@@ -9,30 +9,68 @@ const Definitionen = {
     //Nur auf dem Server möglich:
     Kontaktaufnahme: {
         Befehl: "!wichtöööln",
-        Text: Texte.Kontaktaufnahme
+        Text: Texte.Kontaktaufnahme,
+        Funktion: Kontaktaufnahme
     },
     //Jederzeit möglich:
     Befehle: {
-        "abbruch": {
-
-        }
+        //"abbruch": {
+        //
+        //}
     },
     //Nur in einem bestimmten Zustand gültig:
     Zustaende: {
         Neu: {
             "registrieren": {
-                Text: Texte.Registriert,
-                Ziel: 'Registrierung'
+                Funktion: Registrieren
             }
         },
         Registrierung: {
-
+            "ja": {
+                Funktion: Fortfahren,
+                Ziel: "AnalogDigitalSelbst",
+                Text: Texte.AnalogDigitalSelbst
+            },
+            "nein": {
+                Funktion: Fortfahren,
+                Ziel: "Neu",
+                ZustandIstPersistent: true,
+                Text: Texte.Kontaktaufnahme
+            }
         },
         AnalogDigitalSelbst: {
-
+            "analog": {
+                Funktion: DatenAufnehmen,
+                Ziel: "AnalogDigitalWichtel",
+                Text: Texte.AnalogDigitalWichtel
+            },
+            "digital": {
+                Funktion: DatenAufnehmen,
+                Ziel: "AnalogDigitalWichtel",
+                Text: Texte.AnalogDigitalWichtel
+            },
+            "beides": {
+                Funktion: DatenAufnehmen,
+                Ziel: "AnalogDigitalWichtel",
+                Text: Texte.AnalogDigitalWichtel
+            }
         },
         AnalogDigitalWichtel: {
-            
+            "analog": {
+                Funktion: DatenAufnehmen,
+                Ziel: "Anschrift",
+                Text: Texte.Anschrift
+            },
+            "digital": {
+                Funktion: DatenAufnehmen,
+                Ziel: "Steam",
+                Text: Texte.Steam
+            },
+            "beides": {
+                Funktion: DatenAufnehmen,
+                Ziel: "Anschrift",
+                Text: Texte.Anschrift
+            }
         },
         Anschrift: {
             Datenaufnahme: true
@@ -61,7 +99,9 @@ const Definitionen = {
         Freitext: {
             Datenaufnahme: true
         },
-        Leer: {}
+        Teilnehmer: {
+
+        }
     },
     NichtVerstanden: {
         Text: Texte.NichtVerstanden
@@ -102,7 +142,7 @@ exports.Verarbeiten = function (Nachricht)
 
     let Autor = Nachricht.author;
 
-    if (Nachricht.channel.type == 'dm')
+    if (Nachricht.channel.type == 'dm') //Nachricht wurde in einer privaten Unterhaltung geschrieben.
     {
         //Wenn kein Nutzer vorhanden ist bei direkter Kommunikation, impliziere eine Kontaktaufnahme:
         if (!Nutzerverwaltung.IdIstVorhanden(Autor.id))
@@ -113,20 +153,21 @@ exports.Verarbeiten = function (Nachricht)
 
         let Nutzer = Nutzerverwaltung.VonId(Autor.id);
         let Zustand = Definitionen.Zustaende[Nutzer.Zustand];
+        let Befehlsobjekt = Zustand[Befehl];
 
-        if (Zustand[Befehl]) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
-            Zustand[Befehl].Funktion(Nachricht)
+        if (Befehlsobjekt) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
+            Befehlsobjekt.Funktion(Nachricht, Nutzer, Befehlsobjekt)
         else if (Definitionen.Befehle[Befehl]) //Es gibt einen allgemeinen Befehl, der immer gültig ist.
-            Definitionen.Befehle[Befehl].Funktion(Nachricht)
+            Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Befehlsobjekt)
         else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
-            Zustand.Funktion(Nachricht)
+            Zustand.Funktion(Nachricht, Nutzer, Befehlsobjekt)
         else //Es gibt keine passende Aktion für die Nachricht.
             Nachricht.reply(Definitionen.NichtVerstanden.Text);
     }
     else //Nachricht wurde auf einem Server geschrieben.
     {
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
-            Kontaktaufnahme(Autor);
+            Definitionen.Kontaktaufnahme.Funktion(Autor);
     }
 }
 
@@ -176,4 +217,19 @@ function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
     Nutzer.Daten[Nutzer.Zustand] = Nachricht.content;
 
     Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
+}
+
+/**
+ * Startet den Registrierungsprozess eines Nutzers.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ */
+function Registrieren (Nachricht, Nutzer)
+{
+    Nutzer.Zustand = 'Registrierung';
+
+    Nutzerverwaltung.Aktualisieren(Nutzer);
+
+    Nachricht.reply(Texte.Registriert);
+    Nachricht.reply(Texte.Regeln);
 }

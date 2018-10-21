@@ -28,7 +28,8 @@ exports.Initialisieren = function (Datenbankbibliothek)
                     Name: Nutzer.Name,
                     Nickname: Nutzer.Nickname,
                     Zeit: Nutzer.Zeit,
-                    Zustand: Nutzer.Zustand
+                    Zustand: Nutzer.Zustand,
+                    Daten: {}
                 }
             );
         }
@@ -47,7 +48,8 @@ exports.LeerenNutzerErzeugen = function ()
         Name: '',
         Nickname: '',
         Zeit: 0,
-        Zustand: 'Neu'
+        Zustand: 'Neu',
+        Daten: {}
     };
 }
 
