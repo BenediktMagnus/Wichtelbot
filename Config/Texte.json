@@ -5,7 +5,14 @@
     "Regeln": "Akzeptierst du die Regeln?",
     "AnalogDigitalSelbst": "Möchtest du selbst digital und/oder analog bewichtelt werden? \n Du hast die Wahl zwischen \"analog\", \"digital\" und \"beides\".",
     "AnalogDigitalWichtel": "Möchtest du deinen Wichtel lieber digital oder analog bewichteln? \n Du hast die Wahl zwischen \"analog\", \"digital\" und \"beides\".",
-    "Anschrift": "Wie lautet deine Adresse?",
+    "Anschrift": "Wie lautet deine Adresse? Die Angabe einer Packstation ist ebenfalls möglich.",
+    "Land": "In welchem Land befindet sich diese Adresse? Möglich sind \"Deutschland\", \"Österreich\", \"Schweiz\" und \"Luxemburg\". Die Teilnahme aus anderen Ländern ist derzeit nicht möglich.",
     "Steam": "Wie lautet dein Steamname?",
-    "Wunschliste": "Was wünscht du dir? Ein kurzer Text, eine Liste und/oder ein Link zu einer Wunschliste (Steam, Amazon etc.) sind hier gut geeignet."
+    "International": "Wäre es für dich in Ordnung, Pakete auch international (d.h. zwischen Deutschland, Österreich, der Schweiz und Luxemburg) zu verschicken?",
+    "Wunschliste": "Was wünscht du dir? Ein kurzer Text, eine Liste und/oder ein Link zu einer Wunschliste (Steam, Amazon etc.) sind hier gut geeignet.",
+    "Allergien": "Hast du Allergien oder Unverträglichkeiten? Wenn ja, zähle sie bitte auf.",
+    "AusschlussGeschenk": "Möchtest du Dinge auf keinen Fall geschenkt bekommen? Jetzt wäre ein guter Zeitpunkt, damit herauszurücken.",
+    "AusschlussWichtel": "Möchtest du jemanden nicht bewichteln? Du kannst bis zu drei Namen nennen.",
+    "Freitext": "Nun hast du noch die Möglichkeit, einen freien Text an deinen Wichtel zu verfassen. Dir bleiben dafür bis zu 2.000 Zeichen. Mehr mag Discord nicht, und dein Wichtel ist sicher auch seeehr beschäftigt...",
+    "Teilnehmer": "Herzlichen Glückwunsch! \n Hiermit bist du offiziell ein Teilnehmer beim Achterwichteln!"
 }
