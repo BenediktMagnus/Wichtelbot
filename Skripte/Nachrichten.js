@@ -28,8 +28,8 @@ const Definitionen = {
         Registrierung: {
             "ja": {
                 Funktion: Fortfahren,
-                Ziel: "AnalogDigitalSelbst",
-                Text: Texte.AnalogDigitalSelbst
+                Ziel: "AnalogDigitalWichtel",
+                Text: Texte.AnalogDigitalWichtel
             },
             "nein": {
                 Funktion: Fortfahren,
@@ -38,24 +38,24 @@ const Definitionen = {
                 Text: Texte.Kontaktaufnahme
             }
         },
-        AnalogDigitalSelbst: {
+        AnalogDigitalWichtel: {
             "analog": {
                 Funktion: DatenAufnehmen,
-                Ziel: "AnalogDigitalWichtel",
-                Text: Texte.AnalogDigitalWichtel
+                Ziel: "AnalogDigitalSelbst",
+                Text: Texte.AnalogDigitalSelbst
             },
             "digital": {
                 Funktion: DatenAufnehmen,
-                Ziel: "AnalogDigitalWichtel",
-                Text: Texte.AnalogDigitalWichtel
+                Ziel: "AnalogDigitalSelbst",
+                Text: Texte.AnalogDigitalSelbst
             },
             "beides": {
                 Funktion: DatenAufnehmen,
-                Ziel: "AnalogDigitalWichtel",
-                Text: Texte.AnalogDigitalWichtel
+                Ziel: "AnalogDigitalSelbst",
+                Text: Texte.AnalogDigitalSelbst
             }
         },
-        AnalogDigitalWichtel: {
+        AnalogDigitalSelbst: {
             "analog": {
                 Funktion: DatenAufnehmen,
                 Ziel: "Anschrift",
@@ -79,12 +79,16 @@ const Definitionen = {
             Datenaufnahme: true
         },
         International: {
-            
+            "ja": {
+                Funktion: DatenAufnehmen,
+                Ziel: "Wunschliste",
+                Text: Texte.Wunschliste
+            },
+            "nein": {
+                
+            }
         },
         Wunschliste: {
-            Datenaufnahme: true
-        },
-        Links: {
             Datenaufnahme: true
         },
         Allergien: {
