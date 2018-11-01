@@ -176,7 +176,8 @@ exports.Verarbeiten = function (Nachricht)
     if (Nachricht.content.length < Definitionen.MaximaleBefehlslaenge)
     {
         Befehl = Nachricht.content;
-        Befehl = Befehl.replace(/^[.,;\s]+|[.,;\s]+$/g, ''); //Entferne sämtliche Punkte, Kommata, Semikolons sowie Leerzeichen am Anfang und Ende.
+        //Entferne sämtliche zu ignorierenden Symbole am Anfang und Ende. (Ausrufezeichen, Fragezeichen, Punkte, Kommata, Semikolons, Leerzeichen):
+        Befehl = Befehl.replace(/^[!?.,;\s]+|[!?.,;\s]+$/g, '');
         Befehl = Befehl.toLowerCase();
 
         Nachricht.Befehl = Befehl; //Für späteren Zugriff auf den Befehl in datenverarbeitenden Funktionen.
