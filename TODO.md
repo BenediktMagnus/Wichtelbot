@@ -8,7 +8,7 @@ Tabellen:
 
 -Alle angegebenen Informationen (Adresse, Wunsch, Analog/Digital, Freitext etc.).
     NutzerId, Zeit, AnalogDigitalSelbst, AnalogDigitalWichtel, Anschrift, Land, Steam, International,
-    Wunschliste, Links, Allergien, AusschlussGeschenk, AusschlussWichtel, Freitext
+    Wunschliste, Allergien, AusschlussGeschenk, AusschlussWichtel, Freitext
 
 -Unerwünschte Wichtelpartner.
     NutzerId, WichtelId

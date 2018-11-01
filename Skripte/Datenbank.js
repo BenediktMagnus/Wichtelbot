@@ -71,7 +71,7 @@ exports.NutzerAktualisieren = function (Nutzer)
     DatenbankWichteln.run(
         `UPDATE Informationen SET
             Zeit = ?, AnalogDigitalSelbst = ?, AnalogDigitalWichtel = ?, Anschrift = ?, Land = ?, Steam = ?, International = ?,
-            Wunschliste = ?, Links = ?, Allergien = ?, AusschlussGeschenk = ?, AusschlussWichtel = ?, Freitext = ?
+            Wunschliste = ?, Allergien = ?, AusschlussGeschenk = ?, AusschlussWichtel = ?, Freitext = ?
         WHERE NutzerId = ?`,
         AktuelleUnixzeit(),
         Nutzer.AnalogDigitalSelbst,
@@ -81,7 +81,6 @@ exports.NutzerAktualisieren = function (Nutzer)
         Nutzer.Steam,
         Nutzer.International,
         Nutzer.Wunschliste,
-        Nutzer.Links,
         Nutzer.Allergien,
         Nutzer.AusschlussGeschenk,
         Nutzer.AusschlussWichtel,
