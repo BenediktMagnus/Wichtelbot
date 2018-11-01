@@ -20,7 +20,8 @@ exports.Initialisieren = function (Datenbankbibliothek)
     Datenbank.AlleNutzerLaden(
         function (Nutzer)
         {
-            Nutzer.Daten = {};
+            delete Nutzer.NutzerId; //Doppelte Information, die der Sauberkeit halber entfernt werden sollte.
+
             Nutzerliste.set(Nutzer.Id, Nutzer);
         }
     );

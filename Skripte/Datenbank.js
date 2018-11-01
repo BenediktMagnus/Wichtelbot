@@ -26,6 +26,7 @@ exports.NutzerSpeichern = function (Nutzer)
 {
     Nutzer.Zeit = AktuelleUnixzeit();
 
+    //Nutzer in der Datenbank abspeichern:
     DatenbankWichteln.run(
         'INSERT INTO Nutzer (Id, Discord, Name, Nickname, Zeit, Zustand) VALUES (?, ?, ?, ?, ?, ?)',
         Nutzer.Id,
@@ -34,6 +35,13 @@ exports.NutzerSpeichern = function (Nutzer)
         Nutzer.Nickname,
         Nutzer.Zeit,
         Nutzer.Zustand,
+        Fehlerbehandlung
+    );
+
+    //Leere Nutzerdaten in der Tabelle anlegen:
+    DatenbankWichteln.run(
+        'INSERT INTO Informationen (NutzerId) VALUES (?)',
+        Nutzer.Id,
         Fehlerbehandlung
     );
 };
@@ -83,7 +91,8 @@ exports.NutzerLaden = function (NutzerId, Callback)
 exports.AlleNutzerLaden = function (Callback)
 {
     DatenbankWichteln.each(
-        'SELECT * FROM Nutzer',
+        `SELECT * FROM Nutzer
+         LEFT JOIN Informationen ON Nutzer.Id = Informationen.NutzerId`,
         function (Fehler, Reihe)
         {
             Fehlerbehandlung(Fehler);

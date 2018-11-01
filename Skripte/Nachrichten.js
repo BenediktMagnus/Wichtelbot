@@ -218,7 +218,7 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
  */
 function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
 {
-    Nutzer.Daten[Nutzer.Zustand] = Nachricht.content;
+    Nutzer[Nutzer.Zustand] = Nachricht.content;
 
     Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
 }
