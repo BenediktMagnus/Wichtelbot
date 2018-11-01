@@ -27,7 +27,7 @@ exports.NutzerSpeichern = function (Nutzer)
     Nutzer.Zeit = AktuelleUnixzeit();
 
     DatenbankWichteln.run(
-        'INSERT INTO Nutzer (NutzerId, Discord, Name, Nickname, Zeit, Zustand) VALUES (?, ?, ?, ?, ?, ?)',
+        'INSERT INTO Nutzer (Id, Discord, Name, Nickname, Zeit, Zustand) VALUES (?, ?, ?, ?, ?, ?)',
         Nutzer.Id,
         Nutzer.Discord,
         Nutzer.Name,
@@ -47,7 +47,7 @@ exports.NutzerAktualisieren = function (Nutzer)
     Nutzer.Zeit = AktuelleUnixzeit();
 
     DatenbankWichteln.run(
-        'UPDATE Nutzer SET Discord = ?, Name = ?, Nickname = ?, Zeit = ?, Zustand = ? WHERE NutzerId = ?',
+        'UPDATE Nutzer SET Discord = ?, Name = ?, Nickname = ?, Zeit = ?, Zustand = ? WHERE Id = ?',
         Nutzer.Discord,
         Nutzer.Name,
         Nutzer.Nickname,
@@ -66,7 +66,7 @@ exports.NutzerAktualisieren = function (Nutzer)
 exports.NutzerLaden = function (NutzerId, Callback)
 {
     DatenbankWichteln.get(
-        'SELECT * FROM Nutzer WHERE NutzerId = ?',
+        'SELECT * FROM Nutzer WHERE Id = ?',
         NutzerId,
         function (Fehler, Reihe)
         {

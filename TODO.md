@@ -4,7 +4,7 @@ Tabellen:
     NutzerId, Nickname
 
 -Bekannte Nutzer/PN-Kanäle.
-    NutzerId, Discord, Name, Nickname, Zeit, Zustand
+    Id, Discord, Name, Nickname, Zeit, Zustand
 
 -Alle angegebenen Informationen (Adresse, Wunsch, Analog/Digital, Freitext etc.).
     NutzerId, Zeit, AnalogDigitalSelbst, AnalogDigitalWichtel, Anschrift, Land, Steam, International,

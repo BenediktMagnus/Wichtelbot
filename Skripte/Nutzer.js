@@ -20,18 +20,8 @@ exports.Initialisieren = function (Datenbankbibliothek)
     Datenbank.AlleNutzerLaden(
         function (Nutzer)
         {
-            Nutzerliste.set(
-                Nutzer.NutzerId,
-                {
-                    Id: Nutzer.NutzerId,
-                    Discord: Nutzer.Discord,
-                    Name: Nutzer.Name,
-                    Nickname: Nutzer.Nickname,
-                    Zeit: Nutzer.Zeit,
-                    Zustand: Nutzer.Zustand,
-                    Daten: {}
-                }
-            );
+            Nutzer.Daten = {};
+            Nutzerliste.set(Nutzer.Id, Nutzer);
         }
     );
 };
