@@ -34,7 +34,6 @@ const Definitionen = {
             "nein": {
                 Funktion: Fortfahren,
                 Ziel: "Neu",
-                ZustandIstPersistent: true,
                 Text: Texte.Kontaktaufnahme
             }
         },
@@ -204,8 +203,7 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
 {
     Nutzer.Zustand = Befehlsobjekt.Ziel;
 
-    if (Befehlsobjekt.ZustandIstPersistent)
-        Nutzerverwaltung.Aktualisieren(Nutzer);
+    Nutzerverwaltung.Aktualisieren(Nutzer);
     
     Nachricht.reply(Befehlsobjekt.Text);
 }
@@ -219,6 +217,8 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
 function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
 {
     Nutzer[Nutzer.Zustand] = Nachricht.content;
+
+    Nutzerverwaltung.Aktualisieren(Nutzer);
 
     Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
 }

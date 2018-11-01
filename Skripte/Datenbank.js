@@ -40,8 +40,9 @@ exports.NutzerSpeichern = function (Nutzer)
 
     //Leere Nutzerdaten in der Tabelle anlegen:
     DatenbankWichteln.run(
-        'INSERT INTO Informationen (NutzerId) VALUES (?)',
+        'INSERT INTO Informationen (NutzerId, Zeit) VALUES (?, ?)',
         Nutzer.Id,
+        AktuelleUnixzeit(),
         Fehlerbehandlung
     );
 };
@@ -54,6 +55,7 @@ exports.NutzerAktualisieren = function (Nutzer)
 {
     Nutzer.Zeit = AktuelleUnixzeit();
 
+    //Nutzer aktualisieren:
     DatenbankWichteln.run(
         'UPDATE Nutzer SET Discord = ?, Name = ?, Nickname = ?, Zeit = ?, Zustand = ? WHERE Id = ?',
         Nutzer.Discord,
@@ -61,6 +63,29 @@ exports.NutzerAktualisieren = function (Nutzer)
         Nutzer.Nickname,
         Nutzer.Zeit,
         Nutzer.Zustand,
+        Nutzer.Id,
+        Fehlerbehandlung
+    );
+
+    //Nutzerdaten zum Wichteln aktualisieren:
+    DatenbankWichteln.run(
+        `UPDATE Informationen SET
+            Zeit = ?, AnalogDigitalSelbst = ?, AnalogDigitalWichtel = ?, Anschrift = ?, Land = ?, Steam = ?, International = ?,
+            Wunschliste = ?, Links = ?, Allergien = ?, AusschlussGeschenk = ?, AusschlussWichtel = ?, Freitext = ?
+        WHERE NutzerId = ?`,
+        AktuelleUnixzeit(),
+        Nutzer.AnalogDigitalSelbst,
+        Nutzer.AnalogDigitalWichtel,
+        Nutzer.Anschrift,
+        Nutzer.Land,
+        Nutzer.Steam,
+        Nutzer.International,
+        Nutzer.Wunschliste,
+        Nutzer.Links,
+        Nutzer.Allergien,
+        Nutzer.AusschlussGeschenk,
+        Nutzer.AusschlussWichtel,
+        Nutzer.Freitext,
         Nutzer.Id,
         Fehlerbehandlung
     );

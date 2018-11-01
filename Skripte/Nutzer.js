@@ -39,8 +39,7 @@ exports.LeerenNutzerErzeugen = function ()
         Name: '',
         Nickname: '',
         Zeit: 0,
-        Zustand: 'Neu',
-        Daten: {}
+        Zustand: 'Neu'
     };
 }
 
