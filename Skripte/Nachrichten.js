@@ -287,7 +287,7 @@ function Registrieren (Nachricht, Nutzer)
  */
 function LandVerarbeiten (Nachricht, Nutzer)
 {
-    Nutzer[Nutzer.Zustand] = Nachricht.content;
+    Nutzer[Nutzer.Zustand] = Nachricht.Befehl;
 
     let Antworttext = '';
 
