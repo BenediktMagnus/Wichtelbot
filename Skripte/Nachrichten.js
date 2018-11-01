@@ -6,9 +6,11 @@ const Texte = require('../Config/Texte.json');
 const Definitionen = {
     //Die maximale Länge, die ein Befehl haben darf: (Optimiert die Erkennung von Befehlen.)
     MaximaleBefehlslaenge: 16,
+    //Das Präfix vor Befehlen, um auf Servern nur auf bestimmte Nachrichten zu reagieren.
+    ServerBefehlspraefix: '!',
     //Nur auf dem Server möglich:
     Kontaktaufnahme: {
-        Befehl: "!wichtöööln",
+        Befehl: "wichtöööln",
         Text: Texte.Kontaktaufnahme,
         Funktion: Kontaktaufnahme
     },
@@ -209,6 +211,9 @@ exports.Verarbeiten = function (Nachricht)
     }
     else //Nachricht wurde auf einem Server geschrieben.
     {
+        if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspraefix))
+            return; //Auf Servern nur auf Nachrichten reagieren, die mit dem Befehlspräfix beginnen.
+
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
             Definitionen.Kontaktaufnahme.Funktion(Autor);
     }
