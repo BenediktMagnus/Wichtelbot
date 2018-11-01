@@ -141,7 +141,13 @@ exports.Verarbeiten = function (Nachricht)
 
     let Befehl;
     if (Nachricht.content.length < Definitionen.MaximaleBefehlslaenge)
-        Befehl = Nachricht.content.toLowerCase();
+    {
+        Befehl = Nachricht.content;
+        Befehl = Befehl.replace(/^[.,;\s]+|[.,;\s]+$/g, ''); //Entferne sämtliche Punkte, Kommata, Semikolons sowie Leerzeichen am Anfang und Ende.
+        Befehl = Befehl.toLowerCase();
+
+        Nachricht.Befehl = Befehl; //Für späteren Zugriff auf den Befehl in datenverarbeitenden Funktionen.
+    }
 
     let Autor = Nachricht.author;
 
@@ -163,7 +169,7 @@ exports.Verarbeiten = function (Nachricht)
         else if (Definitionen.Befehle[Befehl]) //Es gibt einen allgemeinen Befehl, der immer gültig ist.
             Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Befehlsobjekt)
         else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
-            Zustand.Funktion(Nachricht, Nutzer, Befehlsobjekt)
+            Zustand.Funktion(Nachricht, Nutzer, Zustand) //Bei der Datenaufnahme gibt es keinen Befehl, daher ersetzt der Zustand das Befehlsobjekt.
         else //Es gibt keine passende Aktion für die Nachricht.
             Nachricht.reply(Definitionen.NichtVerstanden.Text);
     }
@@ -202,7 +208,6 @@ function Kontaktaufnahme (Autor)
 function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
 {
     Nutzer.Zustand = Befehlsobjekt.Ziel;
-
     Nutzerverwaltung.Aktualisieren(Nutzer);
     
     Nachricht.reply(Befehlsobjekt.Text);
@@ -216,7 +221,11 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
  */
 function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
 {
-    Nutzer[Nutzer.Zustand] = Nachricht.content;
+
+    //Wenn der Zustand jeden Text aufnimmt, muss dieser in seiner Beschaffenheit erhalten bleiben.
+    //Gibt es jedoch einen spezifischen Befehl, also wenn keine pauschale Datenaufnahme stattfindet, so wird dieser eingetragen,
+    //da er bereits verarbeitet wurde (nur Kleinbuchstaben, Punkt am Ende abgetrennt etc.).
+    Nutzer[Nutzer.Zustand] = Befehlsobjekt.Datenaufnahme ? Nachricht.content : Nachricht.Befehl;
 
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
