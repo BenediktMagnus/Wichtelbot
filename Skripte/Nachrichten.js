@@ -189,6 +189,8 @@ exports.Verarbeiten = function (Nachricht)
 
     if (Nachricht.channel.type == 'dm') //Nachricht wurde in einer privaten Unterhaltung geschrieben.
     {
+        Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content);
+
         //Wenn kein Nutzer vorhanden ist bei direkter Kommunikation, impliziere eine Kontaktaufnahme:
         if (!Nutzerverwaltung.IdIstVorhanden(Autor.id))
         {
@@ -213,6 +215,8 @@ exports.Verarbeiten = function (Nachricht)
     {
         if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspraefix))
             return; //Auf Servern nur auf Nachrichten reagieren, die mit dem Befehlspräfix beginnen.
+
+        Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content);
 
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
             Definitionen.Kontaktaufnahme.Funktion(Autor);
