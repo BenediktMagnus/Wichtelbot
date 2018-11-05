@@ -10,7 +10,7 @@ const Definitionen = {
     ServerBefehlspraefix: '!',
     //Nur auf dem Server möglich:
     Kontaktaufnahme: {
-        Befehl: "wichtöööln",
+        Befehl: "wischtöööln",
         Text: Texte.Kontaktaufnahme,
         Funktion: Kontaktaufnahme
     },
