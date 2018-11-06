@@ -21,6 +21,10 @@ const Definitionen = {
     },
     //Jederzeit möglich:
     Befehle: {
+        "hilfe": {
+            Funktion: HilfeRufen,
+            Text: Texte.Hilfe
+        },
         "guten morgen": {
             Funktion: Antworten,
             Text: Texte.GutenMorgen
@@ -385,6 +389,22 @@ function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
     Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
+}
+
+/**
+ * Informiert die Orga im privaten Kanal über benötigte Hilfe.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
+ */
+function HilfeRufen (Nachricht, Nutzer, Befehlsobjekt)
+{
+    let Orgainformation = Texte.HilfeOrgainformation.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
+    Orgainformation = Orgainformation.replace(/\[\[NUTZERTAG\]\]/g, Nutzer.Discord);
+
+    Klient.channels.get(Config.KanalIdOrganisation).send(Orgainformation);
+
+    Antworten(Nachricht, Nutzer, Befehlsobjekt);
 }
 
 /**

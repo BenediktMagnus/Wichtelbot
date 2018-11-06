@@ -19,6 +19,8 @@
     "AenderungAbgebrochen": "Okay, alles bleibt beim Alten!",
     "AenderungStarten": "Dann fangen wir mal an!",
     "AlteDaten": "Dies findet sich aktuell dazu in meiner Datenbank:",
+    "Hilfe": "Keine Sorge! Hilfe ist unterwegs! (So schnell sie kann...)",
+    "HilfeOrgainformation": "@here Der Wichtel [[NUTZERNAME]] ([[NUTZERTAG]]) bittet um Hilfe.",
     "GutenMorgen": "Guten Morgen, [[NUTZERNAME]]!",
     "GuteNacht": "Schlaf schön, [[NUTZERNAME]]!"
 }
