@@ -197,7 +197,7 @@ const Definitionen = {
         }
     },
     NichtVerstanden: {
-        Text: Texte.NichtVerstanden
+        Funktion: NichtVerstanden
     }
 };
 
@@ -275,7 +275,7 @@ exports.Verarbeiten = function (Nachricht)
         else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
             Zustand.Funktion(Nachricht, Nutzer, Zustand) //Bei der Datenaufnahme gibt es keinen Befehl, daher ersetzt der Zustand das Befehlsobjekt.
         else //Es gibt keine passende Aktion für die Nachricht.
-            Nachricht.reply(Definitionen.NichtVerstanden.Text);
+            Definitionen.NichtVerstanden.Funktion(Nachricht, Nutzer);
     }
     else //Nachricht wurde auf einem Server geschrieben.
     {
@@ -389,6 +389,23 @@ function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
     Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
+}
+
+/**
+ * Gibt zustandsabhängige Informationen aus, wenn die Eingabe nicht verstanden wurde.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ */
+function NichtVerstanden (Nachricht, Nutzer)
+{
+    let Antwort = Texte.NichtVerstanden;
+
+    Antwort += "\n\n" + Texte.InfoImmer;
+
+    if (Nutzer.Zustand == 'Teilnehmer')
+        Antwort += "\n" + Texte.InfoTeilnehmer;
+
+    Nachricht.reply(Antwort);
 }
 
 /**
