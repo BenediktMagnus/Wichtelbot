@@ -29,6 +29,7 @@ node_modules
 
 # Konfiguration (Token etc.)
 Config/Bot.json
+Config/Config.json
 
 # Datenbanken
 Daten/*.sqlite
