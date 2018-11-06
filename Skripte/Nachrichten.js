@@ -193,11 +193,8 @@ exports.Verarbeiten = function (Nachricht)
     let Befehl;
     if (Nachricht.content.length < Definitionen.MaximaleBefehlslaenge)
     {
-        Befehl = Nachricht.content;
-        //Entferne sämtliche zu ignorierenden Symbole am Anfang und Ende. (Ausrufezeichen, Fragezeichen, Punkte, Kommata, Semikolons, Leerzeichen):
-        Befehl = Befehl.replace(/^[!?.,;\s]+|[!?.,;\s]+$/g, '');
-        Befehl = Befehl.toLowerCase();
-
+        Befehl = ZuBefehlKuerzen(Nachricht.content);
+        
         Nachricht.Befehl = Befehl; //Für späteren Zugriff auf den Befehl in datenverarbeitenden Funktionen.
     }
 
@@ -238,6 +235,17 @@ exports.Verarbeiten = function (Nachricht)
             Definitionen.Kontaktaufnahme.Funktion(Autor);
     }
 }
+
+    function ZuBefehlKuerzen (Eingabe)
+    {
+        let Ergebnis;
+        //Entferne sämtliche zu ignorierenden Symbole am Anfang und Ende. (Ausrufezeichen, Fragezeichen, Punkte, Kommata, Semikolons, Leerzeichen):
+        Ergebnis = Eingabe.replace(/^[!?.,;\s]+|[!?.,;\s]+$/g, '');
+        Ergebnis = Ergebnis.toLowerCase();
+
+        return Ergebnis;
+    }
+};
 
 /**
  * Erzeugt einen neuen Nutzer anhand eines Discordnutzers und nimmt Kontakt per privater Nachricht auf.
