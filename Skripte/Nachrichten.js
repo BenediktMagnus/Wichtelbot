@@ -320,6 +320,19 @@ function AlteDatenAusgeben (Nachricht, Nutzer)
 }
 
 /**
+ * Antwortet mit einem im Befehlsobjekt definierten Text.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
+ */
+function Antworten (Nachricht, Nutzer, Befehlsobjekt)
+{
+    let Antwort = Befehlsobjekt.Text.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.username);
+
+    Nachricht.reply(Antwort);
+}
+
+/**
  * Setzt den nächsten Zustand ohne Datenaufnahme.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
@@ -330,7 +343,7 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
     Nutzer.Zustand = Befehlsobjekt.Ziel;
     Nutzerverwaltung.Aktualisieren(Nutzer);
     
-    Nachricht.reply(Befehlsobjekt.Text);
+    Antworten(Nachricht, Nutzer, Befehlsobjekt);
 
     AlteDatenAusgeben(Nachricht, Nutzer);
 }
