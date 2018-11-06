@@ -246,7 +246,7 @@ exports.Verarbeiten = function (Nachricht)
         if (Befehlsobjekt) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
             Befehlsobjekt.Funktion(Nachricht, Nutzer, Befehlsobjekt)
         else if (Definitionen.Befehle[Befehl]) //Es gibt einen allgemeinen Befehl, der immer gültig ist.
-            Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Befehlsobjekt)
+            Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Definitionen.Befehle[Befehl])
         else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
             Zustand.Funktion(Nachricht, Nutzer, Zustand) //Bei der Datenaufnahme gibt es keinen Befehl, daher ersetzt der Zustand das Befehlsobjekt.
         else //Es gibt keine passende Aktion für die Nachricht.
@@ -327,7 +327,7 @@ function AlteDatenAusgeben (Nachricht, Nutzer)
  */
 function Antworten (Nachricht, Nutzer, Befehlsobjekt)
 {
-    let Antwort = Befehlsobjekt.Text.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.username);
+    let Antwort = Befehlsobjekt.Text.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
 
     Nachricht.reply(Antwort);
 }
