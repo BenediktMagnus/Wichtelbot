@@ -130,13 +130,15 @@ exports.AlleNutzerLaden = function (Callback)
  * @param {Number} NutzerId Die Discord-ID des Nutzers.
  * @param {String} Name Der Discordname des Nutzers.
  * @param {String} Eingabe Die Eingabe des Nutzers.
+ * @param {String} KanalId OPTIONAL Die Id des Kanals. Wenn eine direkte Nachricht, dann undefined.
  */
-exports.Log = function (NutzerId, Name, Eingabe)
+exports.Log = function (NutzerId, Name, Eingabe, KanalId)
 {
     DatenbankLog.run(
-        'INSERT INTO Log (NutzerId, Name, Eingabe, Zeit) VALUES (?, ?, ?, ?)',
+        'INSERT INTO Log (NutzerId, Name, KanalId, Eingabe, Zeit) VALUES (?, ?, ?, ?, ?)',
         NutzerId,
         Name,
+        KanalId,
         Eingabe,
         AktuelleUnixzeit()
     );

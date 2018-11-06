@@ -286,7 +286,7 @@ exports.Verarbeiten = function (Nachricht)
         if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspraefix))
             return; //Auf Servern nur auf Nachrichten reagieren, die mit dem Befehlspräfix beginnen.
 
-        Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content);
+        Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content, Nachricht.channel.id);
 
         //Kontaktaufnahme ist überall möglich:
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
