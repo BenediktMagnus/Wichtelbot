@@ -1,11 +1,16 @@
 /**
+ * Die Basiskonfiguration.
+ */
+const Config = require('../Config/Config.json');
+
+/**
  * Eine Sammlung aller vom Bot benutzten Texte.
  */
 const Texte = require('../Config/Texte.json');
 
 const Definitionen = {
     //Die maximale Länge, die ein Befehl haben darf: (Optimiert die Erkennung von Befehlen.)
-    MaximaleBefehlslaenge: 16,
+    MaximaleBefehlslaenge: 20,
     //Das Präfix vor Befehlen, um auf Servern nur auf bestimmte Nachrichten zu reagieren.
     ServerBefehlspraefix: '!',
     //Nur auf dem Server möglich:
@@ -19,6 +24,15 @@ const Definitionen = {
         //"abbruch": {
         //
         //}
+    },
+    //Nur im Moderationskanal:
+    Moderation: {
+        "nachrichtankanal": {
+            Funktion: NachrichtAnKanalSenden
+        },
+        "löschenachricht": {
+            Funktion: EntferneNachricht
+        }
     },
     //Nur in einem bestimmten Zustand gültig:
     Zustaende: {
@@ -170,6 +184,11 @@ const Nutzerverwaltung = require('./Nutzer.js');
 var Datenbanverwaltung;
 
 /**
+ * Der Klient, der sich mit Discord verbunden hat.
+ */
+var Klient;
+
+/**
  * Initialisiert die Nachrichtenverarbeitung.
  * @param {Object} Datenbankbibliothek
  */
@@ -178,7 +197,16 @@ exports.Initialisieren = function (Datenbankbibliothek)
     Datenbanverwaltung = Datenbankbibliothek;
 
     Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
-}
+};
+
+/**
+ * Setzt einen Discordklienten als neuen zu verwendenden Klienten.
+ * @param {Object} NeuerKlient Der Discordklient, über den sich der Bot verbunden hat.
+ */
+exports.KlientSetzen = function (NeuerKlient)
+{
+    Klient = NeuerKlient;
+};
 
 /**
  * Verarbeitet eingegangene Nachrichten.
@@ -231,10 +259,21 @@ exports.Verarbeiten = function (Nachricht)
 
         Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content);
 
+        //Kontaktaufnahme ist überall möglich:
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
-            Definitionen.Kontaktaufnahme.Funktion(Autor);
+            Definitionen.Kontaktaufnahme.Funktion(Autor)
+        //Moderation nur auf einem bestimmten Kanal:
+        else if (Nachricht.channel.id == Config.KanalIdOrganisation)
+        {
+            Befehl = Nachricht.content.substr(0, Nachricht.content.indexOf("\n")); //Der Befehl steht in der ersten Zeile der Nachricht.
+            Befehl = ZuBefehlKuerzen(Befehl);
+
+            Nachricht.content = Nachricht.content.substr(Befehl.length + 1); //Befehl aus der Nachricht entfernen:
+
+            if (Definitionen.Moderation[Befehl])
+                Definitionen.Moderation[Befehl].Funktion(Nachricht);
+        }
     }
-}
 
     function ZuBefehlKuerzen (Eingabe)
     {
@@ -431,4 +470,24 @@ function DatenÄndern (Nachricht, Nutzer, Befehlsobjekt)
     Nachricht.reply(Texte.AenderungStarten);
 
     Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
+}
+
+/**
+ * Sendet eine Nachricht an den öffentlichen Wichtelkanal.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function NachrichtAnKanalSenden (Nachricht)
+{
+    Klient.channels.get(Config.KanalIdWichteln).send(Nachricht.content);
+}
+
+/**
+ * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function EntferneNachricht (Nachricht)
+{
+    let NachrichtenId = Nachricht.content.replace(/[^\/\d]/g,''); //Entfernt alles außer Zahlen.
+
+    Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
 }

@@ -17,6 +17,7 @@ console.log('Initialisiere Discordbot...');
 const Bot = require('./Config/Bot.json');
 const Discord = require('discord.js');
 const Klient = new Discord.Client();
+Nachrichten.KlientSetzen(Klient);
 
 //Bot vorbereiten:
 console.log('Bereite Discordbot vor...');
