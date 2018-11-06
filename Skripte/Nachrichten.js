@@ -138,7 +138,23 @@ const Definitionen = {
             Text: Texte.Teilnehmer
         },
         Teilnehmer: {
-
+            "ändern": {
+                Funktion: Fortfahren,
+                Ziel: "AenderungBestaetigen",
+                Text: Texte.AenderungBestaetigen
+            }
+        },
+        AenderungBestaetigen: {
+            "ja": {
+                Funktion: DatenÄndern,
+                Ziel: "AnalogDigitalWichtel",
+                Text: Texte.AnalogDigitalWichtel
+            },
+            "nein": {
+                Funktion: Fortfahren,
+                Ziel: "Teilnehmer",
+                Text: Texte.AenderungAbgebrochen
+            }
         }
     },
     NichtVerstanden: {
@@ -243,6 +259,20 @@ function Kontaktaufnahme (Autor)
 }
 
 /**
+ * Gibt, wenn solche vorhanden sind, die alten/bestehenden Daten zum aktuellen Zustand aus.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ */
+function AlteDatenAusgeben (Nachricht, Nutzer)
+{
+    if ((Nutzer[Nutzer.Zustand] != undefined) &&
+        (Nutzer[Nutzer.Zustand] != null) &&
+        (Nutzer[Nutzer.Zustand] != '')
+       )
+        Nachricht.reply("\n" + Texte.AlteDaten + "\n" + Nutzer[Nutzer.Zustand]);
+}
+
+/**
  * Setzt den nächsten Zustand ohne Datenaufnahme.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
@@ -254,6 +284,8 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
     Nutzerverwaltung.Aktualisieren(Nutzer);
     
     Nachricht.reply(Befehlsobjekt.Text);
+
+    AlteDatenAusgeben(Nachricht, Nutzer);
 }
 
 /**
@@ -285,8 +317,7 @@ function Registrieren (Nachricht, Nutzer)
 
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
-    Nachricht.reply(Texte.Registriert);
-    Nachricht.reply(Texte.Regeln);
+    Nachricht.reply(Texte.Registriert + "\n" + Texte.Regeln);
 }
 
 /**
@@ -319,6 +350,8 @@ function LandVerarbeiten (Nachricht, Nutzer)
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
     Nachricht.reply(Antworttext);
+
+    AlteDatenAusgeben(Nachricht, Nutzer);
 }
 
 /**
@@ -346,6 +379,8 @@ function SteamVerarbeiten (Nachricht, Nutzer)
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
     Nachricht.reply(Antworttext);
+
+    AlteDatenAusgeben(Nachricht, Nutzer);
 }
 
 /**
@@ -373,4 +408,19 @@ function WunschlisteVerarbeiten (Nachricht, Nutzer)
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
     Nachricht.reply(Antworttext);
+
+    AlteDatenAusgeben(Nachricht, Nutzer);
+}
+
+/**
+ * Setzt die Datenaufnahme zurück, sodass der Nutzer erneut alles eingeben kann.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
+ */
+function DatenÄndern (Nachricht, Nutzer, Befehlsobjekt)
+{
+    Nachricht.reply(Texte.AenderungStarten);
+
+    Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
 }
