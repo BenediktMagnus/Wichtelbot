@@ -21,9 +21,30 @@ const Definitionen = {
     },
     //Jederzeit möglich:
     Befehle: {
-        //"abbruch": {
-        //
-        //}
+        "guten morgen": {
+            Funktion: Antworten,
+            Text: Texte.GutenMorgen
+        },
+        "morgen": {
+            Funktion: Antworten,
+            Text: Texte.GutenMorgen
+        },
+        "gtnmrgn": {
+            Funktion: Antworten,
+            Text: Texte.GutenMorgen
+        },
+        "mrgn": {
+            Funktion: Antworten,
+            Text: Texte.GutenMorgen
+        },
+        "gute nacht": {
+            Funktion: Antworten,
+            Text: Texte.GuteNacht
+        },
+        "nacht": {
+            Funktion: Antworten,
+            Text: Texte.GuteNacht
+        }
     },
     //Nur im Moderationskanal:
     Moderation: {

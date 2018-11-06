@@ -18,5 +18,7 @@
     "AenderungBestaetigen": "Bist du sicher, dass du deine Angaben ändern möchtest?",
     "AenderungAbgebrochen": "Okay, alles bleibt beim Alten!",
     "AenderungStarten": "Dann fangen wir mal an!",
-    "AlteDaten": "Dies findet sich aktuell dazu in meiner Datenbank:"
+    "AlteDaten": "Dies findet sich aktuell dazu in meiner Datenbank:",
+    "GutenMorgen": "Guten Morgen, [[NUTZERNAME]]!",
+    "GuteNacht": "Schlaf schön, [[NUTZERNAME]]!"
 }
