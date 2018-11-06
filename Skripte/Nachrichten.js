@@ -279,6 +279,10 @@ exports.Verarbeiten = function (Nachricht)
     }
     else //Nachricht wurde auf einem Server geschrieben.
     {
+        if ((Nachricht.channel.id != Config.KanalIdWichteln) &&
+            (Nachricht.channel.id != Config.KanalIdOrganisation))
+            return; //Nur auf Kanäle reagieren, die wirklich überwacht werden.
+
         if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspraefix))
             return; //Auf Servern nur auf Nachrichten reagieren, die mit dem Befehlspräfix beginnen.
 
