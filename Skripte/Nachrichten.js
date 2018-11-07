@@ -31,26 +31,12 @@ const Definitionen = {
             Text: Texte.Hilfe
         },
         "guten morgen": {
-            Funktion: ModulAllgemein.Antworten,
-            Text: Texte.GutenMorgen
-        },
-        "morgen": {
-            Funktion: ModulAllgemein.Antworten,
-            Text: Texte.GutenMorgen
-        },
-        "gtnmrgn": {
-            Funktion: ModulAllgemein.Antworten,
-            Text: Texte.GutenMorgen
-        },
-        "mrgn": {
+            Aliase: ["morgen", "gtnmrgn", "mrgn"],
             Funktion: ModulAllgemein.Antworten,
             Text: Texte.GutenMorgen
         },
         "gute nacht": {
-            Funktion: ModulAllgemein.Antworten,
-            Text: Texte.GuteNacht
-        },
-        "nacht": {
+            Aliase: ["nacht"],
             Funktion: ModulAllgemein.Antworten,
             Text: Texte.GuteNacht
         }
@@ -85,16 +71,7 @@ const Definitionen = {
         },
         AnalogDigitalWichtel: {
             "analog": {
-                Funktion: ModulDatenaufnahme.DatenAufnehmen,
-                Ziel: "AnalogDigitalSelbst",
-                Text: Texte.AnalogDigitalSelbst
-            },
-            "digital": {
-                Funktion: ModulDatenaufnahme.DatenAufnehmen,
-                Ziel: "AnalogDigitalSelbst",
-                Text: Texte.AnalogDigitalSelbst
-            },
-            "beides": {
+                Aliase: ["digital", "beides"],
                 Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "AnalogDigitalSelbst",
                 Text: Texte.AnalogDigitalSelbst
@@ -102,6 +79,7 @@ const Definitionen = {
         },
         AnalogDigitalSelbst: {
             "analog": {
+                Aliase: ["beides"],
                 Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Anschrift",
                 Text: Texte.Anschrift
@@ -110,11 +88,6 @@ const Definitionen = {
                 Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Steam",
                 Text: Texte.Steam
-            },
-            "beides": {
-                Funktion: ModulDatenaufnahme.DatenAufnehmen,
-                Ziel: "Anschrift",
-                Text: Texte.Anschrift
             }
         },
         Anschrift: {
@@ -125,15 +98,7 @@ const Definitionen = {
         },
         Land: {
             "deutschland": {
-                Funktion: ModulDatenaufnahme.LandVerarbeiten
-            },
-            "österreich": {
-                Funktion: ModulDatenaufnahme.LandVerarbeiten
-            },
-            "schweiz": {
-                Funktion: ModulDatenaufnahme.LandVerarbeiten
-            },
-            "luxemburg": {
+                Aliase: ["österreich", "schweiz", "luxemburg"],
                 Funktion: ModulDatenaufnahme.LandVerarbeiten
             }
         },
@@ -143,11 +108,7 @@ const Definitionen = {
         },
         International: {
             "ja": {
-                Funktion: ModulDatenaufnahme.DatenAufnehmen,
-                Ziel: "Wunschliste",
-                Text: Texte.Wunschliste
-            },
-            "nein": {
+                Aliase: ["nein"],
                 Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Wunschliste",
                 Text: Texte.Wunschliste
@@ -228,12 +189,46 @@ exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
     Datenbanverwaltung = Datenbankbibliothek;
     Klient = NeuerKlient;
 
+    console.log('VORHER:');
+    console.log(Definitionen.Befehle);
+
+    AliaseSetzen(Definitionen.Befehle);
+
+    console.log('NACHHER:');
+    console.log(Definitionen.Befehle);
+
+
+    AliaseSetzen(Definitionen.Moderation);
+    for (let Zustand in Definitionen.Zustände)
+        AliaseSetzen(Definitionen.Zustände[Zustand]);
+
     Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
 
     ModulAllgemein.Initialisieren(Nutzerverwaltung, Klient);
     ModulDatenaufnahme.Initialisieren(Nutzerverwaltung, ModulAllgemein);
     ModulModeration.Initialisieren(Nutzerverwaltung, Klient);
 };
+
+/**
+ * Setzt Aliase für Eigenschaften eines Objekts.
+ * @param {Object} Zielobjekt Objekt mit Aliasarray.
+ */
+function AliaseSetzen (Zielobjekt)
+{
+    for (let Eigenschaft in Zielobjekt)
+        if (Zielobjekt[Eigenschaft].Aliase)
+        {
+            //Aliase durchlaufen und im Zielobjekt jedes davon auf die Ausgangseigenschaft zeigen lassen:
+            Zielobjekt[Eigenschaft].Aliase.forEach(function (Alias)
+                {
+                    Zielobjekt[Alias] = Zielobjekt[Eigenschaft];
+                }
+            );
+            
+            //Anschließend kann das Aliasarray gelöscht werden:
+            delete Zielobjekt[Eigenschaft].Aliase;
+        }
+}
 
 /**
  * Verarbeitet eingegangene Nachrichten.
