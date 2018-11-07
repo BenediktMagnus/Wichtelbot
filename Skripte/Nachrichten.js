@@ -183,9 +183,9 @@ const Definitionen = {
 const Nutzerverwaltung = require('./Nutzer.js');
 
 /**
- * Die Datenbanverwaltung.
+ * Die Datenbankverwaltung.
  */
-var Datenbanverwaltung;
+var Datenbankverwaltung;
 
 /**
  * Der Klient, der sich mit Discord verbunden hat.
@@ -199,7 +199,7 @@ var Klient;
  */
 exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
 {
-    Datenbanverwaltung = Datenbankbibliothek;
+    Datenbankverwaltung = Datenbankbibliothek;
     Klient = NeuerKlient;
 
     AliaseSetzen(Definitionen.Befehle);
@@ -208,7 +208,7 @@ exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
     for (let Zustand in Definitionen.Zustände)
         AliaseSetzen(Definitionen.Zustände[Zustand]);
 
-    Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
+    Nutzerverwaltung.Initialisieren(Datenbankverwaltung);
 
     ModulAllgemein.Initialisieren(Nutzerverwaltung, Klient);
     ModulDatenaufnahme.Initialisieren(Nutzerverwaltung, ModulAllgemein);
@@ -258,7 +258,7 @@ exports.Verarbeiten = function (Nachricht)
 
     if (Nachricht.channel.type == 'dm') //Nachricht wurde in einer privaten Unterhaltung geschrieben.
     {
-        Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content);
+        Datenbankverwaltung.Log(Autor.id, Autor.username, Nachricht.content);
 
         //Wenn kein Nutzer vorhanden ist bei direkter Kommunikation, impliziere eine Kontaktaufnahme:
         if (!Nutzerverwaltung.IdIstVorhanden(Autor.id))
@@ -289,7 +289,7 @@ exports.Verarbeiten = function (Nachricht)
         if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspräfix))
             return; //Auf Servern nur auf Nachrichten reagieren, die mit dem Befehlspräfix beginnen.
 
-        Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content, Nachricht.channel.id);
+        Datenbankverwaltung.Log(Autor.id, Autor.username, Nachricht.content, Nachricht.channel.id);
 
         //Kontaktaufnahme ist überall möglich:
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
