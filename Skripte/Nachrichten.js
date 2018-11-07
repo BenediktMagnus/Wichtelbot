@@ -35,6 +35,16 @@ const Definitionen = {
             Funktion: ModulAllgemein.Antworten,
             Text: Texte.GutenMorgen
         },
+        "guten tag": {
+            Aliase: ["tag"],
+            Funktion: ModulAllgemein.Antworten,
+            Text: Texte.GutenTag
+        },
+        "hallo": {
+            Aliase :["hey","hi","hej"],
+            Funktion: ModulAllgemein.Antworten,
+            Text: Texte.Hallo
+        },
         "gute nacht": {
             Aliase: ["nacht"],
             Funktion: ModulAllgemein.Antworten,
@@ -189,14 +199,7 @@ exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
     Datenbanverwaltung = Datenbankbibliothek;
     Klient = NeuerKlient;
 
-    console.log('VORHER:');
-    console.log(Definitionen.Befehle);
-
     AliaseSetzen(Definitionen.Befehle);
-
-    console.log('NACHHER:');
-    console.log(Definitionen.Befehle);
-
 
     AliaseSetzen(Definitionen.Moderation);
     for (let Zustand in Definitionen.Zustände)

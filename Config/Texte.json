@@ -24,5 +24,7 @@
     "Hilfe": "Keine Sorge! Hilfe ist unterwegs! (So schnell sie kann...)",
     "HilfeOrgainformation": "@here Der Wichtel [[NUTZERNAME]] ([[NUTZERTAG]]) bittet um Hilfe.",
     "GutenMorgen": "Guten Morgen, [[NUTZERNAME]]!",
+    "GutenTag": "Guten Tag, [[NUTZERNAME]]!",
+    "Hallo": "Hallööö, [[NUTZERNAME]]!",
     "GuteNacht": "Schlaf schön, [[NUTZERNAME]]!"
 }
