@@ -23,6 +23,7 @@
     "AlteDaten": "Dies findet sich aktuell dazu in meiner Datenbank:",
     "Hilfe": "Keine Sorge! Hilfe ist unterwegs! (So schnell sie kann...)",
     "HilfeOrgainformation": "@here Der Wichtel [[NUTZERNAME]] ([[NUTZERTAG]]) bittet um Hilfe.",
+    "Wichtelstatus": "**Wichtelstatus** \nGesamtzahl: [[GESAMT]] \nTeilnehmer: [[TEILNEHMER]]",
     "GutenMorgen": "Guten Morgen, [[NUTZERNAME]]!",
     "GutenTag": "Guten Tag, [[NUTZERNAME]]!",
     "Hallo": "Hallööö, [[NUTZERNAME]]!",

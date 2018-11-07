@@ -3,7 +3,13 @@
  */
 const Config = require('../../Config/Config.json');
 
+/**
+ * Eine Sammlung aller vom Bot benutzten Texte.
+ */
+const Texte = require('../../Config/Texte.json');
+
 var Nutzerverwaltung;
+var Datenbankverwaltung;
 
 /**
  * Der Klient, der sich mit Discord verbunden hat.
@@ -13,11 +19,13 @@ var Klient;
 /**
  * Initialisiert das Moderationsmodul der Nachrichtenverarbeitung.
  * @param {Object} Nutzerbibliothek
+ * @param {Object} Datenbankbibliothek
  * @param {Object} NeuerKlient Der Discordklient, über den sich der Bot verbunden hat.
  */
-exports.Initialisieren = function (Nutzerbibliothek, NeuerKlient)
+exports.Initialisieren = function (Nutzerbibliothek, Datenbankbibliothek, NeuerKlient)
 {
     Nutzerverwaltung = Nutzerbibliothek;
+    Datenbankverwaltung = Datenbankbibliothek;
     Klient = NeuerKlient;
 };
 
@@ -42,3 +50,21 @@ function NachrichtEntfernen (Nachricht)
     Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
 }
 exports.NachrichtEntfernen = NachrichtEntfernen;
+
+/**
+ * Ermittelt die aktuelle Anzahl an gegebener Wichtel.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function Wichtelstatus (Nachricht)
+{
+    Datenbankverwaltung.Nutzerzahlen(function (Ergebnis)
+        {
+            let Antwort = Texte.Wichtelstatus;
+            Antwort = Antwort.replace(/\[\[GESAMT\]\]/g, Ergebnis.Gesamt);
+            Antwort = Antwort.replace(/\[\[TEILNEHMER\]\]/g, Ergebnis.Teilnehmer);
+
+            Nachricht.channel.send(Antwort);
+        }
+    );
+}
+exports.Wichtelstatus = Wichtelstatus;

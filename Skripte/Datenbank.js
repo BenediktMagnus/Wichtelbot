@@ -126,6 +126,26 @@ exports.AlleNutzerLaden = function (Callback)
 };
 
 /**
+ * Ermittelt die relevanten Nutzerzahlen: Gesamtzahl, Teilnehmer; abzüglich Mods.
+ * @param {Function} Callback Callback, der nach dem Erhalt des Ergebnisses ausgeführt wird. Parameter: {Object} Reihe.
+ */
+exports.Nutzerzahlen = function (Callback)
+{
+    DatenbankWichteln.get(
+        `SELECT
+            COUNT(*) AS Gesamt,
+            SUM(CASE WHEN Zustand = 'Teilnehmer' THEN 1 ELSE 0 END) AS Teilnehmer
+        FROM Nutzer
+        WHERE Id NOT IN (SELECT NutzerId FROM Mods)`,
+        function (Fehler, Reihe)
+        {
+            Fehlerbehandlung(Fehler);
+            Callback(Reihe);
+        }
+    );
+};
+
+/**
  * Loggt die Eingabe eines Nutzers.
  * @param {Number} NutzerId Die Discord-ID des Nutzers.
  * @param {String} Name Der Discordname des Nutzers.

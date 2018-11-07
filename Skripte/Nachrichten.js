@@ -61,6 +61,9 @@ const Definitionen = {
         },
         "löschenachricht": {
             Funktion: ModulModeration.NachrichtEntfernen
+        },
+        "wichtelstatus": {
+            Funktion: ModulModeration.Wichtelstatus
         }
     },
     //Nur in einem bestimmten Zustand gültig:
@@ -212,7 +215,7 @@ exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
 
     ModulAllgemein.Initialisieren(Nutzerverwaltung, Klient);
     ModulDatenaufnahme.Initialisieren(Nutzerverwaltung, ModulAllgemein);
-    ModulModeration.Initialisieren(Nutzerverwaltung, Klient);
+    ModulModeration.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, Klient);
 };
 
 /**
@@ -297,7 +300,12 @@ exports.Verarbeiten = function (Nachricht)
         //Moderation nur auf einem bestimmten Kanal:
         else if (Nachricht.channel.id == Config.KanalIdOrganisation)
         {
-            Befehl = Nachricht.content.substr(0, Nachricht.content.indexOf("\n")); //Der Befehl steht in der ersten Zeile der Nachricht.
+            //Der Befehl geht bis zum ersten Zeilenumbruch. Gibt es keinen, ist alles der Befehl.
+            let Befehlsende = Nachricht.content.indexOf("\n");
+            if (Befehlsende == -1)
+                Befehlsende = Nachricht.content.length;
+
+            Befehl = Nachricht.content.substr(0, Befehlsende); //Der Befehl steht in der ersten Zeile der Nachricht.
             Befehl = ZuBefehlKürzen(Befehl);
 
             Nachricht.content = Nachricht.content.substr(Befehl.length + 1); //Befehl aus der Nachricht entfernen:
