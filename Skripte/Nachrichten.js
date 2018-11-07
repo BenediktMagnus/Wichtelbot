@@ -8,6 +8,11 @@ const Config = require('../Config/Config.json');
  */
 const Texte = require('../Config/Texte.json');
 
+//Die Submodule der Nachrichtenverwaltung, die jeweils verschiedene Aufgaben der verarbeiteten Befehle übernehmen:
+var ModulAllgemein = require('./Nachrichten/Allgemein.js');
+var ModulDatenaufnahme = require('./Nachrichten/Datenaufnahme.js');
+var ModulModeration = require('./Nachrichten/Moderation.js');
+
 const Definitionen = {
     //Die maximale Länge, die ein Befehl haben darf: (Optimiert die Erkennung von Befehlen.)
     MaximaleBefehlslaenge: 20,
@@ -22,182 +27,182 @@ const Definitionen = {
     //Jederzeit möglich:
     Befehle: {
         "hilfe": {
-            Funktion: HilfeRufen,
+            Funktion: ModulAllgemein.HilfeRufen,
             Text: Texte.Hilfe
         },
         "guten morgen": {
-            Funktion: Antworten,
+            Funktion: ModulAllgemein.Antworten,
             Text: Texte.GutenMorgen
         },
         "morgen": {
-            Funktion: Antworten,
+            Funktion: ModulAllgemein.Antworten,
             Text: Texte.GutenMorgen
         },
         "gtnmrgn": {
-            Funktion: Antworten,
+            Funktion: ModulAllgemein.Antworten,
             Text: Texte.GutenMorgen
         },
         "mrgn": {
-            Funktion: Antworten,
+            Funktion: ModulAllgemein.Antworten,
             Text: Texte.GutenMorgen
         },
         "gute nacht": {
-            Funktion: Antworten,
+            Funktion: ModulAllgemein.Antworten,
             Text: Texte.GuteNacht
         },
         "nacht": {
-            Funktion: Antworten,
+            Funktion: ModulAllgemein.Antworten,
             Text: Texte.GuteNacht
         }
     },
     //Nur im Moderationskanal:
     Moderation: {
         "nachrichtankanal": {
-            Funktion: NachrichtAnKanalSenden
+            Funktion: ModulModeration.NachrichtAnKanalSenden
         },
         "löschenachricht": {
-            Funktion: EntferneNachricht
+            Funktion: ModulModeration.EntferneNachricht
         }
     },
     //Nur in einem bestimmten Zustand gültig:
     Zustaende: {
         Neu: {
             "registrieren": {
-                Funktion: Registrieren
+                Funktion: ModulAllgemein.Registrieren
             }
         },
         Registrierung: {
             "ja": {
-                Funktion: Fortfahren,
+                Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "AnalogDigitalWichtel",
                 Text: Texte.AnalogDigitalWichtel
             },
             "nein": {
-                Funktion: Fortfahren,
+                Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "Neu",
                 Text: Texte.Kontaktaufnahme
             }
         },
         AnalogDigitalWichtel: {
             "analog": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "AnalogDigitalSelbst",
                 Text: Texte.AnalogDigitalSelbst
             },
             "digital": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "AnalogDigitalSelbst",
                 Text: Texte.AnalogDigitalSelbst
             },
             "beides": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "AnalogDigitalSelbst",
                 Text: Texte.AnalogDigitalSelbst
             }
         },
         AnalogDigitalSelbst: {
             "analog": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Anschrift",
                 Text: Texte.Anschrift
             },
             "digital": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Steam",
                 Text: Texte.Steam
             },
             "beides": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Anschrift",
                 Text: Texte.Anschrift
             }
         },
         Anschrift: {
             Datenaufnahme: true,
-            Funktion: DatenAufnehmen,
+            Funktion: ModulDatenaufnahme.DatenAufnehmen,
             Ziel: "Land",
             Text: Texte.Land
         },
         Land: {
             "deutschland": {
-                Funktion: LandVerarbeiten
+                Funktion: ModulDatenaufnahme.LandVerarbeiten
             },
             "österreich": {
-                Funktion: LandVerarbeiten
+                Funktion: ModulDatenaufnahme.LandVerarbeiten
             },
             "schweiz": {
-                Funktion: LandVerarbeiten
+                Funktion: ModulDatenaufnahme.LandVerarbeiten
             },
             "luxemburg": {
-                Funktion: LandVerarbeiten
+                Funktion: ModulDatenaufnahme.LandVerarbeiten
             }
         },
         Steam: {
             Datenaufnahme: true,
-            Funktion: SteamVerarbeiten
+            Funktion: ModulDatenaufnahme.SteamVerarbeiten
         },
         International: {
             "ja": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Wunschliste",
                 Text: Texte.Wunschliste
             },
             "nein": {
-                Funktion: DatenAufnehmen,
+                Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Wunschliste",
                 Text: Texte.Wunschliste
             }
         },
         Wunschliste: {
             Datenaufnahme: true,
-            Funktion: WunschlisteVerarbeiten
+            Funktion: ModulDatenaufnahme.WunschlisteVerarbeiten
         },
         Allergien: {
             Datenaufnahme: true,
-            Funktion: DatenAufnehmen,
+            Funktion: ModulDatenaufnahme.DatenAufnehmen,
             Ziel: "AusschlussGeschenk",
             Text: Texte.AusschlussGeschenk
         },
         AusschlussGeschenk: {
             Datenaufnahme: true,
-            Funktion: DatenAufnehmen,
+            Funktion: ModulDatenaufnahme.DatenAufnehmen,
             Ziel: "AusschlussWichtel",
             Text: Texte.AusschlussWichtel
         },
         AusschlussWichtel: {
             Datenaufnahme: true,
-            Funktion: DatenAufnehmen,
+            Funktion: ModulDatenaufnahme.DatenAufnehmen,
             Ziel: "Freitext",
             Text: Texte.Freitext
         },
         Freitext: {
             Datenaufnahme: true,
-            Funktion: DatenAufnehmen,
+            Funktion: ModulDatenaufnahme.DatenAufnehmen,
             Ziel: "Teilnehmer",
             Text: Texte.Teilnehmer
         },
         Teilnehmer: {
             "ändern": {
-                Funktion: Fortfahren,
+                Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "AenderungBestaetigen",
                 Text: Texte.AenderungBestaetigen
             }
         },
         AenderungBestaetigen: {
             "ja": {
-                Funktion: DatenÄndern,
+                Funktion: ModulDatenaufnahme.DatenÄndern,
                 Ziel: "AnalogDigitalWichtel",
                 Text: Texte.AnalogDigitalWichtel
             },
             "nein": {
-                Funktion: Fortfahren,
+                Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "Teilnehmer",
                 Text: Texte.AenderungAbgebrochen
             }
         }
     },
     NichtVerstanden: {
-        Funktion: NichtVerstanden
+        Funktion: ModulAllgemein.NichtVerstanden
     }
 };
 
@@ -224,6 +229,10 @@ exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
     Klient = NeuerKlient;
 
     Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
+
+    ModulAllgemein.Initialisieren(Nutzerverwaltung, Klient);
+    ModulDatenaufnahme.Initialisieren(Nutzerverwaltung, ModulAllgemein);
+    ModulModeration.Initialisieren(Nutzerverwaltung, Klient);
 };
 
 /**
@@ -253,7 +262,7 @@ exports.Verarbeiten = function (Nachricht)
         //Wenn kein Nutzer vorhanden ist bei direkter Kommunikation, impliziere eine Kontaktaufnahme:
         if (!Nutzerverwaltung.IdIstVorhanden(Autor.id))
         {
-            Kontaktaufnahme(Autor);
+            Definitionen.Kontaktaufnahme.Funktion(Autor);
             return;
         }
 
@@ -325,237 +334,4 @@ function Kontaktaufnahme (Autor)
     }
 
     Autor.send(Definitionen.Kontaktaufnahme.Text);
-}
-
-/**
- * Gibt, wenn solche vorhanden sind, die alten/bestehenden Daten zum aktuellen Zustand aus.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- */
-function AlteDatenAusgeben (Nachricht, Nutzer)
-{
-    if ((Nutzer[Nutzer.Zustand] != undefined) &&
-        (Nutzer[Nutzer.Zustand] != null) &&
-        (Nutzer[Nutzer.Zustand] != '')
-       )
-        Nachricht.reply("\n" + Texte.AlteDaten + "\n" + Nutzer[Nutzer.Zustand]);
-}
-
-/**
- * Antwortet mit einem im Befehlsobjekt definierten Text.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
- */
-function Antworten (Nachricht, Nutzer, Befehlsobjekt)
-{
-    let Antwort = Befehlsobjekt.Text.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
-
-    Nachricht.reply(Antwort);
-}
-
-/**
- * Setzt den nächsten Zustand ohne Datenaufnahme.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
- */
-function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
-{
-    Nutzer.Zustand = Befehlsobjekt.Ziel;
-    Nutzerverwaltung.Aktualisieren(Nutzer);
-    
-    Antworten(Nachricht, Nutzer, Befehlsobjekt);
-
-    AlteDatenAusgeben(Nachricht, Nutzer);
-}
-
-/**
- * Nimmt die gesendeten Daten auf und fährt mit dem nächsten Ziel fort.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
- */
-function DatenAufnehmen (Nachricht, Nutzer, Befehlsobjekt)
-{
-    //Wenn der Zustand jeden Text aufnimmt, muss dieser in seiner Beschaffenheit erhalten bleiben.
-    //Gibt es jedoch einen spezifischen Befehl, also wenn keine pauschale Datenaufnahme stattfindet, so wird dieser eingetragen,
-    //da er bereits verarbeitet wurde (nur Kleinbuchstaben, Punkt am Ende abgetrennt etc.).
-    Nutzer[Nutzer.Zustand] = Befehlsobjekt.Datenaufnahme ? Nachricht.content : Nachricht.Befehl;
-
-    Nutzerverwaltung.Aktualisieren(Nutzer);
-
-    Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
-}
-
-/**
- * Gibt zustandsabhängige Informationen aus, wenn die Eingabe nicht verstanden wurde.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- */
-function NichtVerstanden (Nachricht, Nutzer)
-{
-    let Antwort = Texte.NichtVerstanden;
-
-    Antwort += "\n\n" + Texte.InfoImmer;
-
-    if (Nutzer.Zustand == 'Teilnehmer')
-        Antwort += "\n" + Texte.InfoTeilnehmer;
-
-    Nachricht.reply(Antwort);
-}
-
-/**
- * Informiert die Orga im privaten Kanal über benötigte Hilfe.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
- */
-function HilfeRufen (Nachricht, Nutzer, Befehlsobjekt)
-{
-    let Orgainformation = Texte.HilfeOrgainformation.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
-    Orgainformation = Orgainformation.replace(/\[\[NUTZERTAG\]\]/g, Nutzer.Discord);
-
-    Klient.channels.get(Config.KanalIdOrganisation).send(Orgainformation);
-
-    Antworten(Nachricht, Nutzer, Befehlsobjekt);
-}
-
-/**
- * Startet den Registrierungsprozess eines Nutzers.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- */
-function Registrieren (Nachricht, Nutzer)
-{
-    Nutzer.Zustand = 'Registrierung';
-
-    Nutzerverwaltung.Aktualisieren(Nutzer);
-
-    Nachricht.reply(Texte.Registriert + "\n" + Texte.Regeln);
-}
-
-/**
- * Verarbeitet die Eingabe des eigenen Landes und schickt den Nutzer zur nächsten Frage.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- */
-function LandVerarbeiten (Nachricht, Nutzer)
-{
-    Nutzer[Nutzer.Zustand] = Nachricht.Befehl;
-
-    let Antworttext = '';
-
-    if (Nutzer.AnalogDigitalSelbst == 'beides')
-    {
-        Nutzer.Zustand = 'Steam';
-        Antworttext = Texte.Steam;
-    }
-    else if (Nutzer.AnalogDigitalWichtel != 'digital')
-    {  
-        Nutzer.Zustand = 'International';
-        Antworttext = Texte.International;
-    }
-    else
-    {
-        Nutzer.Zustand = 'Wunschliste';
-        Antworttext = Texte.Wunschliste;
-    }
-
-    Nutzerverwaltung.Aktualisieren(Nutzer);
-
-    Nachricht.reply(Antworttext);
-
-    AlteDatenAusgeben(Nachricht, Nutzer);
-}
-
-/**
- * Verarbeitet die Eingabe eines Steamnamens und schickt den Nutzer zur nächsten Frage.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- */
-function SteamVerarbeiten (Nachricht, Nutzer)
-{
-    Nutzer[Nutzer.Zustand] = Nachricht.content;
-
-    let Antworttext = '';
-
-    if (Nutzer.AnalogDigitalWichtel != 'digital')
-    {  
-        Nutzer.Zustand = 'International';
-        Antworttext = Texte.International;
-    }
-    else
-    {
-        Nutzer.Zustand = 'Wunschliste';
-        Antworttext = Texte.Wunschliste;
-    }
-
-    Nutzerverwaltung.Aktualisieren(Nutzer);
-
-    Nachricht.reply(Antworttext);
-
-    AlteDatenAusgeben(Nachricht, Nutzer);
-}
-
-/**
- * Verarbeitet die Eingabe einer Wunschliste und schickt den Nutzer zur nächsten Frage.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- */
-function WunschlisteVerarbeiten (Nachricht, Nutzer)
-{
-    Nutzer[Nutzer.Zustand] = Nachricht.content;
-
-    let Antworttext = '';
-
-    if (Nutzer.AnalogDigitalSelbst != 'digital')
-    {  
-        Nutzer.Zustand = 'Allergien';
-        Antworttext = Texte.Allergien;
-    }
-    else
-    {
-        Nutzer.Zustand = 'AusschlussGeschenk';
-        Antworttext = Texte.AusschlussGeschenk;
-    }
-
-    Nutzerverwaltung.Aktualisieren(Nutzer);
-
-    Nachricht.reply(Antworttext);
-
-    AlteDatenAusgeben(Nachricht, Nutzer);
-}
-
-/**
- * Setzt die Datenaufnahme zurück, sodass der Nutzer erneut alles eingeben kann.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
- */
-function DatenÄndern (Nachricht, Nutzer, Befehlsobjekt)
-{
-    Nachricht.reply(Texte.AenderungStarten);
-
-    Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
-}
-
-/**
- * Sendet eine Nachricht an den öffentlichen Wichtelkanal.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- */
-function NachrichtAnKanalSenden (Nachricht)
-{
-    Klient.channels.get(Config.KanalIdWichteln).send(Nachricht.content);
-}
-
-/**
- * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- */
-function EntferneNachricht (Nachricht)
-{
-    let NachrichtenId = Nachricht.content.replace(/[^\/\d]/g,''); //Entfernt alles außer Zahlen.
-
-    Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
 }
