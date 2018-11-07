@@ -49,6 +49,9 @@ const Definitionen = {
             Aliase: ["nacht"],
             Funktion: ModulAllgemein.Antworten,
             Text: Texte.GuteNacht
+        },
+        "sternenrose": {
+            Funktion: ModulAllgemein.Sternenrose
         }
     },
     //Nur im Moderationskanal:

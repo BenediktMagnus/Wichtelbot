@@ -8,6 +8,16 @@ const Config = require('../../Config/Config.json');
  */
 const Texte = require('../../Config/Texte.json');
 
+/*
+ * Das Attachmentobjekt aus der Discordbibliothek zum Erstellen von (Bild-)Anhängen.
+ */
+const { Attachment } = require('discord.js');
+
+/*
+ * Das nette Bild von Sternenrose in der Schatzkiste, das dem Bot als Profilbild dient. Danke, Sternenrose!
+ */
+const BildSternenrose = new Attachment('https://cdn.discordapp.com/attachments/391928490456514561/394095185275125760/Weihn8.jpg');
+
 var Nutzerverwaltung;
 
 /**
@@ -122,3 +132,13 @@ function Registrieren (Nachricht, Nutzer)
     Nachricht.reply(Texte.Registriert + "\n" + Texte.Regeln);
 }
 exports.Registrieren = Registrieren;
+
+/**
+ * Informiert die Orga im privaten Kanal über benötigte Hilfe.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function Sternenrose (Nachricht)
+{
+    Nachricht.reply(Texte.Sternenrose, BildSternenrose);
+}
+exports.Sternenrose = Sternenrose;
