@@ -47,7 +47,7 @@ exports.LeerenNutzerErzeugen = function ()
  * Fügt einen Nutzer zur Nutzerliste hinzu und speichert ihn in der Datenbank.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
  */
-exports.Hinzufuegen = function (Nutzer)
+exports.Hinzufügen = function (Nutzer)
 {
     Nutzerliste.set(Nutzer.Id, Nutzer);
     Datenbank.NutzerSpeichern(Nutzer);

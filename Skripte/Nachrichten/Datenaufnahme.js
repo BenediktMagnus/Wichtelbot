@@ -140,7 +140,7 @@ exports.WunschlisteVerarbeiten = WunschlisteVerarbeiten;
  */
 function DatenÄndern (Nachricht, Nutzer, Befehlsobjekt)
 {
-    Nachricht.reply(Texte.AenderungStarten);
+    Nachricht.reply(Texte.ÄnderungStarten);
 
     ModulAllgemein.Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
 }

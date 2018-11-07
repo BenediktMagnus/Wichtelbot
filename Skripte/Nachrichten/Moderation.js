@@ -35,10 +35,10 @@ exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
  * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
-function EntferneNachricht (Nachricht)
+function NachrichtEntfernen (Nachricht)
 {
     let NachrichtenId = Nachricht.content.replace(/[^\/\d]/g,''); //Entfernt alles außer Zahlen.
 
     Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
 }
-exports.EntferneNachricht = EntferneNachricht;
+exports.NachrichtEntfernen = NachrichtEntfernen;

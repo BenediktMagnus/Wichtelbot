@@ -15,9 +15,9 @@ var ModulModeration = require('./Nachrichten/Moderation.js');
 
 const Definitionen = {
     //Die maximale Länge, die ein Befehl haben darf: (Optimiert die Erkennung von Befehlen.)
-    MaximaleBefehlslaenge: 20,
+    MaximaleBefehlslänge: 20,
     //Das Präfix vor Befehlen, um auf Servern nur auf bestimmte Nachrichten zu reagieren.
-    ServerBefehlspraefix: '!',
+    ServerBefehlspräfix: '!',
     //Nur auf dem Server möglich:
     Kontaktaufnahme: {
         Befehl: "wischtöööln",
@@ -61,11 +61,11 @@ const Definitionen = {
             Funktion: ModulModeration.NachrichtAnKanalSenden
         },
         "löschenachricht": {
-            Funktion: ModulModeration.EntferneNachricht
+            Funktion: ModulModeration.NachrichtEntfernen
         }
     },
     //Nur in einem bestimmten Zustand gültig:
-    Zustaende: {
+    Zustände: {
         Neu: {
             "registrieren": {
                 Funktion: ModulAllgemein.Registrieren
@@ -184,11 +184,11 @@ const Definitionen = {
         Teilnehmer: {
             "ändern": {
                 Funktion: ModulAllgemein.Fortfahren,
-                Ziel: "AenderungBestaetigen",
-                Text: Texte.AenderungBestaetigen
+                Ziel: "ÄnderungBestätigen",
+                Text: Texte.ÄnderungBestätigen
             }
         },
-        AenderungBestaetigen: {
+        ÄnderungBestätigen: {
             "ja": {
                 Funktion: ModulDatenaufnahme.DatenÄndern,
                 Ziel: "AnalogDigitalWichtel",
@@ -197,7 +197,7 @@ const Definitionen = {
             "nein": {
                 Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "Teilnehmer",
-                Text: Texte.AenderungAbgebrochen
+                Text: Texte.ÄnderungAbgebrochen
             }
         }
     },
@@ -246,9 +246,9 @@ exports.Verarbeiten = function (Nachricht)
         return;
 
     let Befehl;
-    if (Nachricht.content.length < Definitionen.MaximaleBefehlslaenge)
+    if (Nachricht.content.length < Definitionen.MaximaleBefehlslänge)
     {
-        Befehl = ZuBefehlKuerzen(Nachricht.content);
+        Befehl = ZuBefehlKürzen(Nachricht.content);
         
         Nachricht.Befehl = Befehl; //Für späteren Zugriff auf den Befehl in datenverarbeitenden Funktionen.
     }
@@ -267,7 +267,7 @@ exports.Verarbeiten = function (Nachricht)
         }
 
         let Nutzer = Nutzerverwaltung.VonId(Autor.id);
-        let Zustand = Definitionen.Zustaende[Nutzer.Zustand];
+        let Zustand = Definitionen.Zustände[Nutzer.Zustand];
         let Befehlsobjekt = Zustand[Befehl];
 
         if (Befehlsobjekt) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
@@ -285,7 +285,7 @@ exports.Verarbeiten = function (Nachricht)
             (Nachricht.channel.id != Config.KanalIdOrganisation))
             return; //Nur auf Kanäle reagieren, die wirklich überwacht werden.
 
-        if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspraefix))
+        if (!Nachricht.content.startsWith(Definitionen.ServerBefehlspräfix))
             return; //Auf Servern nur auf Nachrichten reagieren, die mit dem Befehlspräfix beginnen.
 
         Datenbanverwaltung.Log(Autor.id, Autor.username, Nachricht.content, Nachricht.channel.id);
@@ -297,7 +297,7 @@ exports.Verarbeiten = function (Nachricht)
         else if (Nachricht.channel.id == Config.KanalIdOrganisation)
         {
             Befehl = Nachricht.content.substr(0, Nachricht.content.indexOf("\n")); //Der Befehl steht in der ersten Zeile der Nachricht.
-            Befehl = ZuBefehlKuerzen(Befehl);
+            Befehl = ZuBefehlKürzen(Befehl);
 
             Nachricht.content = Nachricht.content.substr(Befehl.length + 1); //Befehl aus der Nachricht entfernen:
 
@@ -306,7 +306,7 @@ exports.Verarbeiten = function (Nachricht)
         }
     }
 
-    function ZuBefehlKuerzen (Eingabe)
+    function ZuBefehlKürzen (Eingabe)
     {
         let Ergebnis;
         //Entferne sämtliche zu ignorierenden Symbole am Anfang und Ende. (Ausrufezeichen, Fragezeichen, Punkte, Kommata, Semikolons, Leerzeichen):
@@ -330,7 +330,7 @@ function Kontaktaufnahme (Autor)
         NeuerNutzer.Discord = Autor.tag;
         NeuerNutzer.Name = Autor.username;
         NeuerNutzer.Nickname = Autor.username;
-        Nutzerverwaltung.Hinzufuegen(NeuerNutzer);
+        Nutzerverwaltung.Hinzufügen(NeuerNutzer);
     }
 
     Autor.send(Definitionen.Kontaktaufnahme.Text);
