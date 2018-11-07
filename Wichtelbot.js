@@ -7,17 +7,16 @@ console.log('Initialisiere Datenbanken...');
 const Datenbank = require('./Skripte/Datenbank.js');
 Datenbank.Initialisieren();
 
-//Nachrichtenverarbeitung starten:
-console.log('Initialisiere Nachrichtenverarbeitung...');
-const Nachrichten = require('./Skripte/Nachrichten.js');
-Nachrichten.Initialisieren(Datenbank);
-
 //Discordbot laden und erstellen:
 console.log('Initialisiere Discordbot...');
 const Bot = require('./Config/Bot.json');
 const Discord = require('discord.js');
 const Klient = new Discord.Client();
-Nachrichten.KlientSetzen(Klient);
+
+//Nachrichtenverarbeitung starten:
+console.log('Initialisiere Nachrichtenverarbeitung...');
+const Nachrichten = require('./Skripte/Nachrichten.js');
+Nachrichten.Initialisieren(Datenbank, Klient);
 
 //Bot vorbereiten:
 console.log('Bereite Discordbot vor...');

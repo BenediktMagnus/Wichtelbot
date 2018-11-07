@@ -216,21 +216,14 @@ var Klient;
 /**
  * Initialisiert die Nachrichtenverarbeitung.
  * @param {Object} Datenbankbibliothek
- */
-exports.Initialisieren = function (Datenbankbibliothek)
-{
-    Datenbanverwaltung = Datenbankbibliothek;
-
-    Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
-};
-
-/**
- * Setzt einen Discordklienten als neuen zu verwendenden Klienten.
  * @param {Object} NeuerKlient Der Discordklient, über den sich der Bot verbunden hat.
  */
-exports.KlientSetzen = function (NeuerKlient)
+exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
 {
+    Datenbanverwaltung = Datenbankbibliothek;
     Klient = NeuerKlient;
+
+    Nutzerverwaltung.Initialisieren(Datenbanverwaltung);
 };
 
 /**
