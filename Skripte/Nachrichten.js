@@ -80,9 +80,15 @@ const Definitionen = {
                 Text: Texte.AnalogDigitalWichtel
             },
             "nein": {
+                Aliase: ["nö", "ne"],
                 Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "Neu",
                 Text: Texte.Kontaktaufnahme
+            },
+            "vielleicht" : {
+                Aliase: ["vllt", "eventuell", "evtl"],
+                Funktion: ModulAllgemein.Antworten,
+                Text: Texte.Vielleicht
             }
         },
         AnalogDigitalWichtel: {
@@ -124,10 +130,15 @@ const Definitionen = {
         },
         International: {
             "ja": {
-                Aliase: ["nein"],
+                Aliase: ["nein", "nö", "ne"],
                 Funktion: ModulDatenaufnahme.DatenAufnehmen,
                 Ziel: "Wunschliste",
                 Text: Texte.Wunschliste
+            },
+            "vielleicht" : {
+                Aliase: ["vllt", "eventuell", "evtl"],
+                Funktion: ModulAllgemein.Antworten,
+                Text: Texte.Vielleicht
             }
         },
         Wunschliste: {
@@ -172,9 +183,15 @@ const Definitionen = {
                 Text: Texte.AnalogDigitalWichtel
             },
             "nein": {
+                Aliase: ["nö", "ne"],
                 Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "Teilnehmer",
                 Text: Texte.ÄnderungAbgebrochen
+            },
+            "vielleicht" : {
+                Aliase: ["vllt", "eventuell", "evtl"],
+                Funktion: ModulAllgemein.Antworten,
+                Text: Texte.Vielleicht
             }
         }
     },
