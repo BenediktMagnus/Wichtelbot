@@ -325,7 +325,7 @@ exports.Verarbeiten = function (Nachricht)
             Befehl = Nachricht.content.substr(0, Befehlsende); //Der Befehl steht in der ersten Zeile der Nachricht.
             Befehl = ZuBefehlKürzen(Befehl);
 
-            Nachricht.content = Nachricht.content.substr(Befehl.length + 1); //Befehl aus der Nachricht entfernen:
+            Nachricht.Parameter = Nachricht.content.substr(Befehl.length + 1); //Befehl aus der Nachricht entfernen:
 
             if (Definitionen.Moderation[Befehl])
                 Definitionen.Moderation[Befehl].Funktion(Nachricht);

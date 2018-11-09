@@ -35,7 +35,7 @@ exports.Initialisieren = function (Nutzerbibliothek, Datenbankbibliothek, NeuerK
  */
 function NachrichtAnKanalSenden (Nachricht)
 {
-    Klient.channels.get(Config.KanalIdWichteln).send(Nachricht.content);
+    Klient.channels.get(Config.KanalIdWichteln).send(Nachricht.Parameter);
 }
 exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
 
@@ -45,7 +45,7 @@ exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
  */
 function NachrichtEntfernen (Nachricht)
 {
-    let NachrichtenId = Nachricht.content.replace(/[^\/\d]/g,''); //Entfernt alles außer Zahlen.
+    let NachrichtenId = Nachricht.Parameter.replace(/[^\/\d]/g,''); //Entfernt alles außer Zahlen.
 
     Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
 }
