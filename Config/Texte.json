@@ -24,6 +24,7 @@
     "Hilfe": "Keine Sorge! Hilfe ist unterwegs! (So schnell sie kann...)",
     "HilfeOrgainformation": "@here Der Wichtel [[NUTZERNAME]] ([[NUTZERTAG]]) bittet um Hilfe.",
     "Wichtelstatus": "**Wichtelstatus** \nGesamtzahl: [[GESAMT]] \nTeilnehmer: [[TEILNEHMER]]",
+    "ModerationInfo": "Befehle: \n(Befehl und Parameter werden durch Absätze getrennt.) \n\n`!Info`: Zeigt diese Befehlsübersicht an. \n`!Wichtelstatus`: Gibt Informationen über den aktuellen Status des Wichtelns aus. \n`!NachrichtAnKanal <Nachricht>`: Sendet <Nachricht> an den öffentlichen Wichtelkanal. \n`!NachrichtAnNutzer <Nutzername> <Nachricht>`: Sendet <Nachricht> an <Nutzername>. \n`!NachrichtAnAlleNutzer <Nachricht>`: Sendet <Nachricht> an alle Nutzer, die dem Bot für das aktuelle Wichteln bekannt sind. \n`!NachrichtAnAlleTeilnehmer <Nachricht>`: Sendet <Nachricht> an alle Nutzer, die den Registrierungsprozess abgeschlossen haben und damit als „Teilnehmer“ gelistet sind. \n`!NachrichtAnAlleAusstehenden <Nachricht>`: Sendet <Nachricht> an alle Nutzer, die den Registrierungsprozess derzeit nicht vollständig abgeschlossen haben. \n`!LöscheNachricht <ID>`: Löscht eine Discordnachricht des Bots anhand der Nachrichten-ID <ID> (experimentell).",
     "ParameteranzahlUngenügend": "Die Anzahl der Parameter ist ungenügend.",
     "NutzernameNichtGefunden": "Der Nutzername wurde nicht gefunden.",
     "SendenErfolgreich": "Das Senden der Nachricht war erfolgreich. \nAnzahl Empfänger: [[ANZAHL]]",

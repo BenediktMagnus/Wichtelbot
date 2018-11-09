@@ -56,6 +56,10 @@ const Definitionen = {
     },
     //Nur im Moderationskanal:
     Moderation: {
+        "info": {
+            Aliase: ["hilfe"],
+            Funktion: ModulModeration.Info
+        },
         "nachrichtankanal": {
             Funktion: ModulModeration.NachrichtAnKanalSenden
         },

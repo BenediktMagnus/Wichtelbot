@@ -169,3 +169,13 @@ function Wichtelstatus (Nachricht)
     );
 }
 exports.Wichtelstatus = Wichtelstatus;
+
+/**
+ * Gibt eine Info zu den möglichen Moderationsbefehlen aus.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function Info (Nachricht)
+{
+    Nachricht.channel.send(Texte.ModerationInfo);
+}
+exports.Info = Info;
