@@ -59,6 +59,9 @@ const Definitionen = {
         "nachrichtankanal": {
             Funktion: ModulModeration.NachrichtAnKanalSenden
         },
+        "nachrichtannutzer": {
+            Funktion: ModulModeration.NachrichtAnNutzerSenden
+        },
         "nachrichtanallenutzer": {
             Funktion: ModulModeration.NachrichtAnAlleNutzerSenden
         },
@@ -328,7 +331,7 @@ exports.Verarbeiten = function (Nachricht)
             Befehl = Nachricht.content.substr(0, Befehlsende); //Der Befehl steht in der ersten Zeile der Nachricht.
             Befehl = ZuBefehlKürzen(Befehl);
 
-            Nachricht.Parameter = Nachricht.content.substr(Befehl.length + 1); //Befehl aus der Nachricht entfernen:
+            Nachricht.Parameter = Nachricht.content.substr(Befehl.length + 2); //Befehl und den Zeilenumbruch aus der Nachricht entfernen:
 
             if (Definitionen.Moderation[Befehl])
                 Definitionen.Moderation[Befehl].Funktion(Nachricht);

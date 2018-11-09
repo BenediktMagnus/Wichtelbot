@@ -40,6 +40,38 @@ function NachrichtAnKanalSenden (Nachricht)
 exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
 
 /**
+ * Sendet eine Nachricht an einen bestimmten Nutzer. Erste Zeile: Nutzername, weitere Zeilen: Nachricht.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function NachrichtAnNutzerSenden (Nachricht)
+{
+    let Parameter = Nachricht.Parameter.split("\n");
+    Parameter = {
+        Name: Parameter[0],
+        Nachricht: Parameter[1]
+    };
+
+    let Nutzer = Nutzerverwaltung.VonName(Parameter.Name);
+
+    if (Nutzer)
+    {
+        Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
+            {
+                let Antwort = Parameter.Nachricht.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
+                DiscordNutzer.send(Antwort);
+                Nachricht.reply("\n" + Texte.NachrichtGesendet);
+            }
+        );
+    }
+    else
+    {
+        Nachricht.reply("\n" + Texte.NutzernameNichtGefunden);
+        return;
+    }
+}
+exports.NachrichtAnNutzerSenden = NachrichtAnNutzerSenden;
+
+/**
  * Sendet eine Nachricht an alle dem Bot bekannten Nutzer.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
@@ -51,6 +83,7 @@ function NachrichtAnAlleNutzerSenden (Nachricht)
                 {
                     let Antwort = Nachricht.Parameter.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
                     DiscordNutzer.send(Antwort);
+                    Nachricht.reply("\n" + Texte.NachrichtVersandt);
                 }
             );
         }
