@@ -54,7 +54,7 @@ function LandVerarbeiten (Nachricht, Nutzer)
         Antworttext = Texte.Steam;
     }
     else if (Nutzer.AnalogDigitalWichtel != 'digital')
-    {  
+    {
         Nutzer.Zustand = 'International';
         Antworttext = Texte.International;
     }
@@ -84,7 +84,7 @@ function SteamVerarbeiten (Nachricht, Nutzer)
     let Antworttext = '';
 
     if (Nutzer.AnalogDigitalWichtel != 'digital')
-    {  
+    {
         Nutzer.Zustand = 'International';
         Antworttext = Texte.International;
     }
@@ -114,7 +114,7 @@ function WunschlisteVerarbeiten (Nachricht, Nutzer)
     let Antworttext = '';
 
     if (Nutzer.AnalogDigitalSelbst != 'digital')
-    {  
+    {
         Nutzer.Zustand = 'Allergien';
         Antworttext = Texte.Allergien;
     }

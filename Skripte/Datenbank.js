@@ -104,7 +104,7 @@ exports.NutzerLaden = function (NutzerId, Callback)
         {
             Fehlerbehandlung(Fehler);
             Callback(Reihe);
-        }                    
+        }
     );
 };
 

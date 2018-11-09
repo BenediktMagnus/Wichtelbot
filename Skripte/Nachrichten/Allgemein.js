@@ -76,7 +76,7 @@ function Fortfahren (Nachricht, Nutzer, Befehlsobjekt)
 {
     Nutzer.Zustand = Befehlsobjekt.Ziel;
     Nutzerverwaltung.Aktualisieren(Nutzer);
-    
+
     Antworten(Nachricht, Nutzer, Befehlsobjekt);
 
     AlteDatenAusgeben(Nachricht, Nutzer);

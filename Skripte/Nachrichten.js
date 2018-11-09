@@ -266,7 +266,7 @@ function AliaseSetzen (Zielobjekt)
                     Zielobjekt[Alias] = Zielobjekt[Eigenschaft];
                 }
             );
-            
+
             //Anschließend kann das Aliasarray gelöscht werden:
             delete Zielobjekt[Eigenschaft].Aliase;
         }
@@ -286,7 +286,7 @@ exports.Verarbeiten = function (Nachricht)
     if (Nachricht.content.length < Definitionen.MaximaleBefehlslänge)
     {
         Befehl = ZuBefehlKürzen(Nachricht.content);
-        
+
         Nachricht.Befehl = Befehl; //Für späteren Zugriff auf den Befehl in datenverarbeitenden Funktionen.
     }
 
