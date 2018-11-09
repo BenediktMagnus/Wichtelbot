@@ -40,34 +40,43 @@ function NachrichtAnKanalSenden (Nachricht)
 exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
 
 /**
+ * Sendet eine Nachricht an einen Nutzer, ersetzt dabei die nötigen Variablen und bestätigt das Versenden.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ */
+function NachrichtSendenUndBestätigen (Nachricht, Nutzer)
+{
+    Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
+        {
+            let Antwort = Nachricht.Parameter.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
+            DiscordNutzer.send(Antwort);
+            Nachricht.reply("\n" + Texte.SendenErfolgreich);
+        }
+    );
+}
+
+/**
  * Sendet eine Nachricht an einen bestimmten Nutzer. Erste Zeile: Nutzername, weitere Zeilen: Nachricht.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
 function NachrichtAnNutzerSenden (Nachricht)
 {
     let Parameter = Nachricht.Parameter.split("\n");
-    Parameter = {
-        Name: Parameter[0],
-        Nachricht: Parameter[1]
-    };
+    if (Parameter.length < 2)
+    {
+        Nachricht.reply("\n" + Texte.ParameteranzahlUngenügend);
+        return;
+    }
 
-    let Nutzer = Nutzerverwaltung.VonName(Parameter.Name);
+    let Nutzer = Nutzerverwaltung.VonName(Parameter[0]);
 
     if (Nutzer)
     {
-        Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
-            {
-                let Antwort = Parameter.Nachricht.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
-                DiscordNutzer.send(Antwort);
-                Nachricht.reply("\n" + Texte.NachrichtGesendet);
-            }
-        );
+        Nachricht.Parameter = Parameter[1]; //Die folgende Funktion erwartet die Nachricht im Parameter der Nachricht.
+        NachrichtSendenUndBestätigen(Nachricht, Nutzer);
     }
     else
-    {
         Nachricht.reply("\n" + Texte.NutzernameNichtGefunden);
-        return;
-    }
 }
 exports.NachrichtAnNutzerSenden = NachrichtAnNutzerSenden;
 
@@ -79,13 +88,7 @@ function NachrichtAnAlleNutzerSenden (Nachricht)
 {
     Nutzerverwaltung.Liste.forEach(function (Nutzer)
         {
-            Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
-                {
-                    let Antwort = Nachricht.Parameter.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
-                    DiscordNutzer.send(Antwort);
-                    Nachricht.reply("\n" + Texte.NachrichtVersandt);
-                }
-            );
+            NachrichtSendenUndBestätigen(Nachricht, Nutzer);
         }
     );
 }
