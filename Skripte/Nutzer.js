@@ -64,7 +64,7 @@ exports.Aktualisieren = function (Nutzer)
 
 /**
  * Überprüft, ob ein Nutzer mit dieser Id in der Liste vorhanden ist.
- * @param {Number} Id Die Id des Nutzers.
+ * @param {String} Id Die Id des Nutzers.
  * @returns {Boolean} True, wenn vorhanden, andernfalls false.
  */
 exports.IdIstVorhanden = function (Id)
@@ -74,7 +74,7 @@ exports.IdIstVorhanden = function (Id)
 
 /**
  * Holt ein Nutzerobjekt aus der Liste anhand seiner Id.
- * @param {Number} Id Die Id des Nutzers.
+ * @param {String} Id Die Id des Nutzers.
  * @returns {Object} Das Nutzerobjekt.
  */
 exports.VonId = function (Id)
@@ -83,4 +83,21 @@ exports.VonId = function (Id)
         console.error('FEHLER: Konnte Nutzer nicht anhand der Id ' + Id + ' ermitteln.');
 
     return Nutzerliste.get(Id);
+};
+
+/**
+ * Holt ein Nutzerobjekt aus der Liste anhand seines Namens oder Nicknamens.
+ * WARNUNG: Diese Funktion ist POTENTIELL unzuverlässig, da Namen NICHT eindeutig sein müssen. Daher ist der Anwendungsfall zu beachten!
+ * @param {String} Name Der Name oder Nickname des Nutzers.
+ * @returns {Object} Das Nutzerobjekt.
+ */
+exports.VonName = function (Name)
+{
+    for (let Nutzer of Nutzerliste.values())
+    {
+        if ((Nutzer.Name == Name) ||(Nutzer.Nickname == Name))
+            return Nutzer;
+    }
+
+    return undefined; //Kein Nutzer mit dem angegebenen Namen gefunden.
 };
