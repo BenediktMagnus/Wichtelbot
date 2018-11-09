@@ -1,18 +1,18 @@
 BEGIN TRANSACTION;
 CREATE TABLE `Wichtel` (
 	`Termin`	TEXT,
-	`NutzerId`	INTEGER,
-	`WichtelId`	INTEGER
+	`NutzerId`	TEXT,
+	`WichtelId`	TEXT
 );
 CREATE TABLE `Pakete` (
-	`IdSender`	INTEGER,
-	`IdEmpfaenger`	INTEGER,
+	`IdSender`	TEXT,
+	`IdEmpfaenger`	TEXT,
 	`Sendungsnummer`	TEXT,
 	`Sendezeitpunkt`	TEXT,
 	`Empfangszeitpunkt`	TEXT
 );
 CREATE TABLE `Nutzer` (
-	`NutzerId`	INTEGER UNIQUE,
+	`NutzerId`	TEXT UNIQUE,
 	`Discord`	TEXT UNIQUE,
 	`Name`	TEXT UNIQUE,
 	`Nickname`	TEXT UNIQUE,
@@ -21,12 +21,12 @@ CREATE TABLE `Nutzer` (
 	PRIMARY KEY(NutzerId)
 ) WITHOUT ROWID;
 CREATE TABLE `Mods` (
-	`NutzerId`	INTEGER UNIQUE,
+	`NutzerId`	TEXT UNIQUE,
 	`Nickname`	TEXT,
 	PRIMARY KEY(NutzerId)
 ) WITHOUT ROWID;
 CREATE TABLE `Informationen` (
-	`NutzerId`	INTEGER UNIQUE,
+	`NutzerId`	TEXT UNIQUE,
 	`Zeit`	INTEGER,
 	`AnalogDigitalSelbst`	INTEGER,
 	`AnalogDigitalWichtel`	INTEGER,
@@ -35,7 +35,6 @@ CREATE TABLE `Informationen` (
 	`Steam`	TEXT,
 	`International`	INTEGER,
 	`Wunschliste`	TEXT,
-	`Links`	TEXT,
 	`Allergien`	TEXT,
 	`AusschlussGeschenk`	TEXT,
 	`AusschlussWichtel`	TEXT,
@@ -43,7 +42,7 @@ CREATE TABLE `Informationen` (
 	PRIMARY KEY(NutzerId)
 ) WITHOUT ROWID;
 CREATE TABLE `Ausschluesse` (
-	`NutzerId`	INTEGER,
-	`WichtelId`	INTEGER
+	`NutzerId`	TEXT,
+	`WichtelId`	TEXT
 );
 COMMIT;
