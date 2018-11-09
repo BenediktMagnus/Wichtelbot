@@ -59,6 +59,9 @@ const Definitionen = {
         "nachrichtankanal": {
             Funktion: ModulModeration.NachrichtAnKanalSenden
         },
+        "nachrichtanallenutzer": {
+            Funktion: ModulModeration.NachrichtAnAlleNutzerSenden
+        },
         "löschenachricht": {
             Funktion: ModulModeration.NachrichtEntfernen
         },

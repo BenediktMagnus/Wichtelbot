@@ -40,6 +40,25 @@ function NachrichtAnKanalSenden (Nachricht)
 exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
 
 /**
+ * Sendet eine Nachricht an alle dem Bot bekannten Nutzer.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function NachrichtAnAlleNutzerSenden (Nachricht)
+{
+    Nutzerverwaltung.Liste.forEach(function (Nutzer)
+        {
+            Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
+                {
+                    let Antwort = Nachricht.Parameter.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
+                    DiscordNutzer.send(Antwort);
+                }
+            );
+        }
+    );
+}
+exports.NachrichtAnAlleNutzerSenden = NachrichtAnAlleNutzerSenden;
+
+/**
  * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
