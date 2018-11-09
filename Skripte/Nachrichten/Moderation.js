@@ -46,6 +46,12 @@ exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
  */
 function NachrichtSendenUndBestätigen (Nachricht, Nutzerliste)
 {
+    if (!Nachricht.Parameter)
+    {
+        Nachricht.reply("\n" + Texte.ParameteranzahlUngenügend);
+        return;
+    }
+
     for (let Nutzer of Nutzerliste)
     {
         Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
@@ -98,6 +104,10 @@ function NachrichtAnAlleNutzerSenden (Nachricht)
 }
 exports.NachrichtAnAlleNutzerSenden = NachrichtAnAlleNutzerSenden;
 
+/**
+ * Sendet eine Nachricht an alle vollständig registrierten Nutzer im Zustand "Teilnehmer".
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
 function NachrichtAnAlleTeilnehmerSenden (Nachricht)
 {
     let Nutzerliste = [];
@@ -111,6 +121,25 @@ function NachrichtAnAlleTeilnehmerSenden (Nachricht)
     NachrichtSendenUndBestätigen(Nachricht, Nutzerliste);
 }
 exports.NachrichtAnAlleTeilnehmerSenden = NachrichtAnAlleTeilnehmerSenden;
+
+/**
+ * Sendet eine Nachricht an alle dem Bot bekannten Nutzer, die sich NICHT im Zustand "Teilnehmer" befinden.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function NachrichtAnAlleAusstehendenSenden (Nachricht)
+{
+    let Nutzerliste = [];
+
+    for (let Nutzer of Nutzerverwaltung.Liste.values())
+    {
+        if (Nutzer.Zustand != 'Teilnehmer')
+            Nutzerliste.push(Nutzer);
+    }
+
+    NachrichtSendenUndBestätigen(Nachricht, Nutzerliste);
+}
+exports.NachrichtAnAlleAusstehendenSenden = NachrichtAnAlleAusstehendenSenden;
+
 /**
  * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.

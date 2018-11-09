@@ -68,6 +68,9 @@ const Definitionen = {
         "nachrichtanalleteilnehmer": {
             Funktion: ModulModeration.NachrichtAnAlleTeilnehmerSenden
         },
+        "nachrichtanalleausstehenden": {
+            Funktion: ModulModeration.NachrichtAnAlleAusstehendenSenden
+        },
         "löschenachricht": {
             Funktion: ModulModeration.NachrichtEntfernen
         },
