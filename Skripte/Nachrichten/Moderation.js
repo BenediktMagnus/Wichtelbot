@@ -98,6 +98,19 @@ function NachrichtAnAlleNutzerSenden (Nachricht)
 }
 exports.NachrichtAnAlleNutzerSenden = NachrichtAnAlleNutzerSenden;
 
+function NachrichtAnAlleTeilnehmerSenden (Nachricht)
+{
+    let Nutzerliste = [];
+
+    for (let Nutzer of Nutzerverwaltung.Liste.values())
+    {
+        if (Nutzer.Zustand == 'Teilnehmer')
+            Nutzerliste.push(Nutzer);
+    }
+
+    NachrichtSendenUndBestätigen(Nachricht, Nutzerliste);
+}
+exports.NachrichtAnAlleTeilnehmerSenden = NachrichtAnAlleTeilnehmerSenden;
 /**
  * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
