@@ -40,19 +40,25 @@ function NachrichtAnKanalSenden (Nachricht)
 exports.NachrichtAnKanalSenden = NachrichtAnKanalSenden;
 
 /**
- * Sendet eine Nachricht an einen Nutzer, ersetzt dabei die nötigen Variablen und bestätigt das Versenden.
+ * Sendet eine Nachricht an ein Liste von Nutzern, ersetzt dabei die nötigen Variablen und bestätigt das Versenden.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
+ * @param {Array} Nutzerliste Ein Array der Nutzerobjekte mit allen Angaben zum Nutzer.
  */
-function NachrichtSendenUndBestätigen (Nachricht, Nutzer)
+function NachrichtSendenUndBestätigen (Nachricht, Nutzerliste)
 {
-    Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
-        {
-            let Antwort = Nachricht.Parameter.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
-            DiscordNutzer.send(Antwort);
-            Nachricht.reply("\n" + Texte.SendenErfolgreich);
-        }
-    );
+    for (let Nutzer of Nutzerliste)
+    {
+        Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
+            {
+                let Antwort = Nachricht.Parameter.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
+                DiscordNutzer.send(Antwort);
+            }
+        );
+    }
+
+    let Bestätigung = Texte.SendenErfolgreich.replace(/\[\[ANZAHL\]\]/g, Nutzerliste.length);
+
+    Nachricht.reply("\n" + Bestätigung);
 }
 
 /**
@@ -73,7 +79,7 @@ function NachrichtAnNutzerSenden (Nachricht)
     if (Nutzer)
     {
         Nachricht.Parameter = Parameter[1]; //Die folgende Funktion erwartet die Nachricht im Parameter der Nachricht.
-        NachrichtSendenUndBestätigen(Nachricht, Nutzer);
+        NachrichtSendenUndBestätigen(Nachricht, [Nutzer]);
     }
     else
         Nachricht.reply("\n" + Texte.NutzernameNichtGefunden);
@@ -86,11 +92,9 @@ exports.NachrichtAnNutzerSenden = NachrichtAnNutzerSenden;
  */
 function NachrichtAnAlleNutzerSenden (Nachricht)
 {
-    Nutzerverwaltung.Liste.forEach(function (Nutzer)
-        {
-            NachrichtSendenUndBestätigen(Nachricht, Nutzer);
-        }
-    );
+    let Nutzerliste = Array.from(Nutzerverwaltung.Liste.values());
+
+    NachrichtSendenUndBestätigen(Nachricht, Nutzerliste);
 }
 exports.NachrichtAnAlleNutzerSenden = NachrichtAnAlleNutzerSenden;
 

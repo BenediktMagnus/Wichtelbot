@@ -26,7 +26,7 @@
     "Wichtelstatus": "**Wichtelstatus** \nGesamtzahl: [[GESAMT]] \nTeilnehmer: [[TEILNEHMER]]",
     "ParameteranzahlUngenügend": "Die Anzahl der Parameter ist ungenügend.",
     "NutzernameNichtGefunden": "Der Nutzername wurde nicht gefunden.",
-    "SendenErfolgreich": "Das Senden der Nachricht war erfolgreich.",
+    "SendenErfolgreich": "Das Senden der Nachricht war erfolgreich. \nAnzahl Empfänger: [[ANZAHL]]",
     "GutenMorgen": "Guten Morgen, [[NUTZERNAME]]!",
     "GutenTag": "Guten Tag, [[NUTZERNAME]]!",
     "Hallo": "Hallööö, [[NUTZERNAME]]!",
