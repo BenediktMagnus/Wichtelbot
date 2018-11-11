@@ -21,12 +21,12 @@ exports.Initialisieren = function (Nutzerbibliothek, Datenbankbibliothek, NeuerK
 
 exports.Ausführen = function (ZiehungAusgeführt)
 {
-    let Teilnehmerliste = new Map();
+    let Teilnehmerliste = [];
 
     //Alle Teilnehmer in die Teilnehmerliste füllen:
     for (let Nutzer of Nutzerverwaltung.Liste.values())
         if (Nutzer.Zustand == 'Teilnehmer')
-            Teilnehmerliste.set(Nutzer.Id, Nutzer);
+            Teilnehmerliste.push(Nutzer);
 
     /**
      * Ordnet Nutzern einer möglichen Liste an Wichtelpartnern zu, um diese später zu ermitteln.
@@ -34,7 +34,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
     let Zuordnungsliste = new Map();
 
     //Zuordnungsliste wird gefüllt:
-    for (let Teilnehmer of Teilnehmerliste.values())
+    for (let Teilnehmer of Teilnehmerliste)
     {
         let Wichtelliste = new Map();
 
@@ -46,10 +46,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
         Zuordnungsliste.set(Teilnehmer.Id, {
                 Nutzer: Teilnehmer,
                 Wichtel: Wichtelliste,
-                Ausschlüsse: {
-                    Wunsch: [],
-                    Wichtel: [] //War Wichtel des Teilnehmers in vorherigen Jahren.
-                },
+                FrühereWichtel: []
             }
         );
     }
@@ -99,7 +96,12 @@ function AusschlüsseErmitteln (Eintrag)
             Datenbankverwaltung.Ausschlüsse(Eintrag.Nutzer.Id, function (Ausschlüsse)
                 {
                     for (let Ausschluss of Ausschlüsse)
-                        Eintrag.Ausschlüsse[Ausschluss.Grund].push(Ausschluss.WichtelId);
+                    {
+                        if (Ausschluss.Grund == 'Wunsch')
+                            Eintrag.Wichtel.delete(Ausschluss.WichtelId);
+                        else
+                            Eintrag.FrühereWichtel.push(Ausschluss.WichtelId);
+                    }
 
                     ErfolgMelden();
                 }
