@@ -80,6 +80,9 @@ const Definitionen = {
         },
         "wichtelstatus": {
             Funktion: ModulModeration.Wichtelstatus
+        },
+        "ziehungausführen": {
+            Funktion: ModulModeration.ZiehungAusführen
         }
     },
     //Nur in einem bestimmten Zustand gültig:

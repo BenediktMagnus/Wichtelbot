@@ -179,3 +179,23 @@ function Info (Nachricht)
     Nachricht.channel.send(Texte.ModerationInfo);
 }
 exports.Info = Info;
+
+/**
+ * Führt die Ziehung der Wichtel aus.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function ZiehungAusführen (Nachricht)
+{
+    let Ziehung = require('../Ziehung.js');
+
+    Ziehung.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, Klient);
+    Ziehung.Ausführen(function (IstFehlerfrei)
+        {
+            if (IstFehlerfrei)
+                Nachricht.channel.send(Texte.ZiehungAusgeführt);
+            else
+                Nachricht.channel.send(Texte.ZiehungFehlgeschlagen);
+        }
+    );
+}
+exports.ZiehungAusführen = ZiehungAusführen;
