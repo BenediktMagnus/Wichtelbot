@@ -61,7 +61,14 @@ exports.Ausführen = function (ZiehungAusgeführt)
         Ausschlüsse.push(AusschlüsseErmitteln(Eintrag));
     }
 
-    Promise.all(Ausschlüsse).then(ZiehungAbschließen);
+    Promise.all(Ausschlüsse).then(function ()
+        {
+            for (let Eintrag of Zuordnungsliste.values())
+                GewichtungenBerechnen(Eintrag);
+
+            ZiehungAbschließen();
+        }
+    );
 
     function ZiehungAbschließen ()
     {
@@ -108,4 +115,25 @@ function AusschlüsseErmitteln (Eintrag)
             );
         }
     );
+}
+
+function GewichtungenBerechnen (Eintrag)
+{
+    for (let Wichtel of Eintrag.Wichtel.values())
+    {
+        Wichtel.Gewichtung = 100;
+
+        //Vergleich Analog/Digital:
+        if (Wichtel.Daten.AnalogDigitalSelbst == Eintrag.Nutzer.AnalogDigitalWichtel)
+            Wichtel.Gewichtung += 2;
+
+        //Vergleich Herkunftsland:
+        if (Wichtel.Daten.Land == Eintrag.Nutzer.Land)
+            Wichtel.Gewichtung += 1;
+    }
+
+    //Frühere Wichtel:
+    for (let WichtelId of Eintrag.FrühereWichtel)
+        if (Eintrag.Wichtel.has(WichtelId))
+            Eintrag.Wichtel.get(WichtelId).Gewichtung -= 10;
 }
