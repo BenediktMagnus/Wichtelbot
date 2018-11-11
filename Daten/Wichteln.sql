@@ -41,8 +41,10 @@ CREATE TABLE `Informationen` (
 	`Freitext`	TEXT,
 	PRIMARY KEY(NutzerId)
 ) WITHOUT ROWID;
-CREATE TABLE `Ausschluesse` (
+CREATE TABLE "Ausschluesse" (
 	`NutzerId`	TEXT,
-	`WichtelId`	TEXT
+	`WichtelId`	TEXT,
+	`Grund`	TEXT,
+	`Zeit`	INTEGER
 );
 COMMIT;

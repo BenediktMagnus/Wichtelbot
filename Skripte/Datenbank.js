@@ -146,6 +146,28 @@ exports.Nutzerzahlen = function (Callback)
 };
 
 /**
+ *
+ * @param {Number} NutzerId Die Discord-ID des Nutzers.
+ * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
+ */
+exports.Ausschlüsse = function (NutzerId, Callback)
+{
+    DatenbankWichteln.all(
+        'SELECT * FROM Ausschluesse WHERE NutzerId = ? ORDER BY Zeit',
+        NutzerId,
+        function (Fehler, Reihen)
+        {
+            Fehlerbehandlung(Fehler);
+
+            if (Fehler)
+                Reihen = [];
+
+            Callback(Reihen);
+        }
+    );
+};
+
+/**
  * Loggt die Eingabe eines Nutzers.
  * @param {Number} NutzerId Die Discord-ID des Nutzers.
  * @param {String} Name Der Discordname des Nutzers.
