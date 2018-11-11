@@ -49,4 +49,57 @@ exports.Ausführen = function (ZiehungAusgeführt)
             }
         );
     }
+
+    //Ausschlüsse ermitteln:
+    let Ausschlüsse = [];
+
+    for (let Eintrag of Zuordnungsliste.values())
+    {
+        DigitalAnalogAusschließen(Eintrag);
+        InternationalAusschließen(Eintrag);
+        Ausschlüsse.push(AusschlüsseErmitteln(Eintrag));
+    }
+
+    Promise.all(Ausschlüsse).then(ZiehungAbschließen);
+
+    function ZiehungAbschließen ()
+    {
+        ZiehungAusgeführt();
+    }
 };
+
+function DigitalAnalogAusschließen (Eintrag)
+{
+    if (Eintrag.Nutzer.AnalogDigitalWichtel == 'beides')
+        return;
+
+    for (let Wichtel of Eintrag.Wichtel.values())
+        if ((Wichtel.AnalogDigitalSelbst != 'beides') && (Eintrag.Nutzer.AnalogDigitalWichtel != Wichtel.AnalogDigitalSelbst))
+            Eintrag.Wichtel.delete(Wichtel.Id);
+}
+
+function InternationalAusschließen (Eintrag)
+{
+    if ((Eintrag.Nutzer.AnalogDigitalWichtel == 'digital') || (Eintrag.Nutzer.International == 'ja'))
+        return;
+
+    for (let Wichtel of Eintrag.Wichtel.values())
+        if ((Eintrag.Nutzer.Land != Wichtel.Land) && (Wichtel.AnalogDigitalSelbst == 'analog'))
+            Eintrag.Wichtel.delete(Wichtel.Id);
+}
+
+function AusschlüsseErmitteln (Eintrag)
+{
+    return new Promise(function (ErfolgMelden)
+        {
+            Datenbankverwaltung.Ausschlüsse(Eintrag.Nutzer.Id, function (Ausschlüsse)
+                {
+                    for (let Ausschluss of Ausschlüsse)
+                        Eintrag.Ausschlüsse[Ausschluss.Grund].push(Ausschluss.WichtelId);
+
+                    ErfolgMelden();
+                }
+            );
+        }
+    );
+}
