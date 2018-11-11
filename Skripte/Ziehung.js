@@ -36,8 +36,12 @@ exports.Ausführen = function (ZiehungAusgeführt)
     //Zuordnungsliste wird gefüllt:
     for (let Teilnehmer of Teilnehmerliste.values())
     {
-        let Wichtelliste = new Map(Teilnehmerliste);
-        Wichtelliste.delete(Teilnehmer.Id); //Aktuellen Teilnehmer entfernen.
+        let Wichtelliste = new Map();
+
+        //Aktuellen Teilnehmer herausfiltern und eigene Objekte mit Datenreferenzen auf den Wichtel in die Liste eintragen:
+        for (let Wichtel of Teilnehmerliste)
+            if (Wichtel.Id != Teilnehmer.Id)
+                Wichtelliste.set(Wichtel.Id, { Daten: Wichtel });
 
         Zuordnungsliste.set(Teilnehmer.Id, {
                 Nutzer: Teilnehmer,
@@ -74,8 +78,8 @@ function DigitalAnalogAusschließen (Eintrag)
         return;
 
     for (let Wichtel of Eintrag.Wichtel.values())
-        if ((Wichtel.AnalogDigitalSelbst != 'beides') && (Eintrag.Nutzer.AnalogDigitalWichtel != Wichtel.AnalogDigitalSelbst))
-            Eintrag.Wichtel.delete(Wichtel.Id);
+        if ((Wichtel.Daten.AnalogDigitalSelbst != 'beides') && (Eintrag.Nutzer.AnalogDigitalWichtel != Wichtel.Daten.AnalogDigitalSelbst))
+            Eintrag.Wichtel.delete(Wichtel.Daten.Id);
 }
 
 function InternationalAusschließen (Eintrag)
@@ -84,8 +88,8 @@ function InternationalAusschließen (Eintrag)
         return;
 
     for (let Wichtel of Eintrag.Wichtel.values())
-        if ((Eintrag.Nutzer.Land != Wichtel.Land) && (Wichtel.AnalogDigitalSelbst == 'analog'))
-            Eintrag.Wichtel.delete(Wichtel.Id);
+        if ((Eintrag.Nutzer.Land != Wichtel.Daten.Land) && (Wichtel.Daten.AnalogDigitalSelbst == 'analog'))
+            Eintrag.Wichtel.delete(Wichtel.Daten.Id);
 }
 
 function AusschlüsseErmitteln (Eintrag)
