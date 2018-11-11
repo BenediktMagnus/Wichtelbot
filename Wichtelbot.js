@@ -1,6 +1,4 @@
-console.log('Bot startet...')
-
-const Config = require('./Config/Config.json');
+console.log('Bot startet...');
 
 //Datenbanken laden und Modul initialisieren:
 console.log('Initialisiere Datenbanken...');

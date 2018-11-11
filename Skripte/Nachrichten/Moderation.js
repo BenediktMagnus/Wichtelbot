@@ -146,7 +146,7 @@ exports.NachrichtAnAlleAusstehendenSenden = NachrichtAnAlleAusstehendenSenden;
  */
 function NachrichtEntfernen (Nachricht)
 {
-    let NachrichtenId = Nachricht.Parameter.replace(/[^\/\d]/g,''); //Entfernt alles außer Zahlen.
+    let NachrichtenId = Nachricht.Parameter.replace(/[^/\d]/g,''); //Entfernt alles außer Zahlen.
 
     Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
 }

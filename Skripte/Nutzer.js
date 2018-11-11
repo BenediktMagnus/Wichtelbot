@@ -41,7 +41,7 @@ exports.LeerenNutzerErzeugen = function ()
         Zeit: 0,
         Zustand: 'Neu'
     };
-}
+};
 
 /**
  * Fügt einen Nutzer zur Nutzerliste hinzu und speichert ihn in der Datenbank.

@@ -308,11 +308,11 @@ exports.Verarbeiten = function (Nachricht)
         let Befehlsobjekt = Zustand[Befehl];
 
         if (Befehlsobjekt) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
-            Befehlsobjekt.Funktion(Nachricht, Nutzer, Befehlsobjekt)
+            Befehlsobjekt.Funktion(Nachricht, Nutzer, Befehlsobjekt);
         else if (Definitionen.Befehle[Befehl]) //Es gibt einen allgemeinen Befehl, der immer gültig ist.
-            Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Definitionen.Befehle[Befehl])
+            Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Definitionen.Befehle[Befehl]);
         else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
-            Zustand.Funktion(Nachricht, Nutzer, Zustand) //Bei der Datenaufnahme gibt es keinen Befehl, daher ersetzt der Zustand das Befehlsobjekt.
+            Zustand.Funktion(Nachricht, Nutzer, Zustand); //Bei der Datenaufnahme gibt es keinen Befehl, daher ersetzt der Zustand das Befehlsobjekt.
         else //Es gibt keine passende Aktion für die Nachricht.
             Definitionen.NichtVerstanden.Funktion(Nachricht, Nutzer);
     }
@@ -329,7 +329,7 @@ exports.Verarbeiten = function (Nachricht)
 
         //Kontaktaufnahme ist überall möglich:
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
-            Definitionen.Kontaktaufnahme.Funktion(Autor)
+            Definitionen.Kontaktaufnahme.Funktion(Autor);
         //Moderation nur auf einem bestimmten Kanal:
         else if (Nachricht.channel.id == Config.KanalIdOrganisation)
         {
