@@ -174,12 +174,19 @@ exports.Ausschlüsse = function (NutzerId, Callback)
  */
 exports.WichtelEintragen = function (Zuordnungen, Callback)
 {
-    let Vorgang = DatenbankWichteln.prepare("INSERT INTO Wichtel (NutzerId, WichtelId) VALUES (?, ?)", Fehlerbehandlung);
+    let Transaktion = NeueTransaktion(DatenbankWichteln.Name);
+
+    let Vorgang = Transaktion.prepare("INSERT INTO Wichtel (NutzerId, WichtelId) VALUES (?, ?)", Transaktion.Fehlerbehandlung);
 
     for (let Zuordnung of Zuordnungen)
-        Vorgang.run(Zuordnung.Nutzer.Id, Zuordnung.Wichtel.Id, Fehlerbehandlung);
+        Vorgang.run(Zuordnung.Nutzer.Id, Zuordnung.Wichtel.Id, Transaktion.Fehlerbehandlung);
 
-    Vorgang.finalize(Callback);
+    Vorgang.finalize(function ()
+        {
+            Transaktion.Schließen();
+            Callback();
+        }
+    );
 };
 
 /**
@@ -217,7 +224,41 @@ function VerbindeMitDatenbank (Name)
     //Versetzt die Datenbank in den seriellen Modus, sodass Datenbankabfragen immer nacheinander abgearbeitet werden anstatt gleichzeitig:
     Datenbank.serialize();
 
+    Datenbank.Name = Name;
+
     return Datenbank;
+}
+
+/**
+ * Erzeugt eine neue Transaktion.
+ * @param {String} Name Name der Datenbankdatei.
+ * @returns {Object} Das Objekt der Transaktion.
+ */
+function NeueTransaktion (Name)
+{
+    let Transaktion = VerbindeMitDatenbank(Name);
+
+    Transaktion.Fehlersammlung = false;
+
+    Transaktion.Fehlerbehandlung = function (Fehler)
+    {
+        Transaktion.Fehlersammlung = Transaktion.Fehlersammlung && Fehler;
+        Fehlerbehandlung(Fehler);
+    };
+
+    Transaktion.Schließen = function ()
+    {
+        if (Transaktion.Fehlersammlung)
+            Transaktion.run('ROLLBACK;');
+        else
+            Transaktion.run('COMMIT;');
+
+        Transaktion.close();
+    };
+
+    Transaktion.run('BEGIN;');
+
+    return Transaktion;
 }
 
 /**

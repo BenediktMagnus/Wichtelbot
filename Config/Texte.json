@@ -28,7 +28,6 @@
     "ParameteranzahlUngenügend": "Die Anzahl der Parameter ist ungenügend.",
     "NutzernameNichtGefunden": "Der Nutzername wurde nicht gefunden.",
     "SendenErfolgreich": "Das Senden der Nachricht war erfolgreich. \nAnzahl Empfänger: [[ANZAHL]]",
-    "ZiehungBegonnen": "Beginne mit der Ziehung...",
     "ZiehungAusgeführt": "Das Ziehen der Wichtel wurde erfolgreich ausgeführt.",
     "ZiehungFehlgeschlagen": "Bei der Ziehung ist ein Fehler aufgetreten!",
     "GutenMorgen": "Guten Morgen, [[NUTZERNAME]]!",
