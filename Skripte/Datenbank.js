@@ -19,6 +19,22 @@ exports.Initialisieren = function ()
 };
 
 /**
+ * Schließt alle Datenbankverbindungen.
+ */
+exports.Schließen = function ()
+{
+    try
+    {
+        DatenbankWichteln.close();
+        DatenbankLog.close();
+    }
+    catch (Fehler)
+    {
+        console.error(Fehler);
+    }
+};
+
+/**
  * Speichert einen Nutzer in der Datenbank.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
  */

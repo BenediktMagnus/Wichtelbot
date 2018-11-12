@@ -1,5 +1,11 @@
 console.log('Bot startet...');
 
+process.on('exit', Schließen);
+process.on('SIGINT', Schließen); //Strg + C
+process.on('SIGUSR1', Schließen); //"kill pid"
+process.on('SIGUSR2', Schließen); //"kill pid"
+process.on('uncaughtException', Schließen);
+
 //Datenbanken laden und Modul initialisieren:
 console.log('Initialisiere Datenbanken...');
 const Datenbank = require('./Skripte/Datenbank.js');
@@ -37,3 +43,21 @@ Klient.login(Bot.Token).then(function ()
     console.log('Wichtelbot gestartet!');
   }
 );
+
+var AnwendungLäuft = true;
+
+/**
+ * Beendet alle laufenden Verbindungen und meldet der Konsole das Schließend des Programms.
+ */
+function Schließen ()
+{
+  if (AnwendungLäuft)
+  {
+    AnwendungLäuft = false;
+
+    if (Klient)
+      Klient.destroy();
+
+    console.log("\nWichtelbot geschlossen.");
+  }
+}
