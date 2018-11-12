@@ -146,7 +146,7 @@ exports.Nutzerzahlen = function (Callback)
 };
 
 /**
- *
+ * Liest alle eingetragenen Ausschlüsse aus der Datenbank.
  * @param {Number} NutzerId Die Discord-ID des Nutzers.
  * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
  */
@@ -165,6 +165,21 @@ exports.Ausschlüsse = function (NutzerId, Callback)
             Callback(Reihen);
         }
     );
+};
+
+/**
+ * Trägt eine Liste an Nutzer-Wichtel-Zuordnungen in die Datenbank ein.
+ * @param {Array} Zuordnungen Eine Liste von Objekten mit .Nutzer.Id und .Wichtel.Id.
+ * @param {Function} Callback Callback, der nach dem Eintragen der Wichtel ausgeführt wird.
+ */
+exports.WichtelEintragen = function (Zuordnungen, Callback)
+{
+    let Vorgang = DatenbankWichteln.prepare("INSERT INTO Wichtel (NutzerId, WichtelId) VALUES (?, ?)", Fehlerbehandlung);
+
+    for (let Zuordnung of Zuordnungen)
+        Vorgang.run(Zuordnung.Nutzer.Id, Zuordnung.Wichtel.Id, Fehlerbehandlung);
+
+    Vorgang.finalize(Callback);
 };
 
 /**

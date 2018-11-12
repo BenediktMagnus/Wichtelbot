@@ -186,6 +186,8 @@ exports.Info = Info;
  */
 function ZiehungAusführen (Nachricht)
 {
+    Nachricht.channel.send(Texte.ZiehungBegonnen);
+
     let Ziehung = require('../Ziehung.js');
 
     Ziehung.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, Klient);

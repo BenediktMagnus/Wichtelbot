@@ -64,6 +64,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
 
     Promise.all(Ausschlüsse).then(function ()
         {
+            //Erstmalig sortieren:
             for (let Eintrag of Zuordnungsliste.values())
             {
                 GewichtungenBerechnen(Eintrag);
@@ -74,9 +75,18 @@ exports.Ausführen = function (ZiehungAusgeführt)
 
             let Ergebnisliste = [];
 
+            //Eigentliche Ziehung durchführen:
             while (SortierteZuordnungen.length != 0)
             {
                 let ErsteZuordnung = SortierteZuordnungen.shift(); //Ersten Eintrag entfernen und Indizes anpassen.
+
+                if (ErsteZuordnung == undefined)
+                {
+                    //Wenn es kein Element in der Liste gab, ist für eine Person kein Wichtel übrig.
+                    //In dem Falle haben wir ein unvollständiges Ergebnis, das korrigiert werden muss.
+                    ZiehungAusgeführt(false);
+                    return;
+                }
 
                 let Ergebnis = {
                     Nutzer: ErsteZuordnung.Nutzer,
@@ -98,17 +108,12 @@ exports.Ausführen = function (ZiehungAusgeführt)
                 SortierteZuordnungen = ZuordnungenSortieren(SortierteZuordnungen);
             }
 
-            let Einträge = [];
-            for (let Eintrag of Ergebnisliste)
-            {
-                Eintrag.Nutzer = Eintrag.Nutzer.Name;
-                Eintrag.Wichtel = Eintrag.Wichtel.Name;
-
-                Einträge.push(Eintrag);
-            }
-            console.log(JSON.stringify(Einträge));
-
-            ZiehungAusgeführt(true);
+            //Ergebnisse eintragen:
+            Datenbankverwaltung.WichtelEintragen(Ergebnisliste, function ()
+                {
+                    ZiehungAusgeführt(true);
+                }
+            );
         }
     );
 };
