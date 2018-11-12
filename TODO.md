@@ -1,9 +1,9 @@
--Steamnamen austauschen
--Algorithmus
+-Steckbriefe austauschen
 -Paketnummern
 -Bei Schließen des Bots von Discord abmelden.
--Ganz am Anfang eine Infor darüber, was vom Bot gefragt wird. (Eventuell auch mehr Informationen über den Prozess.)
+-Ganz am Anfang eine Info darüber, was vom Bot gefragt wird. (Eventuell auch mehr Informationen über den Prozess.)
+    -> Dass später wird anonym kommuniziert werden können (auch digitale Geschenke darüber austauschbar).
 -Adminfeld bei den Mods, im Falle von Fehlern taggen.
 -In allen Datenbankvorgängen Zeiten berücksichtigen.
+-Datenbankverwaltung auf Termin umstellen?
 -Umstieg auf synchrone SQLITE-Bibliothek?
-->Auf jeden Fall: Transaktion für die Eingabe der Wichtel...
