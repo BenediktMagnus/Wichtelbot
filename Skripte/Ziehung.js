@@ -46,7 +46,8 @@ exports.Ausführen = function (ZiehungAusgeführt)
         Zuordnungsliste.set(Teilnehmer.Id, {
                 Nutzer: Teilnehmer,
                 Wichtel: Wichtelliste,
-                FrühereWichtel: []
+                FrühereWichtel: [],
+                SortierteWichtel: []
             }
         );
     }
@@ -64,16 +65,34 @@ exports.Ausführen = function (ZiehungAusgeführt)
     Promise.all(Ausschlüsse).then(function ()
         {
             for (let Eintrag of Zuordnungsliste.values())
+            {
                 GewichtungenBerechnen(Eintrag);
+                Eintrag.SortierteWichtel = WichtelSortieren(Eintrag.Wichtel);
+            }
 
-            ZiehungAbschließen();
+            let SortierteZuordnungen = ZuordnungenSortieren(Zuordnungsliste);
+
+            let Einträge = [];
+            for (let Eintrag of SortierteZuordnungen)
+            {
+                delete Eintrag.Wichtel;
+                delete Eintrag.FrühereWichtel;
+
+                for (let i = 0; i < Eintrag.SortierteWichtel.length; i++)
+                    Eintrag.SortierteWichtel[i] = {
+                        Name: Eintrag.SortierteWichtel[i].Daten.Name,
+                        Gewichtung: Eintrag.SortierteWichtel[i].Gewichtung
+                    };
+
+                Eintrag.Nutzer = Eintrag.Nutzer.Name;
+
+                Einträge.push(Eintrag);
+            }
+            console.log(JSON.stringify(Einträge));
+
+            ZiehungAusgeführt(true);
         }
     );
-
-    function ZiehungAbschließen ()
-    {
-        ZiehungAusgeführt();
-    }
 };
 
 function DigitalAnalogAusschließen (Eintrag)
@@ -121,19 +140,64 @@ function GewichtungenBerechnen (Eintrag)
 {
     for (let Wichtel of Eintrag.Wichtel.values())
     {
-        Wichtel.Gewichtung = 100;
+        Wichtel.Gewichtung = 0;
 
         //Vergleich Analog/Digital:
         if (Wichtel.Daten.AnalogDigitalSelbst == Eintrag.Nutzer.AnalogDigitalWichtel)
-            Wichtel.Gewichtung += 2;
+            Wichtel.Gewichtung += 4;
 
         //Vergleich Herkunftsland:
         if (Wichtel.Daten.Land == Eintrag.Nutzer.Land)
-            Wichtel.Gewichtung += 1;
+            Wichtel.Gewichtung += 2;
     }
 
     //Frühere Wichtel:
     for (let WichtelId of Eintrag.FrühereWichtel)
         if (Eintrag.Wichtel.has(WichtelId))
-            Eintrag.Wichtel.get(WichtelId).Gewichtung -= 10;
+            Eintrag.Wichtel.get(WichtelId).Gewichtung -= 1000;
+}
+
+function WichtelSortieren (Wichtelliste)
+{
+    let Ergebnis = Array.from(Wichtelliste.values());
+
+    Ergebnis.sort(function (WichtelA, WichtelB)
+        {
+            return WichtelB.Gewichtung - WichtelA.Gewichtung;
+        }
+    );
+
+    return Ergebnis;
+}
+
+function ZuordnungenSortieren (Zuordnungsliste)
+{
+    let Ergebnis = Array.from(Zuordnungsliste.values());
+
+    Ergebnis.sort(function (ZuordnungA, ZuordnungB)
+        {
+            let AIstLeer = (ZuordnungA.SortierteWichtel.length == 0);
+            let BIstLeer = (ZuordnungB.SortierteWichtel.length == 0);
+
+            if (AIstLeer || BIstLeer)
+            {
+                if (AIstLeer && BIstLeer)
+                    return 0;
+                else if (AIstLeer)
+                    return -1;
+                else
+                    return 1;
+            }
+
+            let WertA = ZuordnungA.SortierteWichtel[0].Gewichtung - ZuordnungA.SortierteWichtel.length;
+            let WertB = ZuordnungB.SortierteWichtel[0].Gewichtung - ZuordnungB.SortierteWichtel.length;
+
+            ZuordnungA.Wert = WertA;
+            ZuordnungB.Wert = WertB;
+
+            return WertB - WertA;
+        }
+    );
+
+    return Ergebnis;
 }
