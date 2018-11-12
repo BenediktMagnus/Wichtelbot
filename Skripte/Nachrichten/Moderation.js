@@ -199,3 +199,22 @@ function ZiehungAusführen (Nachricht)
     );
 }
 exports.ZiehungAusführen = ZiehungAusführen;
+
+/**
+ * Listet alle Steamnamen von Nutzern auf, die digital bewichtelt werden wollen.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function SteamnamenAuflisten (Nachricht)
+{
+    Datenbankverwaltung.Steamnamen(function (Reihen)
+        {
+            let Steamnamen = [];
+
+            for (let Eintrag of Reihen)
+                Steamnamen.push(Eintrag.Steam);
+
+            Nachricht.channel.send(Steamnamen.join("\n"));
+        }
+    );
+}
+exports.SteamnamenAuflisten = SteamnamenAuflisten;

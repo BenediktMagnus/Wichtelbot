@@ -168,6 +168,23 @@ exports.Ausschlüsse = function (NutzerId, Callback)
 };
 
 /**
+ * Liest alle Steamnamen aus der Datenbank.
+ * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
+ */
+exports.Steamnamen = function (Callback)
+{
+    DatenbankWichteln.all(
+        "SELECT Steam FROM Informationen WHERE AnalogDigitalSelbst != 'analog'",
+        function (Fehler, Reihen)
+        {
+            Fehlerbehandlung(Fehler);
+
+            Callback(Reihen);
+        }
+    );
+};
+
+/**
  * Trägt eine Liste an Nutzer-Wichtel-Zuordnungen in die Datenbank ein.
  * @param {Array} Zuordnungen Eine Liste von Objekten mit .Nutzer.Id und .Wichtel.Id.
  * @param {Function} Callback Callback, der nach dem Eintragen der Wichtel ausgeführt wird.

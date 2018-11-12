@@ -83,6 +83,9 @@ const Definitionen = {
         },
         "ziehungausführen": {
             Funktion: ModulModeration.ZiehungAusführen
+        },
+        "steamnamenauflisten": {
+            Funktion: ModulModeration.SteamnamenAuflisten
         }
     },
     //Nur in einem bestimmten Zustand gültig:
