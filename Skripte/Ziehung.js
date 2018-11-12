@@ -70,21 +70,39 @@ exports.Ausführen = function (ZiehungAusgeführt)
                 Eintrag.SortierteWichtel = WichtelSortieren(Eintrag.Wichtel);
             }
 
-            let SortierteZuordnungen = ZuordnungenSortieren(Zuordnungsliste);
+            let SortierteZuordnungen = ZuordnungenSortieren(Zuordnungsliste, true);
+
+            let Ergebnisliste = [];
+
+            while (SortierteZuordnungen.length != 0)
+            {
+                let ErsteZuordnung = SortierteZuordnungen.shift(); //Ersten Eintrag entfernen und Indizes anpassen.
+
+                let Ergebnis = {
+                    Nutzer: ErsteZuordnung.Nutzer,
+                    Wichtel: ErsteZuordnung.SortierteWichtel[0].Daten,
+                    Wert: ErsteZuordnung.SortierteWichtel[0].Gewichtung
+                };
+
+                Ergebnisliste.push(Ergebnis);
+
+                for (let Eintrag of SortierteZuordnungen)
+                    if (Eintrag.Wichtel.delete(Ergebnis.Wichtel.Id))
+                        Eintrag.SortierteWichtel = WichtelSortieren(Eintrag.Wichtel);
+
+                //Die ID des Nutzers muss aus der Wichtelliste des Wichtels entfernt werden.
+                //Das machen wir über die Map Zuordnungsliste, um nicht das Array SortierteZuordnungen durchsuchen zu müssen.
+                //Map und Array beinhalten dieselbe Referenz, daher erfolgt die Änderung bei beiden Listen.
+                Zuordnungsliste.get(Ergebnis.Wichtel.Id).Wichtel.delete(Ergebnis.Nutzer.Id);
+
+                SortierteZuordnungen = ZuordnungenSortieren(SortierteZuordnungen);
+            }
 
             let Einträge = [];
-            for (let Eintrag of SortierteZuordnungen)
+            for (let Eintrag of Ergebnisliste)
             {
-                delete Eintrag.Wichtel;
-                delete Eintrag.FrühereWichtel;
-
-                for (let i = 0; i < Eintrag.SortierteWichtel.length; i++)
-                    Eintrag.SortierteWichtel[i] = {
-                        Name: Eintrag.SortierteWichtel[i].Daten.Name,
-                        Gewichtung: Eintrag.SortierteWichtel[i].Gewichtung
-                    };
-
                 Eintrag.Nutzer = Eintrag.Nutzer.Name;
+                Eintrag.Wichtel = Eintrag.Wichtel.Name;
 
                 Einträge.push(Eintrag);
             }
@@ -154,7 +172,7 @@ function GewichtungenBerechnen (Eintrag)
     //Frühere Wichtel:
     for (let WichtelId of Eintrag.FrühereWichtel)
         if (Eintrag.Wichtel.has(WichtelId))
-            Eintrag.Wichtel.get(WichtelId).Gewichtung -= 1000;
+            Eintrag.Wichtel.get(WichtelId).Gewichtung = -2;
 }
 
 function WichtelSortieren (Wichtelliste)
@@ -170,11 +188,12 @@ function WichtelSortieren (Wichtelliste)
     return Ergebnis;
 }
 
-function ZuordnungenSortieren (Zuordnungsliste)
+function ZuordnungenSortieren (Zuordnungsliste, IstMap = false)
 {
-    let Ergebnis = Array.from(Zuordnungsliste.values());
+    if (IstMap)
+        Zuordnungsliste = Array.from(Zuordnungsliste.values());
 
-    Ergebnis.sort(function (ZuordnungA, ZuordnungB)
+    Zuordnungsliste.sort(function (ZuordnungA, ZuordnungB)
         {
             let AIstLeer = (ZuordnungA.SortierteWichtel.length == 0);
             let BIstLeer = (ZuordnungB.SortierteWichtel.length == 0);
@@ -189,15 +208,18 @@ function ZuordnungenSortieren (Zuordnungsliste)
                     return 1;
             }
 
-            let WertA = ZuordnungA.SortierteWichtel[0].Gewichtung - ZuordnungA.SortierteWichtel.length;
-            let WertB = ZuordnungB.SortierteWichtel[0].Gewichtung - ZuordnungB.SortierteWichtel.length;
+            //Der Wert der Wichtelkette wird anhand der akkumulierten Gewichtungen aller Wichtel bestimmt plus deren Gesamtanzahl.
+            //Je mehr es davon gibt, desto nachrangiger ist der Nutzer für die Auszählung.
+            //Dies stellt einen Kompromiss dar zwischen "finde die höchstwertigen Kombinationen", "stelle sicher, dass alle bedient werden" und
+            //"versuche möglichst niemanden schlecht dastehen zu lassen".
+            let Akkumulation = (Akkumulator, AktuellerWichtel) => Akkumulator + AktuellerWichtel.Gewichtung;
 
-            ZuordnungA.Wert = WertA;
-            ZuordnungB.Wert = WertB;
+            ZuordnungA.Wert = ZuordnungA.SortierteWichtel.reduce(Akkumulation, 0) + ZuordnungA.SortierteWichtel.length;
+            ZuordnungB.Wert = ZuordnungB.SortierteWichtel.reduce(Akkumulation, 0) + ZuordnungB.SortierteWichtel.length;
 
-            return WertB - WertA;
+            return ZuordnungA.Wert - ZuordnungB.Wert;
         }
     );
 
-    return Ergebnis;
+    return Zuordnungsliste;
 }
