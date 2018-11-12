@@ -5,3 +5,5 @@
 -Ganz am Anfang eine Infor darüber, was vom Bot gefragt wird. (Eventuell auch mehr Informationen über den Prozess.)
 -Adminfeld bei den Mods, im Falle von Fehlern taggen.
 -In allen Datenbankvorgängen Zeiten berücksichtigen.
+-Umstieg auf synchrone SQLITE-Bibliothek?
+->Auf jeden Fall: Transaktion für die Eingabe der Wichtel...
