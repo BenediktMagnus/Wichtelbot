@@ -19,6 +19,8 @@ Nachrichten.Initialisieren(Datenbank, Klient);
 //Bot vorbereiten:
 console.log('Bereite Discordbot vor...');
 
+Klient.on('error', console.error);
+
 Klient.on('ready', () => {
   console.log(`Angemeldet als ${Klient.user.tag}!`);
 });
