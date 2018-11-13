@@ -86,6 +86,9 @@ const Definitionen = {
         },
         "steamnamenauflisten": {
             Funktion: ModulModeration.SteamnamenAuflisten
+        },
+        "steckbriefeverteilen": {
+            Funktion: ModulModeration.SteckbriefeVerteilen
         }
     },
     //Nur in einem bestimmten Zustand gültig:

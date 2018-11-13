@@ -94,6 +94,9 @@ exports.Ausführen = function (ZiehungAusgeführt)
                     Wert: ErsteZuordnung.SortierteWichtel[0].Gewichtung
                 };
 
+                //Aktualisieren der gespeicherten Wichtel-ID des Nutzers auf die aktuelle:
+                Ergebnis.Nutzer.WichtelId = Ergebnis.Wichtel.Id;
+
                 Ergebnisliste.push(Ergebnis);
 
                 for (let Eintrag of SortierteZuordnungen)

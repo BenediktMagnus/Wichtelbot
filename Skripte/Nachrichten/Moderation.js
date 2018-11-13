@@ -218,3 +218,62 @@ function SteamnamenAuflisten (Nachricht)
     );
 }
 exports.SteamnamenAuflisten = SteamnamenAuflisten;
+
+/**
+ * Verteilt die Steckbriefe ihrer Wichtel an alle Teilnehmer.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function SteckbriefeVerteilen (Nachricht)
+{
+    let AnzahlSteckbriefe = 0;
+
+    for (let Nutzer of Nutzerverwaltung.Liste.values())
+        if ((Nutzer.Zustand == 'Teilnehmer') && (Nutzer.WichtelId))
+        {
+            let Wichtel = Nutzerverwaltung.VonId(Nutzer.WichtelId);
+
+            let Geschenkziel;
+            let Allergientext = Texte.Steckbrief.Allergien.replace(/\[\[ALLERGIEN\]\]/g, Wichtel.Allergien);
+
+            switch (Wichtel.AnalogDigitalSelbst)
+            {
+                case 'analog':
+                    Geschenkziel = Texte.Steckbrief.Anschrift;
+                    break;
+                case 'digital':
+                    Geschenkziel = Texte.Steckbrief.Steam;
+                    Allergientext = '';
+                    break;
+                default:
+                    Geschenkziel = Texte.Steckbrief.Anschrift + "\n\n" + Texte.Steckbrief.Steam;
+            }
+
+            Geschenkziel = Geschenkziel.replace(/\[\[LAND\]\]/g, Wichtel.Land);
+            Geschenkziel = Geschenkziel.replace(/\[\[ANSCHRIFT\]\]/g, Wichtel.Anschrift);
+            Geschenkziel = Geschenkziel.replace(/\[\[STEAM\]\]/g, Wichtel.Steam);
+
+            let Steckbrief = Texte.Steckbrief.Text;
+
+            Steckbrief = Steckbrief.replace(/\[\[NUTZERNAME\]\]/g, Nutzer.Name);
+            Steckbrief = Steckbrief.replace(/\[\[GESCHENKZIEL\]\]/g, Geschenkziel);
+            Steckbrief = Steckbrief.replace(/\[\[ALLERGIENTEXT\]\]/g, Allergientext);
+            Steckbrief = Steckbrief.replace(/\[\[WICHTELNAME\]\]/g, Wichtel.Name);
+            Steckbrief = Steckbrief.replace(/\[\[ANALOGDIGITAL\]\]/g, Wichtel.AnalogDigitalSelbst);
+            Steckbrief = Steckbrief.replace(/\[\[WUNSCHLISTE\]\]/g, Wichtel.Wunschliste);
+            Steckbrief = Steckbrief.replace(/\[\[UNERWÜNSCHT\]\]/g, Wichtel.AusschlussGeschenk);
+            Steckbrief = Steckbrief.replace(/\[\[FREITEXT\]\]/g, Wichtel.Freitext);
+
+            Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
+                {
+                    DiscordNutzer.send(Steckbrief);
+                }
+            );
+
+            AnzahlSteckbriefe++;
+        }
+
+    let Bestätigung = Texte.SteckbriefeGesendet.replace(/\[\[ANZAHL\]\]/g, AnzahlSteckbriefe);
+
+    Nachricht.reply("\n" + Bestätigung);
+}
+exports.SteckbriefeVerteilen = SteckbriefeVerteilen;
