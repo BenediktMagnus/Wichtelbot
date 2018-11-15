@@ -129,11 +129,14 @@ exports.NachrichtAnAlleTeilnehmerSenden = NachrichtAnAlleTeilnehmerSenden;
  */
 function NachrichtAnAlleAusstehendenSenden (Nachricht)
 {
+    const AusstehendeZustände = ['Neu', 'Registrierung', 'AnalogDigitalWichtel', 'AnalogDigitalSelbst', 'Anschrift', 'Land', 'Steam',
+                                'International', 'Wunschliste', 'Allergien', 'AusschlussGeschenk', 'AusschlussWichtel', 'Freitext'];
+
     let Nutzerliste = [];
 
     for (let Nutzer of Nutzerverwaltung.Liste.values())
     {
-        if (Nutzer.Zustand != 'Teilnehmer')
+        if (AusstehendeZustände.indexOf(Nutzer.Zustand) == -1)
             Nutzerliste.push(Nutzer);
     }
 
@@ -254,7 +257,7 @@ function SteamnamenAuflisten (Nachricht)
 exports.SteamnamenAuflisten = SteamnamenAuflisten;
 
 /**
- * Verteilt die Steckbriefe ihrer Wichtel an alle Teilnehmer.
+ * Verteilt die Steckbriefe ihrer Wichtel an alle Wartenden.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
 function SteckbriefeVerteilen (Nachricht)
@@ -262,7 +265,7 @@ function SteckbriefeVerteilen (Nachricht)
     let AnzahlSteckbriefe = 0;
 
     for (let Nutzer of Nutzerverwaltung.Liste.values())
-        if ((Nutzer.Zustand == 'Teilnehmer') && (Nutzer.WichtelId))
+        if ((Nutzer.Zustand == 'Wartend') && (Nutzer.WichtelId))
         {
             let Wichtel = Nutzerverwaltung.VonId(Nutzer.WichtelId);
 
