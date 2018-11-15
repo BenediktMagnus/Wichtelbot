@@ -317,7 +317,7 @@ exports.Verarbeiten = function (Nachricht)
 
         let Nutzer = Nutzerverwaltung.VonId(Autor.id);
         let Zustand = Definitionen.Zustände[Nutzer.Zustand];
-        let Befehlsobjekt = Zustand[Befehl];
+        let Befehlsobjekt = Zustand ? Zustand[Befehl] : undefined; //Wenn der Zustand undefined ist, brauchen wir auch kein Befehlsobjekt.
 
         if (Befehlsobjekt) //Es gibt einen spezifischen Befehl für den aktuellen Zustand.
             Befehlsobjekt.Funktion(Nachricht, Nutzer, Befehlsobjekt);
