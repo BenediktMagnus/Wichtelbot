@@ -226,9 +226,9 @@ function ZiehungAusführen (Nachricht)
     Ziehung.Ausführen(function (IstFehlerfrei)
         {
             if (IstFehlerfrei)
-                Nachricht.channel.send(Texte.ZiehungAusgeführt);
+                Nachricht.channel.reply("\n" + Texte.ZiehungAusgeführt);
             else
-                Nachricht.channel.send(Texte.ZiehungFehlgeschlagen);
+                Nachricht.channel.reply("\n" + Texte.ZiehungFehlgeschlagen);
         }
     );
 }
