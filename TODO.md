@@ -8,3 +8,5 @@
 -Neues Land: "andere"
 -Umstieg auf synchrone SQLITE-Bibliothek?
 -Config auf Datenbank umstellen.
+-Auf "doch" mit "oh" und auf "danke" mit "bitte" reagieren.
+-Aufteilung der Steckbriefe verschönern.

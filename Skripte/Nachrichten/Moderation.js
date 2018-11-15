@@ -307,7 +307,14 @@ function SteckbriefeVerteilen (Nachricht)
 
             Klient.fetchUser(Nutzer.Id).then(function (DiscordNutzer)
                 {
-                    DiscordNutzer.send(Steckbrief);
+                    const MaximaleNachrichtengröße = 1996;
+                    const AnzahlNachrichten = Math.ceil(Steckbrief.length / MaximaleNachrichtengröße);
+                    let Nachrichten = new Array(AnzahlNachrichten);
+                    for (let i = 0, n = 0; i < AnzahlNachrichten; ++i, n += MaximaleNachrichtengröße)
+                        Nachrichten[i] = Steckbrief.substr(n, MaximaleNachrichtengröße);
+
+                    for (let Steckbriefteil of Nachrichten)
+                        DiscordNutzer.send(Steckbriefteil);
                 }
             );
 
