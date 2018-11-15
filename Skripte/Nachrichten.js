@@ -323,7 +323,7 @@ exports.Verarbeiten = function (Nachricht)
             Befehlsobjekt.Funktion(Nachricht, Nutzer, Befehlsobjekt);
         else if (Definitionen.Befehle[Befehl]) //Es gibt einen allgemeinen Befehl, der immer gültig ist.
             Definitionen.Befehle[Befehl].Funktion(Nachricht, Nutzer, Definitionen.Befehle[Befehl]);
-        else if (Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
+        else if (Zustand && Zustand.Datenaufnahme) //Der aktuelle Zustand nimmt einen beliebigen Text auf.
             Zustand.Funktion(Nachricht, Nutzer, Zustand); //Bei der Datenaufnahme gibt es keinen Befehl, daher ersetzt der Zustand das Befehlsobjekt.
         else //Es gibt keine passende Aktion für die Nachricht.
             Definitionen.NichtVerstanden.Funktion(Nachricht, Nutzer);
