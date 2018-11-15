@@ -25,7 +25,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
 
     //Alle Teilnehmer in die Teilnehmerliste füllen:
     for (let Nutzer of Nutzerverwaltung.Liste.values())
-        if (Nutzer.Zustand == 'Teilnehmer')
+        if (Nutzer.Zustand == 'Wartend')
             Teilnehmerliste.push(Nutzer);
 
     /**
@@ -112,11 +112,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
             }
 
             //Ergebnisse eintragen:
-            Datenbankverwaltung.WichtelEintragen(Ergebnisliste, function ()
-                {
-                    ZiehungAusgeführt(true);
-                }
-            );
+            Datenbankverwaltung.WichtelEintragen(Ergebnisliste, ZiehungAusgeführt);
         }
     );
 };

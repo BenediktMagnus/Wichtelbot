@@ -217,8 +217,28 @@ exports.WichtelEintragen = function (Zuordnungen, Callback)
 
     Vorgang.finalize(function ()
         {
-            Transaktion.Schließen();
-            Callback();
+            Callback(Transaktion.Schließen());
+        }
+    );
+};
+
+/**
+ * Setzt den Status einer Liste von Nutzern (Teilnehmern) auf "Wichtel".
+ * @param {Array} Teilnehmerliste Eine Liste von Nutzer-IDs, dessen Status zu "Wichtel" geändert werden soll.
+ * @param {Function} Callback Callback, der nach dem Eintragen der Wichtel ausgeführt wird.
+ */
+exports.TeilnehmerZuWichtelnMachen = function (Teilnehmerliste, Callback)
+{
+    let Transaktion = NeueTransaktion(DatenbankWichteln.Name);
+
+    let Vorgang = Transaktion.prepare("UPDATE Nutzer SET Zustand = 'Wartend' WHERE Id = ?", Transaktion.Fehlerbehandlung);
+
+    for (let TeilnehmerId of Teilnehmerliste)
+        Vorgang.run(TeilnehmerId, Transaktion.Fehlerbehandlung);
+
+    Vorgang.finalize(function ()
+        {
+            Callback(Transaktion.Schließen());
         }
     );
 };
@@ -280,6 +300,10 @@ function NeueTransaktion (Name)
         Fehlerbehandlung(Fehler);
     };
 
+    /**
+     * Schließt die Transaktion und beendet die Datenbankverbindung.
+     * @returns {Boolean} True wenn erfolgreich, false wenn nicht.
+     */
     Transaktion.Schließen = function ()
     {
         if (Transaktion.Fehlersammlung)
@@ -288,6 +312,8 @@ function NeueTransaktion (Name)
             Transaktion.run('COMMIT;');
 
         Transaktion.close();
+
+        return !Transaktion.Fehlersammlung;
     };
 
     Transaktion.run('BEGIN;');

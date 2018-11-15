@@ -30,6 +30,8 @@
     "SendenErfolgreich": "Das Senden der Nachricht war erfolgreich. \nAnzahl Empfänger: [[ANZAHL]]",
     "ZiehungAusgeführt": "Das Ziehen der Wichtel wurde erfolgreich ausgeführt.",
     "ZiehungFehlgeschlagen": "Bei der Ziehung ist ein Fehler aufgetreten!",
+    "AnmeldephaseBeendenErfolgreich": "das Beenden der Anmeldephase war erfolgreich. Alle Teilnehmer sind nun Wartende. \nAnzahl Wartender: [[ANZAHL]]",
+    "AnmeldephaseBeendenFehlgeschlagen": "beim Beenden der Anmeldephase ist ein Fehler aufgetreten.",
     "Steckbrief": {
         "Text": "Hallo [[NUTZERNAME]], \n\ndie Auslosung ist vorüber! Dein Wichtel ist [[WICHTELNAME]]! \n\nDies ist sein Steckbrief: \n\n**Bewichtelungsart:** \n[[ANALOGDIGITAL]] \n\n[[GESCHENKZIEL]] \n\n**Wunschliste:** \n[[WUNSCHLISTE]] [[ALLERGIENTEXT]] \n\n**Unerwünscht:** \n[[UNERWÜNSCHT]] \n\n**Freitext:** \n[[FREITEXT]]",
         "Anschrift": "**Anschrift:** \n[[ANSCHRIFT]] \n([[LAND]])",
@@ -42,5 +44,6 @@
     "Hallo": "Hallööö, [[NUTZERNAME]]!",
     "GuteNacht": "Schlaf schön, [[NUTZERNAME]]!",
     "Sternenrose": "Vielen Dank, Sterni! :)",
-    "Vielleicht": "Ein Vielleicht gibts nicht! Die Weltherrschaft braucht eindeutige Ergebnisse!"
+    "Vielleicht": "Ein Vielleicht gibts nicht! Die Weltherrschaft braucht eindeutige Ergebnisse!",
+    "AnmeldephaseBeendet": "die Anmeldephase ist leider bereits vorbei. Aber keine Sorge: Das nächste Wischtöööln kommt bestimmt!"
 }

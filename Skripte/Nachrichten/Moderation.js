@@ -182,6 +182,39 @@ function Info (Nachricht)
 exports.Info = Info;
 
 /**
+ * Beendet die Anmeldephase und gibt allen Teilnehmern den Wichtelstatus.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function AnmeldephaseBeenden (Nachricht)
+{
+    let Teilnehmerliste = [];
+
+    for (let Nutzer of Nutzerverwaltung.Liste.values())
+    {
+        //Wir prüfen hier auf "Teilnehmer" und "Wartend", damit im Falle eines Fehlers beim Eintragen in die Datenbank
+        //ein erneutes Ausführen des Befehls den Fehler bereinigen kann.
+        if ((Nutzer.Zustand == 'Teilnehmer') || (Nutzer.Zustand == 'Wartend'))
+        {
+            Teilnehmerliste.push(Nutzer.Id);
+            Nutzer.Zustand = 'Wartend';
+        }
+    }
+
+    Datenbankverwaltung.TeilnehmerZuWichtelnMachen(Teilnehmerliste, function (EintragenErfolgreich)
+        {
+            if (EintragenErfolgreich)
+            {
+                let Bestätigung = Texte.AnmeldephaseBeendenErfolgreich.replace(/\[\[ANZAHL\]\]/g, Teilnehmerliste.length);
+                Nachricht.reply("\n" + Bestätigung);
+            }
+            else
+                Nachricht.reply("\n" + Texte.AnmeldephaseBeendenFehlgeschlagen);
+        }
+    );
+}
+exports.AnmeldephaseBeenden = AnmeldephaseBeenden;
+
+/**
  * Führt die Ziehung der Wichtel aus.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */

@@ -81,6 +81,9 @@ const Definitionen = {
         "wichtelstatus": {
             Funktion: ModulModeration.Wichtelstatus
         },
+        "anmeldephasebeenden": {
+            Funktion: ModulModeration.AnmeldephaseBeenden
+        },
         "ziehungausführen": {
             Funktion: ModulModeration.ZiehungAusführen
         },
@@ -338,7 +341,7 @@ exports.Verarbeiten = function (Nachricht)
 
         //Kontaktaufnahme ist überall möglich:
         if (Befehl == Definitionen.Kontaktaufnahme.Befehl)
-            Definitionen.Kontaktaufnahme.Funktion(Autor);
+            Definitionen.Kontaktaufnahme.Funktion(Nachricht);
         //Moderation nur auf einem bestimmten Kanal:
         else if (Nachricht.channel.id == Config.KanalIdOrganisation)
         {
@@ -370,10 +373,18 @@ exports.Verarbeiten = function (Nachricht)
 
 /**
  * Erzeugt einen neuen Nutzer anhand eines Discordnutzers und nimmt Kontakt per privater Nachricht auf.
- * @param {Object} Autor Der Autor einer Nachricht in Discord, ein Discordnutzerobjekt.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
-function Kontaktaufnahme (Autor)
+function Kontaktaufnahme (Nachricht)
 {
+    if (!Config.AnmeldephaseAktiv)
+    {
+        Nachricht.reply("\n" + Texte.AnmeldephaseBeendet);
+        return;
+    }
+
+    let Autor = Nachricht.author;
+
     if (!Nutzerverwaltung.IdIstVorhanden(Autor.id)) //Nur einen neuen Nutzer erzeugen, wenn er nicht bereits vorhanden ist...
     {
         let NeuerNutzer = Nutzerverwaltung.LeerenNutzerErzeugen();
