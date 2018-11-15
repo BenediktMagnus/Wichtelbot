@@ -223,15 +223,20 @@ exports.AnmeldephaseBeenden = AnmeldephaseBeenden;
  */
 function ZiehungAusführen (Nachricht)
 {
+    let Prioritätenliste = [];
+
+    if (Nachricht.Parameter != '')
+        Prioritätenliste = Nachricht.Parameter.split("\n");
+
     let Ziehung = require('../Ziehung.js');
 
     Ziehung.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, Klient);
-    Ziehung.Ausführen(function (IstFehlerfrei)
+    Ziehung.Ausführen(Prioritätenliste, function (IstFehlerfrei)
         {
             if (IstFehlerfrei)
-                Nachricht.channel.reply("\n" + Texte.ZiehungAusgeführt);
+                Nachricht.reply("\n" + Texte.ZiehungAusgeführt);
             else
-                Nachricht.channel.reply("\n" + Texte.ZiehungFehlgeschlagen);
+                Nachricht.reply("\n" + Texte.ZiehungFehlgeschlagen);
         }
     );
 }

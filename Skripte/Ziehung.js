@@ -19,7 +19,12 @@ exports.Initialisieren = function (Nutzerbibliothek, Datenbankbibliothek, NeuerK
     Klient = NeuerKlient;
 };
 
-exports.Ausführen = function (ZiehungAusgeführt)
+/**
+ * Führt die Ziehung aus.
+ * @param {Array} Prioritätenliste Eine Parameterliste mit den IDs der Nutzer, die bevorzugt werden sollen.
+ * @param {Array} ZiehungAusgeführt Callback, der ausgeführt wird, sobald die Ziehung vollendet ist. Parameter: {Boolean} IstFehlerfrei
+ */
+exports.Ausführen = function (Prioritätenliste, ZiehungAusgeführt)
 {
     let Teilnehmerliste = [];
 
@@ -71,7 +76,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
                 Eintrag.SortierteWichtel = WichtelSortieren(Eintrag.Wichtel);
             }
 
-            let SortierteZuordnungen = ZuordnungenSortieren(Zuordnungsliste, true);
+            let SortierteZuordnungen = ZuordnungenSortieren(Prioritätenliste, Zuordnungsliste, true);
 
             let Ergebnisliste = [];
 
@@ -80,12 +85,22 @@ exports.Ausführen = function (ZiehungAusgeführt)
             {
                 let ErsteZuordnung = SortierteZuordnungen.shift(); //Ersten Eintrag entfernen und Indizes anpassen.
 
-                if (ErsteZuordnung == undefined)
+                //Wenn es kein Element in der Liste gab, ist für eine Person kein Wichtel übrig.
+                //In dem Falle haben wir ein unvollständiges Ergebnis, das korrigiert werden muss.
+                if (ErsteZuordnung.SortierteWichtel[0] == undefined)
                 {
-                    //Wenn es kein Element in der Liste gab, ist für eine Person kein Wichtel übrig.
-                    //In dem Falle haben wir ein unvollständiges Ergebnis, das korrigiert werden muss.
-                    ZiehungAusgeführt(false);
-                    return;
+                    if ((Prioritätenliste.length < Zuordnungsliste.size) && (Prioritätenliste.indexOf(ErsteZuordnung.Nutzer.Id) == -1))
+                    {
+                        //Wenn noch nicht alle Nutzer Prioritäten sind und der Auslöser nicht bereits auf dieser Liste steht,
+                        //rufen wir die ganze Funktion nochmal mit einer weiteren Prioritäts-ID auf.
+                        //Dies ist rekursiv, bis eine Lösung gefunden wurde oder einer der beiden Bedingungen nicht mehr zutrifft.
+                        Prioritätenliste.push(ErsteZuordnung.Nutzer.Id);
+                        exports.Ausführen(Prioritätenliste, ZiehungAusgeführt);
+                    }
+                    else
+                        ZiehungAusgeführt(false);
+
+                    return; //In jedem Falle muss die Ausführung der übrigen Funktion unterbunden werden.
                 }
 
                 let Ergebnis = {
@@ -108,7 +123,7 @@ exports.Ausführen = function (ZiehungAusgeführt)
                 //Map und Array beinhalten dieselbe Referenz, daher erfolgt die Änderung bei beiden Listen.
                 Zuordnungsliste.get(Ergebnis.Wichtel.Id).Wichtel.delete(Ergebnis.Nutzer.Id);
 
-                SortierteZuordnungen = ZuordnungenSortieren(SortierteZuordnungen);
+                SortierteZuordnungen = ZuordnungenSortieren(Prioritätenliste, SortierteZuordnungen);
             }
 
             //Ergebnisse eintragen:
@@ -192,21 +207,21 @@ function WichtelSortieren (Wichtelliste)
     return Ergebnis;
 }
 
-function ZuordnungenSortieren (Zuordnungsliste, IstMap = false)
+function ZuordnungenSortieren (Prioritätenliste, Zuordnungsliste, IstMap = false)
 {
     if (IstMap)
         Zuordnungsliste = Array.from(Zuordnungsliste.values());
 
     Zuordnungsliste.sort(function (ZuordnungA, ZuordnungB)
         {
-            let AIstLeer = (ZuordnungA.SortierteWichtel.length == 0);
-            let BIstLeer = (ZuordnungB.SortierteWichtel.length == 0);
+            let AIstPriorität = (Prioritätenliste.indexOf(ZuordnungA.Nutzer.Id) != -1);
+            let BIstPriorität = (Prioritätenliste.indexOf(ZuordnungB.Nutzer.Id) != -1);
 
-            if (AIstLeer || BIstLeer)
+            if (AIstPriorität || BIstPriorität)
             {
-                if (AIstLeer && BIstLeer)
+                if (AIstPriorität && BIstPriorität)
                     return 0;
-                else if (AIstLeer)
+                else if (AIstPriorität)
                     return -1;
                 else
                     return 1;
@@ -221,7 +236,13 @@ function ZuordnungenSortieren (Zuordnungsliste, IstMap = false)
             ZuordnungA.Wert = ZuordnungA.SortierteWichtel.reduce(Akkumulation, 0) + ZuordnungA.SortierteWichtel.length;
             ZuordnungB.Wert = ZuordnungB.SortierteWichtel.reduce(Akkumulation, 0) + ZuordnungB.SortierteWichtel.length;
 
-            return ZuordnungA.Wert - ZuordnungB.Wert;
+            let Ergebnis = ZuordnungA.Wert - ZuordnungB.Wert;
+
+            //Bei Gleichstand entscheidet die Anzahl der möglichen Wichtel über die Wertigkeit; weniger Wichtel heißt höherer Listenplatz.
+            if (Ergebnis == 0)
+                Ergebnis = ZuordnungA.SortierteWichtel.length - ZuordnungB.SortierteWichtel.length;
+
+            return Ergebnis;
         }
     );
 
