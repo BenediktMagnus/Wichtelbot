@@ -73,20 +73,21 @@ function NachrichtSendenUndBestätigen (Nachricht, Nutzerliste)
  */
 function NachrichtAnNutzerSenden (Nachricht)
 {
-    let Parameter = Nachricht.Parameter.split("\n");
-    if (Parameter.length < 2)
+    let Namensende = Nachricht.Parameter.indexOf("\n");
+    if (Namensende == -1)
     {
         Nachricht.reply("\n" + Texte.ParameteranzahlUngenügend);
         return;
     }
 
-    let Nutzer = Nutzerverwaltung.VonName(Parameter[0]);
+    let Name = Nachricht.Parameter.substr(0, Namensende);
+
+    Nachricht.Parameter = Nachricht.Parameter.substr(Name.length + 1);
+
+    let Nutzer = Nutzerverwaltung.VonName(Name);
 
     if (Nutzer)
-    {
-        Nachricht.Parameter = Parameter[1]; //Die folgende Funktion erwartet die Nachricht im Parameter der Nachricht.
         NachrichtSendenUndBestätigen(Nachricht, [Nutzer]);
-    }
     else
         Nachricht.reply("\n" + Texte.NutzernameNichtGefunden);
 }
