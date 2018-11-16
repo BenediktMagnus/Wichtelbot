@@ -15,7 +15,7 @@ var ModulModeration = require('./Nachrichten/Moderation.js');
 
 const Definitionen = {
     //Die maximale Länge, die ein Befehl haben darf: (Optimiert die Erkennung von Befehlen.)
-    MaximaleBefehlslänge: 20,
+    MaximaleBefehlslänge: 40,
     //Das Präfix vor Befehlen, um auf Servern nur auf bestimmte Nachrichten zu reagieren.
     ServerBefehlspräfix: '!',
     //Nur auf dem Server möglich:
@@ -221,6 +221,29 @@ const Definitionen = {
                 Funktion: ModulAllgemein.Antworten,
                 Text: Texte.Vielleicht
             }
+        },
+        Wartend: {
+            //Leer
+        },
+        Wichtel: {
+            "anonym meinem wichtelpaten schreiben": {
+                Funktion: ModulAllgemein.Fortfahren,
+                Ziel: "NachrichtAnWichtelpaten",
+                Text: Texte.NachrichtAnWichtelpaten
+            },
+            "anonym meinem wichtelkind schreiben": {
+                Funktion: ModulAllgemein.Fortfahren,
+                Ziel: "NachrichtAnWichtelkind",
+                Text: Texte.NachrichtAnWichtelkind
+            }
+        },
+        NachrichtAnWichtelpaten: {
+            Datenaufnahme: true,
+            Funktion: ModulAllgemein.NachrichtAnWichtelpaten
+        },
+        NachrichtAnWichtelkind: {
+            Datenaufnahme: true,
+            Funktion: ModulAllgemein.NachrichtAnWichtelkind
         }
     },
     NichtVerstanden: {
