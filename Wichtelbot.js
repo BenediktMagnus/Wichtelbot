@@ -4,7 +4,6 @@ process.on('exit', Schließen);
 process.on('SIGINT', Schließen); //Strg + C
 process.on('SIGUSR1', Schließen); //"kill pid"
 process.on('SIGUSR2', Schließen); //"kill pid"
-process.on('uncaughtException', Schließen);
 
 //Datenbanken laden und Modul initialisieren:
 console.log('Initialisiere Datenbanken...');
