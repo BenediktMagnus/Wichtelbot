@@ -110,7 +110,7 @@ exports.Ausführen = function (Prioritätenliste, ZiehungAusgeführt)
                 };
 
                 //Aktualisieren der gespeicherten Wichtel-ID des Nutzers auf die aktuelle:
-                Ergebnis.Nutzer.WichtelId = Ergebnis.Wichtel.Id;
+                Ergebnis.Nutzer.WichtelkindId = Ergebnis.Wichtel.Id;
 
                 Ergebnisliste.push(Ergebnis);
 

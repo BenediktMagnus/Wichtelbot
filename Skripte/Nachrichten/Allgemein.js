@@ -147,7 +147,7 @@ function NachrichtAnWichtelpaten (Nachricht, Nutzer)
 
     for (let Wichtel of Nutzerverwaltung.Liste.values())
     {
-        if (Wichtel.WichtelId == Nutzer.Id)
+        if (Wichtel.WichtelkindId == Nutzer.Id)
         {
             Klient.fetchUser(Wichtel.Id).then(function (DiscordNutzer)
                 {
@@ -173,7 +173,7 @@ function NachrichtAnWichtelkind (Nachricht, Nutzer)
     Nutzer.Zustand = 'Wichtel';
     Nutzerverwaltung.Aktualisieren(Nutzer);
 
-    Klient.fetchUser(Nutzer.WichtelId).then(function (DiscordNutzer)
+    Klient.fetchUser(Nutzer.WichtelkindId).then(function (DiscordNutzer)
         {
             DiscordNutzer.send(Texte.NachrichtVonWichtelpaten + "\n\n" + Nachricht);
 

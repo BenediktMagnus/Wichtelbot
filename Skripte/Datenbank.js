@@ -131,9 +131,10 @@ exports.NutzerLaden = function (NutzerId, Callback)
 exports.AlleNutzerLaden = function (Callback)
 {
     DatenbankWichteln.each(
-        `SELECT Nutzer.*, Informationen.*, Wichtel.WichtelId FROM Nutzer
+        `SELECT Nutzer.*, Informationen.*, Wichtelkind.WichtelId AS WichtelkindId, Wichtelpate.NutzerId AS WichtelpateId FROM Nutzer
          LEFT JOIN Informationen ON Nutzer.Id = Informationen.NutzerId
-         LEFT JOIN Wichtel ON Nutzer.Id = Wichtel.NutzerId`,
+         LEFT JOIN Wichtelkind ON Nutzer.Id = Wichtelkind.NutzerId
+         LEFT JOIN Wichtelpate ON Nutzer.Id = Wichtelpate.WichtelId`,
         function (Fehler, Reihe)
         {
             Fehlerbehandlung(Fehler);

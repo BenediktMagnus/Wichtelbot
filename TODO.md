@@ -11,11 +11,13 @@
 -Auf "doch" mit "oh" und auf "danke" mit "bitte" reagieren.
 -Aufteilung der Steckbriefe verschönern.
 -Alle Promises behandeln.
+-In NachrichtAnWichtelpaten Zugriff auf neue Nutzer.WichtelpateId!
 
 --Stille Post zwischen Nutzern verbessern:
 1. Abfrage einbauen, ob man das auch wirklich lesen möchte.
 2. Zeitliche Limitierung einbauen, in der man keine erneute Nachricht schreiben darf.
 3. Verzögerung einbauen, bevor der eine Nachricht versendet wird.
+4. Abbruchmöglichkeit einbauen.
 
 --Algorithmus reparieren: Internationaler Versand wird nicht richtig ausgeschlossen.
 1. Wenn man analog bewichteln möchte und keinen internationalen Versand erlaubt, muss nach dem Land gefragt werden!

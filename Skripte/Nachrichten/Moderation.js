@@ -270,9 +270,9 @@ function SteckbriefeVerteilen (Nachricht)
     let AnzahlSteckbriefe = 0;
 
     for (let Nutzer of Nutzerverwaltung.Liste.values())
-        if ((Nutzer.Zustand == 'Wartend') && (Nutzer.WichtelId))
+        if ((Nutzer.Zustand == 'Wartend') && (Nutzer.WichtelkindId))
         {
-            let Wichtel = Nutzerverwaltung.VonId(Nutzer.WichtelId);
+            let Wichtel = Nutzerverwaltung.VonId(Nutzer.WichtelkindId);
 
             let Geschenkziel;
             let Allergientext = Texte.Steckbrief.Allergien.replace(/\[\[ALLERGIEN\]\]/g, Wichtel.Allergien);
