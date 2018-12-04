@@ -51,5 +51,12 @@
     "NachrichtAnWichtelkind": "Was möchtest du deinem Wichtelkind schreiben? \nBitte denke daran, dass dein Wichtelkind nicht weiß, wer du bist und das auch so bleiben sollte. Es wäre nicht schön, wenn die Überraschung vor dem Wichtelstream ruiniert würde! \nSchreibe ihm also bitte **nur**, wenn es **wirklich** nicht anders geht. Und wenn, dann halte dich kurz, denn schon dein Schreibstil könnte dich andernfalls schnell verraten!",
     "NachrichtVonWichtelpaten": "Du hast eine Nachricht deines Wichtelpatens:",
     "NachrichtVonWichtelkind": "Du hast eine Nachricht deines Wichtelkindes:",
-    "StillePostGesendet": "Ich reiche deine stille Post weiter... hoffentlich kann ich mir all das fehlerfrei merken..."
+    "StillePostGesendet": "Ich reiche deine stille Post weiter... hoffentlich kann ich mir all das fehlerfrei merken...",
+    "PaketGesendetNummer": "Super! Wie lautet die Sendungsnummer des Pakets, damit dein Wichtelkind verfolgen kann, wann es ankommt? \nSolltest du keine haben, schreibe einfach „-“.",
+    "PaketGesendetDatum": "An welchem Tag hast du das Paket abgeschickt? Ich brauche das Datum im Format „Tag.Monat.Jahr“, als Beispiel heute: [[DATUM]]",
+    "PaketEmpfangenDatum": "Sehr schön! An welchem Tag hast du das Paket empfangen? Ich brauche das Datum im Format „Tag.Monat.Jahr“, als Beispiel heute: [[DATUM]]",
+    "PaketGesendetBenachrichtigung": "Hallo! \nDein Wichtelpate hat sein Paket auf Reisen geschickt. Dich sollte also bald eines erreichen!",
+    "PaketGesendetSendungsnummer": "\nDie Sendungsnummer des Pakets lautet: [[SENDUNGSNUMMER]]",
+    "PaketGesendetVollständig": "Danke!",
+    "PaketEmpfangenVollständig": "Danke!"
 }

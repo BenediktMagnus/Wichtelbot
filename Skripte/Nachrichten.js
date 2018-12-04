@@ -11,6 +11,7 @@ const Texte = require('../Config/Texte.json');
 //Die Submodule der Nachrichtenverwaltung, die jeweils verschiedene Aufgaben der verarbeiteten Befehle übernehmen:
 var ModulAllgemein = require('./Nachrichten/Allgemein.js');
 var ModulDatenaufnahme = require('./Nachrichten/Datenaufnahme.js');
+var ModulPakete = require('./Nachrichten/Pakete.js');
 var ModulModeration = require('./Nachrichten/Moderation.js');
 
 const Definitionen = {
@@ -235,6 +236,16 @@ const Definitionen = {
                 Funktion: ModulAllgemein.Fortfahren,
                 Ziel: "NachrichtAnWichtelkind",
                 Text: Texte.NachrichtAnWichtelkind
+            },
+            "paket ist unterwegs": {
+                Funktion: ModulPakete.DatumEinsetzenUndFortfahren,
+                Ziel: "PaketGesendetNummer",
+                Text: Texte.PaketGesendetNummer
+            },
+            "paket empfangen": {
+                Funktion: ModulPakete.DatumEinsetzenUndFortfahren,
+                Ziel: "PaketEmpfangenDatum",
+                Text: Texte.PaketEmpfangenDatum
             }
         },
         NachrichtAnWichtelpaten: {
@@ -244,6 +255,18 @@ const Definitionen = {
         NachrichtAnWichtelkind: {
             Datenaufnahme: true,
             Funktion: ModulAllgemein.NachrichtAnWichtelkind
+        },
+        PaketGesendetNummer: {
+            Datenaufnahme: true,
+            Funktion: ModulPakete.GesendetNummerAufnehmen
+        },
+        PaketGesendetDatum: {
+            Datenaufnahme: true,
+            Funktion: ModulPakete.GesendetDatumAufnehmen
+        },
+        PaketEmpfangenDatum: {
+            Datenaufnahme: true,
+            Funktion: ModulPakete.EmpfangenDatumAufnehmen
         }
     },
     NichtVerstanden: {
@@ -283,6 +306,7 @@ exports.Initialisieren = function (Datenbankbibliothek, NeuerKlient)
 
     ModulAllgemein.Initialisieren(Nutzerverwaltung, Klient);
     ModulDatenaufnahme.Initialisieren(Nutzerverwaltung, ModulAllgemein);
+    ModulPakete.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, ModulAllgemein, Klient);
     ModulModeration.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, Klient);
 };
 

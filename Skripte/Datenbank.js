@@ -131,10 +131,10 @@ exports.NutzerLaden = function (NutzerId, Callback)
 exports.AlleNutzerLaden = function (Callback)
 {
     DatenbankWichteln.each(
-        `SELECT Nutzer.*, Informationen.*, Wichtelkind.WichtelId AS WichtelkindId, Wichtelpate.NutzerId AS WichtelpateId FROM Nutzer
+        `SELECT Nutzer.*, Informationen.*, Wichtelkinder.WichtelId AS WichtelkindId, Wichtelpaten.NutzerId AS WichtelpateId FROM Nutzer
          LEFT JOIN Informationen ON Nutzer.Id = Informationen.NutzerId
-         LEFT JOIN Wichtelkind ON Nutzer.Id = Wichtelkind.NutzerId
-         LEFT JOIN Wichtelpate ON Nutzer.Id = Wichtelpate.WichtelId`,
+         LEFT JOIN Wichtel AS Wichtelkinder ON Nutzer.Id = Wichtelkinder.NutzerId
+         LEFT JOIN Wichtel AS Wichtelpaten ON Nutzer.Id = Wichtelpaten.WichtelId`,
         function (Fehler, Reihe)
         {
             Fehlerbehandlung(Fehler);
@@ -245,8 +245,61 @@ exports.TeilnehmerZuWichtelnMachen = function (Teilnehmerliste, Callback)
 };
 
 /**
+ * Legt ein Paket in der Datenbank an.
+ * @param {String} SenderId Die ID des Senders, also des Wichtels, der das Paket abgeschickt hat.
+ * @param {String} EmpfängerId Die ID des Empfängerwichtels.
+ * @param {Function} Callback Callback, der nach dem Erstellen des Pakets ausgeführt wird.
+ */
+exports.PaketAnlegen = function (SenderId, EmpfängerId, Callback)
+{
+    DatenbankWichteln.run(
+        'INSERT INTO Pakete (SenderId, EmpfaengerId) VALUES (?, ?)',
+        SenderId,
+        EmpfängerId,
+        function (Fehler)
+        {
+            Fehlerbehandlung(Fehler);
+            Callback();
+        }
+    );
+};
+
+/**
+ * Aktualisiert ein Paket in der Datenbank anhand des Senderempfängerpaares.
+ * @param {String} SenderId Die ID des Senders, also des Wichtels, der das Paket abgeschickt hat.
+ * @param {String} EmpfängerId Die ID des Empfängerwichtels.
+ * @param {Object} Daten Ein Objekt, das mindestens eines der folgenden Daten als Eigenschaft enthält: Sendungsnummer, Sendedatum, Empfangsdatum.
+ * @param {Function} Callback Callback, der nach dem Aktualisieren des Pakets ausgeführt wird.
+ */
+exports.PaketAktualisieren = function (SenderId, EmpfängerId, Daten, Callback)
+{
+    let Parameterliste = [SenderId, EmpfängerId];
+    let Änderungsliste = '';
+
+    for (let Eigenschaft in Daten) //Nur gültig für die Eigenschaften Sendungsnummer, Sendedatum und Empfangsdatum!
+    {
+        if (Änderungsliste != '')
+            Änderungsliste += ', ';
+
+        Parameterliste.push(Daten[Eigenschaft]);
+
+        Änderungsliste += Eigenschaft + ' = ?' + Parameterliste.length; //Arrays starten in SQLite bei 1, demnach ergibt length den Index.
+    }
+
+    DatenbankWichteln.run(
+        'UPDATE Pakete SET ' + Änderungsliste + ' WHERE SenderId = ?1 AND EmpfaengerId = ?2',
+        Parameterliste,
+        function (Fehler)
+        {
+            Fehlerbehandlung(Fehler);
+            Callback(!Fehler);
+        }
+    );
+};
+
+/**
  * Loggt die Eingabe eines Nutzers.
- * @param {Number} NutzerId Die Discord-ID des Nutzers.
+ * @param {String} NutzerId Die Discord-ID des Nutzers.
  * @param {String} Name Der Discordname des Nutzers.
  * @param {String} Eingabe Die Eingabe des Nutzers.
  * @param {String} KanalId OPTIONAL Die Id des Kanals. Wenn eine direkte Nachricht, dann undefined.
