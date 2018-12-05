@@ -5,11 +5,11 @@ CREATE TABLE `Wichtel` (
 	`WichtelId`	TEXT
 );
 CREATE TABLE `Pakete` (
-	`IdSender`	TEXT,
-	`IdEmpfaenger`	TEXT,
+	`SenderId`	TEXT,
+	`EmpfaengerId`	TEXT,
 	`Sendungsnummer`	TEXT,
-	`Sendezeitpunkt`	TEXT,
-	`Empfangszeitpunkt`	TEXT
+	`Sendedatum`	TEXT,
+	`Empfangsdatum`	TEXT
 );
 CREATE TABLE `Nutzer` (
 	`NutzerId`	TEXT UNIQUE,
@@ -41,7 +41,7 @@ CREATE TABLE `Informationen` (
 	`Freitext`	TEXT,
 	PRIMARY KEY(NutzerId)
 ) WITHOUT ROWID;
-CREATE TABLE "Ausschluesse" (
+CREATE TABLE `Ausschluesse` (
 	`NutzerId`	TEXT,
 	`WichtelId`	TEXT,
 	`Grund`	TEXT,
