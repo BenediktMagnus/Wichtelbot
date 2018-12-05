@@ -12,6 +12,7 @@
 -Aufteilung der Steckbriefe verschönern.
 -Alle Promises behandeln.
 -In NachrichtAnWichtelpaten Zugriff auf neue Nutzer.WichtelpateId!
+-Globale Fehlerbehandlung als Log, nicht als Konsolenausgabe.
 
 --Stille Post zwischen Nutzern verbessern:
 1. Abfrage einbauen, ob man das auch wirklich lesen möchte.
