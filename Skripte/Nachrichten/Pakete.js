@@ -48,7 +48,7 @@ function DatumEinsetzenUndFortfahren (Nachricht, Nutzer, Befehlsobjekt)
 exports.DatumEinsetzenUndFortfahren = DatumEinsetzenUndFortfahren;
 
 /**
- * Nimmt die Paketnummer für ein gesendetes Paket auf.
+ * Nimmt die Paketnummer für ein gesendetes Paket auf und informiert das Wichtelkind.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
  */
@@ -63,7 +63,7 @@ function GesendetNummerAufnehmen (Nachricht, Nutzer)
 
                     Nachricht.reply(DatumErsetzen(Texte.PaketGesendetDatum));
 
-                    //Wichtelkind über verschicktes Kind informieren:
+                    //Wichtelkind über verschicktes Paket informieren:
                     Klient.fetchUser(Nutzer.WichtelkindId).then(function (DiscordNutzer)
                         {
                             let Antwort = Texte.PaketGesendetBenachrichtigung;
@@ -80,7 +80,7 @@ function GesendetNummerAufnehmen (Nachricht, Nutzer)
 exports.GesendetNummerAufnehmen = GesendetNummerAufnehmen;
 
 /**
- * Nimmt das Sendedatum für ein gesendetes Paket auf und informiert das Wichtelkind.
+ * Nimmt das Sendedatum für ein gesendetes Paket auf.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
  */
@@ -108,6 +108,13 @@ function EmpfangenDatumAufnehmen (Nachricht, Nutzer)
         {
             Nutzer.Zustand = 'Wichtel';
             Nutzerverwaltung.Aktualisieren(Nutzer);
+
+            //Wichtelpaten über angekommenes Paket informieren:
+            Klient.fetchUser(Nutzer.WichtelpateId).then(function (DiscordNutzer)
+                {
+                    DiscordNutzer.send(Texte.PaketEmpfangenBenachrichtigung);
+                }
+            );
 
             Nachricht.reply(Texte.PaketEmpfangenVollständig);
         }

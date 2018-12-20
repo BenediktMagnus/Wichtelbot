@@ -58,5 +58,6 @@
     "PaketGesendetBenachrichtigung": "Hallo! \nDein Wichtelpate hat sein Paket auf Reisen geschickt. Dich sollte also bald eines erreichen!",
     "PaketGesendetSendungsnummer": "\nDie Sendungsnummer des Pakets lautet: [[SENDUNGSNUMMER]]",
     "PaketGesendetVollständig": "Danke!",
+    "PaketEmpfangenBenachrichtigung": "Hallo! \nIch wollte dir nur mitteilen: Dein Geschenk ist sicher beim Wichtelkind angekommen!",
     "PaketEmpfangenVollständig": "Danke!"
 }
