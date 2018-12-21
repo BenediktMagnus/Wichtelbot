@@ -76,6 +76,9 @@ const Definitionen = {
         "nachrichtanalleausstehenden": {
             Funktion: ModulModeration.NachrichtAnAlleAusstehendenSenden
         },
+        "nachrichtanallespätenwichtel": {
+            Funktion: ModulModeration.NachrichtAnAlleSpätenWichtelSenden
+        },
         "löschenachricht": {
             Funktion: ModulModeration.NachrichtEntfernen
         },

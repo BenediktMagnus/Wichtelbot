@@ -145,6 +145,25 @@ function NachrichtAnAlleAusstehendenSenden (Nachricht)
 exports.NachrichtAnAlleAusstehendenSenden = NachrichtAnAlleAusstehendenSenden;
 
 /**
+ * Sendet eine Nachricht an alle dem Bot bekannten Wichtel, die noch nicht ihr Paket abgeschickt haben.
+ * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
+ */
+function NachrichtAnAlleSpätenWichtelSenden (Nachricht)
+{
+    Datenbankverwaltung.WichtelOhneVerschicktesPaket( function (Reihen)
+        {
+            let Nutzerliste = [];
+
+            for (let Nutzer of Reihen)
+                Nutzerliste.push(Nutzerverwaltung.VonId(Nutzer.Id));
+
+            NachrichtSendenUndBestätigen(Nachricht, Nutzerliste);
+        }
+    );
+}
+exports.NachrichtAnAlleSpätenWichtelSenden = NachrichtAnAlleSpätenWichtelSenden;
+
+/**
  * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */

@@ -197,6 +197,31 @@ exports.Steamnamen = function (Callback)
         {
             Fehlerbehandlung(Fehler);
 
+            if (Fehler)
+                Reihen = [];
+
+            Callback(Reihen);
+        }
+    );
+};
+
+/**
+ * Liest alle Wichtel auf, die noch kein Paket verschickt haben.
+ * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
+ */
+exports.WichtelOhneVerschicktesPaket = function (Callback)
+{
+    DatenbankWichteln.all(
+        `SELECT Id
+         FROM Nutzer
+         WHERE Id NOT IN (SELECT SenderId FROM Pakete)`,
+        function (Fehler, Reihen)
+        {
+            Fehlerbehandlung(Fehler);
+
+            if (Fehler)
+                Reihen = [];
+
             Callback(Reihen);
         }
     );
