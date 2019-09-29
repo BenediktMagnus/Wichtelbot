@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es2018",
+
+		"outDir": "dist",
+
+		"strict": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		"allowJs": false,
+
+		"sourceMap": true,
+		"removeComments": true,
+		"watch": true,
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}

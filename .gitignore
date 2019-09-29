@@ -32,6 +32,9 @@ node_modules
 .eslintrc.js
 .eslintrc.yaml
 
+# VSCode-Konfiguration ist lokal.
+.vscode
+
 # Konfiguration (Token etc.)
 Config/Bot.json
 Config/Config.json
