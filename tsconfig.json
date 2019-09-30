@@ -2,8 +2,9 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es2018",
+		"resolveJsonModule": true,
 
-		"outDir": "dist",
+		"outDir": "build",
 
 		"strict": true,
 		"noImplicitReturns": true,
@@ -14,9 +15,9 @@
 
 		"sourceMap": true,
 		"removeComments": true,
-		"watch": true,
 	},
 	"include": [
-		"src/**/*.ts"
+		"scripts/*.ts",
+		"scripts/**/*.ts"
 	]
 }

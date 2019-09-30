@@ -2,10 +2,11 @@
     "name": "wichtelbot",
     "version": "0.2.0-dev",
     "description": "Ein Bot fürs Wichtöööln!",
-    "main": "dist/Start.js",
+    "main": "build/scripts/main.js",
     "author": "Benedikt Magnus",
     "license": "MIT",
     "repository": {
+        "type": "git",
         "url": "https://github.com/BenediktMagnus/Wichtelbot"
     },
     "dependencies": {
