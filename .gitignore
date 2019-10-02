@@ -27,11 +27,6 @@ build
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
-# ESLint-Konfiguration ist lokal.
-.eslintrc.json
-.eslintrc.js
-.eslintrc.yaml
-
 # VSCode-Konfiguration ist lokal.
 .vscode
 

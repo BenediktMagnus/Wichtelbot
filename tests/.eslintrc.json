@@ -1,0 +1,40 @@
+{
+    "env": {
+        "node": true,
+        "mocha": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tests/tsconfig.json",
+        "sourceType": "module",
+        "ecmaVersion": 2018
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "@typescript-eslint/tslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    ],
+    "rules": {
+        "no-throw-literal": "error",
+        "@typescript-eslint/class-name-casing": "error",
+        "@typescript-eslint/indent": "error",
+        "@typescript-eslint/tslint/config": [
+            "error",
+            {
+                "rules": {
+                    "no-duplicate-variable": true,
+                    "no-unused-expression": true,
+                    "semicolon": [
+                        true,
+                        "always"
+                    ]
+                }
+            }
+        ]
+    }
+}
