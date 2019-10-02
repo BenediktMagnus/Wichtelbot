@@ -2,7 +2,7 @@
     "name": "wichtelbot",
     "version": "0.2.0-dev",
     "description": "Ein Bot fürs Wichtöööln!",
-    "main": "build/scripts/main.js",
+    "main": "build/main.js",
     "author": "Benedikt Magnus",
     "license": "MIT",
     "repository": {
