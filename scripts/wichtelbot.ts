@@ -1,5 +1,6 @@
 import { Client as DiscordClient } from 'discord.js';
-import * as botConfig from '../config/bot.json';
+
+import Config from './utility/config';
 
 export default class Wichtelbot
 {
@@ -47,7 +48,7 @@ export default class Wichtelbot
         );
 
         // Start bot:
-        this.client.login(botConfig.Token).then(
+        this.client.login(Config.bot.token).then(
             () => {
                 console.log('Wichtelbot gestartet!');
             }

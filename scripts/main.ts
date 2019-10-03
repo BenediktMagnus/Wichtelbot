@@ -1,4 +1,5 @@
 import Wichtelbot from './wichtelbot';
+import Config from './utility/config';
 
 class Main
 {
@@ -13,6 +14,8 @@ class Main
         process.on('SIGINT', terminateFunction); //Ctrl + C
         process.on('SIGUSR1', terminateFunction); //"kill pid"
         process.on('SIGUSR2', terminateFunction); //"kill pid"
+
+        Config.load();
     }
 
     /**
