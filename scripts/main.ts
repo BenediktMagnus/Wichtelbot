@@ -11,9 +11,11 @@ class Main
         const terminateFunction = (): void => this.terminate();
 
         process.on('exit', terminateFunction);
-        process.on('SIGINT', terminateFunction); //Ctrl + C
-        process.on('SIGUSR1', terminateFunction); //"kill pid"
-        process.on('SIGUSR2', terminateFunction); //"kill pid"
+        process.on('SIGINT', terminateFunction); // Ctrl + C
+        process.on('SIGHUP', terminateFunction); // Terminal closed
+        process.on('SIGTERM', terminateFunction); // "kill pid" / "killall"
+        process.on('SIGUSR1', terminateFunction); // "kill -SIGUSR1 pid" / "killall -SIGUSR1"
+        process.on('SIGUSR2', terminateFunction); // "kill -SIGUSR2 pid" / "killall -SIGUSR2"
 
         Config.load();
     }

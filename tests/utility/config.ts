@@ -8,7 +8,7 @@ describe('Config',
     {
         it('can be loaded.',
             () => {
-                assert.doesNotThrow(Config.load);
+                assert.doesNotThrow(() => Config.load());
             }
         );
 
