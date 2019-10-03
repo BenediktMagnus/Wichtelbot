@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-interface WichtelDate
+interface WichtelEvent
 {
     name: string;
     start: number;
@@ -9,7 +9,7 @@ interface WichtelDate
 
 interface MainConfig
 {
-    wichtelDates: WichtelDate[];
+    wichtelEvents: WichtelEvent[];
 }
 
 interface BotConfig

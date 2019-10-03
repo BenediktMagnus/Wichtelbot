@@ -14,7 +14,7 @@ describe('Config',
 
         it('has working main config.',
             () => {
-                assert.notStrictEqual(Config.main.wichtelDates.length, undefined);
+                assert.notStrictEqual(Config.main.wichtelEvents.length, undefined);
             }
         );
 
