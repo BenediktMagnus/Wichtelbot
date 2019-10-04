@@ -20,18 +20,58 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "rules": {
+        "space-before-function-paren":"warn",
+        "spaced-comment": "warn",
+        "no-unused-expressions": "warn",
+        "no-warning-comments": [
+            "warn",
+            {
+                "terms": [
+                    "TODO:",
+                    "FIXME:"
+                ],
+                "location": "anywhere"
+            }
+        ],
+        "capitalized-comments": [
+            "warn",
+            "always",
+            {
+                "ignoreConsecutiveComments": true
+            }
+        ],
+        "@typescript-eslint/no-magic-numbers": [
+            "warn",
+            {
+                "ignore": [
+                    1000,
+                    1024
+                ],
+                "ignoreReadonlyClassProperties": true,
+                "ignoreEnums": true
+            }
+        ],
+        "no-extra-semi":"error",
         "no-throw-literal": "error",
+        "curly":"error",
+        "@typescript-eslint/semi": [
+            "error",
+            "always"
+        ],
         "@typescript-eslint/class-name-casing": "error",
-        "@typescript-eslint/indent": "error",
+        "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/tslint/config": [
             "error",
             {
                 "rules": {
                     "no-duplicate-variable": true,
-                    "no-unused-expression": true,
-                    "semicolon": [
+                    "no-for-in": true,
+                    "no-conditional-assignment": true,
+                    "space-before-function-paren": true,
+                    "indent": [
                         true,
-                        "always"
+                        "spaces",
+                        4
                     ]
                 }
             }

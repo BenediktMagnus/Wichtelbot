@@ -3,6 +3,8 @@
 		"module": "commonjs",
 		"target": "es2018",
 
+		"noImplicitThis": true,
+
 		"allowJs": false,
 
 		"sourceMap": true
