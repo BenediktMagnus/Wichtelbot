@@ -36,3 +36,6 @@ config/config.json
 
 # Datenbanken
 data/*.sqlite
+
+# We do not want package-lock.json in the repo... it is annoying.
+package-lock.json
