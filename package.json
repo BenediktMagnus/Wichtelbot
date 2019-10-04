@@ -11,11 +11,11 @@
     },
     "dependencies": {
         "discord.js": "^11.5.1",
-        "sqlite3": "^4.1.0"
+        "better-sqlite3": "^5.4.3"
     },
     "devDependencies": {
         "@types/node": "^10.14.0",
-        "@types/sqlite3": "^3.1.5",
+        "@types/better-sqlite3": "^5.4.0",
         "typescript": "^3.6.3",
         "eslint": "^6.5.1",
         "@typescript-eslint/parser": "^2.3.2",
