@@ -10,7 +10,7 @@
 		"sourceMap": true
 	},
 	"include": [
-		".",
-		"../scripts"
+		"./**/*.ts",
+		"../scripts/**/*.ts"
 	]
 }

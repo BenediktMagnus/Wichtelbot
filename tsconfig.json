@@ -19,6 +19,6 @@
 		"removeComments": true
 	},
 	"include": [
-		"scripts"
+		"scripts/**/*.ts"
 	]
 }

@@ -7,7 +7,8 @@
     "parserOptions": {
         "project": "./tsconfig.json",
         "sourceType": "module",
-        "ecmaVersion": 2018
+        "ecmaVersion": 2018,
+        "createDefaultProgram": true // This is a needed workaround, see https://github.com/typescript-eslint/typescript-eslint/issues/864
     },
     "plugins": [
         "@typescript-eslint"
