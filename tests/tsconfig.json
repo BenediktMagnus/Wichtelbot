@@ -11,10 +11,6 @@
 	},
 	"include": [
 		".",
-		"./*.ts",
-		"./**/*.ts",
-		"../scripts",
-		"../scripts/*.ts",
-		"../scripts/**/*.ts",
+		"../scripts"
 	]
 }

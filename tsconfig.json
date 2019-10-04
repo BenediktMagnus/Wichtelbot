@@ -16,9 +16,9 @@
 		"esModuleInterop": true,
 
 		"sourceMap": true,
-		"removeComments": true,
+		"removeComments": true
 	},
 	"include": [
-		"scripts",
+		"scripts"
 	]
 }
