@@ -30,7 +30,9 @@ class Main
             this.applicationIsRunning = false;
 
             if (this.wichtelbot)
+            {
                 this.wichtelbot.terminate();
+            }
 
             console.log("\nWichtelbot geschlossen.");
         }

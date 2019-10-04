@@ -23,12 +23,12 @@ export default abstract class Config
     private static _main: MainConfig;
     private static _bot: BotConfig;
 
-    public static get main(): MainConfig
+    public static get main (): MainConfig
     {
         return Config._main;
     }
 
-    public static get bot(): BotConfig
+    public static get bot (): BotConfig
     {
         return Config._bot;
     }

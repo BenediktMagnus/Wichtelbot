@@ -22,6 +22,8 @@
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
         "spaced-comment": "warn",
+        "no-multi-spaces": "warn",
+        "no-whitespace-before-property": "warn",
         "no-unused-expressions": "warn",
         "no-warning-comments": [
             "warn",
@@ -33,12 +35,20 @@
                 "location": "anywhere"
             }
         ],
+        "space-before-function-paren": [
+            "warn",
+            "always"
+        ],
         "capitalized-comments": [
             "warn",
             "always",
             {
                 "ignoreConsecutiveComments": true
             }
+        ],
+        "indent": [
+            "warn",
+            4
         ],
         "@typescript-eslint/no-magic-numbers": [
             "warn",
