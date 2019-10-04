@@ -10,8 +10,7 @@
         "ecmaVersion": 2018
     },
     "plugins": [
-        "@typescript-eslint",
-        "@typescript-eslint/tslint"
+        "@typescript-eslint"
     ],
     "extends": [
         "eslint:recommended",
@@ -20,7 +19,7 @@
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "rules": {
-        "space-before-function-paren":"warn",
+        "@typescript-eslint/no-explicit-any": "off",
         "spaced-comment": "warn",
         "no-unused-expressions": "warn",
         "no-warning-comments": [
@@ -44,6 +43,9 @@
             "warn",
             {
                 "ignore": [
+                    0,
+                    1,
+                    -1,
                     1000,
                     1024
                 ],
@@ -51,30 +53,16 @@
                 "ignoreEnums": true
             }
         ],
-        "no-extra-semi":"error",
+        "no-extra-semi": "error",
         "no-throw-literal": "error",
-        "curly":"error",
+        "no-cond-assign": "error",
+        "guard-for-in": "error",
+        "curly": "error",
         "@typescript-eslint/semi": [
             "error",
             "always"
         ],
         "@typescript-eslint/class-name-casing": "error",
-        "@typescript-eslint/restrict-plus-operands": "error",
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "no-duplicate-variable": true,
-                    "no-for-in": true,
-                    "no-conditional-assignment": true,
-                    "space-before-function-paren": true,
-                    "indent": [
-                        true,
-                        "spaces",
-                        4
-                    ]
-                }
-            }
-        ]
+        "@typescript-eslint/restrict-plus-operands": "error"
     }
 }

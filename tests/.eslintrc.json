@@ -11,5 +11,8 @@
     },
     "extends": [
         "../scripts/.eslintrc.json"
-    ]
+    ],
+    "rules": {
+        "@typescript-eslint/no-magic-numbers": "off"
+    }
 }
