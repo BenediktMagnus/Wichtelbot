@@ -1,11 +1,11 @@
 import 'mocha';
 import * as assert from 'assert';
 
-import Member from '../../../scripts/wichtelbot/classes/member';
-import ContactTestUtility from '../../testUtility/contact';
-import ContactType from '../../../scripts/wichtelbot/types/contactType';
+import Member from '../../scripts/wichtelbot/classes/member';
+import ContactTestUtility from '../utility/contact';
+import ContactType from '../../scripts/wichtelbot/types/contactType';
 
-describe('wichtelbot/classes/member',
+describe('member class',
     function ()
     {
         it('has working fromContact method.',

@@ -3,7 +3,7 @@ import * as assert from 'assert';
 
 import Config from '../../scripts/utility/config';
 
-describe('utility/config',
+describe('config',
     function ()
     {
         it('can be loaded.',

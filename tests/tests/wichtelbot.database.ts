@@ -2,7 +2,7 @@ import 'mocha';
 import * as assert from 'assert';
 import * as fs from 'fs';
 
-import ContactTestUtility from '../testUtility/contact';
+import ContactTestUtility from '../utility/contact';
 
 import Database from '../../scripts/wichtelbot/database';
 import Member from '../../scripts/wichtelbot/classes/member';
@@ -10,7 +10,7 @@ import Member from '../../scripts/wichtelbot/classes/member';
 const mainDatabaseName = 'mainTest';
 const logDatabaseName = 'logTest';
 
-describe('wichtelbot/database',
+describe('database',
     function ()
     {
         let database: Database;
