@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 import Sqlite = require('better-sqlite3');
 
 import Contact from './classes/contact';
@@ -6,6 +8,12 @@ import Member from './classes/member';
 
 export default class Database
 {
+
+    protected static readonly defaultMainFileName = 'main';
+    protected static readonly defaultLogFileName = 'log';
+
+    protected readonly dataPath = './data/';
+
     /**
      * The main database containing all important tables.
      */
@@ -19,19 +27,64 @@ export default class Database
     /**
      * Initialises the database connectiones.
      */
-    constructor (dataPath = './data/', mainFileName = 'main.sqlite', logFileName = 'log.sqlite')
+    constructor (mainFileName = Database.defaultMainFileName, logFileName = Database.defaultLogFileName, inMemory = false)
     {
-        const options: Sqlite.Options = { fileMustExist: true };
+        this.mainDatabase = this.openOrCreateDatabase(mainFileName, Database.defaultMainFileName, inMemory);
+        this.logDatabase = this.openOrCreateDatabase(logFileName, Database.defaultLogFileName, inMemory);
+    }
 
-        const mainDatabaseFilePath = dataPath + mainFileName;
-        const logDatabaseFilePath = dataPath + logFileName;
+    protected openOrCreateDatabase (databaseName: string, describerFileName: string, inMemory: boolean): Sqlite.Database
+    {
+        const databaseFilePath = this.dataPath + databaseName + '.sqlite';
 
-        this.mainDatabase = Sqlite(mainDatabaseFilePath, options);
-        this.logDatabase = Sqlite(logDatabaseFilePath, options);
+        const fileCreated = !fs.existsSync(databaseFilePath);
 
+        const options: Sqlite.Options = {
+            memory: inMemory
+        };
+
+        const database = Sqlite(databaseFilePath, options);
+
+        // WAL journal mode for better performance:
+        database.pragma('journal_mode = WAL');
         // We want save data, so full synchronous:
-        this.mainDatabase.pragma('synchronous = FULL');
-        this.logDatabase.pragma('synchronous = FULL');
+        database.pragma('synchronous = FULL');
+
+        if (fileCreated || inMemory)
+        {
+            const databaseDescriberFilePath = this.dataPath + describerFileName + '.sql';
+
+            const sql = fs.readFileSync(databaseDescriberFilePath, 'utf8');
+
+            try
+            {
+                database.exec(sql);
+            }
+            catch (error)
+            {
+                // If an error has occured here, something went wrong with the
+                // sql statement. We then have to close the connection and
+                // delete the file to prevent that we accidently reopen it and
+                // assume it to be ready to use.
+                // Because this only can happen if we created the file ourselves
+                // a couple of milliseconds ago, a deletion means no data loss.
+
+                database.close();
+
+                if (fs.existsSync(databaseFilePath))
+                {
+                    fs.unlinkSync(databaseFilePath);
+                }
+
+                throw error;
+            }
+        }
+
+        // One call to optimise after each closed database connection
+        // is recommended, so we do it before we open one:
+        database.pragma('optimize');
+
+        return database;
     }
 
     protected getCurrentUnixTime (): number
@@ -59,9 +112,20 @@ export default class Database
      */
     public close (): void
     {
+        // This process must be save because it will be called when the programme
+        // is terminated. Therefor we must be sure to not throw any errors.
+
         try
         {
             this.mainDatabase.close();
+        }
+        catch (error)
+        {
+            console.error(error);
+        }
+
+        try
+        {
             this.logDatabase.close();
         }
         catch (error)
