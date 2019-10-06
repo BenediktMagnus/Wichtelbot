@@ -20,8 +20,8 @@ interface BotConfig
 
 export default abstract class Config
 {
-    private static _main: MainConfig;
-    private static _bot: BotConfig;
+    private static _main: MainConfig = JSON.parse(fs.readFileSync('./config/config.json', 'utf8'));
+    private static _bot: BotConfig = JSON.parse(fs.readFileSync('./config/bot.json', 'utf8'));
 
     public static get main (): MainConfig
     {
@@ -31,11 +31,5 @@ export default abstract class Config
     public static get bot (): BotConfig
     {
         return Config._bot;
-    }
-
-    public static load (): void
-    {
-        Config._main = JSON.parse(fs.readFileSync('./config/config.json', 'utf8'));
-        Config._bot = JSON.parse(fs.readFileSync('./config/bot.json', 'utf8'));
     }
 }
