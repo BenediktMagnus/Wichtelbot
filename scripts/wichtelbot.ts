@@ -5,14 +5,12 @@ import Database from './wichtelbot/database';
 
 export default class Wichtelbot
 {
-    client: DiscordClient;
+    protected client: DiscordClient;
     protected database: Database;
 
-    constructor ()
+    constructor (onStarted: (loginName: string) => void)
     {
         this.database = new Database();
-
-        console.log('Initialisiere Discordbot...');
         this.client = new DiscordClient();
 
         /*
@@ -22,18 +20,9 @@ export default class Wichtelbot
         Nachrichten.Initialisieren(Datenbank, Klient);
         */
 
-        // Prepare bot:
-        console.log('Bereite Discordbot vor...');
-
         this.client.on('error',
             (message) => {
                 console.error(message);
-            }
-        );
-
-        this.client.on('ready',
-            () => {
-                console.log(`Angemeldet als ${this.client.user.tag}!`);
             }
         );
 
@@ -47,7 +36,7 @@ export default class Wichtelbot
         // Start bot:
         this.client.login(Config.bot.token).then(
             () => {
-                console.log('Wichtelbot gestartet!');
+                onStarted(this.client.user.tag);
             }
         );
     }

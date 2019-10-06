@@ -31,17 +31,22 @@ class Main
                 this.wichtelbot.terminate();
             }
 
-            console.log("\nWichtelbot geschlossen.");
+            console.log("\nWichtelbot closed.");
         }
     }
 
     run (): void
     {
-        console.log('Bot startet...');
+        console.log('Wichtelbot is starting...');
 
         this.applicationIsRunning = true;
 
-        this.wichtelbot = new Wichtelbot();
+        this.wichtelbot = new Wichtelbot(
+            (loginName): void =>
+            {
+                console.log(`Wichtelbot started. Logged in as ${loginName}.\n`);
+            }
+        );
     }
 }
 
