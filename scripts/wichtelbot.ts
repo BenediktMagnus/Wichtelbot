@@ -1,19 +1,16 @@
 import { Client as DiscordClient } from 'discord.js';
 
 import Config from './utility/config';
+import Database from './wichtelbot/database';
 
 export default class Wichtelbot
 {
     client: DiscordClient;
+    protected database: Database;
 
     constructor ()
     {
-        /*
-        // Datenbanken laden und Modul initialisieren:
-        console.log('Initialisiere Datenbanken...');
-        const Datenbank = require('./Skripte/Datenbank.js');
-        Datenbank.Initialisieren();
-        */
+        this.database = new Database();
 
         console.log('Initialisiere Discordbot...');
         this.client = new DiscordClient();
