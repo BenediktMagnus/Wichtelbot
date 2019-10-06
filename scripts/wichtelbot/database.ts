@@ -79,6 +79,11 @@ export default class Database
                 throw error;
             }
         }
+        else
+        {
+            // If this is an old file, call vaccuum to defragment the database file:
+            database.exec('VACUUM;');
+        }
 
         // One call to optimise after each closed database connection
         // is recommended, so we do it before we open one:
