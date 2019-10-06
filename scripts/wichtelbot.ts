@@ -41,11 +41,30 @@ export default class Wichtelbot
         );
     }
 
-    terminate (): void
+    public terminate (): void
     {
-        if (this.client)
+        try
         {
-            this.client.destroy();
+            if (this.client)
+            {
+                this.client.destroy();
+            }
+        }
+        catch (error)
+        {
+            console.error(error);
+        }
+
+        try
+        {
+            if (this.database)
+            {
+                this.database.close();
+            }
+        }
+        catch (error)
+        {
+            console.error(error);
         }
     }
 }
