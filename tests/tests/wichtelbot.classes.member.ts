@@ -9,7 +9,8 @@ describe('member class',
     function ()
     {
         it('has working fromContact method.',
-            () => {
+            function ()
+            {
                 const contact = ContactTestUtility.createRandomContact();
 
                 const member = Member.fromContact(contact);
