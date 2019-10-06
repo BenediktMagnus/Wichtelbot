@@ -132,7 +132,7 @@ function performanceTest (this: Mocha.Suite): void
     );
 }
 
-describe('Performance',
+describe.skip('Performance',
     function ()
     {
         describe('of database for ' + testCount.toString(), performanceTest);
