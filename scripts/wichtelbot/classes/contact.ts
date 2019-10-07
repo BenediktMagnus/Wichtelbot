@@ -1,5 +1,5 @@
 import ContactType from '../types/contactType';
-import State from '../message/definition/state';
+import State from '../message/definitions/state';
 
 export default class Contact
 {
