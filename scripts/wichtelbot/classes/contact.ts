@@ -1,4 +1,5 @@
 import ContactType from '../types/contactType';
+import State from '../message/definition/state';
 
 export default class Contact
 {
@@ -8,7 +9,7 @@ export default class Contact
     nickname: string; // A setable nickname for the user for readability purposes, defaults to the name.
     lastUpdateTime = 0; // Unix time
     type: ContactType = ContactType.Contact;
-    state = ''; // The current state the contact is in, used for the communication tree.
+    state: State = State.Nothing; // The current state the contact is in, used as communication state.
 
     constructor (contactId: string, discordName: string, name: string)
     {
