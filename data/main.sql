@@ -8,19 +8,22 @@ CREATE TABLE `contact` (
 	`lastUpdateTime`	INTEGER NOT NULL DEFAULT 0,
 	`type`	TEXT NOT NULL,
 	`state`	TEXT NOT NULL,
-	PRIMARY KEY(contactId)
+	PRIMARY KEY(`contactId`)
 ) WITHOUT ROWID;
 
 CREATE TABLE `superuser` (
-	`contactId`	TEXT NOT NULL UNIQUE, -- Foreign key to contact.contactId.
-	`role`	TEXT NOT NULL, -- An indicator role of the superuser, can be "admin" or "mod" for example.
-	PRIMARY KEY(contactId)
+	`contactId`	TEXT NOT NULL UNIQUE,
+	`role`	TEXT NOT NULL,
+	PRIMARY KEY(`contactId`),
+	FOREIGN KEY(`contactId`) REFERENCES `contact`(`contactId`)
 ) WITHOUT ROWID;
 
 CREATE TABLE `relationship` (
 	`wichtelEvent`	TEXT NOT NULL,
 	`giverId`	TEXT NOT NULL,
-	`takerId`	TEXT NOT NULL
+	`takerId`	TEXT NOT NULL,
+	FOREIGN KEY(`takerId`) REFERENCES `contact`(`contactId`),
+	FOREIGN KEY(`giverId`) REFERENCES `contact`(`contactId`)
 );
 
 CREATE TABLE `information` (
@@ -37,14 +40,17 @@ CREATE TABLE `information` (
 	`giftExclusion`	TEXT NOT NULL DEFAULT '',
 	`userExclusion`	TEXT NOT NULL DEFAULT '',
 	`freeText`	TEXT NOT NULL DEFAULT '',
-	PRIMARY KEY(contactId)
+	PRIMARY KEY(`contactId`),
+	FOREIGN KEY(`contactId`) REFERENCES `contact`(`contactId`)
 ) WITHOUT ROWID;
 
 CREATE TABLE `exclusion` (
 	`giverId`	TEXT NOT NULL,
 	`takerId`	TEXT NOT NULL,
 	`reason`	TEXT NOT NULL,
-	`lastUpdateTime`	INTEGER NOT NULL DEFAULT 0
+	`lastUpdateTime`	INTEGER NOT NULL DEFAULT 0,
+	FOREIGN KEY(`takerId`) REFERENCES `contact`(`contactId`),
+	FOREIGN KEY(`giverId`) REFERENCES `contact`(`contactId`)
 );
 
 CREATE TABLE `parcel` (
@@ -53,7 +59,16 @@ CREATE TABLE `parcel` (
 	`recipientId`	TEXT NOT NULL,
 	`consignmentNumber`	TEXT NOT NULL DEFAULT '',
 	`shippingDate`	TEXT NOT NULL DEFAULT '',
-	`receivingDate`	TEXT NOT NULL DEFAULT ''
+	`receivingDate`	TEXT NOT NULL DEFAULT '',
+	FOREIGN KEY(`senderId`) REFERENCES `contact`(`contactId`),
+	FOREIGN KEY(`recipientId`) REFERENCES `contact`(`contactId`)
 );
+
+CREATE UNIQUE INDEX `relationshipTaker` ON `relationship` (`wichtelEvent`, `takerId`);
+CREATE UNIQUE INDEX `relationshipGiver` ON `relationship` (`wichtelEvent`, `giverId`);
+CREATE UNIQUE INDEX `parcelSender` ON `parcel` (`wichtelEvent`, `senderId`);
+CREATE UNIQUE INDEX `parcelRecipient` ON `parcel` (`wichtelEvent`, `recipientId`);
+CREATE INDEX `exclusionTaker` ON `exclusion` (`takerId`);
+CREATE INDEX `exclusionGiver` ON `exclusion` (`giverId`);
 
 COMMIT;
