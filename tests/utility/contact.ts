@@ -39,8 +39,6 @@ export default class ContactTestUtility
             ContactTestUtility.createRandomString()
         );
 
-        contact.state = 'Test';
-
         return contact;
     }
 
