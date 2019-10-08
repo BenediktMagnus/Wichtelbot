@@ -8,6 +8,6 @@ import { Channel } from "./channel";
  */
 export default interface Client
 {
-    channels: Map<string, Channel>;
-    getUser(id: string): Promise<User>;
+    getChannel(id: string): Channel;
+    fetchUser(id: string): Promise<User>;
 }
