@@ -9,6 +9,7 @@ interface WichtelEvent
 
 interface MainConfig
 {
+    local: string;
     wichtelEvents: WichtelEvent[];
 }
 
