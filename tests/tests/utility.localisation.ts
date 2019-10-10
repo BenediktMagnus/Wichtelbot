@@ -1,0 +1,23 @@
+import 'mocha';
+import * as assert from 'assert';
+
+import Localisation from '../../scripts/utility/localisation';
+
+describe('localisation',
+    function ()
+    {
+        it('has working commands.',
+            function ()
+            {
+                assert.notStrictEqual(Localisation.commands.notUnderstood.commands.length, undefined);
+            }
+        );
+
+        it('has working texts.',
+            function ()
+            {
+                assert.notStrictEqual(Localisation.texts.notUnderstood.rawString.length, undefined);
+            }
+        );
+    }
+);
