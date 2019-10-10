@@ -58,7 +58,10 @@ export default class TokenString
 
             const token = new Token(position, length, object, parameter);
 
-            this.tokens.push(token);
+            // We must put the new token at the beginning of the array (therefore the "unshift",
+            // really bad name), for the replace function to replace them in reverse order.
+            // This is needed to not invalidate all other token positions.
+            this.tokens.unshift(token);
         }
     }
 
