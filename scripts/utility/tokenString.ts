@@ -58,10 +58,7 @@ export default class TokenString
 
             const token = new Token(position, length, object, parameter);
 
-            // We must put the new token at the beginning of the array (therefore the "unshift",
-            // really bad name), for the replace function to replace them in reverse order.
-            // This is needed to not invalidate all other token positions.
-            this.tokens.unshift(token);
+            this.tokens.push(token);
         }
     }
 
@@ -177,8 +174,12 @@ export default class TokenString
     {
         let result = this.rawString;
 
-        for (const token of this.tokens)
+        // We must go backwards through the array to prevent that the process
+        // procedure invalidates all token positions after the first replace:
+        for (let i = this.tokens.length; i-- > 0;)
         {
+            const token = this.tokens[i];
+
             switch (token.object)
             {
                 case 'contact':
