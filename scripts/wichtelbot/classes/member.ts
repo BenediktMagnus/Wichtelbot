@@ -4,8 +4,8 @@ import ContactType from '../types/contactType';
 
 export default class Member extends Contact
 {
-    type = ContactType.Member; // Overriden
-    information: Information;
+    public type = ContactType.Member; // Overriden
+    public information: Information;
 
     constructor (id: string, discordName: string, name: string)
     {

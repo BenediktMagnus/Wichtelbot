@@ -72,11 +72,20 @@
         "no-cond-assign": "error",
         "guard-for-in": "error",
         "curly": "error",
+        "@typescript-eslint/class-name-casing": "error",
+        "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/semi": [
             "error",
             "always"
         ],
-        "@typescript-eslint/class-name-casing": "error",
-        "@typescript-eslint/restrict-plus-operands": "error"
+        "@typescript-eslint/explicit-member-accessibility": [
+            "error",
+            {
+                "accessibility": "explicit",
+                "overrides": {
+                    "constructors": "off"
+                }
+            }
+        ]
     }
 }

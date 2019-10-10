@@ -4,12 +4,12 @@ import State from '../message/definitions/state';
 export default class Contact
 {
     public id: string; // The Discord ID, used as an unique contact ID.
-    discordName: string; // The full Discord name, including display name and tag.
-    name: string; // The base name in Discord.
-    nickname: string; // A setable nickname for the user for readability purposes, defaults to the name.
-    lastUpdateTime = 0; // Unix time
-    type: ContactType = ContactType.Contact;
-    state: State = State.Nothing; // The current state the contact is in, used as communication state.
+    public discordName: string; // The full Discord name, including display name and tag.
+    public name: string; // The base name in Discord.
+    public nickname: string; // A setable nickname for the user for readability purposes, defaults to the name.
+    public lastUpdateTime = 0; // Unix time
+    public type: ContactType = ContactType.Contact;
+    public state: State = State.Nothing; // The current state the contact is in, used as communication state.
 
     constructor (id: string, discordName: string, name: string)
     {

@@ -2,19 +2,19 @@ import GiftType from "../types/giftType";
 
 export default class Information
 {
-    contactId: string;
-    lastUpdateTime = 0;
-    giftTypeAsTaker: GiftType = GiftType.Nothing;
-    giftTypeAsGiver: GiftType = GiftType.Nothing;
-    address = '';
-    country = '';
-    steamName = '';
-    international = '';
-    wishList = '';
-    allergies = '';
-    giftExclusion = '';
-    userExclusion = '';
-    freeText = '';
+    public contactId: string;
+    public lastUpdateTime = 0;
+    public giftTypeAsTaker: GiftType = GiftType.Nothing;
+    public giftTypeAsGiver: GiftType = GiftType.Nothing;
+    public address = '';
+    public country = '';
+    public steamName = '';
+    public international = '';
+    public wishList = '';
+    public allergies = '';
+    public giftExclusion = '';
+    public userExclusion = '';
+    public freeText = '';
 
     constructor (contactId: string)
     {

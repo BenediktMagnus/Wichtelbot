@@ -2,8 +2,8 @@ import Wichtelbot from './wichtelbot';
 
 class Main
 {
-    wichtelbot: Wichtelbot|null = null;
-    applicationIsRunning = false;
+    private wichtelbot: Wichtelbot|null = null;
+    private applicationIsRunning = false;
 
     constructor ()
     {
@@ -20,7 +20,7 @@ class Main
     /**
      * Terminate all running connections and report about the closing programme.
      */
-    terminate (): void
+    public terminate (): void
     {
         if (this.applicationIsRunning)
         {
@@ -35,7 +35,7 @@ class Main
         }
     }
 
-    run (): void
+    public run (): void
     {
         console.log('Wichtelbot is starting...');
 
