@@ -21,8 +21,8 @@ export default class Wichtelbot
         */
 
         this.client.on('error',
-            (message) => {
-                console.error(message);
+            (error) => {
+                console.error(error);
             }
         );
 
