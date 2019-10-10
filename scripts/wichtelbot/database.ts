@@ -168,9 +168,9 @@ export default class Database
     {
         const statement = this.mainDatabase.prepare(
             `INSERT INTO
-                contact (contactId, discordName, name, nickname, lastUpdateTime, type, state)
+                contact (id, discordName, name, nickname, lastUpdateTime, type, state)
             VALUES
-                (:contactId, :discordName, :name, :nickname, :lastUpdateTime, :type, :state)`
+                (:id, :discordName, :name, :nickname, :lastUpdateTime, :type, :state)`
         );
 
         contact.lastUpdateTime = this.getCurrentUnixTime();
@@ -183,7 +183,7 @@ export default class Database
     public getContact (contactId: string): Contact
     {
         const statement = this.mainDatabase.prepare(
-            'SELECT * FROM contact WHERE contactId = ?'
+            'SELECT * FROM contact WHERE id = ?'
         );
 
         const result = statement.get(contactId);
@@ -207,7 +207,7 @@ export default class Database
                 discordName = :discordName, name = :name, nickname = :nickname,
                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
             WHERE
-                contactId = :contactId`
+                id = :id`
         );
 
         statement.run(
@@ -232,7 +232,7 @@ export default class Database
                 discordName = :discordName, name = :name, nickname = :nickname,
                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
             WHERE
-                contactId = :contactId`
+                id = :id`
         );
 
         // THe information data must nevertheless be created because the former contact had no information.
@@ -262,7 +262,7 @@ export default class Database
     public getMember (contactId: string): Member
     {
         const contactStatement = this.mainDatabase.prepare(
-            'SELECT * FROM contact WHERE contactId = ?'
+            'SELECT * FROM contact WHERE id = ?'
         );
 
         const informationStatement = this.mainDatabase.prepare(
@@ -302,7 +302,7 @@ export default class Database
                 discordName = :discordName, name = :name, nickname = :nickname,
                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
             WHERE
-                contactId = :contactId`
+                id = :id`
         );
 
         const informationStatement = this.mainDatabase.prepare(

@@ -80,7 +80,7 @@ describe('database',
 
                 database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
 
-                const returnedContact = database.getContact(contact.contactId);
+                const returnedContact = database.getContact(contact.id);
 
                 assert.deepStrictEqual(returnedContact, contact);
                 assert.notStrictEqual(returnedContact.lastUpdateTime, 0);
@@ -95,11 +95,11 @@ describe('database',
                 database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
 
                 const updatedContact = ContactTestUtility.createRandomContact();
-                updatedContact.contactId = contact.contactId;
+                updatedContact.id = contact.id;
 
                 database.updateContact(updatedContact);
 
-                const returnedContact = database.getContact(contact.contactId);
+                const returnedContact = database.getContact(contact.id);
 
                 assert.deepStrictEqual(returnedContact, updatedContact);
             }
@@ -113,11 +113,11 @@ describe('database',
                 database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
 
                 const member = Member.fromContact(contact);
-                member.information = ContactTestUtility.createRandomMemberInformation(member.contactId);
+                member.information = ContactTestUtility.createRandomMemberInformation(member.id);
 
                 database.saveMember(member);
 
-                const returnedMember = database.getMember(member.contactId);
+                const returnedMember = database.getMember(member.id);
 
                 assert.deepStrictEqual(returnedMember, member);
                 assert.notStrictEqual(returnedMember.lastUpdateTime, 0);

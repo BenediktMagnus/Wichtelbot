@@ -19,7 +19,7 @@ describe('member class',
                 assert.notStrictEqual(member.information, undefined);
                 assert.notStrictEqual(member.information, null);
 
-                assert.strictEqual(member.contactId, contact.contactId);
+                assert.strictEqual(member.id, contact.id);
                 assert.strictEqual(member.state, contact.state);
 
                 assert.strictEqual(member.type, ContactType.Member);

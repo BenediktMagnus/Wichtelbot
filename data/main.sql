@@ -1,29 +1,29 @@
 BEGIN TRANSACTION;
 
 CREATE TABLE `contact` (
-	`contactId`	TEXT NOT NULL UNIQUE,
+	`id`	TEXT NOT NULL UNIQUE,
 	`discordName`	TEXT NOT NULL UNIQUE,
 	`name`	TEXT NOT NULL UNIQUE,
 	`nickname`	TEXT NOT NULL UNIQUE,
 	`lastUpdateTime`	INTEGER NOT NULL DEFAULT 0,
 	`type`	TEXT NOT NULL,
 	`state`	TEXT NOT NULL,
-	PRIMARY KEY(`contactId`)
+	PRIMARY KEY(`id`)
 ) WITHOUT ROWID;
 
 CREATE TABLE `superuser` (
 	`contactId`	TEXT NOT NULL UNIQUE,
 	`role`	TEXT NOT NULL,
 	PRIMARY KEY(`contactId`),
-	FOREIGN KEY(`contactId`) REFERENCES `contact`(`contactId`)
+	FOREIGN KEY(`contactId`) REFERENCES `contact`(`id`)
 ) WITHOUT ROWID;
 
 CREATE TABLE `relationship` (
 	`wichtelEvent`	TEXT NOT NULL,
 	`giverId`	TEXT NOT NULL,
 	`takerId`	TEXT NOT NULL,
-	FOREIGN KEY(`takerId`) REFERENCES `contact`(`contactId`),
-	FOREIGN KEY(`giverId`) REFERENCES `contact`(`contactId`)
+	FOREIGN KEY(`takerId`) REFERENCES `contact`(`id`),
+	FOREIGN KEY(`giverId`) REFERENCES `contact`(`id`)
 );
 
 CREATE TABLE `information` (
@@ -41,7 +41,7 @@ CREATE TABLE `information` (
 	`userExclusion`	TEXT NOT NULL DEFAULT '',
 	`freeText`	TEXT NOT NULL DEFAULT '',
 	PRIMARY KEY(`contactId`),
-	FOREIGN KEY(`contactId`) REFERENCES `contact`(`contactId`)
+	FOREIGN KEY(`contactId`) REFERENCES `contact`(`id`)
 ) WITHOUT ROWID;
 
 CREATE TABLE `exclusion` (
@@ -49,8 +49,8 @@ CREATE TABLE `exclusion` (
 	`takerId`	TEXT NOT NULL,
 	`reason`	TEXT NOT NULL,
 	`lastUpdateTime`	INTEGER NOT NULL DEFAULT 0,
-	FOREIGN KEY(`takerId`) REFERENCES `contact`(`contactId`),
-	FOREIGN KEY(`giverId`) REFERENCES `contact`(`contactId`)
+	FOREIGN KEY(`takerId`) REFERENCES `contact`(`id`),
+	FOREIGN KEY(`giverId`) REFERENCES `contact`(`id`)
 );
 
 CREATE TABLE `parcel` (
@@ -60,8 +60,8 @@ CREATE TABLE `parcel` (
 	`consignmentNumber`	TEXT NOT NULL DEFAULT '',
 	`shippingDate`	TEXT NOT NULL DEFAULT '',
 	`receivingDate`	TEXT NOT NULL DEFAULT '',
-	FOREIGN KEY(`senderId`) REFERENCES `contact`(`contactId`),
-	FOREIGN KEY(`recipientId`) REFERENCES `contact`(`contactId`)
+	FOREIGN KEY(`senderId`) REFERENCES `contact`(`id`),
+	FOREIGN KEY(`recipientId`) REFERENCES `contact`(`id`)
 );
 
 CREATE UNIQUE INDEX `relationshipTaker` ON `relationship` (`wichtelEvent`, `takerId`);

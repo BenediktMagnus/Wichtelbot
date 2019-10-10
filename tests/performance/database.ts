@@ -30,7 +30,7 @@ function performanceTest (this: Mocha.Suite): void
             {
                 const contact = ContactTestUtility.createRandomContact();
                 const updatedContact = ContactTestUtility.createRandomContact();
-                updatedContact.contactId = contact.contactId;
+                updatedContact.id = contact.id;
 
                 contacts.push(contact);
                 updatedContacts.push(updatedContact);
@@ -94,7 +94,7 @@ function performanceTest (this: Mocha.Suite): void
         {
             for (const contact of contacts)
             {
-                database.getContact(contact.contactId);
+                database.getContact(contact.id);
             }
         }
     );
@@ -126,7 +126,7 @@ function performanceTest (this: Mocha.Suite): void
         {
             for (const member of members)
             {
-                database.getMember(member.contactId);
+                database.getMember(member.id);
             }
         }
     );

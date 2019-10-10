@@ -7,11 +7,11 @@ export default class Member extends Contact
     type = ContactType.Member; // Overriden
     information: Information;
 
-    constructor (contactId: string, discordName: string, name: string)
+    constructor (id: string, discordName: string, name: string)
     {
-        super(contactId, discordName, name);
+        super(id, discordName, name);
 
-        this.information = new Information(this.contactId);
+        this.information = new Information(this.id);
     }
 
     public static fromContact (contact: Contact): Member
@@ -20,7 +20,7 @@ export default class Member extends Contact
         // happen when the contact is used after the conversion to a member:
         contact.type = ContactType.Member;
 
-        let member = new Member(contact.contactId, contact.discordName, contact.name);
+        let member = new Member(contact.id, contact.discordName, contact.name);
 
         member = Object.assign(
             member,
@@ -37,7 +37,7 @@ export default class Member extends Contact
      */
     public static fromMemberData (memberData: Member): Member
     {
-        let member = new Member(memberData.contactId, memberData.discordName, memberData.name);
+        let member = new Member(memberData.id, memberData.discordName, memberData.name);
 
         member = Object.assign(member, memberData);
 
