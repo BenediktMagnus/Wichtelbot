@@ -30,16 +30,16 @@ describe('tokenString',
             {
                 const information = ContactTestUtility.createRandomMemberInformation();
 
-                const rawString = `{information.giftTypeAsTaker}, {information.giftTypeAsGiver},
-                                   {information.address}, {information.country}, {information.steamName},
-                                   {information.international}, {information.wishList},
-                                   {information.allergies}, {information.giftExclusion},
-                                   {information.userExclusion}, {information.freeText}`;
-                const expectedString = `${information.giftTypeAsTaker}, ${information.giftTypeAsGiver},
-                                        ${information.address}, ${information.country}, ${information.steamName},
-                                        ${information.international}, ${information.wishList},
-                                        ${information.allergies}, ${information.giftExclusion},
-                                        ${information.userExclusion}, ${information.freeText}`;
+                const rawString = '{information.giftTypeAsTaker}, {information.giftTypeAsGiver},' +
+                                   '{information.address}, {information.country}, {information.steamName},' +
+                                   '{information.international}, {information.wishList},' +
+                                   '{information.allergies}, {information.giftExclusion},' +
+                                   '{information.userExclusion}, {information.freeText}';
+                const expectedString = `${information.giftTypeAsTaker}, ${information.giftTypeAsGiver},` +
+                                       `${information.address}, ${information.country}, ${information.steamName},` +
+                                       `${information.international}, ${information.wishList},` +
+                                       `${information.allergies}, ${information.giftExclusion},` +
+                                       `${information.userExclusion}, ${information.freeText}`;
 
                 const text = new TokenString(rawString);
                 text.setInformation(information);
