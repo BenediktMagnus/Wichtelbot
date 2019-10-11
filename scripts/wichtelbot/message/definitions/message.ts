@@ -1,3 +1,4 @@
+import Client from './client';
 import User from "./user";
 import { Channel } from "./channel";
 
@@ -11,6 +12,16 @@ export default interface Message
      */
     content: string;
     /**
+     * The command of the message, if present. \
+     * Will be generated out of the content before processing.
+     */
+    command?: string;
+    /**
+     * The parameters of the message, if present. \
+     * Will be generated out of the content before processing.
+     */
+    parameters?: string;
+    /**
      * The user that authored the message.
      */
     author: User;
@@ -18,6 +29,10 @@ export default interface Message
      * The channel the message has been send to.
      */
     channel: Channel;
+    /**
+     * The client that is instantiated the message.
+     */
+    client: Client;
     /**
      * A method to reply directly to the message. \
      * How this is exactly represented (in the same channel, as a tree, with a mention

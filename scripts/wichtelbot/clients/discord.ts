@@ -110,10 +110,14 @@ export class DiscordChannel implements Channel
 export class DiscordMessage implements Message
 {
     protected message: Discord.Message;
+    protected responsibleClient: DiscordClient;
 
-    constructor (message: Discord.Message)
+    constructor (message: Discord.Message, responsibleClient: DiscordClient)
     {
         this.message = message;
+        this.responsibleClient = responsibleClient;
+        // NOTE: We could use the Discord.Message.client property here, but because we then needed
+        //       to create a new DiscordClient instance, this would create a circular dependency.
     }
 
     public get content (): string
@@ -135,6 +139,11 @@ export class DiscordMessage implements Message
         return channel;
     }
 
+    public get client (): DiscordClient
+    {
+        return this.responsibleClient;
+    }
+
     public reply (text: string): void
     {
         this.message.reply(text);
@@ -148,9 +157,16 @@ export class DiscordClient implements Client
 {
     protected client: Discord.Client;
 
-    constructor ()
+    constructor (client?: Discord.Client)
     {
-        this.client = new Discord.Client();
+        if (client === undefined)
+        {
+            this.client = new Discord.Client();
+        }
+        else
+        {
+            this.client = client;
+        }
     }
 
     public set onError (listener: (error: Error) => void)
@@ -162,7 +178,7 @@ export class DiscordClient implements Client
     {
         this.client.on('message',
             (discordMessage: Discord.Message) => {
-                const message = new DiscordMessage(discordMessage);
+                const message = new DiscordMessage(discordMessage, this);
                 listener(message);
             }
         );
