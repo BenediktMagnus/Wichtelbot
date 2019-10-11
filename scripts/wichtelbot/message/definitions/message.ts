@@ -3,7 +3,7 @@ import User from "./user";
 import { Channel } from "./channel";
 
 /**
- * Interface of a message represenation.
+ * Interface of a message representation.
  */
 export default interface Message
 {
