@@ -73,6 +73,7 @@
         "no-extra-semi": "error",
         "no-throw-literal": "error",
         "no-cond-assign": "error",
+        "no-param-reassign": "error",
         "guard-for-in": "error",
         "curly": "error",
         "@typescript-eslint/class-name-casing": "error",
