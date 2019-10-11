@@ -6,16 +6,19 @@ import TokenString from './tokenString';
 export interface CommandInfo
 {
     commands: string[];
-    info: string;
+    info: string | undefined;
 }
 
 interface Commands
 {
-    notUnderstood: CommandInfo;
+    contacting: CommandInfo;
+    goodMorning: CommandInfo;
 }
 
 interface Texts
 {
+    contacting: TokenString;
+    goodMorning: TokenString;
     notUnderstood: TokenString;
 }
 

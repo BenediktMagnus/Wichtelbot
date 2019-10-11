@@ -9,14 +9,14 @@ describe('localisation',
         it('has working commands.',
             function ()
             {
-                assert.notStrictEqual(Localisation.commands.notUnderstood.commands.length, undefined);
+                assert.notStrictEqual(Localisation.commands.contacting.commands.length, undefined);
             }
         );
 
         it('has working texts.',
             function ()
             {
-                assert.notStrictEqual(Localisation.texts.notUnderstood.rawString.length, undefined);
+                assert.notStrictEqual(Localisation.texts.contacting.rawString.length, undefined);
             }
         );
     }

@@ -1,6 +1,15 @@
 {
-    "notUnderstood": {
-        "commands": [],
-        "info": ""
+    "contacting": {
+        "commands": ["wischtöööln"]
+    },
+    "goodMorning": {
+        "commands": [
+            "guten Morgen",
+            "Morgen",
+            "gtnmrgn",
+            "mrgn",
+            "moin",
+            "moin moin"
+        ]
     }
 }

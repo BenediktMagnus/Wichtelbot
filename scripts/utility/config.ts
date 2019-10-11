@@ -9,7 +9,9 @@ interface WichtelEvent
 
 interface MainConfig
 {
-    local: string;
+    local: string; // FIXME: Rename to 'locale'.
+    commandPrefix: string;
+    moderationChannelIds: string[];
     wichtelEvents: WichtelEvent[];
 }
 
