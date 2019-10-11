@@ -4,8 +4,9 @@
         "node": true,
         "mocha": true
     },
+    "root": true,
     "parserOptions": {
-        "project": "./tests/tsconfig.json",
+        "project": "./tsconfig.json",
         "sourceType": "module",
         "ecmaVersion": 2018
     },

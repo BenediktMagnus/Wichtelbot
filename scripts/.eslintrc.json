@@ -3,9 +3,10 @@
         "es6": true,
         "node": true
     },
+    "root": true,
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": "./tsconfig.json",
+        "project": "../tsconfig.json",
         "sourceType": "module",
         "ecmaVersion": 2018,
         "createDefaultProgram": true // This is a needed workaround, see https://github.com/typescript-eslint/typescript-eslint/issues/864
