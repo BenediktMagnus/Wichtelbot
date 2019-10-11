@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import Config from './config';
 import TokenString from './tokenString';
 
-interface Command
+export interface CommandInfo
 {
     commands: string[];
     info: string;
@@ -11,7 +11,7 @@ interface Command
 
 interface Commands
 {
-    notUnderstood: Command;
+    notUnderstood: CommandInfo;
 }
 
 interface Texts
