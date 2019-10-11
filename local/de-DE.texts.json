@@ -1,3 +1,5 @@
 {
+    "contacting": "Hallo!\nSchön, dass du am 8ter Wischtöööln teilnehmen willst!\nSchreibe „registrieren“, um dich anzumelden.\nIch werde dich durch den Anmeldevorgang begleiten.",
+    "goodMorning": "Guten Morgen, {contact.nickname}!",
     "notUnderstood": "Häää? Probiers nochmal."
 }

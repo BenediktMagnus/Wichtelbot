@@ -3,19 +3,22 @@ import * as fs from 'fs';
 import Config from './config';
 import TokenString from './tokenString';
 
-interface Command
+export interface CommandInfo
 {
     commands: string[];
-    info: string;
+    info: string | undefined;
 }
 
 interface Commands
 {
-    notUnderstood: Command;
+    contacting: CommandInfo;
+    goodMorning: CommandInfo;
 }
 
 interface Texts
 {
+    contacting: TokenString;
+    goodMorning: TokenString;
     notUnderstood: TokenString;
 }
 

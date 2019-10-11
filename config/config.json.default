@@ -1,5 +1,9 @@
 {
     "local": "de-DE",
+    "commandPrefix": "!",
+    "moderationChannelIds": [
+        "0"
+    ],
     "wichtelEvents": [
         {
             "name": "",
