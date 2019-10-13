@@ -54,22 +54,6 @@
                 "SwitchCase": 1
             }
         ],
-        "@typescript-eslint/no-magic-numbers": [
-            "warn",
-            {
-                "ignore": [
-                    0,
-                    1,
-                    -1,
-                    2,
-                    -2,
-                    1000,
-                    1024
-                ],
-                "ignoreReadonlyClassProperties": true,
-                "ignoreEnums": true
-            }
-        ],
         "no-extra-semi": "error",
         "no-throw-literal": "error",
         "no-cond-assign": "error",
