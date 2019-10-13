@@ -3,6 +3,7 @@ import * as Discord from 'discord.js';
 import User from '../message/definitions/user';
 import { Channel, ChannelType } from '../message/definitions/channel';
 import Message from '../message/definitions/message';
+import { MessageWithParser } from '../message/definitions/message';
 import Client from '../message/definitions/client';
 
 export class DiscordUser implements User
@@ -107,13 +108,15 @@ export class DiscordChannel implements Channel
     }
 }
 
-export class DiscordMessage implements Message
+export class DiscordMessage extends MessageWithParser implements Message
 {
     protected message: Discord.Message;
     protected responsibleClient: DiscordClient;
 
     constructor (message: Discord.Message, responsibleClient: DiscordClient)
     {
+        super();
+
         this.message = message;
         this.responsibleClient = responsibleClient;
         // NOTE: We could use the Discord.Message.client property here, but because we then needed
