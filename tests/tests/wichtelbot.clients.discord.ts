@@ -7,6 +7,7 @@ import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitio
 import Message from '../../scripts/wichtelbot/message/definitions/message';
 
 import {
+    DiscordClient as DiscordClientImplementation,
     DiscordUser as DiscordUserImplementation,
     DiscordChannel as DiscordChannelImplementation,
     DiscordMessage as DiscordMessageImplementation,
@@ -77,7 +78,7 @@ describe('discord client',
                 discordMessage.author = discordUser;
                 discordMessage.channel = discordDMChannel;
 
-                const message: Message = new DiscordMessageImplementation(discordMessage);
+                const message: Message = new DiscordMessageImplementation(discordMessage, new DiscordClientImplementation(discordClient));
 
                 assert.strictEqual(message.content, testContent);
                 assert.deepStrictEqual(message.author, testAuthor);
