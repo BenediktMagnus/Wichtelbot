@@ -39,5 +39,5 @@ export interface Channel
      * uses this information. It can show the image directly, attach it to the message,
      * send it separately or simply send the URL (if nothing else is possible).
      */
-    send: (text: string, imageUrl?: string) => void;
+    send (text: string, imageUrl?: string): void;
 }
