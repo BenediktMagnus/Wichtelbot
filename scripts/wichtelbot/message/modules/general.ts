@@ -2,7 +2,9 @@ import Localisation from '../../../utility/localisation';
 import Database from '../../database';
 import Message from '../definitions/message';
 import TokenString from '../../../utility/tokenString';
+import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
+import State from '../definitions/state';
 
 /**
  * Message module for general things to handle.
@@ -35,6 +37,23 @@ export default class General
         const answer = text.getResult();
 
         message.reply(answer);
+    }
+
+    /**
+     * Makes first contact with a new user. \
+     * Will save the new contact in the database.
+     */
+    public firstContact (message: Message): void
+    {
+        if (!this.database.hasContact(message.author.id))
+        {
+            const contact = new Contact(message.author.id, message.author.tag, message.author.name);
+            contact.state = State.Registration;
+
+            this.database.saveContact(contact);
+        }
+
+        this.reply(message, Localisation.texts.contacting);
     }
 
     /**

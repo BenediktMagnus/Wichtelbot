@@ -26,6 +26,18 @@ export default class MessageHandler
 
     protected generalModule: GeneralModule;
 
+    // In private messages:
+    protected stateCommands = new StateCommandMap();
+    // In group/server channels:
+    protected publicCommands: CommandMap = new Map<string, MessageFunction>();
+    protected moderatorCommands: CommandMap = new Map<string, MessageFunction>();
+    // Special:
+    protected firstContact: MessageFunction = (message): void => this.generalModule.firstContact(message);
+    protected messageNotUnterstood: MessageFunction = (message): void => this.generalModule.notUnderstood(message);
+
+    /**
+     * The handling definition is an object-based representation of the state/command handling structure.
+     */
     protected readonly handlingDefinition: HandlingDefinition = {
         stateCommands: [
             {
@@ -37,23 +49,13 @@ export default class MessageHandler
         publicCommands: [
             {
                 commandInfo: Localisation.commands.contacting,
-                handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.contacting)
+                handlerFunction: this.firstContact
             }
         ],
         moderatorCommands: [
 
         ]
     };
-
-    protected commandMaxLength = 0;
-
-    // In private messages:
-    protected stateCommands = new StateCommandMap();
-    // In group/server channels:
-    protected publicCommands: CommandMap = new Map<string, MessageFunction>();
-    protected moderatorCommands: CommandMap = new Map<string, MessageFunction>();
-    // Special:
-    protected messageNotUnterstood: MessageFunction;
 
     constructor (database: Database)
     {
@@ -62,8 +64,6 @@ export default class MessageHandler
         this.generalModule = new GeneralModule(database);
 
         this.applyHandlingDefinition();
-
-        this.messageNotUnterstood = (message): void => this.generalModule.notUnderstood(message);
     }
 
     protected applyHandlingDefinition (): void
@@ -121,18 +121,50 @@ export default class MessageHandler
                 return;
             }
 
+            let messageFunction: MessageFunction | undefined;
+
             if (Config.main.moderationChannelIds.includes(message.channel.id))
             {
-                // Moderation
+                // Moderation:
+                messageFunction = this.moderatorCommands.get(message.command);
             }
             else
             {
-                // Kontaktaufnahme
+                // Public commands (propably contacting):
+                messageFunction = this.publicCommands.get(message.command);
+            }
+
+            if (messageFunction !== undefined)
+            {
+                messageFunction(message);
             }
         }
         else if (message.channel.type == ChannelType.Personal)
         {
-            // Befehl
+            // Main command:
+
+            if (this.database.hasContact(message.author.id))
+            {
+                const author = this.database.getContact(message.author.id);
+
+                const stateCommand = new StateCommand(author.state, message.command);
+
+                if (this.stateCommands.has(stateCommand))
+                {
+                    const messageFunction = this.stateCommands.get(stateCommand);
+
+                    messageFunction(message);
+                }
+                else
+                {
+                    this.messageNotUnterstood(message);
+                }
+            }
+            else
+            {
+                // First contact:
+                this.firstContact(message);
+            }
         }
         else
         {
