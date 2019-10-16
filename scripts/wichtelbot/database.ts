@@ -161,6 +161,28 @@ export default class Database
         return result;
     }
 
+    public hasContact (contactId: string): boolean
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                CASE
+                    WHEN EXISTS
+                        (SELECT 1 FROM contact WHERE id = ? LIMIT 1)
+                    THEN 1
+                    ELSE 0
+                END`
+        );
+
+        // Will make the get method to return the value of the first column
+        // instead of an object for all columns. Since we only want one value
+        // this makes it much easier:
+        statement.pluck(true);
+
+        const result = statement.get(contactId);
+
+        return result;
+    }
+
     /**
      * NOTE: The contact objects's lastUpdateTime will be updated.
      */
