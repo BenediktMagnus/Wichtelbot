@@ -24,15 +24,23 @@ export default class General
      */
     public reply (message: Message, text: TokenString): void
     {
-        const contact = this.database.getContact(message.author.id);
-        text.setContact(contact);
-
-        if (contact.type != ContactType.Contact)
+        if (this.database.hasContact(message.author.id))
         {
-            const member = this.database.getMember(contact.id);
-            text.setInformation(member.information);
+            const contact = this.database.getContact(message.author.id);
+            text.setContact(contact);
+
+            if (contact.type != ContactType.Contact)
+            {
+                const member = this.database.getMember(contact.id);
+                text.setInformation(member.information);
+            }
+            // TODO: Wichtel data.
         }
-        // TODO: Wichtel data.
+        else
+        {
+            // If the user is no known contact, we must settle for him instead:
+            text.setUser(message.author);
+        }
 
         const answer = text.getResult();
 

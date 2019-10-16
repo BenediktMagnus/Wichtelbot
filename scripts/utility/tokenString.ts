@@ -1,5 +1,6 @@
 import Contact from "../wichtelbot/classes/contact";
 import Information from "../wichtelbot/classes/information";
+import User from "../wichtelbot/message/definitions/user";
 
 /**
  * A token is an object representation for a token string in the form {object.parameter}
@@ -133,6 +134,13 @@ export default class TokenString
         {
             throw ReferenceError('There is no token variable "' + token.parameter + '" defined.');
         }
+    }
+
+    public setUser (user: User): void
+    {
+        this.contactParametersMap.set('name', user.name);
+        this.contactParametersMap.set('discordName', user.tag);
+        this.contactParametersMap.set('nickname', user.name);
     }
 
     public setContact (contact: Contact): void
