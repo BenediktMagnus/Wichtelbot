@@ -1,12 +1,11 @@
 import Config from '../../utility/config';
-import Localisation from '../../utility/localisation';
+import Localisation, { CommandInfo } from '../../utility/localisation';
 
 import Database from '../database';
 
 import State from './definitions/state';
 import Message from './definitions/message';
 import { ChannelType } from './definitions/channel';
-import { CommandInfo } from '../../utility/localisation';
 
 import HandlingDefinition from './handlingTools/handlingDefinition';
 import MessageFunction from './handlingTools/messageFunction';
@@ -66,41 +65,60 @@ export default class MessageHandler
         this.applyHandlingDefinition();
     }
 
+    /**
+     * Applies the handling definition by inserting the specifications into the usable map structure.
+     */
     protected applyHandlingDefinition (): void
     {
         // State commands:
         for (const stateCommandDefinition of this.handlingDefinition.stateCommands)
         {
-            for (let command of stateCommandDefinition.commandInfo.commands)
-            {
-                command = command.toLowerCase();
+            this.prepareCommandInfo(stateCommandDefinition.commandInfo,
+                (command: string): void =>
+                {
+                    const stateCommand = new StateCommand(stateCommandDefinition.state, command);
 
-                const stateCommand = new StateCommand(stateCommandDefinition.state, command);
-
-                this.stateCommands.set(stateCommand, stateCommandDefinition.handlerFunction);
-            }
+                    this.stateCommands.set(stateCommand, stateCommandDefinition.handlerFunction);
+                }
+            );
         }
 
         // Public commands:
         for (const commandDefinition of this.handlingDefinition.publicCommands)
         {
-            for (let command of commandDefinition.commandInfo.commands)
-            {
-                command = command.toLowerCase();
-
-                this.publicCommands.set(command, commandDefinition.handlerFunction);
-            }
+            this.prepareCommandInfo(commandDefinition.commandInfo,
+                (command: string): void =>
+                {
+                    this.publicCommands.set(command, commandDefinition.handlerFunction);
+                }
+            );
         }
 
         // Moderation commands:
         for (const commandDefinition of this.handlingDefinition.moderatorCommands)
         {
-            for (let command of commandDefinition.commandInfo.commands)
-            {
-                command = command.toLowerCase();
+            this.prepareCommandInfo(commandDefinition.commandInfo,
+                (command: string): void =>
+                {
+                    this.moderatorCommands.set(command, commandDefinition.handlerFunction);
+                }
+            );
+        }
+    }
 
-                this.moderatorCommands.set(command, commandDefinition.handlerFunction);
-            }
+    /**
+     * Prepares a single command info by converting it as needed and setting externalities. \
+     * The applying of the command must be done by the caller via the apply callback.
+     * @param commandInfo The command info to prepare.
+     * @param apply A callback called for every command to apply.
+     */
+    protected prepareCommandInfo (commandInfo: CommandInfo, apply: (command: string) => void): void
+    {
+        for (let command of commandInfo.commands)
+        {
+            command = command.toLowerCase();
+
+            apply(command);
         }
     }
 
@@ -108,7 +126,7 @@ export default class MessageHandler
     {
         if (message.author.isBot)
         {
-            // We will not process messages from bots like ourselves.
+            // We will not process messages from bots like ourself.
             // Prevents bot ping pong...
             return;
         }
