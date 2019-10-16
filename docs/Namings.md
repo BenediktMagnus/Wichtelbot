@@ -12,3 +12,9 @@
 * *Taker*: A wichtel in his role as gift taker
 * *Admin*: A contact with administration rights
 * *Mod*: A contact with moderation rights
+
+### Communication:
+* Client: A class used to bidirectional communicate with a service (like Discord).
+* Message: Text with meta information.
+* Channel: A place to receive messages from and send them to.
+* User: The distinguishable author of a message.
