@@ -139,14 +139,14 @@ export default class TokenString
     public setUser (user: User): void
     {
         this.contactParametersMap.set('name', user.name);
-        this.contactParametersMap.set('discordName', user.tag);
+        this.contactParametersMap.set('tag', user.tag);
         this.contactParametersMap.set('nickname', user.name);
     }
 
     public setContact (contact: Contact): void
     {
         this.contactParametersMap.set('name', contact.name);
-        this.contactParametersMap.set('discordName', contact.discordName);
+        this.contactParametersMap.set('tag', contact.tag);
         this.contactParametersMap.set('nickname', contact.nickname);
     }
 

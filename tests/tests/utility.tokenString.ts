@@ -13,8 +13,8 @@ describe('tokenString',
             {
                 const contact = ContactTestUtility.createRandomContact();
 
-                const rawString = '{contact.name}, {contact.discordName}, {contact.nickname}';
-                const expectedString = `${contact.name}, ${contact.discordName}, ${contact.nickname}`;
+                const rawString = '{contact.name}, {contact.tag}, {contact.nickname}';
+                const expectedString = `${contact.name}, ${contact.tag}, ${contact.nickname}`;
 
                 const text = new TokenString(rawString);
                 text.setContact(contact);

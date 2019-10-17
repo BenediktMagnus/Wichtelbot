@@ -190,9 +190,9 @@ export default class Database
     {
         const statement = this.mainDatabase.prepare(
             `INSERT INTO
-                contact (id, discordName, name, nickname, lastUpdateTime, type, state)
+                contact (id, tag, name, nickname, lastUpdateTime, type, state)
             VALUES
-                (:id, :discordName, :name, :nickname, :lastUpdateTime, :type, :state)`
+                (:id, :tag, :name, :nickname, :lastUpdateTime, :type, :state)`
         );
 
         contact.lastUpdateTime = this.getCurrentUnixTime();
@@ -226,7 +226,7 @@ export default class Database
             `UPDATE
                 contact
             SET
-                discordName = :discordName, name = :name, nickname = :nickname,
+                tag = :tag, name = :name, nickname = :nickname,
                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
             WHERE
                 id = :id`
@@ -251,7 +251,7 @@ export default class Database
             `UPDATE
                 contact
             SET
-                discordName = :discordName, name = :name, nickname = :nickname,
+                tag = :tag, name = :name, nickname = :nickname,
                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
             WHERE
                 id = :id`
@@ -321,7 +321,7 @@ export default class Database
             `UPDATE
                 contact
             SET
-                discordName = :discordName, name = :name, nickname = :nickname,
+                tag = :tag, name = :name, nickname = :nickname,
                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
             WHERE
                 id = :id`
