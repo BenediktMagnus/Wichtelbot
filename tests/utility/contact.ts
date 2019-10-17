@@ -25,9 +25,11 @@ export default class ContactTestUtility
     public static createRandomContact (): Contact
     {
         const contact = new Contact(
-            GeneralTestUtility.createRandomString(),
-            GeneralTestUtility.createRandomString(),
-            GeneralTestUtility.createRandomString()
+            {
+                id: GeneralTestUtility.createRandomString(),
+                tag: GeneralTestUtility.createRandomString() + '#1234',
+                name: GeneralTestUtility.createRandomString(),
+            }
         );
 
         return contact;
@@ -35,19 +37,23 @@ export default class ContactTestUtility
 
     public static createRandomMemberInformation (contactId: string = GeneralTestUtility.createRandomString()): Information
     {
-        const information = new Information(contactId);
-
-        information.giftTypeAsTaker = ContactTestUtility.getRandomGiftType();
-        information.giftTypeAsGiver = ContactTestUtility.getRandomGiftType();
-        information.address = GeneralTestUtility.createRandomString();
-        information.country = GeneralTestUtility.createRandomString();
-        information.steamName = GeneralTestUtility.createRandomString();
-        information.international = GeneralTestUtility.createRandomString();
-        information.wishList = GeneralTestUtility.createRandomString();
-        information.allergies = GeneralTestUtility.createRandomString();
-        information.giftExclusion = GeneralTestUtility.createRandomString();
-        information.userExclusion = GeneralTestUtility.createRandomString();
-        information.freeText = GeneralTestUtility.createRandomString();
+        const information = new Information(
+            {
+                contactId: contactId,
+                lastUpdateTime: 0,
+                giftTypeAsTaker: ContactTestUtility.getRandomGiftType(),
+                giftTypeAsGiver: ContactTestUtility.getRandomGiftType(),
+                address: GeneralTestUtility.createRandomString(),
+                country: GeneralTestUtility.createRandomString(),
+                steamName: GeneralTestUtility.createRandomString(),
+                international: GeneralTestUtility.createRandomString(),
+                wishList: GeneralTestUtility.createRandomString(),
+                allergies: GeneralTestUtility.createRandomString(),
+                giftExclusion: GeneralTestUtility.createRandomString(),
+                userExclusion: GeneralTestUtility.createRandomString(),
+                freeText: GeneralTestUtility.createRandomString(),
+            }
+        );
 
         return information;
     }

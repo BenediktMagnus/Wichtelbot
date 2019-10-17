@@ -1,35 +1,38 @@
 import ContactType from '../types/contactType';
 import State from '../message/definitions/state';
 
-export default class Contact
+interface ContactCoreData
 {
-    public id: string; // The Discord ID, used as an unique contact ID.
-    public tag: string; // The user's tag, a contextual identifier.
-    public name: string; // The base name in Discord.
-    public nickname: string; // A setable nickname for the user for readability purposes, defaults to the name.
+    id: string;
+    tag: string;
+    name: string;
+}
+
+export interface ContactData extends ContactCoreData
+{
+    nickname: string;
+    lastUpdateTime: number;
+    type: ContactType;
+    state: State;
+}
+
+export default class Contact implements ContactData
+{
+    public id = ''; // The ID, unique for every contact.
+    public tag = ''; // The contact's tag, a contextual identifier.
+    public name = ''; // The base name.
+    public nickname = ''; // A setable nickname for the contact for readability purposes, defaults to the name.
     public lastUpdateTime = 0; // Unix time
     public type: ContactType = ContactType.Contact;
     public state: State = State.Nothing; // The current state the contact is in, used as communication state.
 
-    constructor (id: string, tag: string, name: string)
+    constructor (contactData: ContactCoreData | ContactData)
     {
-        this.id = id;
-        this.tag = tag;
-        this.name = name;
-        this.nickname = name;
-    }
+        Object.assign(this, contactData);
 
-    /**
-     * Will create a full contact object from contact data. \
-     * This is used to create complete objects from database data.
-     * @param contactData An object with the same properties as the contact class.
-     */
-    public static fromContactData (contactData: Contact): Contact
-    {
-        let contact = new Contact(contactData.id, contactData.tag, contactData.name);
-
-        contact = Object.assign(contact, contactData);
-
-        return contact;
+        if (this.nickname == '')
+        {
+            this.nickname = this.name;
+        }
     }
 }

@@ -1,8 +1,11 @@
 import 'mocha';
 import * as assert from 'assert';
 
+import GeneralTestUtility from '../utility/general';
+
 import Localisation from '../../scripts/utility/localisation';
 import Database from '../../scripts/wichtelbot/database';
+import Config from '../../scripts/utility/config';
 
 import MessageHandler from '../../scripts/wichtelbot/message/handler';
 
@@ -11,8 +14,6 @@ import MessageDefinition from '../../scripts/wichtelbot/message/definitions/mess
 import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import Client from '../../scripts/wichtelbot/message/definitions/client';
-import GeneralTestUtility from '../utility/general';
-import Config from '../../scripts/utility/config';
 
 type sendOrReply = (text: string, imageUrl?: string) => void;
 
@@ -27,6 +28,8 @@ class TestMessage extends MessageWithParser implements MessageDefinition
     constructor (reply: sendOrReply, userSend: sendOrReply, channelSend: sendOrReply, channelType: ChannelType)
     {
         super();
+
+        // TODO: Utility for author/client creation.
 
         this.content = GeneralTestUtility.createRandomString();
         this.author = {
@@ -149,9 +152,9 @@ describe('message handler',
                 };
 
                 const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
-                message.author.id = 'newTestId';
-                message.author.tag = 'newTestName#1234';
-                message.author.name = 'newTestName';
+                message.author.id = GeneralTestUtility.createRandomString();
+                message.author.tag = GeneralTestUtility.createRandomString() + '#1234';
+                message.author.name = GeneralTestUtility.createRandomString();
 
                 messageHandler.process(message);
 

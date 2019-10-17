@@ -13,7 +13,7 @@ describe('member class',
             {
                 const contact = ContactTestUtility.createRandomContact();
 
-                const member = Member.fromContact(contact);
+                const member = new Member(contact);
 
                 // The new information must be present:
                 assert.notStrictEqual(member.information, undefined);

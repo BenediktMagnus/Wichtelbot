@@ -55,7 +55,7 @@ export default class General
     {
         if (!this.database.hasContact(message.author.id))
         {
-            const contact = new Contact(message.author.id, message.author.tag, message.author.name);
+            const contact = new Contact(message.author);
             contact.state = State.Registration;
 
             this.database.saveContact(contact);

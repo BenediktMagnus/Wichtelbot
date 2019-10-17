@@ -112,7 +112,7 @@ describe('database',
 
                 database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
 
-                const member = Member.fromContact(contact);
+                const member = new Member(contact);
                 member.information = ContactTestUtility.createRandomMemberInformation(member.id);
 
                 database.saveMember(member);

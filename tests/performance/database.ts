@@ -35,8 +35,8 @@ function performanceTest (this: Mocha.Suite): void
                 contacts.push(contact);
                 updatedContacts.push(updatedContact);
 
-                const member = Member.fromContact(contact);
-                const updatedMember = Member.fromContact(updatedContact);
+                const member = new Member(contact);
+                const updatedMember = new Member(updatedContact);
 
                 members.push(member);
                 updatedMembers.push(updatedMember);

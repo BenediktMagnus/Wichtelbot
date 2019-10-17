@@ -2,8 +2,8 @@ import * as fs from 'fs';
 
 import Sqlite = require('better-sqlite3');
 
-import Contact from './classes/contact';
-import Information from './classes/information';
+import Contact, { ContactData } from './classes/contact';
+import { InformationData } from './classes/information';
 import Member from './classes/member';
 
 export default class Database
@@ -208,9 +208,9 @@ export default class Database
             'SELECT * FROM contact WHERE id = ?'
         );
 
-        const result = statement.get(contactId);
+        const contactData: ContactData = statement.get(contactId);
 
-        const contact = Contact.fromContactData(result);
+        const contact = new Contact(contactData);
 
         return contact;
     }
@@ -293,11 +293,10 @@ export default class Database
 
         const getTransactionResult = this.mainDatabase.transaction(
             (): Member => {
-                const memberResult = contactStatement.get(contactId);
-                const member = Member.fromMemberData(memberResult);
+                const contactData: ContactData = contactStatement.get(contactId);
+                const informationData: InformationData = informationStatement.get(contactId);
 
-                const informationResult = informationStatement.get(contactId);
-                member.information = Information.fromInformationData(informationResult);
+                const member = new Member(contactData, informationData);
 
                 return member;
             }

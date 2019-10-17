@@ -1,8 +1,25 @@
 import GiftType from "../types/giftType";
 
-export default class Information
+export interface InformationData
 {
-    public contactId: string;
+    contactId: string;
+    lastUpdateTime: number;
+    giftTypeAsTaker: GiftType;
+    giftTypeAsGiver: GiftType;
+    address: string;
+    country: string;
+    steamName: string;
+    international: string;
+    wishList: string;
+    allergies: string;
+    giftExclusion: string;
+    userExclusion: string;
+    freeText: string;
+}
+
+export default class Information implements InformationData
+{
+    public contactId = '';
     public lastUpdateTime = 0;
     public giftTypeAsTaker: GiftType = GiftType.Nothing;
     public giftTypeAsGiver: GiftType = GiftType.Nothing;
@@ -16,22 +33,15 @@ export default class Information
     public userExclusion = '';
     public freeText = '';
 
-    constructor (contactId: string)
+    constructor (contactIdOrInformationData: string | InformationData)
     {
-        this.contactId = contactId;
-    }
-
-    /**
-     * Will create a full information object from information data. \
-     * This is used to create complete objects from database data.
-     * @param informationData An object with the same properties as the information class.
-     */
-    public static fromInformationData (informationData: Information): Information
-    {
-        let information = new Information(informationData.contactId);
-
-        information = Object.assign(information, informationData);
-
-        return information;
+        if ((typeof contactIdOrInformationData) == 'string')
+        {
+            this.contactId = contactIdOrInformationData as string;
+        }
+        else
+        {
+            Object.assign(this, contactIdOrInformationData);
+        }
     }
 }
