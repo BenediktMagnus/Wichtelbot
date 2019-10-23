@@ -89,34 +89,27 @@ export default class TokenString
 
     protected setContactData (map: Map<string, string>, contactData: ContactCoreData | Contact | Member): void
     {
-        map.set('name', contactData.name);
-        map.set('tag', contactData.tag);
+        const contact = new Contact(contactData);
 
-        if ((contactData instanceof Contact) || (contactData instanceof Member))
+        map.set('name', contact.name);
+        map.set('tag', contact.tag);
+        map.set('nickname', contact.nickname);
+
+        if (contactData instanceof Member)
         {
-            map.set('nickname', contactData.nickname);
+            map.set('giftTypeAsTaker', contactData.information.giftTypeAsTaker);
+            map.set('giftTypeAsGiver', contactData.information.giftTypeAsGiver);
+            map.set('address', contactData.information.address);
+            map.set('country', contactData.information.country);
+            map.set('steamName', contactData.information.steamName);
+            map.set('international', contactData.information.international);
+            map.set('wishList', contactData.information.wishList);
+            map.set('allergies', contactData.information.allergies);
+            map.set('giftExclusion', contactData.information.giftExclusion);
+            map.set('userExclusion', contactData.information.userExclusion);
+            map.set('freeText', contactData.information.freeText);
 
-            if (contactData instanceof Member)
-            {
-                map.set('giftTypeAsTaker', contactData.information.giftTypeAsTaker);
-                map.set('giftTypeAsGiver', contactData.information.giftTypeAsGiver);
-                map.set('address', contactData.information.address);
-                map.set('country', contactData.information.country);
-                map.set('steamName', contactData.information.steamName);
-                map.set('international', contactData.information.international);
-                map.set('wishList', contactData.information.wishList);
-                map.set('allergies', contactData.information.allergies);
-                map.set('giftExclusion', contactData.information.giftExclusion);
-                map.set('userExclusion', contactData.information.userExclusion);
-                map.set('freeText', contactData.information.freeText);
-
-                // TODO: Wichtel
-            }
-        }
-        else
-        {
-            // Otherwise we only have a ContactCoreData object, which has no nickname.
-            map.set('nickname', contactData.name);
+            // TODO: Wichtel
         }
     }
 
