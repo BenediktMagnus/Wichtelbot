@@ -1,8 +1,9 @@
 import GeneralTestUtility from './general';
 
-import Contact from '../../scripts/wichtelbot/classes/contact';
+import Contact, { ContactCoreData } from '../../scripts/wichtelbot/classes/contact';
 import Information from '../../scripts/wichtelbot/classes/information';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
+import Member from '../../scripts/wichtelbot/classes/member';
 
 export default class ContactTestUtility
 {
@@ -22,15 +23,22 @@ export default class ContactTestUtility
         return randomGiftType;
     }
 
+    public static createRandomContactCoreData (): ContactCoreData
+    {
+        const contactCoreData = {
+            id: GeneralTestUtility.createRandomString(),
+            tag: GeneralTestUtility.createRandomString() + '#1234',
+            name: GeneralTestUtility.createRandomString(),
+        };
+
+        return contactCoreData;
+    }
+
     public static createRandomContact (): Contact
     {
-        const contact = new Contact(
-            {
-                id: GeneralTestUtility.createRandomString(),
-                tag: GeneralTestUtility.createRandomString() + '#1234',
-                name: GeneralTestUtility.createRandomString(),
-            }
-        );
+        const contactCoreData = ContactTestUtility.createRandomContactCoreData();
+
+        const contact = new Contact(contactCoreData);
 
         return contact;
     }
@@ -56,5 +64,15 @@ export default class ContactTestUtility
         );
 
         return information;
+    }
+
+    public static createRandomMember (): Member
+    {
+        const contact = ContactTestUtility.createRandomContact();
+        const information = ContactTestUtility.createRandomMemberInformation();
+
+        const member = new Member(contact, information);
+
+        return member;
     }
 }

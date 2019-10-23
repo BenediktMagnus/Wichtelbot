@@ -2,9 +2,10 @@ import * as fs from 'fs';
 
 import Sqlite = require('better-sqlite3');
 
-import Contact, { ContactData } from './classes/contact';
-import { InformationData } from './classes/information';
+import Contact, { ContactData, ContactCoreData } from './classes/contact';
+import ContactType from './types/contactType';
 import Member from './classes/member';
+import { InformationData } from './classes/information';
 
 export default class Database
 {
@@ -351,6 +352,35 @@ export default class Database
         );
 
         runTransaction();
+    }
+
+    /**
+     * Will return the type of contact that can be found for this ID. \
+     * If no contact is found, the given contactCoreData will be returned instead.
+     */
+    public getWhatIsThere (contactCoreData: ContactCoreData): ContactCoreData | Contact | Member
+    {
+        if (this.hasContact(contactCoreData.id))
+        {
+            const contact = this.getContact(contactCoreData.id);
+
+            if (contact.type == ContactType.Contact)
+            {
+                return contact;
+            }
+            else
+            {
+                const member = this.getMember(contactCoreData.id);
+
+                return member;
+            }
+            // TODO: Add Wichtel.
+        }
+        else
+        {
+            // If no contact has been found, return the core data that has been given:
+            return contactCoreData;
+        }
     }
 }
 

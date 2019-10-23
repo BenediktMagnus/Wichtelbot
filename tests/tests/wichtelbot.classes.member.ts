@@ -8,7 +8,7 @@ import ContactType from '../../scripts/wichtelbot/types/contactType';
 describe('member class',
     function ()
     {
-        it('has working fromContact method.',
+        it('fromContact',
             function ()
             {
                 const contact = ContactTestUtility.createRandomContact();

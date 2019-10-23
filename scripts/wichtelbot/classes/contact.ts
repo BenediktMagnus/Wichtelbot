@@ -1,7 +1,7 @@
 import ContactType from '../types/contactType';
 import State from '../message/definitions/state';
 
-interface ContactCoreData
+export interface ContactCoreData
 {
     id: string;
     tag: string;

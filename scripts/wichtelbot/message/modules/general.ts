@@ -3,7 +3,6 @@ import Database from '../../database';
 import Message from '../definitions/message';
 import TokenString from '../../../utility/tokenString';
 import Contact from '../../classes/contact';
-import ContactType from '../../types/contactType';
 import State from '../definitions/state';
 
 /**
@@ -20,30 +19,13 @@ export default class General
 
     /**
      * Replies with a defined text. \
-     * Will set Contact and Information for the TokenString.
+     * Will set User/Contact data for the TokenString.
      */
     public reply (message: Message, text: TokenString): void
     {
-        if (this.database.hasContact(message.author.id))
-        {
-            const contact = this.database.getContact(message.author.id);
-            text.setContact(contact);
-
-            if (contact.type != ContactType.Contact)
-            {
-                const member = this.database.getMember(contact.id);
-                text.setInformation(member.information);
-            }
-            // TODO: Wichtel data.
-        }
-        else
-        {
-            // If the user is no known contact, we must settle for him instead:
-            text.setUser(message.author);
-        }
-
+        const whatIsThere = this.database.getWhatIsThere(message.author);
+        text.set(whatIsThere);
         const answer = text.getResult();
-
         message.reply(answer);
     }
 
@@ -61,7 +43,11 @@ export default class General
             this.database.saveContact(contact);
         }
 
-        this.reply(message, Localisation.texts.contacting);
+        const text = Localisation.texts.contacting;
+        text.set(message.author);
+        const answer = text.getResult();
+
+        message.reply(answer);
     }
 
     /**
@@ -69,10 +55,13 @@ export default class General
      */
     public notUnderstood (message: Message): void
     {
-        const answer = Localisation.texts.notUnderstood;
+        const text = Localisation.texts.notUnderstood;
+        text.set(message.author);
 
         // TODO: Print information about available commands.
 
-        this.reply(message, answer);
+        const answer = text.getResult();
+
+        message.reply(answer);
     }
 }

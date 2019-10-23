@@ -1,6 +1,5 @@
-import Contact from "../wichtelbot/classes/contact";
-import Information from "../wichtelbot/classes/information";
-import User from "../wichtelbot/message/definitions/user";
+import Contact, { ContactCoreData } from "../wichtelbot/classes/contact";
+import Member from "../wichtelbot/classes/member";
 
 /**
  * A token is an object representation for a token string in the form {object.parameter}
@@ -136,33 +135,37 @@ export default class TokenString
         }
     }
 
-    public setUser (user: User): void
+    public set (data: ContactCoreData | Contact | Member): void
     {
-        this.contactParametersMap.set('name', user.name);
-        this.contactParametersMap.set('tag', user.tag);
-        this.contactParametersMap.set('nickname', user.name);
-    }
+        this.contactParametersMap.set('name', data.name);
+        this.contactParametersMap.set('tag', data.tag);
 
-    public setContact (contact: Contact): void
-    {
-        this.contactParametersMap.set('name', contact.name);
-        this.contactParametersMap.set('tag', contact.tag);
-        this.contactParametersMap.set('nickname', contact.nickname);
-    }
+        if ((data instanceof Contact) || (data instanceof Member))
+        {
+            this.contactParametersMap.set('nickname', data.nickname);
 
-    public setInformation (information: Information): void
-    {
-        this.informationParametersMap.set('giftTypeAsTaker', information.giftTypeAsTaker);
-        this.informationParametersMap.set('giftTypeAsGiver', information.giftTypeAsGiver);
-        this.informationParametersMap.set('address', information.address);
-        this.informationParametersMap.set('country', information.country);
-        this.informationParametersMap.set('steamName', information.steamName);
-        this.informationParametersMap.set('international', information.international);
-        this.informationParametersMap.set('wishList', information.wishList);
-        this.informationParametersMap.set('allergies', information.allergies);
-        this.informationParametersMap.set('giftExclusion', information.giftExclusion);
-        this.informationParametersMap.set('userExclusion', information.userExclusion);
-        this.informationParametersMap.set('freeText', information.freeText);
+            if (data instanceof Member)
+            {
+                this.informationParametersMap.set('giftTypeAsTaker', data.information.giftTypeAsTaker);
+                this.informationParametersMap.set('giftTypeAsGiver', data.information.giftTypeAsGiver);
+                this.informationParametersMap.set('address', data.information.address);
+                this.informationParametersMap.set('country', data.information.country);
+                this.informationParametersMap.set('steamName', data.information.steamName);
+                this.informationParametersMap.set('international', data.information.international);
+                this.informationParametersMap.set('wishList', data.information.wishList);
+                this.informationParametersMap.set('allergies', data.information.allergies);
+                this.informationParametersMap.set('giftExclusion', data.information.giftExclusion);
+                this.informationParametersMap.set('userExclusion', data.information.userExclusion);
+                this.informationParametersMap.set('freeText', data.information.freeText);
+
+                // TODO: Wichtel
+            }
+        }
+        else
+        {
+            // Otherwise we only have a ContactCoreData object, which has no nickname.
+            this.contactParametersMap.set('nickname', data.name);
+        }
     }
 
     /**

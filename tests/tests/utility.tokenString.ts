@@ -8,7 +8,24 @@ import TokenString from '../../scripts/utility/tokenString';
 describe('tokenString',
     function ()
     {
-        it('has working setContact.',
+        it('set(ContactCoreData)',
+            function ()
+            {
+                const contactCoreData = ContactTestUtility.createRandomContactCoreData();
+
+                const rawString = '{contact.name}, {contact.tag}, {contact.nickname}';
+                const expectedString = `${contactCoreData.name}, ${contactCoreData.tag}, ${contactCoreData.name}`;
+
+                const text = new TokenString(rawString);
+                text.set(contactCoreData);
+
+                const result = text.getResult();
+
+                assert.strictEqual(result, expectedString);
+            }
+        );
+
+        it('set(Contact)',
             function ()
             {
                 const contact = ContactTestUtility.createRandomContact();
@@ -17,7 +34,7 @@ describe('tokenString',
                 const expectedString = `${contact.name}, ${contact.tag}, ${contact.nickname}`;
 
                 const text = new TokenString(rawString);
-                text.setContact(contact);
+                text.set(contact);
 
                 const result = text.getResult();
 
@@ -25,24 +42,26 @@ describe('tokenString',
             }
         );
 
-        it('has working setInformation.',
+        it('set(Member)',
             function ()
             {
-                const information = ContactTestUtility.createRandomMemberInformation();
+                const member = ContactTestUtility.createRandomMember();
 
-                const rawString = '{information.giftTypeAsTaker}, {information.giftTypeAsGiver},' +
-                                   '{information.address}, {information.country}, {information.steamName},' +
-                                   '{information.international}, {information.wishList},' +
-                                   '{information.allergies}, {information.giftExclusion},' +
-                                   '{information.userExclusion}, {information.freeText}';
-                const expectedString = `${information.giftTypeAsTaker}, ${information.giftTypeAsGiver},` +
-                                       `${information.address}, ${information.country}, ${information.steamName},` +
-                                       `${information.international}, ${information.wishList},` +
-                                       `${information.allergies}, ${information.giftExclusion},` +
-                                       `${information.userExclusion}, ${information.freeText}`;
+                const rawString = '{contact.name}, {contact.tag}, {contact.nickname},' +
+                                  '{information.giftTypeAsTaker}, {information.giftTypeAsGiver},' +
+                                  '{information.address}, {information.country}, {information.steamName},' +
+                                  '{information.international}, {information.wishList},' +
+                                  '{information.allergies}, {information.giftExclusion},' +
+                                  '{information.userExclusion}, {information.freeText}';
+                const expectedString = `${member.name}, ${member.tag}, ${member.nickname},` +
+                                       `${member.information.giftTypeAsTaker}, ${member.information.giftTypeAsGiver},` +
+                                       `${member.information.address}, ${member.information.country}, ${member.information.steamName},` +
+                                       `${member.information.international}, ${member.information.wishList},` +
+                                       `${member.information.allergies}, ${member.information.giftExclusion},` +
+                                       `${member.information.userExclusion}, ${member.information.freeText}`;
 
                 const text = new TokenString(rawString);
-                text.setInformation(information);
+                text.set(member);
 
                 const result = text.getResult();
 
@@ -50,7 +69,7 @@ describe('tokenString',
             }
         );
 
-        it('has working setCustom.',
+        it('setCustom',
             function ()
             {
                 const customTest = 'customTest';
