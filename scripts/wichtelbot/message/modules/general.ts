@@ -24,8 +24,8 @@ export default class General
     public reply (message: Message, text: TokenString): void
     {
         const whatIsThere = this.database.getWhatIsThere(message.author);
-        text.set(whatIsThere);
-        const answer = text.getResult();
+        const answer = text.process(whatIsThere);
+
         message.reply(answer);
     }
 
@@ -43,9 +43,7 @@ export default class General
             this.database.saveContact(contact);
         }
 
-        const text = Localisation.texts.contacting;
-        text.set(message.author);
-        const answer = text.getResult();
+        const answer = Localisation.texts.contacting.process(message.author);
 
         message.reply(answer);
     }
@@ -55,12 +53,9 @@ export default class General
      */
     public notUnderstood (message: Message): void
     {
-        const text = Localisation.texts.notUnderstood;
-        text.set(message.author);
+        const answer = Localisation.texts.notUnderstood.process(message.author);
 
         // TODO: Print information about available commands.
-
-        const answer = text.getResult();
 
         message.reply(answer);
     }

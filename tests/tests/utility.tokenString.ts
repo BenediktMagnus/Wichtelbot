@@ -8,7 +8,7 @@ import TokenString from '../../scripts/utility/tokenString';
 describe('tokenString',
     function ()
     {
-        it('set(ContactCoreData)',
+        it('with ContactCoreData.',
             function ()
             {
                 const contactCoreData = ContactTestUtility.createRandomContactCoreData();
@@ -17,15 +17,14 @@ describe('tokenString',
                 const expectedString = `${contactCoreData.name}, ${contactCoreData.tag}, ${contactCoreData.name}`;
 
                 const text = new TokenString(rawString);
-                text.set(contactCoreData);
 
-                const result = text.getResult();
+                const result = text.process(contactCoreData);
 
                 assert.strictEqual(result, expectedString);
             }
         );
 
-        it('set(Contact)',
+        it('with a Contact.',
             function ()
             {
                 const contact = ContactTestUtility.createRandomContact();
@@ -34,15 +33,14 @@ describe('tokenString',
                 const expectedString = `${contact.name}, ${contact.tag}, ${contact.nickname}`;
 
                 const text = new TokenString(rawString);
-                text.set(contact);
 
-                const result = text.getResult();
+                const result = text.process(contact);
 
                 assert.strictEqual(result, expectedString);
             }
         );
 
-        it('set(Member)',
+        it('with a Member.',
             function ()
             {
                 const member = ContactTestUtility.createRandomMember();
@@ -61,15 +59,14 @@ describe('tokenString',
                                        `${member.information.userExclusion}, ${member.information.freeText}`;
 
                 const text = new TokenString(rawString);
-                text.set(member);
 
-                const result = text.getResult();
+                const result = text.process(member);
 
                 assert.strictEqual(result, expectedString);
             }
         );
 
-        it('setCustom',
+        it('with custom data.',
             function ()
             {
                 const customTest = 'customTest';
@@ -80,11 +77,14 @@ describe('tokenString',
                 const expectedString = `${customTest}, ${varTest}, ${bismarckTest}`;
 
                 const text = new TokenString(rawString);
-                text.setCustom('customKey', customTest);
-                text.setCustom('varKey', varTest);
-                text.setCustom('bismarckKey', bismarckTest);
 
-                const result = text.getResult();
+                const keyValuePairs = [
+                    { key: 'customKey', value: customTest },
+                    { key: 'varKey', value: varTest },
+                    { key: 'bismarckKey', value: bismarckTest },
+                ];
+
+                const result = text.process(undefined, keyValuePairs);
 
                 assert.strictEqual(result, expectedString);
             }

@@ -147,7 +147,7 @@ describe('message handler',
 
                 const resultCallback = (text: string): void =>
                 {
-                    assert.strictEqual(text, Localisation.texts.contacting.getResult());
+                    assert.strictEqual(text, Localisation.texts.contacting.process());
                     called = true;
                 };
 
@@ -169,7 +169,7 @@ describe('message handler',
 
                 const resultCallback = (text: string): void =>
                 {
-                    assert.strictEqual(text, Localisation.texts.notUnderstood.getResult());
+                    assert.strictEqual(text, Localisation.texts.notUnderstood.process());
                     called = true;
                 };
 

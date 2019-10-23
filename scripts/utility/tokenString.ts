@@ -1,6 +1,12 @@
 import Contact, { ContactCoreData } from "../wichtelbot/classes/contact";
 import Member from "../wichtelbot/classes/member";
 
+interface KeyValuePair
+{
+    key: string;
+    value: string;
+}
+
 /**
  * A token is an object representation for a token string in the form {object.parameter}
  * inside a string. It contains everything needed to identify and replace the token.
@@ -27,10 +33,6 @@ class Token
 export default class TokenString
 {
     protected tokens: Token[] = [];
-
-    protected contactParametersMap = new Map<string, string>();
-    protected informationParametersMap = new Map<string, string>();
-    protected customsMap = new Map<string, string>();
 
     public readonly rawString: string;
 
@@ -71,13 +73,13 @@ export default class TokenString
         return result;
     }
 
-    protected process (map: Map<string, string>, text: string, token: Token): string
+    protected processToken (map: Map<string, string>, text: string, token: Token): string
     {
         const value = map.get(token.parameter);
 
         if (value === undefined)
         {
-            throw ReferenceError('The token is not defined.');
+            throw ReferenceError(`There is no value given for the token ${token.object}.${token.parameter}.`);
         }
 
         const result = this.replaceToken(text, token, value);
@@ -85,78 +87,28 @@ export default class TokenString
         return result;
     }
 
-    protected processContact (text: string, token: Token): string
+    protected setContactData (map: Map<string, string>, contactData: ContactCoreData | Contact | Member): void
     {
-        try
-        {
-            return this.process(this.contactParametersMap, text, token);
-        }
-        catch (error)
-        {
-            if (this.contactParametersMap.size == 0)
-            {
-                throw ReferenceError('This TokenString needs a contact.');
-            }
-            else
-            {
-                throw ReferenceError('There is no token "' + token.parameter + '" defined for contact.');
-            }
-        }
-    }
+        map.set('name', contactData.name);
+        map.set('tag', contactData.tag);
 
-    protected processInformation (text: string, token: Token): string
-    {
-        try
+        if ((contactData instanceof Contact) || (contactData instanceof Member))
         {
-            return this.process(this.informationParametersMap, text, token);
-        }
-        catch (error)
-        {
-            if (this.informationParametersMap.size == 0)
+            map.set('nickname', contactData.nickname);
+
+            if (contactData instanceof Member)
             {
-                throw ReferenceError('This TokenString needs an information object.');
-            }
-            else
-            {
-                throw ReferenceError('There is no token "' + token.parameter + '" defined for information.');
-            }
-        }
-    }
-
-    protected processCustom (text: string, token: Token): string
-    {
-        try
-        {
-            return this.process(this.customsMap, text, token);
-        }
-        catch (error)
-        {
-            throw ReferenceError('There is no token variable "' + token.parameter + '" defined.');
-        }
-    }
-
-    public set (data: ContactCoreData | Contact | Member): void
-    {
-        this.contactParametersMap.set('name', data.name);
-        this.contactParametersMap.set('tag', data.tag);
-
-        if ((data instanceof Contact) || (data instanceof Member))
-        {
-            this.contactParametersMap.set('nickname', data.nickname);
-
-            if (data instanceof Member)
-            {
-                this.informationParametersMap.set('giftTypeAsTaker', data.information.giftTypeAsTaker);
-                this.informationParametersMap.set('giftTypeAsGiver', data.information.giftTypeAsGiver);
-                this.informationParametersMap.set('address', data.information.address);
-                this.informationParametersMap.set('country', data.information.country);
-                this.informationParametersMap.set('steamName', data.information.steamName);
-                this.informationParametersMap.set('international', data.information.international);
-                this.informationParametersMap.set('wishList', data.information.wishList);
-                this.informationParametersMap.set('allergies', data.information.allergies);
-                this.informationParametersMap.set('giftExclusion', data.information.giftExclusion);
-                this.informationParametersMap.set('userExclusion', data.information.userExclusion);
-                this.informationParametersMap.set('freeText', data.information.freeText);
+                map.set('giftTypeAsTaker', contactData.information.giftTypeAsTaker);
+                map.set('giftTypeAsGiver', contactData.information.giftTypeAsGiver);
+                map.set('address', contactData.information.address);
+                map.set('country', contactData.information.country);
+                map.set('steamName', contactData.information.steamName);
+                map.set('international', contactData.information.international);
+                map.set('wishList', contactData.information.wishList);
+                map.set('allergies', contactData.information.allergies);
+                map.set('giftExclusion', contactData.information.giftExclusion);
+                map.set('userExclusion', contactData.information.userExclusion);
+                map.set('freeText', contactData.information.freeText);
 
                 // TODO: Wichtel
             }
@@ -164,25 +116,31 @@ export default class TokenString
         else
         {
             // Otherwise we only have a ContactCoreData object, which has no nickname.
-            this.contactParametersMap.set('nickname', data.name);
+            map.set('nickname', contactData.name);
         }
-    }
-
-    /**
-     * Set a custom key usable in the string. \
-     * The used object does not matter, only the parameter.
-     */
-    public setCustom (key: string, value: string): void
-    {
-        this.customsMap.set(key, value);
     }
 
     /**
      * Processes the tokens for the currently set values.
      * @throws {ReferenceError} The value for all tokens must be given.
      */
-    public getResult (): string
+    public process (contactData?: ContactCoreData | Contact | Member, customData?: KeyValuePair[]): string
     {
+        const contactDataMap = new Map<string, string>();
+        const customDataMap = new Map<string, string>();
+
+        if (contactData !== undefined)
+        {
+            this.setContactData(contactDataMap, contactData);
+        }
+        if (customData !== undefined)
+        {
+            for (const keyValuePair of customData)
+            {
+                customDataMap.set(keyValuePair.key, keyValuePair.value);
+            }
+        }
+
         let result = this.rawString;
 
         // We must go backwards through the array to prevent that the process
@@ -194,13 +152,11 @@ export default class TokenString
             switch (token.object)
             {
                 case 'contact':
-                    result = this.processContact(result, token);
-                    break;
                 case 'information':
-                    result = this.processInformation(result, token);
+                    result = this.processToken(contactDataMap, result, token);
                     break;
                 default:
-                    result = this.processCustom(result, token);
+                    result = this.processToken(customDataMap, result, token);
                     break;
             }
         }
