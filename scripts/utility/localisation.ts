@@ -34,7 +34,7 @@ export default abstract class Localisation
          */
         function (this: any, _key: string, value: string): any
         {
-            if ((typeof value) == 'string')
+            if ((typeof value) === 'string')
             {
                 const tokenString = new TokenString(value);
 

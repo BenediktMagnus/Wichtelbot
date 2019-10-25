@@ -35,7 +35,7 @@ export default class Information implements InformationData
 
     constructor (contactIdOrInformationData: string | InformationData)
     {
-        if ((typeof contactIdOrInformationData) == 'string')
+        if ((typeof contactIdOrInformationData) === 'string')
         {
             this.contactId = contactIdOrInformationData as string;
         }
