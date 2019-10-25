@@ -1,18 +1,14 @@
 import * as fs from 'fs';
-
-interface WichtelEvent
-{
-    name: string;
-    start: number;
-    end: number;
-}
+import WichtelEventPhase, { WichtelEvent } from './wichtelEvent';
+import Utils from './utils';
 
 interface MainConfig
 {
     locale: string;
     commandPrefix: string;
     moderationChannelIds: string[];
-    wichtelEvents: WichtelEvent[];
+    currentEvent: WichtelEvent;
+    eventHistory: WichtelEvent[];
 }
 
 interface BotConfig
@@ -34,5 +30,28 @@ export default abstract class Config
     public static get bot (): BotConfig
     {
         return Config._bot;
+    }
+
+    public static get currentEventPhase (): WichtelEventPhase
+    {
+        const currentEvent = this._main.currentEvent;
+        const currentTime = Utils.getCurrentUnixTime();
+
+        if (currentEvent.registration < currentTime)
+        {
+            return WichtelEventPhase.Waiting;
+        }
+        else if (currentEvent.assignment < currentTime)
+        {
+            return WichtelEventPhase.Registration;
+        }
+        else if (currentEvent.end < currentTime)
+        {
+            return WichtelEventPhase.Wichteln;
+        }
+        else
+        {
+            return WichtelEventPhase.Ended;
+        }
     }
 }

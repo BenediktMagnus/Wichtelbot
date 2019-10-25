@@ -9,7 +9,7 @@ describe('config',
         it('has working main config.',
             function ()
             {
-                assert.notStrictEqual(Config.main.wichtelEvents.length, undefined);
+                assert.notStrictEqual(Config.main.currentEvent.name, undefined);
             }
         );
 
