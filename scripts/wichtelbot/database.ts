@@ -1,6 +1,7 @@
 import * as fs from 'fs';
-
 import Sqlite = require('better-sqlite3');
+
+import Utils from '../utility/utils';
 
 import Contact, { ContactData, ContactCoreData } from './classes/contact';
 import ContactType from './types/contactType';
@@ -93,11 +94,6 @@ export default class Database
         return database;
     }
 
-    protected getCurrentUnixTime (): number
-    {
-        return Math.floor(new Date().getTime() / 1000);
-    }
-
     /**
      * Copies all bindable properties from an object, returning a bindable object
      * that can be used as binding parameters when running SQLite statements.
@@ -156,7 +152,7 @@ export default class Database
             name,
             channelId,
             message,
-            this.getCurrentUnixTime()
+            Utils.getCurrentUnixTime()
         );
 
         return result;
@@ -196,7 +192,7 @@ export default class Database
                 (:id, :tag, :name, :nickname, :lastUpdateTime, :type, :state)`
         );
 
-        contact.lastUpdateTime = this.getCurrentUnixTime();
+        contact.lastUpdateTime = Utils.getCurrentUnixTime();
 
         statement.run(
             this.getBindablesFromObject(contact)
@@ -221,7 +217,7 @@ export default class Database
      */
     public updateContact (contact: Contact): void
     {
-        contact.lastUpdateTime = this.getCurrentUnixTime();
+        contact.lastUpdateTime = Utils.getCurrentUnixTime();
 
         const statement = this.mainDatabase.prepare(
             `UPDATE
@@ -244,7 +240,7 @@ export default class Database
      */
     public saveMember (member: Member): void
     {
-        member.lastUpdateTime = this.getCurrentUnixTime();
+        member.lastUpdateTime = Utils.getCurrentUnixTime();
         member.information.lastUpdateTime = member.lastUpdateTime;
 
         // When saving a member, the contact data still exists and only needs to be updated:
@@ -314,7 +310,7 @@ export default class Database
      */
     public updateMember (member: Member): void
     {
-        member.lastUpdateTime = this.getCurrentUnixTime();
+        member.lastUpdateTime = Utils.getCurrentUnixTime();
         member.information.lastUpdateTime = member.lastUpdateTime;
 
         const contactStatement = this.mainDatabase.prepare(
