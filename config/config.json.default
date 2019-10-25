@@ -1,5 +1,5 @@
 {
-    "local": "de-DE",
+    "locale": "de-DE",
     "commandPrefix": "!",
     "moderationChannelIds": [
         "0"

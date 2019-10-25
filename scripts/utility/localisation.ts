@@ -24,8 +24,8 @@ interface Texts
 
 export default abstract class Localisation
 {
-    private static commandsPath = './local/' + Config.main.local + '.commands.json';
-    private static textsPath = './local/' + Config.main.local + '.texts.json';
+    private static commandsPath = './locale/' + Config.main.locale + '.commands.json';
+    private static textsPath = './locale/' + Config.main.locale + '.texts.json';
 
     private static _commands: Commands = JSON.parse(fs.readFileSync(Localisation.commandsPath, 'utf8'));
     private static _texts: Texts = JSON.parse(fs.readFileSync(Localisation.textsPath, 'utf8'),

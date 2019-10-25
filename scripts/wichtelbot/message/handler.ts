@@ -14,7 +14,7 @@ import StateCommandMap from './handlingTools/stateCommandMap';
 
 import GeneralModule from './modules/general';
 
-// TODO: Replace all toLowerCase with toLocalLowerCase(locale) as soon as the draft ECMA-402 is accepted.
+// TODO: Replace all toLowerCase with toLocaleLowerCase(locale) as soon as the draft ECMA-402 is accepted.
 
 type CommandMap = Map<string, MessageFunction>;
 
