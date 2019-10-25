@@ -154,12 +154,16 @@ export default class MessageHandler
 
             if (messageFunction !== undefined)
             {
+                this.database.log(message.author.id, message.author.tag, message.content, message.channel.id);
+
                 messageFunction(message);
             }
         }
         else if (message.channel.type == ChannelType.Personal)
         {
             // Main command:
+
+            this.database.log(message.author.id, message.author.tag, message.content);
 
             if (this.database.hasContact(message.author.id))
             {
