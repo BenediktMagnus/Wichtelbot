@@ -169,17 +169,29 @@ export default class MessageHandler
             {
                 const author = this.database.getContact(message.author.id);
 
-                const stateCommand = new StateCommand(author.state, message.command);
+                const catchAllState = new StateCommand(author.state, '');
 
-                if (this.stateCommands.has(stateCommand))
+                if (this.stateCommands.has(catchAllState))
                 {
-                    const messageFunction = this.stateCommands.get(stateCommand);
-
+                    // The contact state has a catch all command that accepts every input.
+                    const messageFunction = this.stateCommands.get(catchAllState);
                     messageFunction(message);
                 }
                 else
                 {
-                    this.messageNotUnterstood(message);
+                    const stateCommand = new StateCommand(author.state, message.command);
+
+                    if (this.stateCommands.has(stateCommand))
+                    {
+                        // There is a function available for this specific state command combination.
+                        const messageFunction = this.stateCommands.get(stateCommand);
+                        messageFunction(message);
+                    }
+                    else
+                    {
+                        // No specific or catch all function found.
+                        this.messageNotUnterstood(message);
+                    }
                 }
             }
             else
