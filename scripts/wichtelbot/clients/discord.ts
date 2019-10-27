@@ -172,21 +172,6 @@ export class DiscordClient implements Client
         }
     }
 
-    public set onError (listener: (error: Error) => void)
-    {
-        this.client.on('error', listener);
-    }
-
-    public set onMessage (listener: (message: DiscordMessage) => void)
-    {
-        this.client.on('message',
-            (discordMessage: Discord.Message) => {
-                const message = new DiscordMessage(discordMessage, this);
-                listener(message);
-            }
-        );
-    }
-
     public getChannel (id: string): DiscordChannel
     {
         const channel = this.client.channels.get(id);
