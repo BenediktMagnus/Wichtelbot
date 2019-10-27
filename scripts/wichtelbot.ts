@@ -8,9 +8,9 @@ export default class Wichtelbot
     protected client: DiscordClient;
     protected database: Database;
 
-    constructor (onStarted: (loginName: string) => void)
+    constructor (onStarted: (loginName: string) => void, inMemory = false)
     {
-        this.database = new Database();
+        this.database = new Database('main', 'log', inMemory);
         this.client = new DiscordClient();
 
         /*

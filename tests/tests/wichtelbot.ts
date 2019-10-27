@@ -11,7 +11,8 @@ describe('wichtelbot',
             function (done)
             {
                 wichtelbot = new Wichtelbot(
-                    (): void => done()
+                    (): void => done(),
+                    true
                 );
             }
         );

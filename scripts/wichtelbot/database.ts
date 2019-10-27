@@ -10,10 +10,8 @@ import { InformationData } from './classes/information';
 
 export default class Database
 {
-
-    protected static readonly defaultMainFileName = 'main';
-    protected static readonly defaultLogFileName = 'log';
-
+    protected readonly mainDescriberFileName = 'main';
+    protected readonly logDesriberFileName = 'log';
     protected readonly dataPath = './data/';
 
     /**
@@ -29,10 +27,10 @@ export default class Database
     /**
      * Initialises the database connectiones.
      */
-    constructor (mainFileName = Database.defaultMainFileName, logFileName = Database.defaultLogFileName, inMemory = false)
+    constructor (mainFileName: string, logFileName: string, inMemory = false)
     {
-        this.mainDatabase = this.openOrCreateDatabase(mainFileName, Database.defaultMainFileName, inMemory);
-        this.logDatabase = this.openOrCreateDatabase(logFileName, Database.defaultLogFileName, inMemory);
+        this.mainDatabase = this.openOrCreateDatabase(mainFileName, this.mainDescriberFileName, inMemory);
+        this.logDatabase = this.openOrCreateDatabase(logFileName, this.logDesriberFileName, inMemory);
     }
 
     protected openOrCreateDatabase (databaseName: string, describerFileName: string, inMemory: boolean): Sqlite.Database
