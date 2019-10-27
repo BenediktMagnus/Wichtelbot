@@ -37,15 +37,15 @@ export default abstract class Config
         const currentEvent = this._main.currentEvent;
         const currentTime = Utils.getCurrentUnixTime();
 
-        if (currentEvent.registration < currentTime)
+        if (currentTime < currentEvent.registration)
         {
             return WichtelEventPhase.Waiting;
         }
-        else if (currentEvent.assignment < currentTime)
+        else if (currentTime < currentEvent.assignment)
         {
             return WichtelEventPhase.Registration;
         }
-        else if (currentEvent.end < currentTime)
+        else if (currentTime < currentEvent.end)
         {
             return WichtelEventPhase.Wichteln;
         }
