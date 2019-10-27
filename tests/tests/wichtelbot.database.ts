@@ -53,15 +53,6 @@ describe('database',
             }
         );
 
-        it('can be instantiated and closed.',
-            function ()
-            {
-                // Even if an in-memory database works, we surely want to test the real case:
-                const onDiskDatabase = new Database(mainDatabaseName, logDatabaseName);
-                onDiskDatabase.close();
-            }
-        );
-
         it('can log.',
             function ()
             {
