@@ -4,6 +4,9 @@ import Message from '../definitions/message';
 import TokenString from '../../../utility/tokenString';
 import Contact from '../../classes/contact';
 import State from '../definitions/state';
+import Config from '../../../utility/config';
+import WichtelEventPhase from '../../../utility/wichtelEvent';
+import ContactType from '../../types/contactType';
 
 /**
  * Message module for general things to handle.
@@ -35,17 +38,76 @@ export default class General
      */
     public firstContact (message: Message): void
     {
-        if (!this.database.hasContact(message.author.id))
+        const firstContactWaiting = (): void =>
         {
-            const contact = new Contact(message.author);
-            contact.state = State.Registration;
+            const registrationPhaseTime = new Date(Config.main.currentEvent.registration * 1000);
+            const parameters = [
+                { key: 'year', value: registrationPhaseTime.getFullYear().toString() },
+                { key: 'month', value: registrationPhaseTime.getMonth().toString() },
+                { key: 'day', value: registrationPhaseTime.getDay().toString() },
+                { key: 'hour', value: registrationPhaseTime.getHours().toString() },
+                { key: 'minute', value: registrationPhaseTime.getMinutes().toString() },
+            ];
+            const answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
 
-            this.database.saveContact(contact);
+            message.reply(answer);
+        };
+
+        const firstContactRegistration = (): void =>
+        {
+            let text: TokenString;
+
+            if (!this.database.hasContact(message.author.id))
+            {
+                const contact = new Contact(message.author);
+                contact.state = State.Registration;
+
+                this.database.saveContact(contact);
+
+                text = Localisation.texts.contactingRegistration;
+            }
+            else
+            {
+                const contact = this.database.getContact(message.author.id);
+
+                if (contact.type == ContactType.Contact)
+                {
+                    // If the contact type is "Contact", he has not registered in THIS event yet.
+                    text = Localisation.texts.contactingRegistration;
+                }
+                else
+                {
+                    // Otherwise, if it is of another contact type (only possible is "Member" at this point)
+                    // he wants to register again, which we answer with a special text.
+                    text = Localisation.texts.contactingAlreadyRegistered;
+                }
+            }
+
+            const answer = text.process(message.author);
+
+            message.author.send(answer);
+        };
+
+        const firstContactTooLate = (): void =>
+        {
+            const answer = Localisation.texts.contactingTooLate.process(message.author);
+
+            message.reply(answer);
+        };
+
+        switch (Config.currentEventPhase)
+        {
+            case WichtelEventPhase.Waiting:
+                firstContactWaiting();
+                break;
+            case WichtelEventPhase.Registration:
+                firstContactRegistration();
+                break;
+            default:
+                // Wichteln or Ended
+                firstContactTooLate();
+                break;
         }
-
-        const answer = Localisation.texts.contacting.process(message.author);
-
-        message.reply(answer);
     }
 
     /**

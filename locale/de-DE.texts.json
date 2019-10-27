@@ -1,5 +1,8 @@
 {
-    "contacting": "Hallo!\nSchön, dass du am 8ter Wischtöööln teilnehmen willst!\nSchreibe „registrieren“, um dich anzumelden.\nIch werde dich durch den Anmeldevorgang begleiten.",
+    "contactingTooEarly": "Die Anmeldephase beginnt erst am {date.day}.{date.month}.{date.year} um {date.hour}:{date.minute} Uhr.",
+    "contactingRegistration": "Hallo, {contact.nickname}!\nSchön, dass du am 8ter Wichteln teilnehmen willst!\nSchreibe „registrieren“, um den Anmeldevorgang zu starten.",
+    "contactingAlreadyRegistered": "Hallo, {contact.nickname}!\nDu hast dich bereits für das Wichteln registriert.",
+    "contactingTooLate": "Die Anmeldephase ist leider vorbei. Aber das nächste Wichteln kommt bestimmt!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",
     "notUnderstood": "Häää? Probiers nochmal."
 }

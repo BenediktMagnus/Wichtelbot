@@ -14,6 +14,7 @@ import MessageDefinition from '../../scripts/wichtelbot/message/definitions/mess
 import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import Client from '../../scripts/wichtelbot/message/definitions/client';
+import ConfigTestUtility from '../utility/config';
 
 type sendOrReply = (text: string, imageUrl?: string) => void;
 
@@ -72,6 +73,10 @@ describe('message handler',
         before(
             function ()
             {
+                // Set event phase to "registration" as a basis to work with:
+                ConfigTestUtility.setToRegistrationPhase();
+
+                // Initialise dependencies:
                 database = new Database('mainTest', 'logTest', true);
                 messageHandler = new MessageHandler(database);
 
@@ -88,6 +93,8 @@ describe('message handler',
             function ()
             {
                 database.close();
+
+                ConfigTestUtility.resetConfig();
             }
         );
 
@@ -144,10 +151,11 @@ describe('message handler',
             function ()
             {
                 let called = false;
+                let author: User;
 
                 const resultCallback = (text: string): void =>
                 {
-                    assert.strictEqual(text, Localisation.texts.contacting.process());
+                    assert.strictEqual(text, Localisation.texts.contactingRegistration.process(author));
                     called = true;
                 };
 
@@ -155,6 +163,7 @@ describe('message handler',
                 message.author.id = GeneralTestUtility.createRandomString();
                 message.author.tag = GeneralTestUtility.createRandomString() + '#1234';
                 message.author.name = GeneralTestUtility.createRandomString();
+                author = message.author;
 
                 messageHandler.process(message);
 
@@ -166,14 +175,16 @@ describe('message handler',
             function ()
             {
                 let called = false;
+                let author: User;
 
                 const resultCallback = (text: string): void =>
                 {
-                    assert.strictEqual(text, Localisation.texts.notUnderstood.process());
+                    assert.strictEqual(text, Localisation.texts.notUnderstood.process(author));
                     called = true;
                 };
 
                 const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                author = message.author;
 
                 messageHandler.process(message);
 

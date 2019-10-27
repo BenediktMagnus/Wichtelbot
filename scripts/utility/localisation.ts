@@ -17,7 +17,10 @@ interface Commands
 
 interface Texts
 {
-    contacting: TokenString;
+    contactingTooEarly: TokenString;
+    contactingRegistration: TokenString;
+    contactingAlreadyRegistered: TokenString;
+    contactingTooLate: TokenString;
     goodMorning: TokenString;
     notUnderstood: TokenString;
 }

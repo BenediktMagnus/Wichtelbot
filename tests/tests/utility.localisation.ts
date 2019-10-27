@@ -16,7 +16,7 @@ describe('localisation',
         it('has working texts.',
             function ()
             {
-                assert.notStrictEqual(Localisation.texts.contacting.rawString.length, undefined);
+                assert.notStrictEqual(Localisation.texts.notUnderstood.rawString.length, undefined);
             }
         );
     }
