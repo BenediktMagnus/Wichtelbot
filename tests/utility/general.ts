@@ -1,4 +1,4 @@
-export default class GeneralTestUtility
+export default abstract class GeneralTestUtility
 {
     public static createRandomString (): string
     {

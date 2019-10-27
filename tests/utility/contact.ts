@@ -5,7 +5,7 @@ import Information from '../../scripts/wichtelbot/classes/information';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
 import Member from '../../scripts/wichtelbot/classes/member';
 
-export default class ContactTestUtility
+export default abstract class ContactTestUtility
 {
     public static getRandomGiftType (): GiftType
     {
