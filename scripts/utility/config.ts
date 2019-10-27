@@ -19,8 +19,24 @@ interface BotConfig
 
 export default abstract class Config
 {
-    private static _main: MainConfig = JSON.parse(fs.readFileSync('./config/config.json', 'utf8'));
-    private static _bot: BotConfig = JSON.parse(fs.readFileSync('./config/bot.json', 'utf8'));
+    private static readonly mainConfigFileName = 'config';
+    private static readonly botConfigFileName = 'bot';
+
+    private static _main: MainConfig = Config.loadConfig(Config.mainConfigFileName);
+    private static _bot: BotConfig = Config.loadConfig(Config.botConfigFileName);
+
+    private static loadConfig (fileName: string): any
+    {
+        const content = JSON.parse(fs.readFileSync('./config/' + fileName + '.json', 'utf8'));
+
+        return content;
+    }
+
+    public static reload (): void
+    {
+        Config._main = Config.loadConfig(Config.mainConfigFileName);
+        Config._bot = Config.loadConfig(Config.botConfigFileName);
+    }
 
     public static get main (): MainConfig
     {

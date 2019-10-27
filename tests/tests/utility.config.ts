@@ -19,5 +19,21 @@ describe('config',
                 assert.notStrictEqual(Config.bot.name, undefined);
             }
         );
+
+        it('reload',
+            function ()
+            {
+                const oldLocale = Config.main.locale;
+                Config.main.locale = Config.main.locale + 'test';
+
+                const oldBotName = Config.bot.name;
+                Config.bot.name = Config.bot.name + 'test';
+
+                Config.reload();
+
+                assert.strictEqual(Config.main.locale, oldLocale);
+                assert.strictEqual(Config.bot.name, oldBotName);
+            }
+        );
     }
 );
