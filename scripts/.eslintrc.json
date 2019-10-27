@@ -60,6 +60,12 @@
         "no-param-reassign": "error",
         "guard-for-in": "error",
         "curly": "error",
+        "prefer-const": [
+            "error",
+            {
+                "ignoreReadBeforeAssign": true
+            }
+        ],
         "@typescript-eslint/class-name-casing": "error",
         "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/semi": [
