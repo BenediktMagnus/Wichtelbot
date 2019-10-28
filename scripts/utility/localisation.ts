@@ -23,6 +23,8 @@ interface Texts
     contactingTooLate: TokenString;
     goodMorning: TokenString;
     notUnderstood: TokenString;
+    helpText: TokenString;
+    commandInfo: TokenString;
 }
 
 export default abstract class Localisation

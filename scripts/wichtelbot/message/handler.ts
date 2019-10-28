@@ -32,7 +32,13 @@ export default class MessageHandler
     protected moderatorCommands: CommandMap = new Map<string, MessageFunction>();
     // Special:
     protected firstContact: MessageFunction = (message): void => this.generalModule.firstContact(message);
-    protected messageNotUnterstood: MessageFunction = (message): void => this.generalModule.notUnderstood(message);
+    protected messageNotUnterstood = (message: Message, availableCommands: CommandInfo[]): void => this.generalModule.notUnderstood(message, availableCommands);
+
+    /**
+     * Containts a list of commands for every state.
+     * This allows us to determine which commands could be executed in the current state.
+     */
+    protected commandListsForEveryState = new Map<State, CommandInfo[]>();
 
     /**
      * The handling definition is an object-based representation of the state/command handling structure.
@@ -73,6 +79,7 @@ export default class MessageHandler
         // State commands:
         for (const stateCommandDefinition of this.handlingDefinition.stateCommands)
         {
+            // For every command, fill it into the command map:
             this.prepareCommandInfo(stateCommandDefinition.commandInfo,
                 (command: string): void =>
                 {
@@ -81,6 +88,17 @@ export default class MessageHandler
                     this.stateCommands.set(stateCommand, stateCommandDefinition.handlerFunction);
                 }
             );
+
+            // Fill the command list for this state:
+            let commandList: CommandInfo[] = [];
+
+            const givenCommandList = this.commandListsForEveryState.get(stateCommandDefinition.state);
+            if (givenCommandList !== undefined)
+            {
+                commandList = givenCommandList;
+            }
+
+            commandList.push(stateCommandDefinition.commandInfo);
         }
 
         // Public commands:
@@ -148,7 +166,7 @@ export default class MessageHandler
             }
             else
             {
-                // Public commands (propably contacting):
+                // Public commands (probably contacting):
                 messageFunction = this.publicCommands.get(message.command);
             }
 
@@ -167,9 +185,9 @@ export default class MessageHandler
 
             if (this.database.hasContact(message.author.id))
             {
-                const author = this.database.getContact(message.author.id);
+                const contact = this.database.getContact(message.author.id);
 
-                const catchAllState = new StateCommand(author.state, '');
+                const catchAllState = new StateCommand(contact.state, '');
 
                 if (this.stateCommands.has(catchAllState))
                 {
@@ -179,7 +197,7 @@ export default class MessageHandler
                 }
                 else
                 {
-                    const stateCommand = new StateCommand(author.state, message.command);
+                    const stateCommand = new StateCommand(contact.state, message.command);
 
                     if (this.stateCommands.has(stateCommand))
                     {
@@ -190,7 +208,14 @@ export default class MessageHandler
                     else
                     {
                         // No specific or catch all function found.
-                        this.messageNotUnterstood(message);
+
+                        let availableCommands = this.commandListsForEveryState.get(contact.state);
+                        if (availableCommands === undefined)
+                        {
+                            availableCommands = [];
+                        }
+
+                        this.messageNotUnterstood(message, availableCommands);
                     }
                 }
             }

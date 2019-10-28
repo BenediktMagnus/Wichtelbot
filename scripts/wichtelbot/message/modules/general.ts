@@ -1,4 +1,4 @@
-import Localisation from '../../../utility/localisation';
+import Localisation, { CommandInfo } from '../../../utility/localisation';
 import Database from '../../database';
 import Message from '../definitions/message';
 import TokenString from '../../../utility/tokenString';
@@ -113,11 +113,50 @@ export default class General
     /**
      * Replies context-dependend help messages.
      */
-    public notUnderstood (message: Message): void
+    public notUnderstood (message: Message, availableCommands: CommandInfo[]): void
     {
-        const answer = Localisation.texts.notUnderstood.process(message.author);
+        let answer = Localisation.texts.notUnderstood.process(message.author);
 
-        // TODO: Print information about available commands.
+        // Print every available command with an info text as help message:
+        if (availableCommands.length > 0)
+        {
+            const commandInfoTexts: string[] = [];
+
+            for (const commandInfo of availableCommands)
+            {
+                if (commandInfo.info === undefined)
+                {
+                    continue;
+                }
+
+                const parameters = [
+                    {
+                        key: 'name',
+                        value: commandInfo.info,
+                    }
+                ];
+
+                const singleCommandInfoText = Localisation.texts.commandInfo.process(undefined, parameters);
+
+                commandInfoTexts.push(singleCommandInfoText);
+            }
+
+            if (commandInfoTexts.length > 0)
+            {
+                const infoText = commandInfoTexts.join('\n');
+
+                const parameters = [
+                    {
+                        key: 'commandInfo',
+                        value: infoText,
+                    }
+                ];
+
+                const helpText = Localisation.texts.helpText.process(undefined, parameters);
+
+                answer += '\n\n' + helpText;
+            }
+        }
 
         message.reply(answer);
     }
