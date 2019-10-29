@@ -1,5 +1,5 @@
 import Config from '../../utility/config';
-import Localisation, { CommandInfo } from '../../utility/localisation';
+import { CommandInfo } from '../../utility/localisation';
 
 import Database from '../database';
 
@@ -7,7 +7,7 @@ import State from './definitions/state';
 import Message from './definitions/message';
 import { ChannelType } from './definitions/channel';
 
-import HandlingDefinition from './handlingTools/handlingDefinition';
+import HandlingDefinition from './handlingDefinition';
 import MessageFunction from './handlingTools/messageFunction';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
@@ -35,58 +35,23 @@ export default class MessageHandler
     protected messageNotUnterstood = (message: Message, availableCommands: CommandInfo[]): void => this.generalModule.notUnderstood(message, availableCommands);
 
     /**
+     * The handling definition is an object-based representation of the state/command handling structure.
+     */
+    protected readonly handlingDefinition: HandlingDefinition;
+
+    /**
      * Containts a list of commands for every state.
      * This allows us to determine which commands could be executed in the current state.
      */
     protected commandListsForEveryState = new Map<State, CommandInfo[]>();
-
-    /**
-     * The handling definition is an object-based representation of the state/command handling structure.
-     */
-    protected readonly handlingDefinition: HandlingDefinition = {
-        stateCommands: [
-            {
-                state: State.Nothing,
-                commandInfo: Localisation.commands.goodMorning,
-                handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodMorning)
-            },
-            {
-                state: State.New,
-                commandInfo: Localisation.commands.registration,
-                handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.registration, State.Registration)
-            },
-            {
-                state: State.Registration,
-                commandInfo: Localisation.commands.yes,
-                handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver) // FIXME: Text
-            },
-            {
-                state: State.Registration,
-                commandInfo: Localisation.commands.no,
-                handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.registrationCancelled, State.New)
-            },
-            {
-                state: State.Registration,
-                commandInfo: Localisation.commands.maybe,
-                handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.maybeResponse)
-            }
-        ],
-        publicCommands: [
-            {
-                commandInfo: Localisation.commands.contacting,
-                handlerFunction: this.firstContact
-            }
-        ],
-        moderatorCommands: [
-
-        ]
-    };
 
     constructor (database: Database)
     {
         this.database = database;
 
         this.generalModule = new GeneralModule(database);
+
+        this.handlingDefinition = new HandlingDefinition(this.generalModule);
 
         this.applyHandlingDefinition();
     }
