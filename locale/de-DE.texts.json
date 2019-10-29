@@ -1,10 +1,14 @@
 {
+    "commandInfo": "\"{command.name}\": {command.info}",
     "contactingTooEarly": "Die Anmeldephase beginnt erst am {date.day}.{date.month}.{date.year} um {date.hour}:{date.minute} Uhr.",
     "contactingRegistration": "Hallo, {contact.nickname}!\nSchön, dass du am 8ter Wichteln teilnehmen willst!\nSchreibe „registrieren“, um den Anmeldevorgang zu starten.",
     "contactingAlreadyRegistered": "Hallo, {contact.nickname}!\nDu hast dich bereits für das Wichteln registriert.",
     "contactingTooLate": "Die Anmeldephase ist leider vorbei. Aber das nächste Wichteln kommt bestimmt!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",
-    "notUnderstood": "Häää? Probiers nochmal.",
     "helpText": "Folgende Befehle stehen dir derzeit zur Verfügung:\n{help.commandInfo}",
-    "commandInfo": "\"{command.name}\": {command.info}"
+    "informationGiftTypeAsGiver": "FIXME: Fill in text.",
+    "maybeResponse": "Ein Vielleicht gibts nicht! Die Weltherrschaft braucht eindeutige Ergebnisse!",
+    "notUnderstood": "Häää? Probiers nochmal.",
+    "registration": "Okay, los gehts!\nDu kannst den Registrierungsvorgang jederzeit unterbrechen und einfach zu einem späteren Zeitpunkt weitermachen.\n\nInfos vorab:\n\nBitte beachte: Wenn du deinen Wichtel analog bewichtelst, erhälst du sowohl den Klarnamen als auch eine Adresse. Bitte bedenke, dass dies Informationen sind, die nichts auf dem Discord zu suchen haben und gehe daher sensibel damit um.\n\nAuf dem Achterdiscord wird es dieses Mal drei verschiedene Kanäle für das Wichteln geben. Einen reinen Infokanal, in dem das Orgateam schreibt, einen spoilerfreien für Nachfragen und einen Hibbelkanal für Vorfreude, Fotos, Spekulationen etc.\nSo kann jede_r das Wichteln so genießen wie er_sie das möchte.\n\nAlles klar? Dann schreibe „ja“ um fortzufahren.",
+    "registrationCancelled": "Schade! Wenn du es dir anders überlegen solltest, schreibe einfach „registrieren“, um den Anmeldevorgang erneut zu starten."
 }

@@ -12,19 +12,27 @@ export interface CommandInfo
 interface Commands
 {
     contacting: CommandInfo;
+    registration: CommandInfo;
+    yes: CommandInfo;
+    no: CommandInfo;
+    maybe: CommandInfo;
     goodMorning: CommandInfo;
 }
 
 interface Texts
 {
+    commandInfo: TokenString;
     contactingTooEarly: TokenString;
     contactingRegistration: TokenString;
     contactingAlreadyRegistered: TokenString;
     contactingTooLate: TokenString;
     goodMorning: TokenString;
-    notUnderstood: TokenString;
     helpText: TokenString;
-    commandInfo: TokenString;
+    informationGiftTypeAsGiver: TokenString;
+    maybeResponse: TokenString;
+    notUnderstood: TokenString;
+    registration: TokenString;
+    registrationCancelled: TokenString;
 }
 
 export default abstract class Localisation

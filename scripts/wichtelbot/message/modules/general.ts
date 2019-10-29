@@ -23,6 +23,7 @@ export default class General
     /**
      * Replies with a defined text. \
      * Will set User/Contact data for the TokenString.
+     * @param text The text to reply.
      */
     public reply (message: Message, text: TokenString): void
     {
@@ -30,6 +31,18 @@ export default class General
         const answer = text.process(whatIsThere);
 
         message.reply(answer);
+    }
+
+    /**
+     * Sets the state of the contact, then replies.
+     */
+    public continue (message: Message, text: TokenString, state: State): void
+    {
+        const contact = this.database.getContact(message.author.id);
+        contact.state = state;
+        this.database.saveContact(contact);
+
+        this.reply(message, text);
     }
 
     /**
@@ -60,7 +73,7 @@ export default class General
             if (!this.database.hasContact(message.author.id))
             {
                 const contact = new Contact(message.author);
-                contact.state = State.Registration;
+                contact.state = State.New;
 
                 this.database.saveContact(contact);
 

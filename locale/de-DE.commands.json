@@ -1,6 +1,19 @@
 {
     "contacting": {
-        "commands": ["wischtöööln"]
+        "commands": ["wichteln", "wischtöööln"]
+    },
+    "registration": {
+        "commands": ["registrieren"],
+        "info": "Startet den Registrierungsprozess."
+    },
+    "yes": {
+        "commands": ["ja", "jap", "jawohl", "okay", "meinetwegen"]
+    },
+    "no": {
+        "commands": ["nein", "ne", "nö", "ausgeschlossen", "auf keinen Fall"]
+    },
+    "maybe": {
+        "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
     "goodMorning": {
         "commands": [

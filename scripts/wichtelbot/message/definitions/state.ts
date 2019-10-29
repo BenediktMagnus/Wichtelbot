@@ -2,6 +2,7 @@ enum State
 {
     // As contact:
     Nothing = '',
+    New = 'new',
     Registration = 'registration',
     // As contact/member:
     InformationGiftTypeAsTaker = 'questionGiftTypeAsTaker',
