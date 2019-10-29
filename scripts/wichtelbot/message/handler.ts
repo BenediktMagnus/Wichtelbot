@@ -140,6 +140,28 @@ export default class MessageHandler
         }
     }
 
+    /**
+     * Tries to find a state command and returns if it has been called.
+     * @param stateCommand The state command to search for.
+     * @param message The message to call the command with.
+     * @return True if the state command has been found and called.
+     */
+    protected tryToCallStateCommand (stateCommand: StateCommand, message: Message): boolean
+    {
+        if (this.stateCommands.has(stateCommand))
+        {
+            // There is a function available for this specific state command combination.
+            const messageFunction = this.stateCommands.get(stateCommand);
+            messageFunction(message);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public process (message: Message): void
     {
         if (message.author.isBot)
@@ -179,44 +201,33 @@ export default class MessageHandler
         }
         else if (message.channel.type == ChannelType.Personal)
         {
-            // Main command:
-
             this.database.log(message.author.id, message.author.tag, message.content);
 
             if (this.database.hasContact(message.author.id))
             {
                 const contact = this.database.getContact(message.author.id);
 
-                const catchAllState = new StateCommand(contact.state, '');
-
-                if (this.stateCommands.has(catchAllState))
+                if (!this.tryToCallStateCommand(new StateCommand(contact.state, ''), message) && // Catch all
+                    !this.tryToCallStateCommand(new StateCommand(contact.state, message.command), message) && // Specific state command
+                    !this.tryToCallStateCommand(new StateCommand(State.Nothing, message.command), message)) // Stateless command
                 {
-                    // The contact state has a catch all command that accepts every input.
-                    const messageFunction = this.stateCommands.get(catchAllState);
-                    messageFunction(message);
-                }
-                else
-                {
-                    const stateCommand = new StateCommand(contact.state, message.command);
+                    // No function found.
 
-                    if (this.stateCommands.has(stateCommand))
+                    let availableStateCommands = this.commandListsForEveryState.get(contact.state);
+                    if (availableStateCommands === undefined)
                     {
-                        // There is a function available for this specific state command combination.
-                        const messageFunction = this.stateCommands.get(stateCommand);
-                        messageFunction(message);
+                        availableStateCommands = [];
                     }
-                    else
+
+                    let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
+                    if (availableStatelessCommands === undefined)
                     {
-                        // No specific or catch all function found.
-
-                        let availableCommands = this.commandListsForEveryState.get(contact.state);
-                        if (availableCommands === undefined)
-                        {
-                            availableCommands = [];
-                        }
-
-                        this.messageNotUnterstood(message, availableCommands);
+                        availableStatelessCommands = [];
                     }
+
+                    const availableCommands = availableStateCommands.concat(availableStatelessCommands);
+
+                    this.messageNotUnterstood(message, availableCommands);
                 }
             }
             else
