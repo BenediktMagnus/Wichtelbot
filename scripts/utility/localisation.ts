@@ -12,11 +12,11 @@ export interface CommandInfo
 interface Commands
 {
     contacting: CommandInfo;
+    goodMorning: CommandInfo;
+    maybe: CommandInfo;
+    no: CommandInfo;
     registration: CommandInfo;
     yes: CommandInfo;
-    no: CommandInfo;
-    maybe: CommandInfo;
-    goodMorning: CommandInfo;
 }
 
 interface Texts

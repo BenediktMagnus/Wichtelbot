@@ -2,19 +2,6 @@
     "contacting": {
         "commands": ["wichteln", "wischtöööln"]
     },
-    "registration": {
-        "commands": ["registrieren"],
-        "info": "Startet den Registrierungsprozess."
-    },
-    "yes": {
-        "commands": ["ja", "jap", "jawohl", "okay", "meinetwegen"]
-    },
-    "no": {
-        "commands": ["nein", "ne", "nö", "ausgeschlossen", "auf keinen Fall"]
-    },
-    "maybe": {
-        "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
-    },
     "goodMorning": {
         "commands": [
             "guten Morgen",
@@ -24,5 +11,18 @@
             "moin",
             "moin moin"
         ]
+    },
+    "maybe": {
+        "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
+    },
+    "no": {
+        "commands": ["nein", "ne", "nö", "ausgeschlossen", "auf keinen Fall"]
+    },
+    "registration": {
+        "commands": ["registrieren"],
+        "info": "Startet den Registrierungsprozess."
+    },
+    "yes": {
+        "commands": ["ja", "jap", "jawohl", "okay", "meinetwegen"]
     }
 }
