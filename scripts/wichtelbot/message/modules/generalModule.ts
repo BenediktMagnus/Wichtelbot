@@ -11,7 +11,7 @@ import ContactType from '../../types/contactType';
 /**
  * Message module for general things to handle.
  */
-export default class General
+export default class GeneralModule
 {
     protected database: Database;
 

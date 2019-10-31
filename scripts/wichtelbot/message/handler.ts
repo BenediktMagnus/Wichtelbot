@@ -12,7 +12,7 @@ import MessageFunction from './handlingTools/messageFunction';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
 
-import GeneralModule from './modules/general';
+import GeneralModule from './modules/generalModule';
 
 // TODO: Replace all toLowerCase with toLocaleLowerCase(locale) as soon as the draft ECMA-402 is accepted.
 

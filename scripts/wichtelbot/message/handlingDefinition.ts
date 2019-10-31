@@ -1,8 +1,8 @@
 import Localisation, { CommandInfo } from '../../utility/localisation';
 import State from "./definitions/state";
 import MessageFunction from './handlingTools/messageFunction';
-import General from './modules/general';
 
+import GeneralModule from './modules/generalModule';
 interface CommandDefinition
 {
     commandInfo: CommandInfo;
@@ -19,9 +19,9 @@ interface StateCommandDefinition extends CommandDefinition
  */
 export default class HandlingDefinition
 {
-    protected generalModule: General;
+    protected generalModule: GeneralModule;
 
-    constructor (generalModule: General)
+    constructor (generalModule: GeneralModule)
     {
         this.generalModule = generalModule;
     }
