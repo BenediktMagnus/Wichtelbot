@@ -171,7 +171,7 @@ describe('message handler',
             }
         );
 
-        it('has working messageNotUnterstood.',
+        it('calls messageNotUnterstood correctly.',
             function ()
             {
                 let called = false;

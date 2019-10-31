@@ -90,8 +90,8 @@ export default class GeneralModule
                 }
                 else
                 {
-                    // Otherwise, if it is of another contact type (only possible is "Member" at this point)
-                    // he wants to register again, which we answer with a special text.
+                    // Otherwise, if it is of another contact type he wants to
+                    // register again, which we answer with a special text.
                     text = Localisation.texts.contactingAlreadyRegistered;
                 }
             }

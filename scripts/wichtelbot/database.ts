@@ -180,6 +180,7 @@ export default class Database
 
     /**
      * NOTE: The contact objects's lastUpdateTime will be updated.
+     * TODO: Give the save methods a better name like "insert" or "create" or "saveNew".
      */
     public saveContact (contact: Contact): void
     {
@@ -278,7 +279,7 @@ export default class Database
                 id = :id`
         );
 
-        // THe information data must nevertheless be created because the former contact had no information.
+        // The information data must nevertheless be created because the former contact had no information.
         const informationStatement = this.mainDatabase.prepare(
             `INSERT INTO
                 information (contactId, lastUpdateTime, giftTypeAsTaker, giftTypeAsGiver, address, country,
