@@ -233,6 +233,32 @@ export default class Database
     }
 
     /**
+     * Will check if there is information in the database.
+     * @param contactId The ID of the contact the information must be linked to.
+     */
+    public hasInformation (contactId: string): boolean
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                CASE
+                    WHEN EXISTS
+                        (SELECT 1 FROM information WHERE contactId = ? LIMIT 1)
+                    THEN 1
+                    ELSE 0
+                END`
+        );
+
+        // Will make the get method to return the value of the first column
+        // instead of an object for all columns. Since we only want one value
+        // this makes it much easier:
+        statement.pluck(true);
+
+        const result = statement.get(contactId);
+
+        return result;
+    }
+
+    /**
      * Saves a member in the database by saving its information and updating the contact. \
      * NOTE: The member and the information objects' lastUpdateTime will be updated.
      */
