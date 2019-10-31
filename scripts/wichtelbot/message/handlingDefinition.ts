@@ -40,7 +40,11 @@ export default class HandlingDefinition
         {
             state: State.Registration,
             commandInfo: Localisation.commands.yes,
-            handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver) // FIXME: Text
+            handlerFunction: (message): void =>
+            {
+                this.generalModule.register(message);
+                this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
+            }
         },
         {
             state: State.Registration,

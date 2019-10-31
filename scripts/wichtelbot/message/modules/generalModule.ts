@@ -124,6 +124,24 @@ export default class GeneralModule
     }
 
     /**
+     * Register a contact to become a member with information attached.
+     * NOTE: This only attaches information to the contact to become a member CLASS. This will NOT change the contact type!
+     */
+    public register (message: Message): void
+    {
+        const contact = this.database.getContact(message.author.id);
+
+        if (!this.database.hasInformation(contact.id))
+        {
+            const member = new Member(contact);
+
+            // NOTE: We must NOT change the type of the contact here!
+
+            this.database.saveMember(member);
+        }
+    }
+
+    /**
      * Replies context-dependend help messages.
      */
     public notUnderstood (message: Message, availableCommands: CommandInfo[]): void
