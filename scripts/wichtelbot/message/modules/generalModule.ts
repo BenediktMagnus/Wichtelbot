@@ -7,6 +7,7 @@ import State from '../definitions/state';
 import Config from '../../../utility/config';
 import WichtelEventPhase from '../../../utility/wichtelEvent';
 import ContactType from '../../types/contactType';
+import Member from '../../classes/member';
 
 /**
  * Message module for general things to handle.
@@ -40,7 +41,7 @@ export default class GeneralModule
     {
         const contact = this.database.getContact(message.author.id);
         contact.state = state;
-        this.database.saveContact(contact);
+        this.database.updateContact(contact);
 
         this.reply(message, text);
     }
