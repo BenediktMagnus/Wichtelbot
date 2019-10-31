@@ -12,6 +12,15 @@
             "moin moin"
         ]
     },
+    "informationAnalogue": {
+        "commands": ["analog", "nur analog"]
+    },
+    "informationBothAnalogueAndDigital": {
+        "commands": ["beides", "analog und digital", "digital und analog"]
+    },
+    "informationDigital": {
+        "commands": ["digital", "nur digital"]
+    },
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },

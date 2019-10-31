@@ -13,6 +13,7 @@ import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
 
 import GeneralModule from './modules/generalModule';
+import InformationModule from './modules/informationModule';
 
 // TODO: Replace all toLowerCase with toLocaleLowerCase(locale) as soon as the draft ECMA-402 is accepted.
 
@@ -24,6 +25,7 @@ export default class MessageHandler
     protected database: Database;
 
     protected generalModule: GeneralModule;
+    protected informationModule: InformationModule;
 
     // In private messages:
     protected stateCommands = new StateCommandMap();
@@ -50,8 +52,9 @@ export default class MessageHandler
         this.database = database;
 
         this.generalModule = new GeneralModule(database);
+        this.informationModule = new InformationModule(database);
 
-        this.handlingDefinition = new HandlingDefinition(this.generalModule);
+        this.handlingDefinition = new HandlingDefinition(this.generalModule, this.informationModule);
 
         this.applyHandlingDefinition();
     }

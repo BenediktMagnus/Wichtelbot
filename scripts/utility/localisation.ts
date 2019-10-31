@@ -13,6 +13,9 @@ interface Commands
 {
     contacting: CommandInfo;
     goodMorning: CommandInfo;
+    informationAnalogue: CommandInfo;
+    informationBothAnalogueAndDigital: CommandInfo;
+    informationDigital: CommandInfo;
     maybe: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
@@ -29,6 +32,7 @@ interface Texts
     goodMorning: TokenString;
     helpText: TokenString;
     informationGiftTypeAsGiver: TokenString;
+    informationGiftTypeAsTaker: TokenString;
     maybeResponse: TokenString;
     notUnderstood: TokenString;
     registration: TokenString;
