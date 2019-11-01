@@ -18,6 +18,12 @@ interface StateCommandDefinition extends CommandDefinition
     state: State;
 }
 
+class CatchAllCommand implements CommandInfo
+{
+    public commands: string[] = [''];
+    public info: string | undefined = undefined;
+}
+
 /**
  * The handling definition is an object-based representation of the state/command handling structure.
  */
@@ -118,6 +124,16 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.All);
                 this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+            }
+        },
+        // Information, Address:
+        {
+            state: State.InformationAddress,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setAddress(message);
+                this.generalModule.continue(message, Localisation.texts.informationCountry, State.InformationCountry);
             }
         },
     ];

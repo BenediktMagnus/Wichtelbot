@@ -32,6 +32,7 @@ interface Texts
     goodMorning: TokenString;
     helpText: TokenString;
     informationAddress: TokenString;
+    informationCountry: TokenString;
     informationDigitalAddress: TokenString;
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
