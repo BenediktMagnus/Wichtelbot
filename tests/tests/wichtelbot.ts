@@ -7,20 +7,16 @@ describe('wichtelbot',
     {
         let wichtelbot: Wichtelbot;
 
-        it('can be instantiated.',
+        it('can be instantiated and terminated.',
             function (done)
             {
-                wichtelbot = new Wichtelbot(
-                    (): void => done(),
-                    true
-                );
-            }
-        );
+                const onStarted = (): void =>
+                {
+                    wichtelbot.terminate();
+                    done();
+                };
 
-        it('can be terminated.',
-            function ()
-            {
-                wichtelbot.terminate();
+                wichtelbot = new Wichtelbot(onStarted, true);
             }
         );
     }
