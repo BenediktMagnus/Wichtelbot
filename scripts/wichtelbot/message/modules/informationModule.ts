@@ -21,6 +21,8 @@ export default class InformationModule
 
         member.information.giftTypeAsGiver = giftType;
 
+        this.database.updateMember(member);
+    }
 
     public setGiftTypeAsTaker (message: Message, giftType: GiftType): void
     {
