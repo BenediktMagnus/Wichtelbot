@@ -35,6 +35,7 @@ interface Texts
     informationAllergies: TokenString;
     informationCountry: TokenString;
     informationDigitalAddress: TokenString;
+    informationFreeText: TokenString;
     informationGiftExclusion: TokenString;
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
