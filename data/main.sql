@@ -33,7 +33,7 @@ CREATE TABLE `information` (
 	`giftTypeAsGiver`	TEXT NOT NULL DEFAULT '',
 	`address`	TEXT NOT NULL DEFAULT '',
 	`country`	TEXT NOT NULL DEFAULT '',
-	`steamName`	TEXT NOT NULL DEFAULT '',
+	`digitalAddress`	TEXT NOT NULL DEFAULT '',
 	`international`	TEXT NOT NULL DEFAULT '',
 	`wishList`	TEXT NOT NULL DEFAULT '',
 	`allergies`	TEXT NOT NULL DEFAULT '',

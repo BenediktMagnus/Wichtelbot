@@ -47,13 +47,13 @@ describe('tokenString',
 
                 const rawString = '{contact.name}, {contact.tag}, {contact.nickname},' +
                                   '{information.giftTypeAsTaker}, {information.giftTypeAsGiver},' +
-                                  '{information.address}, {information.country}, {information.steamName},' +
+                                  '{information.address}, {information.country}, {information.digitalAddress},' +
                                   '{information.international}, {information.wishList},' +
                                   '{information.allergies}, {information.giftExclusion},' +
                                   '{information.userExclusion}, {information.freeText}';
                 const expectedString = `${member.name}, ${member.tag}, ${member.nickname},` +
                                        `${member.information.giftTypeAsTaker}, ${member.information.giftTypeAsGiver},` +
-                                       `${member.information.address}, ${member.information.country}, ${member.information.steamName},` +
+                                       `${member.information.address}, ${member.information.country}, ${member.information.digitalAddress},` +
                                        `${member.information.international}, ${member.information.wishList},` +
                                        `${member.information.allergies}, ${member.information.giftExclusion},` +
                                        `${member.information.userExclusion}, ${member.information.freeText}`;

@@ -101,7 +101,7 @@ export default class TokenString
             map.set('giftTypeAsGiver', contactData.information.giftTypeAsGiver);
             map.set('address', contactData.information.address);
             map.set('country', contactData.information.country);
-            map.set('steamName', contactData.information.steamName);
+            map.set('digitalAddress', contactData.information.digitalAddress);
             map.set('international', contactData.information.international);
             map.set('wishList', contactData.information.wishList);
             map.set('allergies', contactData.information.allergies);

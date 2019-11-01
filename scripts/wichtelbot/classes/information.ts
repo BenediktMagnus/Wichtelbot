@@ -8,7 +8,7 @@ export interface InformationData
     giftTypeAsGiver: GiftType;
     address: string;
     country: string;
-    steamName: string;
+    digitalAddress: string;
     international: string;
     wishList: string;
     allergies: string;
@@ -25,7 +25,7 @@ export default class Information implements InformationData
     public giftTypeAsGiver: GiftType = GiftType.Nothing;
     public address = '';
     public country = '';
-    public steamName = '';
+    public digitalAddress = '';
     public international = '';
     public wishList = '';
     public allergies = '';

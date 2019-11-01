@@ -283,10 +283,10 @@ export default class Database
         const informationStatement = this.mainDatabase.prepare(
             `INSERT INTO
                 information (contactId, lastUpdateTime, giftTypeAsTaker, giftTypeAsGiver, address, country,
-                             steamName, international, wishList, allergies, giftExclusion, userExclusion, freeText)
+                             digitalAddress, international, wishList, allergies, giftExclusion, userExclusion, freeText)
             VALUES
                 (:contactId, :lastUpdateTime, :giftTypeAsTaker, :giftTypeAsGiver, :address, :country,
-                 :steamName, :international, :wishList, :allergies, :giftExclusion, :userExclusion, :freeText)`
+                 :digitalAddress, :international, :wishList, :allergies, :giftExclusion, :userExclusion, :freeText)`
         );
 
         const runTransaction = this.mainDatabase.transaction(
@@ -354,7 +354,7 @@ export default class Database
             SET
                 lastUpdateTime = :lastUpdateTime, giftTypeAsTaker = :giftTypeAsTaker,
                 giftTypeAsGiver = :giftTypeAsGiver, address = :address, country = :country,
-                steamName = :steamName, international = :international, wishList = :wishList,
+                digitalAddress = :digitalAddress, international = :international, wishList = :wishList,
                 allergies = :allergies, giftExclusion = :giftExclusion,
                 userExclusion = :userExclusion, freeText = :freeText
             WHERE

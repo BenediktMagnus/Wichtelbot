@@ -9,7 +9,7 @@ enum State
     InformationGiftTypeAsGiver = 'informationGiftTypeAsGiver',
 	InformationAddress = 'informationAddress',
 	InformationCountry = 'informationCountry',
-	InformationSteamName = 'informationSteamName',
+	InformationDigitalAddress = 'informationDigitalAddress',
 	InformationInternational = 'informationInternational',
 	InformationWishList = 'informationWishList',
 	InformationAllergies = 'informationAllergies',

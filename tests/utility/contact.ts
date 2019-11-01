@@ -53,7 +53,7 @@ export default abstract class ContactTestUtility
                 giftTypeAsGiver: ContactTestUtility.getRandomGiftType(),
                 address: GeneralTestUtility.createRandomString(),
                 country: GeneralTestUtility.createRandomString(),
-                steamName: GeneralTestUtility.createRandomString(),
+                digitalAddress: GeneralTestUtility.createRandomString(),
                 international: GeneralTestUtility.createRandomString(),
                 wishList: GeneralTestUtility.createRandomString(),
                 allergies: GeneralTestUtility.createRandomString(),
