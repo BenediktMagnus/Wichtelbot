@@ -1,6 +1,8 @@
 import Localisation, { CommandInfo } from '../../utility/localisation';
+import Config from '../../utility/config';
 
 import State from "./definitions/state";
+import Message from './definitions/message';
 import MessageFunction from './handlingTools/messageFunction';
 
 import GeneralModule from './modules/generalModule';
@@ -36,6 +38,32 @@ export default class HandlingDefinition
     {
         this.generalModule = generalModule;
         this.informationModule = informationModule;
+    }
+
+    protected continueBasedOnNeededInformationStates (message: Message, exclude: State[]): void
+    {
+        let neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);
+
+        // Filter out the states in the exclude list:
+        neededInformationStates = neededInformationStates.filter(state => !exclude.includes(state));
+
+        // Continue based on which information is still needed:
+        if (neededInformationStates.includes(State.InformationAddress))
+        {
+            this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+        }
+        else if (neededInformationStates.includes(State.InformationDigitalAddress))
+        {
+            this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+        }
+        else if (neededInformationStates.includes(State.InformationInternationalAllowed))
+        {
+            this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+        }
+        else
+        {
+            this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+        }
     }
 
     public stateCommands: StateCommandDefinition[] = [
@@ -134,6 +162,25 @@ export default class HandlingDefinition
             {
                 this.informationModule.setAddress(message);
                 this.generalModule.continue(message, Localisation.texts.informationCountry, State.InformationCountry);
+            }
+        },
+        // Information, Country:
+        {
+            state: State.InformationCountry,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                if (Config.main.allowedCountries.includes(message.command))
+                {
+                    this.informationModule.setCountry(message);
+
+                    const alreadyGatheredInformation = [State.InformationAddress];
+                    this.continueBasedOnNeededInformationStates(message, alreadyGatheredInformation);
+                }
+                else
+                {
+                    this.generalModule.reply(message, Localisation.texts.notUnderstood);
+                }
             }
         },
     ];

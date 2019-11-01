@@ -36,6 +36,8 @@ interface Texts
     informationDigitalAddress: TokenString;
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
+    informationInternationalAllowed: TokenString;
+    informationWishList: TokenString;
     maybeResponse: TokenString;
     no: TokenString;
     notUnderstood: TokenString;
