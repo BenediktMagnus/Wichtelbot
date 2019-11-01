@@ -20,5 +20,7 @@ export default class InformationModule
         const member = this.database.getMember(message.author.id);
 
         member.information.giftTypeAsGiver = giftType;
+
+        this.database.updateMember(member);
     }
 }
