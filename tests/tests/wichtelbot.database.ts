@@ -1,6 +1,5 @@
 import 'mocha';
 import * as assert from 'assert';
-import * as fs from 'fs';
 
 import ContactTestUtility from '../utility/contact';
 
@@ -41,15 +40,6 @@ describe('database',
                 {
                     console.log(error);
                 }
-            }
-        );
-
-        after(
-            function ()
-            {
-                // Remove used database files:
-                fs.unlinkSync('./data/' + mainDatabaseName + '.sqlite');
-                fs.unlinkSync('./data/' + logDatabaseName + '.sqlite');
             }
         );
 
