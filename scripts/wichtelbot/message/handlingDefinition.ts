@@ -195,6 +195,25 @@ export default class HandlingDefinition
                 this.continueBasedOnNeededInformationStates(message, alreadyGatheredInformation);
             }
         },
+        // Information, InternationalAllowed:
+        {
+            state: State.InformationInternationalAllowed,
+            commandInfo: Localisation.commands.yes,
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setInternationalAllowed(message, true);
+                this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+            }
+        },
+        {
+            state: State.InformationInternationalAllowed,
+            commandInfo: Localisation.commands.no,
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setInternationalAllowed(message, false);
+                this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+            }
+        },
     ];
     public publicCommands: CommandDefinition[] = [
         {

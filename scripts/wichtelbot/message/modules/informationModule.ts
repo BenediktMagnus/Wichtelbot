@@ -96,4 +96,13 @@ export default class InformationModule
 
         this.database.updateMember(member);
     }
+
+    public setInternationalAllowed (message: Message, internationalAllowed: boolean): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.internationalAllowed = internationalAllowed;
+
+        this.database.updateMember(member);
+    }
 }
