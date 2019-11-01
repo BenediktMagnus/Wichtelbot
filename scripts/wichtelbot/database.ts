@@ -104,6 +104,17 @@ export default class Database
         // into an empty one, leaving the methods alone.
         const bindableObject = { ...object };
 
+        // SQLite3 does not support boolean values. So we have to convert
+        // them into numbers, otherwise an error will be thrown.
+        for (const [key, value] of Object.entries(bindableObject))
+        {
+            if ((typeof value) === 'boolean')
+            {
+                const valueAsNumber = value ? 1 : 0;
+                bindableObject[key] = valueAsNumber;
+            }
+        }
+
         return bindableObject;
     }
 
@@ -283,10 +294,10 @@ export default class Database
         const informationStatement = this.mainDatabase.prepare(
             `INSERT INTO
                 information (contactId, lastUpdateTime, giftTypeAsTaker, giftTypeAsGiver, address, country,
-                             digitalAddress, international, wishList, allergies, giftExclusion, userExclusion, freeText)
+                             digitalAddress, internationalAllowed, wishList, allergies, giftExclusion, userExclusion, freeText)
             VALUES
                 (:contactId, :lastUpdateTime, :giftTypeAsTaker, :giftTypeAsGiver, :address, :country,
-                 :digitalAddress, :international, :wishList, :allergies, :giftExclusion, :userExclusion, :freeText)`
+                 :digitalAddress, :internationalAllowed, :wishList, :allergies, :giftExclusion, :userExclusion, :freeText)`
         );
 
         const runTransaction = this.mainDatabase.transaction(
@@ -354,8 +365,8 @@ export default class Database
             SET
                 lastUpdateTime = :lastUpdateTime, giftTypeAsTaker = :giftTypeAsTaker,
                 giftTypeAsGiver = :giftTypeAsGiver, address = :address, country = :country,
-                digitalAddress = :digitalAddress, international = :international, wishList = :wishList,
-                allergies = :allergies, giftExclusion = :giftExclusion,
+                digitalAddress = :digitalAddress, internationalAllowed = :internationalAllowed,
+                wishList = :wishList, allergies = :allergies, giftExclusion = :giftExclusion,
                 userExclusion = :userExclusion, freeText = :freeText
             WHERE
                 contactId = :contactId`

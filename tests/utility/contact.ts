@@ -54,7 +54,7 @@ export default abstract class ContactTestUtility
                 address: GeneralTestUtility.createRandomString(),
                 country: GeneralTestUtility.createRandomString(),
                 digitalAddress: GeneralTestUtility.createRandomString(),
-                international: GeneralTestUtility.createRandomString(),
+                internationalAllowed: GeneralTestUtility.createRandomBoolean(),
                 wishList: GeneralTestUtility.createRandomString(),
                 allergies: GeneralTestUtility.createRandomString(),
                 giftExclusion: GeneralTestUtility.createRandomString(),

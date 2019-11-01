@@ -3,6 +3,8 @@ import * as assert from 'assert';
 
 import ContactTestUtility from '../utility/contact';
 
+import Localisation from '../../scripts/utility/localisation';
+
 import TokenString from '../../scripts/utility/tokenString';
 
 describe('tokenString',
@@ -45,16 +47,20 @@ describe('tokenString',
             {
                 const member = ContactTestUtility.createRandomMember();
 
+                const yesString = Localisation.texts.yes.process(member);
+                const noString = Localisation.texts.no.process(member);
+                const internationalAllowedAsString = member.information.internationalAllowed ? yesString : noString;
+
                 const rawString = '{contact.name}, {contact.tag}, {contact.nickname},' +
                                   '{information.giftTypeAsTaker}, {information.giftTypeAsGiver},' +
                                   '{information.address}, {information.country}, {information.digitalAddress},' +
-                                  '{information.international}, {information.wishList},' +
+                                  '{information.internationalAllowed}, {information.wishList},' +
                                   '{information.allergies}, {information.giftExclusion},' +
                                   '{information.userExclusion}, {information.freeText}';
                 const expectedString = `${member.name}, ${member.tag}, ${member.nickname},` +
                                        `${member.information.giftTypeAsTaker}, ${member.information.giftTypeAsGiver},` +
                                        `${member.information.address}, ${member.information.country}, ${member.information.digitalAddress},` +
-                                       `${member.information.international}, ${member.information.wishList},` +
+                                       `${internationalAllowedAsString}, ${member.information.wishList},` +
                                        `${member.information.allergies}, ${member.information.giftExclusion},` +
                                        `${member.information.userExclusion}, ${member.information.freeText}`;
 

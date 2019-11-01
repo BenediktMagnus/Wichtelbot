@@ -10,7 +10,7 @@ enum State
 	InformationAddress = 'informationAddress',
 	InformationCountry = 'informationCountry',
 	InformationDigitalAddress = 'informationDigitalAddress',
-	InformationInternational = 'informationInternational',
+	InformationInternationalAllowed = 'informationInternationalAllowed',
 	InformationWishList = 'informationWishList',
 	InformationAllergies = 'informationAllergies',
 	InformationGiftExclusion = 'informationGiftExclusion',

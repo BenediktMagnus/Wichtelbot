@@ -34,7 +34,7 @@ CREATE TABLE `information` (
 	`address`	TEXT NOT NULL DEFAULT '',
 	`country`	TEXT NOT NULL DEFAULT '',
 	`digitalAddress`	TEXT NOT NULL DEFAULT '',
-	`international`	TEXT NOT NULL DEFAULT '',
+	`internationalAllowed`	INTEGER NOT NULL DEFAULT 0,
 	`wishList`	TEXT NOT NULL DEFAULT '',
 	`allergies`	TEXT NOT NULL DEFAULT '',
 	`giftExclusion`	TEXT NOT NULL DEFAULT '',

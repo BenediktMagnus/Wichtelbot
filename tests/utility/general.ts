@@ -10,4 +10,11 @@ export default abstract class GeneralTestUtility
 
         return randomString;
     }
+
+    public static createRandomBoolean (): boolean
+    {
+        const randomBoolean = Math.random() >= 0.5;
+
+        return randomBoolean;
+    }
 }

@@ -1,5 +1,6 @@
 import Contact, { ContactCoreData } from "../wichtelbot/classes/contact";
 import Member from "../wichtelbot/classes/member";
+import Localisation from "./localisation";
 
 interface KeyValuePair
 {
@@ -102,12 +103,16 @@ export default class TokenString
             map.set('address', contactData.information.address);
             map.set('country', contactData.information.country);
             map.set('digitalAddress', contactData.information.digitalAddress);
-            map.set('international', contactData.information.international);
             map.set('wishList', contactData.information.wishList);
             map.set('allergies', contactData.information.allergies);
             map.set('giftExclusion', contactData.information.giftExclusion);
             map.set('userExclusion', contactData.information.userExclusion);
             map.set('freeText', contactData.information.freeText);
+
+            // Convert the Boolean "internationalAllowed" into a localised string:
+            const internationalAllowed = contactData.information.internationalAllowed;
+            const internationalAllowedAsString = internationalAllowed ? Localisation.texts.yes.process(contact) : Localisation.texts.no.process(contact);
+            map.set('internationalAllowed', internationalAllowedAsString);
 
             // TODO: Wichtel
         }

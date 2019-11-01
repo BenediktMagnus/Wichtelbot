@@ -9,7 +9,7 @@ export interface InformationData
     address: string;
     country: string;
     digitalAddress: string;
-    international: string;
+    internationalAllowed: boolean;
     wishList: string;
     allergies: string;
     giftExclusion: string;
@@ -26,7 +26,7 @@ export default class Information implements InformationData
     public address = '';
     public country = '';
     public digitalAddress = '';
-    public international = '';
+    public internationalAllowed = false;
     public wishList = '';
     public allergies = '';
     public giftExclusion = '';
@@ -42,6 +42,10 @@ export default class Information implements InformationData
         else
         {
             Object.assign(this, contactIdOrInformationData);
+
+            // Force booleans to be of type boolean.
+            // This is necessary because the database returns them as numbers.
+            this.internationalAllowed = !!this.internationalAllowed;
         }
     }
 }

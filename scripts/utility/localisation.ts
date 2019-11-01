@@ -34,9 +34,11 @@ interface Texts
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
     maybeResponse: TokenString;
+    no: TokenString;
     notUnderstood: TokenString;
     registration: TokenString;
     registrationCancelled: TokenString;
+    yes: TokenString;
 }
 
 export default abstract class Localisation
