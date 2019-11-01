@@ -7,6 +7,7 @@ interface MainConfig
     locale: string;
     commandPrefix: string;
     moderationChannelIds: string[];
+    allowedCountries: string[];
     currentEvent: WichtelEvent;
     eventHistory: WichtelEvent[];
 }
@@ -22,8 +23,8 @@ export default abstract class Config
     private static readonly mainConfigFileName = 'config';
     private static readonly botConfigFileName = 'bot';
 
-    private static _main: MainConfig = Config.loadConfig(Config.mainConfigFileName);
-    private static _bot: BotConfig = Config.loadConfig(Config.botConfigFileName);
+    private static _main: MainConfig = {} as any;
+    private static _bot: BotConfig = {} as any;
 
     private static loadConfig (fileName: string): any
     {
@@ -34,8 +35,20 @@ export default abstract class Config
 
     public static reload (): void
     {
-        Config._main = Config.loadConfig(Config.mainConfigFileName);
         Config._bot = Config.loadConfig(Config.botConfigFileName);
+
+        const mainConfig: MainConfig = Config.loadConfig(Config.mainConfigFileName);
+        Config._main = mainConfig;
+
+        // Convert all countries to lowercase for safer comparison:
+        for (let i = mainConfig.allowedCountries.length; i-- > 0;)
+        {
+            let country = mainConfig.allowedCountries[i];
+
+            country = country.toLowerCase();
+
+            mainConfig.allowedCountries[i] = country;
+        }
     }
 
     public static get main (): MainConfig
