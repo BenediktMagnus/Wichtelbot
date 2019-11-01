@@ -84,3 +84,4 @@ export default abstract class Config
         }
     }
 }
+Config.reload();
