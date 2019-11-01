@@ -87,4 +87,13 @@ export default class InformationModule
 
         this.database.updateMember(member);
     }
+
+    public setDigitalAddress (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.digitalAddress = message.content;
+
+        this.database.updateMember(member);
+    }
 }

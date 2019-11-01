@@ -183,6 +183,18 @@ export default class HandlingDefinition
                 }
             }
         },
+        // Information, DigitalAddress:
+        {
+            state: State.InformationDigitalAddress,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setDigitalAddress(message);
+
+                const alreadyGatheredInformation = [State.InformationAddress, State.InformationCountry];
+                this.continueBasedOnNeededInformationStates(message, alreadyGatheredInformation);
+            }
+        },
     ];
     public publicCommands: CommandDefinition[] = [
         {
