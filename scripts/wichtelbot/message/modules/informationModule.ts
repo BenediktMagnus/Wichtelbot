@@ -31,10 +31,12 @@ export default class InformationModule
         {
             case GiftType.All:
                 result.push(State.InformationAddress);
+                result.push(State.InformationAllergies);
                 result.push(State.InformationDigitalAddress);
                 break;
             case GiftType.Analogue:
                 result.push(State.InformationAddress);
+                result.push(State.InformationAllergies);
                 break;
             case GiftType.Digital:
                 result.push(State.InformationDigitalAddress);
@@ -102,6 +104,15 @@ export default class InformationModule
         const member = this.database.getMember(message.author.id);
 
         member.information.internationalAllowed = internationalAllowed;
+
+        this.database.updateMember(member);
+    }
+
+    public setWishList (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.wishList = message.content;
 
         this.database.updateMember(member);
     }

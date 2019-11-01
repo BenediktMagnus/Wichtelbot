@@ -40,32 +40,6 @@ export default class HandlingDefinition
         this.informationModule = informationModule;
     }
 
-    protected continueBasedOnNeededInformationStates (message: Message, exclude: State[]): void
-    {
-        let neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);
-
-        // Filter out the states in the exclude list:
-        neededInformationStates = neededInformationStates.filter(state => !exclude.includes(state));
-
-        // Continue based on which information is still needed:
-        if (neededInformationStates.includes(State.InformationAddress))
-        {
-            this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
-        }
-        else if (neededInformationStates.includes(State.InformationDigitalAddress))
-        {
-            this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
-        }
-        else if (neededInformationStates.includes(State.InformationInternationalAllowed))
-        {
-            this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
-        }
-        else
-        {
-            this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
-        }
-    }
-
     public stateCommands: StateCommandDefinition[] = [
         // Stateless commands:
         {
@@ -170,12 +144,24 @@ export default class HandlingDefinition
             commandInfo: new CatchAllCommand(),
             handlerFunction: (message): void =>
             {
-                if (Config.main.allowedCountries.includes(message.command))
+                if (Config.main.allowedCountries.includes(message.command)) // The country must be normalised. Commands are lowercase and trimmed.
                 {
                     this.informationModule.setCountry(message);
 
-                    const alreadyGatheredInformation = [State.InformationAddress];
-                    this.continueBasedOnNeededInformationStates(message, alreadyGatheredInformation);
+                    const neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);
+
+                    if (neededInformationStates.includes(State.InformationDigitalAddress))
+                    {
+                        this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+                    }
+                    else if (neededInformationStates.includes(State.InformationInternationalAllowed))
+                    {
+                        this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                    }
+                    else
+                    {
+                        this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                    }
                 }
                 else
                 {
@@ -191,8 +177,16 @@ export default class HandlingDefinition
             {
                 this.informationModule.setDigitalAddress(message);
 
-                const alreadyGatheredInformation = [State.InformationAddress, State.InformationCountry];
-                this.continueBasedOnNeededInformationStates(message, alreadyGatheredInformation);
+                const neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);
+
+                if (neededInformationStates.includes(State.InformationInternationalAllowed))
+                {
+                    this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                }
+                else
+                {
+                    this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                }
             }
         },
         // Information, InternationalAllowed:
@@ -212,6 +206,26 @@ export default class HandlingDefinition
             {
                 this.informationModule.setInternationalAllowed(message, false);
                 this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+            }
+        },
+        // Information, Wish List:
+        {
+            state: State.InformationWishList,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setWishList(message);
+
+                const neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);
+
+                if (neededInformationStates.includes(State.InformationAllergies))
+                {
+                    this.generalModule.continue(message, Localisation.texts.informationAllergies, State.InformationAllergies);
+                }
+                else
+                {
+                    this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                }
             }
         },
     ];
