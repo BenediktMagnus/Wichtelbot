@@ -1,7 +1,7 @@
 enum State
 {
     // As contact:
-    Nothing = '',
+    Nothing = '', // Is allowed to do nothing but stateless commands.
     New = 'new',
     Registration = 'registration',
     // As contact/member:
@@ -17,8 +17,8 @@ enum State
 	InformationUserExclusion = 'informationUserExclusion',
     InformationFreeText = 'informationFreeText',
     // As member:
+    Waiting = 'waiting', // Waiting for becoming a wichtel.
     ConfirmInformationChange = 'confirmInformationChange',
-    Waiting = 'waiting',
     // As wichtel:
     MessageToGiftGiver = 'messageToGiftGiver',
     MessageToGiftTaker = 'messageToGiftTaker',

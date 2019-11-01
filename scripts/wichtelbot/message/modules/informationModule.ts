@@ -1,8 +1,12 @@
+import Localisation from "../../../utility/localisation";
+import Config from "../../../utility/config";
+
 import Database from "../../database";
 
 import Message from "../definitions/message";
 import State from "../definitions/state";
 import GiftType from "../../types/giftType";
+import ContactType from "../../types/contactType";
 
 /**
  * Message module for gathering and saving contact information data.
@@ -142,5 +146,38 @@ export default class InformationModule
         member.information.userExclusion = message.content;
 
         this.database.updateMember(member);
+    }
+
+    public setFreeText (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.freeText = message.content;
+
+        this.database.updateMember(member);
+    }
+
+    /**
+     * Make a contact to a full member after a successfull registration with all information given.
+     */
+    public becomeMember (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.type = ContactType.Member;
+        member.state = State.Waiting;
+
+        this.database.updateMember(member);
+
+        const parameters = [
+            {
+                key: 'currentEventName',
+                value: Config.main.currentEvent.name
+            }
+        ];
+
+        const answer = Localisation.texts.becameMember.process(member, parameters);
+
+        message.reply(answer);
     }
 }

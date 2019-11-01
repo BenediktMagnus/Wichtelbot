@@ -258,6 +258,16 @@ export default class HandlingDefinition
                 this.generalModule.continue(message, Localisation.texts.informationFreeText, State.InformationFreeText);
             }
         },
+        // Information, FreeText:
+        {
+            state: State.InformationFreeText,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setFreeText(message);
+                this.informationModule.becomeMember(message);
+            }
+        },
     ];
     public publicCommands: CommandDefinition[] = [
         {
