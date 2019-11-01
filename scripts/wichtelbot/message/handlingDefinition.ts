@@ -228,6 +228,16 @@ export default class HandlingDefinition
                 }
             }
         },
+        // Information, Allergies:
+        {
+            state: State.InformationAllergies,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setAllergies(message);
+                this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+            }
+        },
     ];
     public publicCommands: CommandDefinition[] = [
         {
