@@ -76,6 +76,9 @@ export abstract class MessageWithParser
         // Remove all symbols from the command that must be ignored (explanation mark, question mark, full stop, comma, semicolon, space):
         this._command = this._command.replace(/^[!?.,;\s]+|[!?.,;\s]+$/g, '');
 
+        // A command always lower case for correct comparisons:
+        this._command = this._command.toLowerCase();
+
         this.hasBeenParsed = true;
     }
 

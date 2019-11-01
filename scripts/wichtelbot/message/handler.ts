@@ -16,6 +16,7 @@ import GeneralModule from './modules/generalModule';
 import InformationModule from './modules/informationModule';
 
 // TODO: Replace all toLowerCase with toLocaleLowerCase(locale) as soon as the draft ECMA-402 is accepted.
+//       This must be the same as in Config.reload(), MessageWithParser.parse() and everywhere else!
 
 type CommandMap = Map<string, MessageFunction>;
 
