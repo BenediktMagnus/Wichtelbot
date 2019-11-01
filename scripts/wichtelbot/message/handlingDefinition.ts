@@ -2,7 +2,6 @@ import Localisation, { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
 
 import State from "./definitions/state";
-import Message from './definitions/message';
 import MessageFunction from './handlingTools/messageFunction';
 
 import GeneralModule from './modules/generalModule';
