@@ -7,6 +7,7 @@ import Message from "../definitions/message";
 import State from "../definitions/state";
 import GiftType from "../../types/giftType";
 import ContactType from "../../types/contactType";
+import TokenString from "../../../utility/tokenString";
 
 /**
  * Message module for gathering and saving contact information data.
@@ -158,13 +159,25 @@ export default class InformationModule
     }
 
     /**
-     * Make a contact to a full member after a successfull registration with all information given.
+     * Completes the information gathering by either making the contact a full member or, if he is already one,
+     * replying with a text stating that the information change has been successful.
      */
-    public becomeMember (message: Message): void
+    public completeInformationGathering (message: Message): void
     {
         const member = this.database.getMember(message.author.id);
 
-        member.type = ContactType.Member;
+        let text: TokenString;
+
+        if (member.type == ContactType.Member)
+        {
+            text = Localisation.texts.changedInformation;
+        }
+        else
+        {
+            text = Localisation.texts.becameMember;
+            member.type = ContactType.Member;
+        }
+
         member.state = State.Waiting;
 
         this.database.updateMember(member);
@@ -176,7 +189,7 @@ export default class InformationModule
             }
         ];
 
-        const answer = Localisation.texts.becameMember.process(member, parameters);
+        const answer = text.process(member, parameters);
 
         message.reply(answer);
     }

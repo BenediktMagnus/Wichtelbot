@@ -25,6 +25,7 @@ interface Commands
 interface Texts
 {
     becameMember: TokenString;
+    changedInformation: TokenString;
     commandInfo: TokenString;
     contactingTooEarly: TokenString;
     contactingRegistration: TokenString;

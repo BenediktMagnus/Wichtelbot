@@ -265,7 +265,7 @@ export default class HandlingDefinition
             handlerFunction: (message): void =>
             {
                 this.informationModule.setFreeText(message);
-                this.informationModule.becomeMember(message);
+                this.informationModule.completeInformationGathering(message);
             }
         },
     ];
