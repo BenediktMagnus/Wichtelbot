@@ -33,11 +33,18 @@ export default class HandlingDefinition
     }
 
     public stateCommands: StateCommandDefinition[] = [
+        // Stateless commands:
         {
             state: State.Nothing,
             commandInfo: Localisation.commands.goodMorning,
             handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodMorning)
         },
+        {
+            state: State.Nothing,
+            commandInfo: Localisation.commands.maybe,
+            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.maybeResponse)
+        },
+        // Registration:
         {
             state: State.New,
             commandInfo: Localisation.commands.registration,
@@ -57,11 +64,7 @@ export default class HandlingDefinition
             commandInfo: Localisation.commands.no,
             handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.registrationCancelled, State.New)
         },
-        {
-            state: State.Registration,
-            commandInfo: Localisation.commands.maybe,
-            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.maybeResponse)
-        },
+        // Information, GiftTypeAsGiver:
         {
             state: State.InformationGiftTypeAsGiver,
             commandInfo: Localisation.commands.informationAnalogue,
