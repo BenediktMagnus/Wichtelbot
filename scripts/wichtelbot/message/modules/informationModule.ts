@@ -125,4 +125,13 @@ export default class InformationModule
 
         this.database.updateMember(member);
     }
+
+    public setGiftExclusion (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.giftExclusion = message.content;
+
+        this.database.updateMember(member);
+    }
 }

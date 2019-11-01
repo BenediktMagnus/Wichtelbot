@@ -39,6 +39,7 @@ interface Texts
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
     informationInternationalAllowed: TokenString;
+    informationUserExclusion: TokenString;
     informationWishList: TokenString;
     maybeResponse: TokenString;
     no: TokenString;

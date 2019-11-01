@@ -238,6 +238,16 @@ export default class HandlingDefinition
                 this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
             }
         },
+        // Information, GiftExclusion:
+        {
+            state: State.InformationGiftExclusion,
+            commandInfo: new CatchAllCommand(),
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setGiftExclusion(message);
+                this.generalModule.continue(message, Localisation.texts.informationUserExclusion, State.InformationUserExclusion);
+            }
+        },
     ];
     public publicCommands: CommandDefinition[] = [
         {
