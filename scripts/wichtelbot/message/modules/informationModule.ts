@@ -21,6 +21,15 @@ export default class InformationModule
 
         member.information.giftTypeAsGiver = giftType;
 
+
+    public setGiftTypeAsTaker (message: Message, giftType: GiftType): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.giftTypeAsTaker = giftType;
+
+        this.database.updateMember(member);
+    }
         this.database.updateMember(member);
     }
 }

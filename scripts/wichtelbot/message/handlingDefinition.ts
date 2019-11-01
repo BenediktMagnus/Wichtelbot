@@ -92,6 +92,34 @@ export default class HandlingDefinition
                 this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
             }
         },
+        // Information, GiftTypeAsTaker:
+        {
+            state: State.InformationGiftTypeAsTaker,
+            commandInfo: Localisation.commands.informationAnalogue,
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setGiftTypeAsTaker(message, GiftType.Analogue);
+                this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+            }
+        },
+        {
+            state: State.InformationGiftTypeAsTaker,
+            commandInfo: Localisation.commands.informationDigital,
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setGiftTypeAsTaker(message, GiftType.Digital);
+                this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+            }
+        },
+        {
+            state: State.InformationGiftTypeAsTaker,
+            commandInfo: Localisation.commands.informationBothAnalogueAndDigital,
+            handlerFunction: (message): void =>
+            {
+                this.informationModule.setGiftTypeAsTaker(message, GiftType.All);
+                this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+            }
+        },
     ];
     public publicCommands: CommandDefinition[] = [
         {

@@ -31,6 +31,8 @@ interface Texts
     contactingTooLate: TokenString;
     goodMorning: TokenString;
     helpText: TokenString;
+    informationAddress: TokenString;
+    informationDigitalAddress: TokenString;
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
     maybeResponse: TokenString;
