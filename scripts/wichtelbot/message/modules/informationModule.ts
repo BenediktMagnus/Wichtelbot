@@ -1,5 +1,7 @@
 import Localisation from "../../../utility/localisation";
 import Config from "../../../utility/config";
+import TokenString from "../../../utility/tokenString";
+import { KeyValuePairList } from "../../../utility/keyValuePair";
 
 import Database from "../../database";
 
@@ -7,11 +9,12 @@ import Message from "../definitions/message";
 import State from "../definitions/state";
 import GiftType from "../../types/giftType";
 import ContactType from "../../types/contactType";
-import TokenString from "../../../utility/tokenString";
-import { KeyValuePairList } from "../../../utility/keyValuePair";
+import Member from "../../classes/member";
 
 /**
  * Message module for gathering and saving contact information data.
+ *
+ * TODO: This class is bad, really bad. All this duplicate code... there MUST be a better way!
  */
 export default class InformationModule
 {
@@ -20,6 +23,23 @@ export default class InformationModule
     constructor (database: Database)
     {
         this.database = database;
+    }
+
+    protected sendCurrentInformationValue (message: Message, member: Member, value: string): void
+    {
+        const parameters = new KeyValuePairList('informationValue', value);
+
+        const answer = Localisation.texts.oldInformation.process(member, parameters);
+
+        message.reply(answer);
+    }
+
+    protected sendCurrentGiftType (message: Message, member: Member, giftType: GiftType): void
+    {
+        if (giftType !== GiftType.Nothing)
+        {
+            this.sendCurrentInformationValue(message, member, Localisation.translateGiftType(giftType));
+        }
     }
 
     /**
@@ -58,6 +78,83 @@ export default class InformationModule
         }
 
         return result;
+    }
+
+    public sendCurrentGiftTypeAsGiver (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentGiftType(message, member, member.information.giftTypeAsGiver);
+    }
+
+    public sendCurrentGiftTypeAsTaker (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentGiftType(message, member, member.information.giftTypeAsTaker);
+    }
+
+    public sendCurrentAddress (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.address);
+    }
+
+    public sendCurrentCountry (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.country);
+    }
+
+    public sendCurrentDigitalAddress (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.digitalAddress);
+    }
+
+    public sendCurrentInternationalAllowed (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, Localisation.translateBoolean(member.information.internationalAllowed));
+    }
+
+    public sendCurrentWishList (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.wishList);
+    }
+
+    public sendCurrentAllergies (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.allergies);
+    }
+
+    public sendCurrentGiftExclusion (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.giftExclusion);
+    }
+
+    public sendCurrentUserExclusion (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.userExclusion);
+    }
+
+    public sendCurrentFreeText (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        this.sendCurrentInformationValue(message, member, member.information.freeText);
     }
 
     public setGiftTypeAsGiver (message: Message, giftType: GiftType): void

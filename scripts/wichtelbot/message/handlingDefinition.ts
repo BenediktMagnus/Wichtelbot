@@ -27,6 +27,8 @@ class CatchAllCommand implements CommandInfo
 
 /**
  * The handling definition is an object-based representation of the state/command handling structure.
+ *
+ * TODO: This class is bad, not as bad as the informationModule, but bad. The duplicate code must be reduced.
  */
 export default class HandlingDefinition
 {
@@ -64,6 +66,7 @@ export default class HandlingDefinition
             {
                 this.generalModule.register(message);
                 this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
+                this.informationModule.sendCurrentGiftTypeAsGiver(message);
             }
         },
         {
@@ -79,6 +82,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsGiver(message, GiftType.Analogue);
                 this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         {
@@ -88,6 +92,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsGiver(message, GiftType.Digital);
                 this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         {
@@ -97,6 +102,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsGiver(message, GiftType.All);
                 this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         // Information, GiftTypeAsTaker:
@@ -107,6 +113,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.Analogue);
                 this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+                this.informationModule.sendCurrentAddress(message);
             }
         },
         {
@@ -116,6 +123,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.Digital);
                 this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+                this.informationModule.sendCurrentDigitalAddress(message);
             }
         },
         {
@@ -125,6 +133,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.All);
                 this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+                this.informationModule.sendCurrentAddress(message);
             }
         },
         // Information, Address:
@@ -135,6 +144,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setAddress(message);
                 this.generalModule.continue(message, Localisation.texts.informationCountry, State.InformationCountry);
+                this.informationModule.sendCurrentCountry(message);
             }
         },
         // Information, Country:
@@ -152,14 +162,17 @@ export default class HandlingDefinition
                     if (neededInformationStates.includes(State.InformationDigitalAddress))
                     {
                         this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+                        this.informationModule.sendCurrentDigitalAddress(message);
                     }
                     else if (neededInformationStates.includes(State.InformationInternationalAllowed))
                     {
                         this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                        this.informationModule.sendCurrentInternationalAllowed(message);
                     }
                     else
                     {
                         this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                        this.informationModule.sendCurrentWishList(message);
                     }
                 }
                 else
@@ -181,10 +194,12 @@ export default class HandlingDefinition
                 if (neededInformationStates.includes(State.InformationInternationalAllowed))
                 {
                     this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                    this.informationModule.sendCurrentInternationalAllowed(message);
                 }
                 else
                 {
                     this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                    this.informationModule.sendCurrentWishList(message);
                 }
             }
         },
@@ -196,6 +211,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setInternationalAllowed(message, true);
                 this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                this.informationModule.sendCurrentWishList(message);
             }
         },
         {
@@ -205,6 +221,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setInternationalAllowed(message, false);
                 this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                this.informationModule.sendCurrentWishList(message);
             }
         },
         // Information, Wish List:
@@ -220,10 +237,12 @@ export default class HandlingDefinition
                 if (neededInformationStates.includes(State.InformationAllergies))
                 {
                     this.generalModule.continue(message, Localisation.texts.informationAllergies, State.InformationAllergies);
+                    this.informationModule.sendCurrentAllergies(message);
                 }
                 else
                 {
                     this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                    this.informationModule.sendCurrentGiftExclusion(message);
                 }
             }
         },
@@ -235,6 +254,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setAllergies(message);
                 this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                this.informationModule.sendCurrentGiftExclusion(message);
             }
         },
         // Information, GiftExclusion:
@@ -245,6 +265,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setGiftExclusion(message);
                 this.generalModule.continue(message, Localisation.texts.informationUserExclusion, State.InformationUserExclusion);
+                this.informationModule.sendCurrentUserExclusion(message);
             }
         },
         // Information, UserExclusion:
@@ -255,6 +276,7 @@ export default class HandlingDefinition
             {
                 this.informationModule.setUserExclusion(message);
                 this.generalModule.continue(message, Localisation.texts.informationFreeText, State.InformationFreeText);
+                this.informationModule.sendCurrentFreeText(message);
             }
         },
         // Information, FreeText:

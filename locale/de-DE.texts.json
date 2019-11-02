@@ -21,7 +21,7 @@
     "informationWishList": "Worüber freust du dich?\nDu kannst hier einen kleinen Text schreiben, was dir so gefällt oder ganz konkret eine Steam- oder Amazonwunschliste verlinken. Alles ist erlaubt, was deinem Wichtel dabei hilft, sich ein Bild zu machen, womit er dir eine Freude bereiten könnte.\n\nZusätzlich erhälst du später noch die Möglichkeit, Dinge auszuschließen, die du nicht magst und etwas ganz allgemein über dich zu erzählen.",
     "maybeResponse": "Ein Vielleicht gibts nicht! Die Weltherrschaft braucht eindeutige Ergebnisse!",
     "notUnderstood": "Häää? Probiers nochmal.",
-    "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n{var.informationValue}",
+    "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
     "registration": "Okay, los gehts!\nDu kannst den Registrierungsvorgang jederzeit unterbrechen und einfach zu einem späteren Zeitpunkt weitermachen.\n\nInfos vorab:\n\nBitte beachte: Wenn du deinen Wichtel analog bewichtelst, erhälst du sowohl den Klarnamen als auch eine Adresse. Bitte bedenke, dass dies Informationen sind, die nichts auf dem Discord zu suchen haben und gehe daher sensibel damit um.\n\nAuf dem Achterdiscord wird es dieses Mal drei verschiedene Kanäle für das Wichteln geben. Einen reinen Infokanal, in dem das Orgateam schreibt, einen spoilerfreien für Nachfragen und einen Hibbelkanal für Vorfreude, Fotos, Spekulationen etc.\nSo kann jede_r das Wichteln so genießen wie er_sie das möchte.\n\nAlles klar? Dann schreibe „ja“ um fortzufahren.",
     "registrationCancelled": "Schade! Wenn du es dir anders überlegen solltest, schreibe einfach „registrieren“, um den Anmeldevorgang erneut zu starten."
 }
