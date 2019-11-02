@@ -1,10 +1,43 @@
 import * as Discord from 'discord.js';
 
+import Utils from '../../utility/utils';
+
 import User from '../message/definitions/user';
 import { Channel, ChannelType } from '../message/definitions/channel';
 import Message from '../message/definitions/message';
 import { MessageWithParser } from '../message/definitions/message';
 import Client from '../message/definitions/client';
+
+const safetyMargin = 16;
+const maxMessageLength = 2000 - safetyMargin;
+const maxUserNameLength = 32; // Alternatively maxUserIdLength = 20 should be enough, but this is safe.
+const maxMentionLength = maxUserNameLength + 5; // Because of the following format: <@&user> and the space
+const maxMessageWithMentionLength = maxMessageLength - maxMentionLength;
+
+type SendMessage = (message: string, attachment?: Discord.Attachment) => any;
+
+abstract class DiscordUtils
+{
+    public static sendMultiMessage (sendMessage: SendMessage, messageTexts: string[], imageUrl?: string): void
+    {
+        let entryCounter = messageTexts.length - 1;
+        for (const messageText of messageTexts)
+        {
+            if ((imageUrl !== undefined) && (entryCounter === 0))
+            {
+                // The image must be attached to the last message we send.
+                const attachment = new Discord.Attachment(imageUrl);
+                sendMessage(messageText, attachment);
+            }
+            else
+            {
+                sendMessage(messageText);
+            }
+
+            entryCounter--;
+        }
+    }
+}
 
 export class DiscordUser implements User
 {
@@ -37,15 +70,9 @@ export class DiscordUser implements User
 
     public send (text: string, imageUrl?: string): void
     {
-        if (imageUrl === undefined)
-        {
-            this.user.send(text);
-        }
-        else
-        {
-            const attachment = new Discord.Attachment(imageUrl);
-            this.user.send(text, attachment);
-        }
+        const splittetText = Utils.splitTextNaturally(text, maxMessageLength);
+
+        DiscordUtils.sendMultiMessage(this.user.send.bind(this.user), splittetText, imageUrl);
     }
 }
 
@@ -96,15 +123,9 @@ export class DiscordChannel implements Channel
             throw TypeError('Cannot access channel of this type.');
         }
 
-        if (imageUrl === undefined)
-        {
-            this.channel.send(text);
-        }
-        else
-        {
-            const attachment = new Discord.Attachment(imageUrl);
-            this.channel.send(text, attachment);
-        }
+        const splittetText = Utils.splitTextNaturally(text, maxMessageLength);
+
+        DiscordUtils.sendMultiMessage(this.channel.send.bind(this.channel), splittetText, imageUrl);
     }
 }
 
@@ -149,7 +170,12 @@ export class DiscordMessage extends MessageWithParser implements Message
 
     public reply (text: string): void
     {
-        this.message.reply(text);
+        const splittetText = Utils.splitTextNaturally(text, maxMessageWithMentionLength);
+
+        for (const messageText of splittetText)
+        {
+            this.message.reply(messageText);
+        }
     }
 }
 
