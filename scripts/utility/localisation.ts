@@ -2,6 +2,7 @@ import * as fs from 'fs';
 
 import Config from './config';
 import TokenString from './tokenString';
+import GiftType from '../wichtelbot/types/giftType';
 
 export interface CommandInfo
 {
@@ -45,17 +46,27 @@ interface Texts
     informationUserExclusion: TokenString;
     informationWishList: TokenString;
     maybeResponse: TokenString;
-    no: TokenString;
     notUnderstood: TokenString;
+    oldInformation: TokenString;
     registration: TokenString;
     registrationCancelled: TokenString;
-    yes: TokenString;
+}
+
+interface Values
+{
+    giftTypeAnalogue: string;
+    giftTypeDigital: string;
+    giftTypeAll: string;
+    giftTypeNothing: string;
+    no: string;
+    yes: string;
 }
 
 export default abstract class Localisation
 {
     private static commandsPath = './locale/' + Config.main.locale + '.commands.json';
     private static textsPath = './locale/' + Config.main.locale + '.texts.json';
+    private static valuesPath = './locale/' + Config.main.locale + '.values.json';
 
     private static _commands: Commands = JSON.parse(fs.readFileSync(Localisation.commandsPath, 'utf8'));
     private static _texts: Texts = JSON.parse(fs.readFileSync(Localisation.textsPath, 'utf8'),
@@ -76,6 +87,7 @@ export default abstract class Localisation
             }
         }
     );
+    private static _values: Values = JSON.parse(fs.readFileSync(Localisation.valuesPath, 'utf8'));
 
     public static get commands (): Commands
     {
@@ -85,5 +97,37 @@ export default abstract class Localisation
     public static get texts (): Texts
     {
         return Localisation._texts;
+    }
+
+    public static translateBoolean (value: boolean): string
+    {
+        const result = value ? Localisation._values.yes : Localisation._values.no;
+
+        return result;
+    }
+
+    public static translateGiftType (giftType: GiftType): string
+    {
+        let result = '';
+
+        switch (giftType)
+        {
+            case GiftType.Analogue:
+                result = Localisation._values.giftTypeAnalogue;
+                break;
+            case GiftType.Digital:
+                result = Localisation._values.giftTypeDigital;
+                break;
+            case GiftType.All:
+                result = Localisation._values.giftTypeAll;
+                break;
+            case GiftType.Nothing:
+                result = Localisation._values.giftTypeNothing;
+                break;
+            default:
+                throw TypeError('Invalid gift type to translate.');
+        }
+
+        return result;
     }
 }

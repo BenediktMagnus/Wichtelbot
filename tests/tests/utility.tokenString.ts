@@ -47,9 +47,7 @@ describe('tokenString',
             {
                 const member = ContactTestUtility.createRandomMember();
 
-                const yesString = Localisation.texts.yes.process(member);
-                const noString = Localisation.texts.no.process(member);
-                const internationalAllowedAsString = member.information.internationalAllowed ? yesString : noString;
+                const internationalAllowedAsString = Localisation.translateBoolean(member.information.internationalAllowed);
 
                 const rawString = '{contact.name}, {contact.tag}, {contact.nickname},' +
                                   '{information.giftTypeAsTaker}, {information.giftTypeAsGiver},' +

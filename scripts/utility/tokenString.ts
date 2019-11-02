@@ -109,10 +109,7 @@ export default class TokenString
             map.set('userExclusion', contactData.information.userExclusion);
             map.set('freeText', contactData.information.freeText);
 
-            // Convert the Boolean "internationalAllowed" into a localised string:
-            const internationalAllowed = contactData.information.internationalAllowed;
-            const internationalAllowedAsString = internationalAllowed ? Localisation.texts.yes.process(contact) : Localisation.texts.no.process(contact);
-            map.set('internationalAllowed', internationalAllowedAsString);
+            map.set('internationalAllowed', Localisation.translateBoolean(contactData.information.internationalAllowed));
 
             // TODO: Wichtel
         }
