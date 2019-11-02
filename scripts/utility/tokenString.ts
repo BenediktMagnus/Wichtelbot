@@ -94,8 +94,6 @@ export default class TokenString
 
         if (contactData instanceof Member)
         {
-            map.set('giftTypeAsTaker', contactData.information.giftTypeAsTaker);
-            map.set('giftTypeAsGiver', contactData.information.giftTypeAsGiver);
             map.set('address', contactData.information.address);
             map.set('country', contactData.information.country);
             map.set('digitalAddress', contactData.information.digitalAddress);
@@ -106,6 +104,9 @@ export default class TokenString
             map.set('freeText', contactData.information.freeText);
 
             map.set('internationalAllowed', Localisation.translateBoolean(contactData.information.internationalAllowed));
+
+            map.set('giftTypeAsTaker', Localisation.translateGiftType(contactData.information.giftTypeAsTaker));
+            map.set('giftTypeAsGiver', Localisation.translateGiftType(contactData.information.giftTypeAsGiver));
 
             // TODO: Wichtel
         }
