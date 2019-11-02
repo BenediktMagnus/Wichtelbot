@@ -57,7 +57,7 @@ export abstract class MessageWithParser
         // The following regex finds commands and the parameter string by searching for
         // the first space-like character. Everything before is the command, everything
         // after it (including more space-like characters) is the parameter string:
-        const regex = /(\S+)(\s?)([\S\s]*)/g;
+        const regex = /(\S+)(\s?)([\S\s]*)/;
 
         const match = regex.exec(content);
 
