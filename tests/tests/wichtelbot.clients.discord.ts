@@ -2,6 +2,9 @@ import 'mocha';
 import * as assert from 'assert';
 import * as Discord from 'discord.js';
 
+import GeneralTestUtility from '../utility/general';
+import { TestMessage } from '../utility/message';
+
 import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import Message from '../../scripts/wichtelbot/message/definitions/message';
@@ -83,6 +86,35 @@ describe('discord client',
                 assert.strictEqual(message.content, testContent);
                 assert.deepStrictEqual(message.author, testAuthor);
                 assert.deepStrictEqual(message.channel, testChannel);
+            }
+        );
+
+        it('can handle multi-messages.',
+            function ()
+            {
+                let numberOfCalls = 0;
+
+                const resultCallback = (): void =>
+                {
+                    numberOfCalls++;
+                };
+
+                // For the following, we have the TestMessage class to inject custom methods for handling send/reply. We can
+                // give this class to the DiscordMessageImplementation, which will use it as its internal message class instead
+                // of the normal Discord implementation.
+                // With this we can count how many times the Discord implementation logic calls the send method under the hood.
+                const testMessage = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                const message: Message = new DiscordMessageImplementation(testMessage as any, new DiscordClientImplementation(discordClient));
+
+                let longMessage = '';
+                while (longMessage.length < 5000) // NOTE: Must be adjusted in case the limit is changed by Discord.
+                {
+                    longMessage += GeneralTestUtility.createRandomString();
+                }
+
+                message.reply(longMessage);
+
+                assert.strictEqual(numberOfCalls, 3);
             }
         );
     }
