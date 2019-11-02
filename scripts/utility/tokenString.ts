@@ -1,12 +1,8 @@
-import Contact, { ContactCoreData } from "../wichtelbot/classes/contact";
-import Member from "../wichtelbot/classes/member";
 import Localisation from "./localisation";
 
-interface KeyValuePair
-{
-    key: string;
-    value: string;
-}
+import { KeyValuePair } from "./keyValuePair";
+import Contact, { ContactCoreData } from "../wichtelbot/classes/contact";
+import Member from "../wichtelbot/classes/member";
 
 /**
  * A token is an object representation for a token string in the form {object.parameter}

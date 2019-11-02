@@ -4,8 +4,8 @@ import * as assert from 'assert';
 import ContactTestUtility from '../utility/contact';
 
 import Localisation from '../../scripts/utility/localisation';
-
 import TokenString from '../../scripts/utility/tokenString';
+import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 
 describe('tokenString',
     function ()
@@ -82,11 +82,10 @@ describe('tokenString',
 
                 const text = new TokenString(rawString);
 
-                const keyValuePairs = [
-                    { key: 'customKey', value: customTest },
-                    { key: 'varKey', value: varTest },
-                    { key: 'bismarckKey', value: bismarckTest },
-                ];
+                const keyValuePairs = new KeyValuePairList();
+                keyValuePairs.addPair('customKey', customTest);
+                keyValuePairs.addPair('varKey', varTest);
+                keyValuePairs.addPair('bismarckKey', bismarckTest);
 
                 const result = text.process(undefined, keyValuePairs);
 

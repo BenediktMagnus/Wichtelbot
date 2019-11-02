@@ -1,11 +1,14 @@
 import Localisation, { CommandInfo } from '../../../utility/localisation';
-import Database from '../../database';
-import Message from '../definitions/message';
-import TokenString from '../../../utility/tokenString';
-import Contact from '../../classes/contact';
-import State from '../definitions/state';
 import Config from '../../../utility/config';
+import Database from '../../database';
+
+import { KeyValuePairList } from '../../../utility/keyValuePair';
+import TokenString from '../../../utility/tokenString';
 import WichtelEventPhase from '../../../utility/wichtelEvent';
+
+import Message from '../definitions/message';
+import State from '../definitions/state';
+import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
 import Member from '../../classes/member';
 
@@ -55,13 +58,14 @@ export default class GeneralModule
         const firstContactWaiting = (): void =>
         {
             const registrationPhaseTime = new Date(Config.main.currentEvent.registration * 1000);
-            const parameters = [
-                { key: 'year', value: registrationPhaseTime.getFullYear().toString() },
-                { key: 'month', value: registrationPhaseTime.getMonth().toString() },
-                { key: 'day', value: registrationPhaseTime.getDay().toString() },
-                { key: 'hour', value: registrationPhaseTime.getHours().toString() },
-                { key: 'minute', value: registrationPhaseTime.getMinutes().toString() },
-            ];
+
+            const parameters = new KeyValuePairList();
+            parameters.addPair('year', registrationPhaseTime.getFullYear().toString());
+            parameters.addPair('month', registrationPhaseTime.getMonth().toString());
+            parameters.addPair('day', registrationPhaseTime.getDay().toString());
+            parameters.addPair('hour', registrationPhaseTime.getHours().toString());
+            parameters.addPair('minute', registrationPhaseTime.getMinutes().toString());
+
             const answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
 
             message.reply(answer);
@@ -161,13 +165,7 @@ export default class GeneralModule
                     continue;
                 }
 
-                const parameters = [
-                    {
-                        key: 'name',
-                        value: commandInfo.info,
-                    }
-                ];
-
+                const parameters = new KeyValuePairList('name', commandInfo.info);
                 const singleCommandInfoText = Localisation.texts.commandInfo.process(undefined, parameters);
 
                 commandInfoTexts.push(singleCommandInfoText);
@@ -177,13 +175,7 @@ export default class GeneralModule
             {
                 const infoText = commandInfoTexts.join('\n');
 
-                const parameters = [
-                    {
-                        key: 'commandInfo',
-                        value: infoText,
-                    }
-                ];
-
+                const parameters = new KeyValuePairList('commandInfo', infoText);
                 const helpText = Localisation.texts.helpText.process(undefined, parameters);
 
                 answer += '\n\n' + helpText;

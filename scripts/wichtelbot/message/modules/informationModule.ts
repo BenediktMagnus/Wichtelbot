@@ -8,6 +8,7 @@ import State from "../definitions/state";
 import GiftType from "../../types/giftType";
 import ContactType from "../../types/contactType";
 import TokenString from "../../../utility/tokenString";
+import { KeyValuePairList } from "../../../utility/keyValuePair";
 
 /**
  * Message module for gathering and saving contact information data.
@@ -182,13 +183,7 @@ export default class InformationModule
 
         this.database.updateMember(member);
 
-        const parameters = [
-            {
-                key: 'currentEventName',
-                value: Config.main.currentEvent.name
-            }
-        ];
-
+        const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
         const answer = text.process(member, parameters);
 
         message.reply(answer);
