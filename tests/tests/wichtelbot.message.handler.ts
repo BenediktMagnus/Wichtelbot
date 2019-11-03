@@ -1,9 +1,8 @@
 import 'mocha';
 import * as assert from 'assert';
 
-import GeneralTestUtility from '../utility/general';
 import ConfigTestUtility from '../utility/config';
-import { TestMessage } from '../utility/message';
+import { TestMessage, SendOrReplyFunction } from '../utility/message';
 
 import Localisation from '../../scripts/utility/localisation';
 import Database from '../../scripts/wichtelbot/database';
@@ -13,6 +12,18 @@ import MessageHandler from '../../scripts/wichtelbot/message/handler';
 
 import User from '../../scripts/wichtelbot/message/definitions/user';
 import { ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
+
+class TestMessageWithFixedAuthor extends TestMessage
+{
+    constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
+    {
+        super(reply, userSend, channelSend, channelType);
+
+        this.author.id = 'testId';
+        this.author.tag = 'testName#1234';
+        this.author.name= 'testName';
+    }
+}
 
 describe('message handler',
     function ()
@@ -33,7 +44,7 @@ describe('message handler',
                 const resultCallback = (): void => {};
 
                 // Make first contact so we are known:
-                const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Server);
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Server);
                 message.content = Config.main.commandPrefix + Localisation.commands.contacting.commands[0];
                 messageHandler.process(message);
             }
@@ -56,7 +67,7 @@ describe('message handler',
                     assert.fail('The bot must not answer bot messages!');
                 };
 
-                const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
 
                 message.author.isBot = true;
 
@@ -72,7 +83,7 @@ describe('message handler',
                     assert.fail('The bot must not answer in ignored channels!');
                 };
 
-                const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
 
                 message.channel.type = ChannelType.Ignore;
 
@@ -88,7 +99,7 @@ describe('message handler',
                     assert.fail('The bot must not answer non-prefixed server messages!');
                 };
 
-                const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Server);
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Server);
 
                 Config.main.commandPrefix = '!';
                 message.content = '?' + message.content;
@@ -110,9 +121,6 @@ describe('message handler',
                 };
 
                 const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
-                message.author.id = GeneralTestUtility.createRandomString();
-                message.author.tag = GeneralTestUtility.createRandomString() + '#1234';
-                message.author.name = GeneralTestUtility.createRandomString();
                 author = message.author;
 
                 messageHandler.process(message);
@@ -133,7 +141,7 @@ describe('message handler',
                     called = true;
                 };
 
-                const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
                 author = message.author;
 
                 messageHandler.process(message);

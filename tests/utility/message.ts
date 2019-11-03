@@ -6,7 +6,7 @@ import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import Client from '../../scripts/wichtelbot/message/definitions/client';
 
-type sendOrReply = (text: string, imageUrl?: string) => void;
+export type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
 
 export class TestMessage extends MessageWithParser implements MessageDefinition
 {
@@ -14,9 +14,9 @@ export class TestMessage extends MessageWithParser implements MessageDefinition
     public author: User;
     public channel: Channel;
     public client: Client;
-    public reply: sendOrReply;
+    public reply: SendOrReplyFunction;
 
-    constructor (reply: sendOrReply, userSend: sendOrReply, channelSend: sendOrReply, channelType: ChannelType)
+    constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
     {
         super();
 
@@ -24,9 +24,9 @@ export class TestMessage extends MessageWithParser implements MessageDefinition
 
         this.content = GeneralTestUtility.createRandomString();
         this.author = {
-            id: 'testId',
-            tag: 'testName#1234',
-            name: 'testName',
+            id: GeneralTestUtility.createRandomString(),
+            tag: GeneralTestUtility.createRandomString(),
+            name: GeneralTestUtility.createRandomString(),
             isBot: false,
             send: userSend,
         };
