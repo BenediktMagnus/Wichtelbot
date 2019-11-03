@@ -20,12 +20,15 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (http://nodejs.org/api/addons.html)
-build/Release
+# Compiled scripts
+build
 
 # Dependency directory
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
+
+# VSCode-Konfiguration ist lokal.
+.vscode
 
 # ESLint-Konfiguration ist lokal.
 .eslintrc.json
@@ -35,6 +38,12 @@ node_modules
 # Konfiguration (Token etc.)
 Config/Bot.json
 Config/Config.json
+config/bot.json
+config/config.json
 
 # Datenbanken
 Daten/*.sqlite
+data/*.sqlite
+
+# We do not want package-lock.json in the repo... it is annoying.
+package-lock.json
