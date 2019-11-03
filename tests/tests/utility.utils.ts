@@ -51,10 +51,18 @@ describe('utils',
             }
         );
 
-        /*
-            5. Trim
-            6. Extra spaces between blocks.
-        */
+        it('splitTextNaturally works if no splitting is needed.',
+            function ()
+            {
+                const text = 'only one';
+                const expected = [
+                    'only one',
+                ];
+                const result = Utils.splitTextNaturally(text, text.length);
+
+                assert.deepStrictEqual(result, expected);
+            }
+        );
 
         it('splitTextNaturally trims.',
             function ()
