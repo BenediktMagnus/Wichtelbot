@@ -16,7 +16,7 @@ export default abstract class ConfigTestUtility
         Config.main.currentEvent.end = Number.MAX_SAFE_INTEGER;
     }
 
-    public static setToAssignmentPhase (): void
+    public static setToWichtelnPhase (): void
     {
         Config.main.currentEvent.registration = 0;
         Config.main.currentEvent.assignment = 1;
