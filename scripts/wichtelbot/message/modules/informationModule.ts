@@ -27,6 +27,11 @@ export default class InformationModule
 
     protected sendCurrentInformationValue (message: Message, member: Member, value: string): void
     {
+        if (value.trim() === '')
+        {
+            return;
+        }
+
         const parameters = new KeyValuePairList('informationValue', value);
 
         const answer = Localisation.texts.oldInformation.process(member, parameters);
