@@ -59,7 +59,7 @@ describe('database',
             {
                 const contact = ContactTestUtility.createRandomContact();
 
-                database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
+                database.saveContact(contact);
 
                 const returnedContact = database.getContact(contact.id);
 
@@ -73,7 +73,7 @@ describe('database',
             {
                 const contact = ContactTestUtility.createRandomContact();
 
-                database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
+                database.saveContact(contact);
 
                 const updatedContact = ContactTestUtility.createRandomContact();
                 updatedContact.id = contact.id;
@@ -91,7 +91,7 @@ describe('database',
             {
                 const contact = ContactTestUtility.createRandomContact();
 
-                database.saveContact(contact); // NOTE: "lastUpdateTime" will be updated automatically in the object.
+                database.saveContact(contact);
 
                 const member = new Member(contact);
                 member.information = ContactTestUtility.createRandomMemberInformation(member.id);
