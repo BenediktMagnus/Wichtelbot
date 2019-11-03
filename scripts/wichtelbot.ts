@@ -1,42 +1,46 @@
-import { Client as DiscordClient } from 'discord.js';
+import * as Discord from 'discord.js';
 
+import { DiscordClient, DiscordMessage } from './wichtelbot/clients/discord';
 import Config from './utility/config';
 import Database from './wichtelbot/database';
+import MessageHandler from './wichtelbot/message/handler';
 
 export default class Wichtelbot
 {
+    protected discordClient: Discord.Client;
     protected client: DiscordClient;
     protected database: Database;
+    protected messageHandler: MessageHandler;
 
     constructor (onStarted: (loginName: string) => void, inMemory = false)
     {
         this.database = new Database('main', 'log', inMemory);
-        this.client = new DiscordClient();
+        this.messageHandler = new MessageHandler(this.database);
 
-        /*
-        // Nachrichtenverarbeitung starten:
-        console.log('Initialisiere Nachrichtenverarbeitung...');
-        const Nachrichten = require('./Skripte/Nachrichten.js');
-        Nachrichten.Initialisieren(Datenbank, Klient);
-        */
+        this.discordClient = new Discord.Client();
+        this.client = new DiscordClient(this.discordClient);
 
-        this.client.on('error',
-            (error) => {
+        this.discordClient.on('error',
+            (error) =>
+            {
                 console.error(error);
             }
         );
 
-        this.client.on('message',
-            (message) => {
-                //Nachrichten.Verarbeiten(Nachricht);
-                console.log(message);
+        this.discordClient.on('message',
+            (discordMessage) =>
+            {
+                const message = new DiscordMessage(discordMessage, this.client);
+                this.messageHandler.process(message);
+                // TODO: Get that abstraction back you removed!
             }
         );
 
         // Start bot:
-        this.client.login(Config.bot.token).then(
-            () => {
-                onStarted(this.client.user.tag);
+        this.discordClient.login(Config.bot.token).then(
+            () =>
+            {
+                onStarted(this.discordClient.user.tag);
             }
         );
     }
@@ -47,7 +51,7 @@ export default class Wichtelbot
         {
             if (this.client)
             {
-                this.client.destroy();
+                this.discordClient.destroy();
             }
         }
         catch (error)
