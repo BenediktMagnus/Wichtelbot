@@ -21,7 +21,7 @@ const Definitionen = {
     ServerBefehlspräfix: '!',
     //Nur auf dem Server möglich:
     Kontaktaufnahme: {
-        Befehl: "wischtöööln",
+        Befehl: "wichteln",
         Text: Texte.Kontaktaufnahme,
         Funktion: Kontaktaufnahme
     },
