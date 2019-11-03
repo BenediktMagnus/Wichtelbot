@@ -2,7 +2,7 @@ import 'mocha';
 import * as assert from 'assert';
 
 import ConfigTestUtility from '../utility/config';
-import { TestMessage, SendOrReplyFunction } from '../utility/message';
+import { TestMessage, TestMessageWithFixedAuthor } from '../utility/message';
 
 import Localisation from '../../scripts/utility/localisation';
 import Database from '../../scripts/wichtelbot/database';
@@ -12,18 +12,6 @@ import MessageHandler from '../../scripts/wichtelbot/message/handler';
 
 import User from '../../scripts/wichtelbot/message/definitions/user';
 import { ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
-
-class TestMessageWithFixedAuthor extends TestMessage
-{
-    constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
-    {
-        super(reply, userSend, channelSend, channelType);
-
-        this.author.id = 'testId';
-        this.author.tag = 'testName#1234';
-        this.author.name= 'testName';
-    }
-}
 
 describe('message handler',
     function ()

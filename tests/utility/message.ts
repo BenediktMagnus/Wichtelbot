@@ -6,7 +6,7 @@ import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import Client from '../../scripts/wichtelbot/message/definitions/client';
 
-export type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
+type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
 
 export class TestMessage extends MessageWithParser implements MessageDefinition
 {
@@ -51,5 +51,17 @@ export class TestMessage extends MessageWithParser implements MessageDefinition
             },
         };
         this.reply = reply;
+    }
+}
+
+export class TestMessageWithFixedAuthor extends TestMessage
+{
+    constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
+    {
+        super(reply, userSend, channelSend, channelType);
+
+        this.author.id = 'testId';
+        this.author.tag = 'testName#1234';
+        this.author.name= 'testName';
     }
 }
