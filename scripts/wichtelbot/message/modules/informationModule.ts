@@ -47,6 +47,17 @@ export default class InformationModule
         }
     }
 
+    protected sendCurrentBoolean (message: Message, member: Member, booleanValue: boolean): void
+    {
+        // NOTE: Boolean values are only send if they are true. False is the default value.
+        //       This is needed to prevent sending "current values" the first time a contact registered.
+        //       We could allow null for boolean values instead.
+        if (booleanValue)
+        {
+            this.sendCurrentInformationValue(message, member, Localisation.translateBoolean(booleanValue));
+        }
+    }
+
     /**
      * Checks which information that depend on the two gift type questions are needed to be asked.
      * These can be "Adress", "DigitalAdress" and "InternationalAllowed".
@@ -124,7 +135,7 @@ export default class InformationModule
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, Localisation.translateBoolean(member.information.internationalAllowed));
+        this.sendCurrentBoolean(message, member, member.information.internationalAllowed);
     }
 
     public sendCurrentWishList (message: Message): void
