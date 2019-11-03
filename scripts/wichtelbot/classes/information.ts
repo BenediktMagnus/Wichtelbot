@@ -19,22 +19,36 @@ export interface InformationData
 
 export default class Information implements InformationData
 {
-    public contactId = '';
-    public lastUpdateTime = 0;
-    public giftTypeAsTaker: GiftType = GiftType.Nothing;
-    public giftTypeAsGiver: GiftType = GiftType.Nothing;
-    public address = '';
-    public country = '';
-    public digitalAddress = '';
-    public internationalAllowed = false;
-    public wishList = '';
-    public allergies = '';
-    public giftExclusion = '';
-    public userExclusion = '';
-    public freeText = '';
+    public contactId: string;
+    public lastUpdateTime: number;
+    public giftTypeAsTaker: GiftType;
+    public giftTypeAsGiver: GiftType;
+    public address: string;
+    public country: string;
+    public digitalAddress: string;
+    public internationalAllowed: boolean;
+    public wishList: string;
+    public allergies: string;
+    public giftExclusion: string;
+    public userExclusion: string;
+    public freeText: string;
 
     constructor (contactIdOrInformationData: string | InformationData)
     {
+        this.contactId = '';
+        this.lastUpdateTime = 0;
+        this.giftTypeAsTaker = GiftType.Nothing;
+        this.giftTypeAsGiver = GiftType.Nothing;
+        this.address = '';
+        this.country = '';
+        this.digitalAddress = '';
+        this.internationalAllowed = false;
+        this.wishList = '';
+        this.allergies = '';
+        this.giftExclusion = '';
+        this.userExclusion = '';
+        this.freeText = '';
+
         if ((typeof contactIdOrInformationData) === 'string')
         {
             this.contactId = contactIdOrInformationData as string;

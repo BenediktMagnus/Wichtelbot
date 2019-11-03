@@ -18,16 +18,24 @@ export interface ContactData extends ContactCoreData
 
 export default class Contact implements ContactData
 {
-    public id = ''; // The ID, unique for every contact.
-    public tag = ''; // The contact's tag, a contextual identifier.
-    public name = ''; // The base name.
-    public nickname = ''; // A setable nickname for the contact for readability purposes, defaults to the name.
-    public lastUpdateTime = 0; // Unix time
-    public type: ContactType = ContactType.Contact;
-    public state: State = State.Nothing; // The current state the contact is in, used as communication state.
+    public id: string; // The ID, unique for every contact.
+    public tag: string; // The contact's tag, a contextual identifier.
+    public name: string; // The base name.
+    public nickname: string; // A setable nickname for the contact for readability purposes, defaults to the name.
+    public lastUpdateTime: number; // Unix time
+    public type: ContactType;
+    public state: State; // The current state the contact is in, used as communication state.
 
     constructor (contactData: ContactCoreData | ContactData)
     {
+        this.id = '';
+        this.tag = '';
+        this.name = '';
+        this.nickname = '';
+        this.lastUpdateTime = 0;
+        this.type = ContactType.Contact;
+        this.state = State.Nothing;
+
         Object.assign(this, contactData);
 
         if (this.nickname == '')
