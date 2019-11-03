@@ -2,7 +2,7 @@ import 'mocha';
 import * as assert from 'assert';
 
 import ContactTestUtility from '../utility/contact';
-
+import GeneralTestUtility from '../utility/general';
 import Database from '../../scripts/wichtelbot/database';
 import Member from '../../scripts/wichtelbot/classes/member';
 
@@ -43,7 +43,7 @@ describe('database',
             }
         );
 
-        it('can log.',
+        it('log.',
             function ()
             {
                 const result = database.log('0', 'test', 'This is a unit test.');
@@ -68,7 +68,7 @@ describe('database',
             }
         );
 
-        it('can update a contact.',
+        it('updateContact',
             function ()
             {
                 const contact = ContactTestUtility.createRandomContact();
@@ -106,6 +106,28 @@ describe('database',
             }
         );
 
+        it('updateMember',
+            function ()
+            {
+                const contact = ContactTestUtility.createRandomContact();
+
+                database.saveContact(contact);
+
+                const member = new Member(contact);
+                member.information = ContactTestUtility.createRandomMemberInformation(member.id);
+
+                database.saveMember(member);
+
+                member.name = GeneralTestUtility.createRandomString();
+
+                database.updateMember(member);
+
+                const returnedMember = database.getMember(member.id);
+
+                assert.deepStrictEqual(returnedMember, member);
+            }
+        );
+
         it('hasInformation',
             function ()
             {
@@ -123,6 +145,48 @@ describe('database',
 
                 assert.strictEqual(informationNotPresent, false);
                 assert.strictEqual(informationIsPresent, true);
+            }
+        );
+
+        it('getWhatIsThere with contactCoreData.',
+            function ()
+            {
+                const contactCoreData = ContactTestUtility.createRandomContactCoreData();
+
+                const returnedContact = database.getWhatIsThere(contactCoreData);
+
+                assert.deepStrictEqual(returnedContact, contactCoreData);
+            }
+        );
+
+        it('getWhatIsThere with a contact.',
+            function ()
+            {
+                const contact = ContactTestUtility.createRandomContact();
+
+                database.saveContact(contact);
+
+                const returnedData = database.getWhatIsThere(contact);
+
+                assert.deepStrictEqual(returnedData, contact);
+            }
+        );
+
+        it('getWhatIsThere with a member.',
+            function ()
+            {
+                const contact = ContactTestUtility.createRandomContact();
+
+                database.saveContact(contact);
+
+                const member = new Member(contact);
+                member.information = ContactTestUtility.createRandomMemberInformation(member.id);
+
+                database.saveMember(member);
+
+                const returnedData = database.getWhatIsThere(member);
+
+                assert.deepStrictEqual(returnedData, member);
             }
         );
     }
