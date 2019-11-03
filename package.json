@@ -10,6 +10,8 @@
         "url": "git+https://github.com/BenediktMagnus/Wichtelbot.git"
     },
     "scripts": {
+        "prestart": "tsc",
+        "start": "node build/main.js",
         "test": "./node_modules/.bin/mocha -r ts-node/register -t 12000 'tests/**/*.ts'",
         "coverage": "./node_modules/.bin/nyc npm run test"
     },
