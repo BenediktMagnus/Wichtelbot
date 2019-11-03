@@ -19,19 +19,29 @@ import {
 describe('discord client',
     function ()
     {
-        const discordDMChannelInternals = {
-            recipients: [{}],
-        };
-        const discordMessageInternals = {
-            author: {},
-            embeds: [],
-            attachments: [],
-        };
+        let discordClient: Discord.Client;
+        let discordUser: Discord.User;
+        let discordDMChannel: Discord.DMChannel;
+        let discordMessage: Discord.Message;
 
-        const discordClient = new Discord.Client();
-        const discordUser = new Discord.User(discordClient, {});
-        const discordDMChannel = new Discord.DMChannel(discordClient, discordDMChannelInternals);
-        const discordMessage = new Discord.Message(discordDMChannel, discordMessageInternals, discordClient);
+        before(
+            function ()
+            {
+                const discordDMChannelInternals = {
+                    recipients: [{}],
+                };
+                const discordMessageInternals = {
+                    author: {},
+                    embeds: [],
+                    attachments: [],
+                };
+
+                discordClient = new Discord.Client();
+                discordUser = new Discord.User(discordClient, {});
+                discordDMChannel = new Discord.DMChannel(discordClient, discordDMChannelInternals);
+                discordMessage = new Discord.Message(discordDMChannel, discordMessageInternals, discordClient);
+            }
+        );
 
         it('has working user class.',
             function ()
