@@ -14,6 +14,11 @@ export abstract class MessageWithParser
     protected hasBeenParsed = false;
     protected separator = '';
 
+    /**
+     * If set to false the content is parsed as a single command instead of a command with parameters.
+     */
+    public hasParameters = true;
+
     protected abstract get content (): string;
 
     /**
@@ -54,24 +59,32 @@ export abstract class MessageWithParser
         // For parsing, we ignore space-like characters at the beginning and end of the content:
         const content = this.content.trim();
 
-        // The following regex finds commands and the parameter string by searching for
-        // the first space-like character. Everything before is the command, everything
-        // after it (including more space-like characters) is the parameter string:
-        const regex = /(\S+)(\s?)([\S\s]*)/;
-
-        const match = regex.exec(content);
-
-        if (match === null)
+        if (this.hasParameters)
         {
-            // This can only be the case if the string has been empty, soo...
-            this.hasBeenParsed = true;
-            return;
-            // Done.
-        }
+            // The following regex finds commands and the parameter string by searching for
+            // the first space-like character. Everything before is the command, everything
+            // after it (including more space-like characters) is the parameter string:
+            const regex = /(\S+)(\s?)([\S\s]*)/;
 
-        this._command = match[1];
-        this.separator = match[2];
-        this._parameters = match[3];
+            const match = regex.exec(content);
+
+            if (match === null)
+            {
+                // This can only be the case if the string has been empty, soo...
+                this.hasBeenParsed = true;
+                return;
+                // Done.
+            }
+
+            this._command = match[1];
+            this.separator = match[2];
+            this._parameters = match[3];
+        }
+        else
+        {
+            // If this message is set to having no parameters we treat the full content as command.
+            this._command = content;
+        }
 
         // Remove all symbols from the command that must be ignored (explanation mark, question mark, full stop, comma, semicolon, space):
         this._command = this._command.replace(/^[!?.,;\s]+|[!?.,;\s]+$/g, '');
@@ -111,6 +124,11 @@ export default interface Message
      * The content of the message, its text.
      */
     content: string;
+    /**
+     * If true, the content will be split into a command and one or multiple parameters. \
+     * If false, the full content will be treatet as a single command without parameters.
+     */
+    hasParameters: boolean;
     /**
      * The command of the message.
      */

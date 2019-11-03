@@ -196,6 +196,12 @@ export default class MessageHandler
             {
                 const contact = this.database.getContact(message.author.id);
 
+                // NOTE: In personal channels, we do not use the "command/parameters" concept because it is much more natural
+                //       to speak with the bot in words and sentences. Therefor we use the message content. If we have to
+                //       make inputs, we use catch all commands to save the full input.
+                //       Short: Instead of <"command parameters"> we use <stateA: "command", stateB: "parameters">.
+                message.hasParameters = false;
+
                 if (!this.tryToCallStateCommand(new StateCommand(contact.state, ''), message) && // Catch all
                     !this.tryToCallStateCommand(new StateCommand(contact.state, message.command), message) && // Specific state command
                     !this.tryToCallStateCommand(new StateCommand(State.Nothing, message.command), message)) // Stateless command
