@@ -105,5 +105,25 @@ describe('database',
                 assert.notStrictEqual(returnedMember.information.lastUpdateTime, 0);
             }
         );
+
+        it('hasInformation',
+            function ()
+            {
+                const contact = ContactTestUtility.createRandomContact();
+
+                database.saveContact(contact);
+
+                const member = new Member(contact);
+                member.information = ContactTestUtility.createRandomMemberInformation(member.id);
+
+                database.saveMember(member);
+
+                const informationNotPresent = database.hasInformation('0');
+                const informationIsPresent = database.hasInformation(member.id);
+
+                assert.strictEqual(informationNotPresent, false);
+                assert.strictEqual(informationIsPresent, true);
+            }
+        );
     }
 );
