@@ -23,10 +23,15 @@
     "rules": {
         "@typescript-eslint/no-explicit-any": "off",
         "spaced-comment": "warn",
-        "sort-imports": "warn",
         "no-multi-spaces": "warn",
         "no-whitespace-before-property": "warn",
         "no-unused-expressions": "warn",
+        "sort-imports": [
+            "warn",
+            {
+                "ignoreCase": true
+            }
+        ],
         "no-warning-comments": [
             "warn",
             {
