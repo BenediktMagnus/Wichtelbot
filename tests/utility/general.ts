@@ -17,4 +17,11 @@ export default abstract class GeneralTestUtility
 
         return randomBoolean;
     }
+
+    public static createRandomInteger (): number
+    {
+        const randomNumber = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+
+        return randomNumber;
+    }
 }

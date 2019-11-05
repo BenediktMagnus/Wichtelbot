@@ -1,9 +1,10 @@
+import Contact, { ContactCoreData, ContactData } from '../../scripts/wichtelbot/classes/contact';
+import ContactType from '../../scripts/wichtelbot/types/contactType';
 import GeneralTestUtility from './general';
-
-import Contact, { ContactCoreData } from '../../scripts/wichtelbot/classes/contact';
-import Information from '../../scripts/wichtelbot/classes/information';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
+import Information from '../../scripts/wichtelbot/classes/information';
 import Member from '../../scripts/wichtelbot/classes/member';
+import State from '../../scripts/wichtelbot/message/definitions/state';
 
 export default abstract class ContactTestUtility
 {
@@ -23,6 +24,22 @@ export default abstract class ContactTestUtility
         return randomGiftType;
     }
 
+    public static createRandomState (): State
+    {
+        const states: State[] = [];
+
+        for (const state of Object.values(State))
+        {
+            states.push(state);
+        }
+
+        const randomIndex = Math.floor(Math.random() * states.length);
+
+        const randomState = states[randomIndex];
+
+        return randomState;
+    }
+
     public static createRandomContactCoreData (): ContactCoreData
     {
         const contactCoreData = {
@@ -32,6 +49,21 @@ export default abstract class ContactTestUtility
         };
 
         return contactCoreData;
+    }
+
+    public static createRandomContactData (): ContactData
+    {
+        const contactCoreData = ContactTestUtility.createRandomContactCoreData();
+
+        const contactData = {
+            ...contactCoreData,
+            nickname: contactCoreData.name,
+            lastUpdateTime: GeneralTestUtility.createRandomInteger(),
+            type: ContactType.Contact,
+            state: ContactTestUtility.createRandomState(),
+        };
+
+        return contactData;
     }
 
     public static createRandomContact (): Contact
@@ -72,6 +104,7 @@ export default abstract class ContactTestUtility
         const information = ContactTestUtility.createRandomMemberInformation();
 
         const member = new Member(contact, information);
+        member.type = ContactType.Member;
 
         return member;
     }
