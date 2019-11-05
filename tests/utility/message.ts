@@ -87,9 +87,16 @@ export class CommandTestMessage extends TestMessage
         {
             this.called = true;
 
-            const whatIsThere = this.database.getWhatIsThere(this.author);
-
-            if (!(whatIsThere instanceof Contact) && !(whatIsThere instanceof Member))
+            let whatIsThere: Contact | Member;
+            if (this.database.hasInformation(this.author.id))
+            {
+                whatIsThere = this.database.getMember(this.author.id);
+            }
+            else if (this.database.hasContact(this.author.id))
+            {
+                whatIsThere = this.database.getContact(this.author.id);
+            }
+            else
             {
                 throw ReferenceError('The contact or member has not been prepared.');
             }
