@@ -1,5 +1,5 @@
 import 'mocha';
-import * as assert from 'assert';
+import { assert } from 'chai';
 
 import GeneralTestUtility from '../utility/general';
 

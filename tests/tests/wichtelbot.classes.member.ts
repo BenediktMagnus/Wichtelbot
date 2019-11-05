@@ -1,5 +1,5 @@
 import 'mocha';
-import * as assert from 'assert';
+import { assert } from 'chai';
 
 import Member from '../../scripts/wichtelbot/classes/member';
 import ContactTestUtility from '../utility/contact';

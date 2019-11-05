@@ -1,5 +1,5 @@
 import 'mocha';
-import * as assert from 'assert';
+import { assert } from 'chai';
 
 import Config from '../../scripts/utility/config';
 import ConfigTestUtility from '../utility/config';

@@ -1,5 +1,5 @@
 import 'mocha';
-import * as assert from 'assert';
+import { assert } from 'chai';
 import { KeyValuePairList, KeyValuePair } from '../../scripts/utility/keyValuePair';
 import GeneralTestUtility from '../utility/general';
 

@@ -1,5 +1,5 @@
 import 'mocha';
-import * as assert from 'assert';
+import { assert } from 'chai';
 
 import ConfigTestUtility from '../utility/config';
 import { TestMessage, TestMessageWithFixedAuthor } from '../utility/message';
