@@ -19,7 +19,7 @@ describe('statelessCommands',
         let database: Database;
         let messageHandler: MessageHandler;
 
-        before(
+        beforeEach(
             function ()
             {
                 // Set event phase to "registration" as a basis to work with:
@@ -38,7 +38,7 @@ describe('statelessCommands',
             }
         );
 
-        after(
+        afterEach(
             function ()
             {
                 database.close();
