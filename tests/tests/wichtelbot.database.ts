@@ -175,13 +175,9 @@ describe('database',
         it('getWhatIsThere with a member.',
             function ()
             {
-                const contact = ContactTestUtility.createRandomContact();
+                const member = ContactTestUtility.createRandomMember();
 
-                database.saveContact(contact);
-
-                const member = new Member(contact);
-                member.information = ContactTestUtility.createRandomMemberInformation(member.id);
-
+                database.saveContact(member);
                 database.saveMember(member);
 
                 const returnedData = database.getWhatIsThere(member);

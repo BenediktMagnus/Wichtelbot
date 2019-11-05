@@ -16,6 +16,16 @@ export interface ContactData extends ContactCoreData
     state: State;
 }
 
+function instanceOfContactData (object: any): object is ContactData
+{
+    const isInstance = (object.nickname !== undefined) &&
+                       (object.lastUpdateTime !== undefined) &&
+                       (object.type !== undefined) &&
+                       (object.state !== undefined);
+
+    return isInstance;
+}
+
 export default class Contact implements ContactData
 {
     public id: string; // The ID, unique for every contact.
@@ -28,19 +38,33 @@ export default class Contact implements ContactData
 
     constructor (contactData: ContactCoreData | ContactData)
     {
-        this.id = '';
-        this.tag = '';
-        this.name = '';
-        this.nickname = '';
-        this.lastUpdateTime = 0;
-        this.type = ContactType.Contact;
-        this.state = State.Nothing;
+        // ContactCoreData:
+        this.id = contactData.id;
+        this.tag = contactData.tag;
+        this.name = contactData.name;
 
-        Object.assign(this, contactData);
+        // ContactData:
+        if (instanceOfContactData(contactData))
+        {
+            if (contactData.nickname == '')
+            {
+                this.nickname = this.name;
+            }
+            else
+            {
+                this.nickname = contactData.nickname;
+            }
 
-        if (this.nickname == '')
+            this.lastUpdateTime = contactData.lastUpdateTime;
+            this.type = contactData.type;
+            this.state = contactData.state;
+        }
+        else
         {
             this.nickname = this.name;
+            this.lastUpdateTime = 0;
+            this.type = ContactType.Contact;
+            this.state = State.Nothing;
         }
     }
 }

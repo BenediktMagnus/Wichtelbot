@@ -56,6 +56,9 @@ export default class Information implements InformationData
         else
         {
             Object.assign(this, contactIdOrInformationData);
+            // NOTE: Object.assign will stop working as soon as the InformationData input comes from an object
+            //       with getter for the properties. There will be no exception thrown.
+            //       If this happens, there is only the possibility left to set them all manually.
 
             // Force booleans to be of type boolean.
             // This is necessary because the database returns them as numbers.
