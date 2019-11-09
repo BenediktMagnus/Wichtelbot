@@ -9,10 +9,12 @@ import Contact from '../../../scripts/wichtelbot/classes/contact';
 import Database from '../../../scripts/wichtelbot/database';
 import GiftType from '../../../scripts/wichtelbot/types/giftType';
 import Information from '../../../scripts/wichtelbot/classes/information';
+import { KeyValuePairList } from '../../../scripts/utility/keyValuePair';
 import Localisation from '../../../scripts/utility/localisation';
 import Member from '../../../scripts/wichtelbot/classes/member';
 import MessageHandler from '../../../scripts/wichtelbot/message/handler';
 import State from '../../../scripts/wichtelbot/message/definitions/state';
+import ContactType from '../../../scripts/wichtelbot/types/contactType';
 
 describe('statefulCommands',
     function ()
@@ -631,6 +633,29 @@ describe('statefulCommands',
             }
         );
 
-        // TODO: Free text
+        it('InformationFreeText',
+            function ()
+            {
+                const expectedFreeText = '-';
+
+                const testCallback = (text: string, member: Member): void =>
+                {
+                    const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
+                    assert.strictEqual(text, Localisation.texts.becameMember.process(member, parameters));
+                    assert.strictEqual(member.state, State.Waiting);
+                    assert.strictEqual(member.type, ContactType.Member);
+                    assert.strictEqual(member.information.freeText, expectedFreeText);
+                };
+
+                const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
+                message.content = expectedFreeText;
+
+                message.prepareMember(State.InformationFreeText);
+
+                messageHandler.process(message);
+
+                assert.strictEqual(message.called, true);
+            }
+        );
     }
 );
