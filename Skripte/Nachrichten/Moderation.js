@@ -136,7 +136,7 @@ function NachrichtAnAlleAusstehendenSenden (Nachricht)
 
     for (let Nutzer of Nutzerverwaltung.Liste.values())
     {
-        if (AusstehendeZustände.indexOf(Nutzer.Zustand) == -1)
+        if (AusstehendeZustände.indexOf(Nutzer.Zustand) !== -1)
             Nutzerliste.push(Nutzer);
     }
 
