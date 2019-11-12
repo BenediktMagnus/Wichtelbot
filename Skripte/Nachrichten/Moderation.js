@@ -111,11 +111,13 @@ exports.NachrichtAnAlleNutzerSenden = NachrichtAnAlleNutzerSenden;
  */
 function NachrichtAnAlleTeilnehmerSenden (Nachricht)
 {
+    const TeilnehmerZustände = ['Teilnehmer', 'Wartend', 'Wichtel'];
+
     let Nutzerliste = [];
 
     for (let Nutzer of Nutzerverwaltung.Liste.values())
     {
-        if (Nutzer.Zustand == 'Teilnehmer')
+        if (TeilnehmerZustände.indexOf(Nutzer.Zustand) !== -1)
             Nutzerliste.push(Nutzer);
     }
 
