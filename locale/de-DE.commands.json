@@ -12,6 +12,14 @@
             "moin moin"
         ]
     },
+    "hello": {
+        "commands": [
+            "hallo",
+            "hi",
+            "hej",
+            "hey"
+        ]
+    },
     "informationAnalogue": {
         "commands": ["analog", "nur analog"]
     },

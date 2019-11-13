@@ -50,6 +50,11 @@ export default class HandlingDefinition
         },
         {
             state: State.Nothing,
+            commandInfo: Localisation.commands.hello,
+            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.hello)
+        },
+        {
+            state: State.Nothing,
             commandInfo: Localisation.commands.maybe,
             handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.maybeResponse)
         },
