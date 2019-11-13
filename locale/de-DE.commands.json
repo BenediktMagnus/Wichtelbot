@@ -1,6 +1,10 @@
 {
     "contacting": {
-        "commands": ["wichteln", "wichtöööln" ,"wischtöööln"]
+        "commands": [
+            "wichteln",
+            "wichtöööln",
+            "wischtöööln"
+        ]
     },
     "goodAfternoon": {
         "commands": [
