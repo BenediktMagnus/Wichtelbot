@@ -13,6 +13,7 @@ export interface CommandInfo
 interface Commands
 {
     contacting: CommandInfo;
+    goodAfternoon: CommandInfo;
     goodMorning: CommandInfo;
     hello: CommandInfo;
     informationAnalogue: CommandInfo;
@@ -33,6 +34,7 @@ interface Texts
     contactingRegistration: TokenString;
     contactingAlreadyRegistered: TokenString;
     contactingTooLate: TokenString;
+    goodAfternoon: TokenString;
     goodMorning: TokenString;
     hello: TokenString;
     helpText: TokenString;

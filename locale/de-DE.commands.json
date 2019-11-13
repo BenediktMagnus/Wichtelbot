@@ -2,6 +2,12 @@
     "contacting": {
         "commands": ["wichteln", "wichtöööln" ,"wischtöööln"]
     },
+    "goodAfternoon": {
+        "commands": [
+            "guten Tag",
+            "Tag"
+        ]
+    },
     "goodMorning": {
         "commands": [
             "guten Morgen",

@@ -45,6 +45,11 @@ export default class HandlingDefinition
         // Stateless commands:
         {
             state: State.Nothing,
+            commandInfo: Localisation.commands.goodAfternoon,
+            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodAfternoon)
+        },
+        {
+            state: State.Nothing,
             commandInfo: Localisation.commands.goodMorning,
             handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodMorning)
         },
