@@ -47,6 +47,29 @@ describe('statelessCommands',
             }
         );
 
+        it('goodAfternoon',
+            function ()
+            {
+                let called = false;
+                let author: User;
+
+                const resultCallback = (text: string): void =>
+                {
+                    assert.strictEqual(text, Localisation.texts.goodAfternoon.process(author));
+                    called = true;
+                };
+
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                message.content = Localisation.commands.goodAfternoon.commands[0];
+
+                author = message.author;
+
+                messageHandler.process(message);
+
+                assert.strictEqual(called, true);
+            }
+        );
+
         it('goodMorning',
             function ()
             {
@@ -61,6 +84,52 @@ describe('statelessCommands',
 
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
                 message.content = Localisation.commands.goodMorning.commands[0];
+
+                author = message.author;
+
+                messageHandler.process(message);
+
+                assert.strictEqual(called, true);
+            }
+        );
+
+        it('goodNight',
+            function ()
+            {
+                let called = false;
+                let author: User;
+
+                const resultCallback = (text: string): void =>
+                {
+                    assert.strictEqual(text, Localisation.texts.goodNight.process(author));
+                    called = true;
+                };
+
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                message.content = Localisation.commands.goodNight.commands[0];
+
+                author = message.author;
+
+                messageHandler.process(message);
+
+                assert.strictEqual(called, true);
+            }
+        );
+
+        it('hello',
+            function ()
+            {
+                let called = false;
+                let author: User;
+
+                const resultCallback = (text: string): void =>
+                {
+                    assert.strictEqual(text, Localisation.texts.hello.process(author));
+                    called = true;
+                };
+
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                message.content = Localisation.commands.hello.commands[0];
 
                 author = message.author;
 
