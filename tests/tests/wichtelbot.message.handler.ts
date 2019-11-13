@@ -1,17 +1,13 @@
 import 'mocha';
-import { assert } from 'chai';
-
-import ConfigTestUtility from '../utility/config';
 import { TestMessage, TestMessageWithFixedAuthor } from '../utility/message';
-
-import Localisation from '../../scripts/utility/localisation';
-import Database from '../../scripts/wichtelbot/database';
-import Config from '../../scripts/utility/config';
-
-import MessageHandler from '../../scripts/wichtelbot/message/handler';
-
-import User from '../../scripts/wichtelbot/message/definitions/user';
+import { assert } from 'chai';
 import { ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
+import Config from '../../scripts/utility/config';
+import ConfigTestUtility from '../utility/config';
+import Database from '../../scripts/wichtelbot/database';
+import Localisation from '../../scripts/utility/localisation';
+import MessageHandler from '../../scripts/wichtelbot/message/handler';
+import User from '../../scripts/wichtelbot/message/definitions/user';
 
 describe('message handler',
     function ()

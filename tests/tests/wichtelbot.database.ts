@@ -2,8 +2,8 @@ import 'mocha';
 import { assert } from 'chai';
 
 import ContactTestUtility from '../utility/contact';
-import GeneralTestUtility from '../utility/general';
 import Database from '../../scripts/wichtelbot/database';
+import GeneralTestUtility from '../utility/general';
 import Member from '../../scripts/wichtelbot/classes/member';
 
 const mainDatabaseName = 'mainTest';

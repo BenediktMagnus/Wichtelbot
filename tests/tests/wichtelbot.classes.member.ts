@@ -3,8 +3,8 @@ import { assert } from 'chai';
 
 import ContactTestUtility from '../utility/contact';
 import ContactType from '../../scripts/wichtelbot/types/contactType';
-import Member from '../../scripts/wichtelbot/classes/member';
 import GeneralTestUtility from '../utility/general';
+import Member from '../../scripts/wichtelbot/classes/member';
 
 describe('member class',
     function ()

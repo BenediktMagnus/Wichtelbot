@@ -2,10 +2,9 @@ import 'mocha';
 import { assert } from 'chai';
 
 import ContactTestUtility from '../utility/contact';
-
+import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 import Localisation from '../../scripts/utility/localisation';
 import TokenString from '../../scripts/utility/tokenString';
-import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 
 describe('tokenString',
     function ()

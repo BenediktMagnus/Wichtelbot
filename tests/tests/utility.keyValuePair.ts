@@ -1,9 +1,7 @@
 import 'mocha';
+import { KeyValuePair, KeyValuePairList } from '../../scripts/utility/keyValuePair';
 import { assert } from 'chai';
-import { KeyValuePairList, KeyValuePair } from '../../scripts/utility/keyValuePair';
 import GeneralTestUtility from '../utility/general';
-
-
 
 describe('keyValuePairList',
     function ()

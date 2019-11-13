@@ -1,15 +1,13 @@
-import Localisation from "../../../utility/localisation";
 import Config from "../../../utility/config";
-import TokenString from "../../../utility/tokenString";
-import { KeyValuePairList } from "../../../utility/keyValuePair";
-
+import ContactType from "../../types/contactType";
 import Database from "../../database";
-
+import GiftType from "../../types/giftType";
+import { KeyValuePairList } from "../../../utility/keyValuePair";
+import Localisation from "../../../utility/localisation";
+import Member from "../../classes/member";
 import Message from "../definitions/message";
 import State from "../definitions/state";
-import GiftType from "../../types/giftType";
-import ContactType from "../../types/contactType";
-import Member from "../../classes/member";
+import TokenString from "../../../utility/tokenString";
 
 /**
  * Message module for gathering and saving contact information data.

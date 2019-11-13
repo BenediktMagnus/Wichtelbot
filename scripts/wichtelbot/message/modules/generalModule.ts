@@ -1,16 +1,14 @@
 import Localisation, { CommandInfo } from '../../../utility/localisation';
 import Config from '../../../utility/config';
-import Database from '../../database';
-
-import { KeyValuePairList } from '../../../utility/keyValuePair';
-import TokenString from '../../../utility/tokenString';
-import WichtelEventPhase from '../../../utility/wichtelEvent';
-
-import Message from '../definitions/message';
-import State from '../definitions/state';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
+import Database from '../../database';
+import { KeyValuePairList } from '../../../utility/keyValuePair';
 import Member from '../../classes/member';
+import Message from '../definitions/message';
+import State from '../definitions/state';
+import TokenString from '../../../utility/tokenString';
+import WichtelEventPhase from '../../../utility/wichtelEvent';
 
 /**
  * Message module for general things to handle.

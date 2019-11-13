@@ -1,10 +1,9 @@
 import 'mocha';
 import * as fs from 'fs';
 
-import ContactTestUtility from '../utility/contact';
-
-import Database from '../../scripts/wichtelbot/database';
 import Contact from '../../scripts/wichtelbot/classes/contact';
+import ContactTestUtility from '../utility/contact';
+import Database from '../../scripts/wichtelbot/database';
 import Member from '../../scripts/wichtelbot/classes/member';
 
 const testCount = 100;

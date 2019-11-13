@@ -1,12 +1,11 @@
-import * as fs from 'fs';
 import Sqlite = require('better-sqlite3');
+import * as fs from 'fs';
 
-import Utils from '../utility/utils';
-
-import Contact, { ContactData, ContactCoreData } from './classes/contact';
+import Contact, { ContactCoreData, ContactData } from './classes/contact';
 import ContactType from './types/contactType';
-import Member from './classes/member';
 import { InformationData } from './classes/information';
+import Member from './classes/member';
+import Utils from '../utility/utils';
 
 export default class Database
 {

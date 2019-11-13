@@ -6,6 +6,7 @@ import { CommandTestMessage } from '../../utility/message';
 import Config from '../../../scripts/utility/config';
 import ConfigTestUtility from '../../utility/config';
 import Contact from '../../../scripts/wichtelbot/classes/contact';
+import ContactType from '../../../scripts/wichtelbot/types/contactType';
 import Database from '../../../scripts/wichtelbot/database';
 import GiftType from '../../../scripts/wichtelbot/types/giftType';
 import Information from '../../../scripts/wichtelbot/classes/information';
@@ -14,7 +15,6 @@ import Localisation from '../../../scripts/utility/localisation';
 import Member from '../../../scripts/wichtelbot/classes/member';
 import MessageHandler from '../../../scripts/wichtelbot/message/handler';
 import State from '../../../scripts/wichtelbot/message/definitions/state';
-import ContactType from '../../../scripts/wichtelbot/types/contactType';
 
 describe('statefulCommands',
     function ()

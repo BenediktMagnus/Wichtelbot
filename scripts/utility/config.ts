@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+
 import WichtelEventPhase, { WichtelEvent } from './wichtelEvent';
 import Utils from './utils';
 

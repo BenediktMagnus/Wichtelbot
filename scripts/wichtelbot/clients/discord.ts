@@ -1,12 +1,11 @@
 import * as Discord from 'discord.js';
 
-import Utils from '../../utility/utils';
-
-import User from '../message/definitions/user';
 import { Channel, ChannelType } from '../message/definitions/channel';
+import Client from '../message/definitions/client';
 import Message from '../message/definitions/message';
 import { MessageWithParser } from '../message/definitions/message';
-import Client from '../message/definitions/client';
+import User from '../message/definitions/user';
+import Utils from '../../utility/utils';
 
 const safetyMargin = 16;
 const maxMessageLength = 2000 - safetyMargin;

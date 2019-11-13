@@ -1,19 +1,15 @@
-import Config from '../../utility/config';
-import { CommandInfo } from '../../utility/localisation';
-
-import Database from '../database';
-
-import State from './definitions/state';
-import Message from './definitions/message';
 import { ChannelType } from './definitions/channel';
-
+import { CommandInfo } from '../../utility/localisation';
+import Config from '../../utility/config';
+import Database from '../database';
+import GeneralModule from './modules/generalModule';
 import HandlingDefinition from './handlingDefinition';
+import InformationModule from './modules/informationModule';
+import Message from './definitions/message';
 import MessageFunction from './handlingTools/messageFunction';
+import State from './definitions/state';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
-
-import GeneralModule from './modules/generalModule';
-import InformationModule from './modules/informationModule';
 
 // TODO: Replace all toLowerCase with toLocaleLowerCase(locale) as soon as the draft ECMA-402 is accepted.
 //       This must be the same as in Config.reload(), MessageWithParser.parse() and everywhere else!

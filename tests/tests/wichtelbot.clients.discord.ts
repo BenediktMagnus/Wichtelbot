@@ -1,20 +1,17 @@
 import 'mocha';
-import { assert } from 'chai';
 import * as Discord from 'discord.js';
-
-import GeneralTestUtility from '../utility/general';
-import { TestMessage } from '../utility/message';
-
-import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
-import Message from '../../scripts/wichtelbot/message/definitions/message';
-
 import {
-    DiscordClient as DiscordClientImplementation,
-    DiscordUser as DiscordUserImplementation,
     DiscordChannel as DiscordChannelImplementation,
+    DiscordClient as DiscordClientImplementation,
     DiscordMessage as DiscordMessageImplementation,
+    DiscordUser as DiscordUserImplementation,
 } from '../../scripts/wichtelbot/clients/discord';
+import { assert } from 'chai';
+import GeneralTestUtility from '../utility/general';
+import Message from '../../scripts/wichtelbot/message/definitions/message';
+import { TestMessage } from '../utility/message';
+import User from '../../scripts/wichtelbot/message/definitions/user';
 
 describe('discord client',
     function ()

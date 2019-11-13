@@ -1,12 +1,10 @@
 import Localisation, { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
-
-import State from "./definitions/state";
-import MessageFunction from './handlingTools/messageFunction';
-
 import GeneralModule from './modules/generalModule';
-import InformationModule from './modules/informationModule';
 import GiftType from '../types/giftType';
+import InformationModule from './modules/informationModule';
+import MessageFunction from './handlingTools/messageFunction';
+import State from "./definitions/state";
 
 interface CommandDefinition
 {

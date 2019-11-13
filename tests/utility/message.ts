@@ -1,15 +1,15 @@
-import GeneralTestUtility from '../utility/general';
 
-import { MessageWithParser } from '../../scripts/wichtelbot/message/definitions/message';
-import MessageDefinition from '../../scripts/wichtelbot/message/definitions/message';
-import User from '../../scripts/wichtelbot/message/definitions/user';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import Client from '../../scripts/wichtelbot/message/definitions/client';
-import State from '../../scripts/wichtelbot/message/definitions/state';
-import Database from '../../scripts/wichtelbot/database';
-import Member from '../../scripts/wichtelbot/classes/member';
 import Contact from '../../scripts/wichtelbot/classes/contact';
+import Database from '../../scripts/wichtelbot/database';
+import GeneralTestUtility from '../utility/general';
 import Information from '../../scripts/wichtelbot/classes/information';
+import Member from '../../scripts/wichtelbot/classes/member';
+import MessageDefinition from '../../scripts/wichtelbot/message/definitions/message';
+import { MessageWithParser } from '../../scripts/wichtelbot/message/definitions/message';
+import State from '../../scripts/wichtelbot/message/definitions/state';
+import User from '../../scripts/wichtelbot/message/definitions/user';
 
 type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
 

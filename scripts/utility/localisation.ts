@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 
 import Config from './config';
-import TokenString from './tokenString';
 import GiftType from '../wichtelbot/types/giftType';
+import TokenString from './tokenString';
 
 export interface CommandInfo
 {

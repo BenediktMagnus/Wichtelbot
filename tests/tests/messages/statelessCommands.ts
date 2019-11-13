@@ -1,17 +1,14 @@
 import 'mocha';
 import { assert } from 'chai';
 
-import ConfigTestUtility from '../../utility/config';
-import { TestMessageWithFixedAuthor } from '../../utility/message';
-
-import Localisation from '../../../scripts/utility/localisation';
-import Database from '../../../scripts/wichtelbot/database';
-import Config from '../../../scripts/utility/config';
-
-import MessageHandler from '../../../scripts/wichtelbot/message/handler';
-
-import User from '../../../scripts/wichtelbot/message/definitions/user';
 import { ChannelType } from '../../../scripts/wichtelbot/message/definitions/channel';
+import Config from '../../../scripts/utility/config';
+import ConfigTestUtility from '../../utility/config';
+import Database from '../../../scripts/wichtelbot/database';
+import Localisation from '../../../scripts/utility/localisation';
+import MessageHandler from '../../../scripts/wichtelbot/message/handler';
+import { TestMessageWithFixedAuthor } from '../../utility/message';
+import User from '../../../scripts/wichtelbot/message/definitions/user';
 
 describe('statelessCommands',
     function ()

@@ -1,7 +1,6 @@
-import Localisation from "./localisation";
-
-import { KeyValuePair } from "./keyValuePair";
 import Contact, { ContactCoreData } from "../wichtelbot/classes/contact";
+import { KeyValuePair } from "./keyValuePair";
+import Localisation from "./localisation";
 import Member from "../wichtelbot/classes/member";
 
 /**

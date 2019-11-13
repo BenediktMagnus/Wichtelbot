@@ -1,5 +1,5 @@
-import User from "./user";
 import { Channel } from "./channel";
+import User from "./user";
 
 /**
  * Interface for client abstraction. \

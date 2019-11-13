@@ -1,6 +1,6 @@
+import { Channel } from "./channel";
 import Client from './client';
 import User from "./user";
-import { Channel } from "./channel";
 
 /**
  * An abstract base class for message implementations that allows to parse and handle commands and
