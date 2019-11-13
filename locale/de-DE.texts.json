@@ -8,6 +8,7 @@
     "contactingTooLate": "Die Anmeldephase ist leider vorbei. Aber das nächste Wichteln kommt bestimmt!",
     "goodAfternoon": "Guten Tag, {contact.nickname}!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",
+    "goodNight": "Schlaf schön, {contact.nickname}!",
     "hello": "Hallööö, {contact.nickname}!",
     "helpText": "Folgende Befehle stehen dir derzeit zur Verfügung:\n{help.commandInfo}",
     "informationAddress": "Bitte gib nun deinen Klarnamen und eine belieferbare Adresse ein (eine Packstation ist ebenfalls möglich).",

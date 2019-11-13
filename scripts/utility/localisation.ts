@@ -15,6 +15,7 @@ interface Commands
     contacting: CommandInfo;
     goodAfternoon: CommandInfo;
     goodMorning: CommandInfo;
+    goodNight: CommandInfo;
     hello: CommandInfo;
     informationAnalogue: CommandInfo;
     informationBothAnalogueAndDigital: CommandInfo;
@@ -36,6 +37,7 @@ interface Texts
     contactingTooLate: TokenString;
     goodAfternoon: TokenString;
     goodMorning: TokenString;
+    goodNight: TokenString;
     hello: TokenString;
     helpText: TokenString;
     informationAddress: TokenString;

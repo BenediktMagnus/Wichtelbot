@@ -18,6 +18,13 @@
             "moin moin"
         ]
     },
+    "goodNight": {
+        "commands": [
+            "gute Nacht",
+            "Nacht",
+            "Nackt"
+        ]
+    },
     "hello": {
         "commands": [
             "hallo",
