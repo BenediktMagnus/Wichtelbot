@@ -53,6 +53,10 @@ const Definitionen = {
         },
         "sternenrose": {
             Funktion: ModulAllgemein.Sternenrose
+        },
+        "schweinchen": {
+            Funktion: ModulAllgemein.Antworten,
+            Text: Texte.Schweinchen
         }
     },
     //Nur im Moderationskanal:
