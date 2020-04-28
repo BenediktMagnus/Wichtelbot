@@ -1,0 +1,62 @@
+{
+    "contacting": {
+        "commands": [
+            "wichteln",
+            "wichtöööln",
+            "wischtöööln"
+        ]
+    },
+    "goodAfternoon": {
+        "commands": [
+            "guten Tag",
+            "Tag"
+        ]
+    },
+    "goodMorning": {
+        "commands": [
+            "guten Morgen",
+            "Morgen",
+            "gtnmrgn",
+            "mrgn",
+            "moin",
+            "moin moin"
+        ]
+    },
+    "goodNight": {
+        "commands": [
+            "gute Nacht",
+            "Nacht",
+            "Nackt"
+        ]
+    },
+    "hello": {
+        "commands": [
+            "hallo",
+            "hi",
+            "hej",
+            "hey"
+        ]
+    },
+    "informationAnalogue": {
+        "commands": ["analog", "nur analog"]
+    },
+    "informationBothAnalogueAndDigital": {
+        "commands": ["beides", "analog und digital", "digital und analog"]
+    },
+    "informationDigital": {
+        "commands": ["digital", "nur digital"]
+    },
+    "maybe": {
+        "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
+    },
+    "no": {
+        "commands": ["nein", "ne", "nö", "ausgeschlossen", "auf keinen Fall"]
+    },
+    "registration": {
+        "commands": ["registrieren"],
+        "info": "Startet den Registrierungsprozess."
+    },
+    "yes": {
+        "commands": ["ja", "jap", "jawohl", "okay", "meinetwegen"]
+    }
+}

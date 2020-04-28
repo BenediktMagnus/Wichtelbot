@@ -1,0 +1,21 @@
+{
+    "locale": "de-DE",
+    "commandPrefix": "!",
+    "moderationChannelIds": [
+        "0"
+    ],
+    "currentEvent": {
+        "name": "",
+        "registration": 11,
+        "assignment": 12,
+        "end":  13
+    },
+    "eventHistory": [
+        {
+            "name": "",
+            "registration": 1,
+            "assignment": 2,
+            "end":  3
+        }
+    ]
+}

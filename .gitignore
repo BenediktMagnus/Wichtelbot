@@ -30,19 +30,11 @@ node_modules
 # VSCode-Konfiguration ist lokal.
 .vscode
 
-# ESLint-Konfiguration ist lokal.
-.eslintrc.json
-.eslintrc.js
-.eslintrc.yaml
-
 # Konfiguration (Token etc.)
-Config/Bot.json
-Config/Config.json
 config/bot.json
 config/config.json
 
 # Datenbanken
-Daten/*.sqlite
 data/*.sqlite
 
 # We do not want package-lock.json in the repo... it is annoying.
