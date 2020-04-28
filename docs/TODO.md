@@ -1,3 +1,8 @@
+Wichtig:
+-Funktion herausnehmen, mit der man als Bot schreiben kann.
+
+
+
 -Paketnummern
 -Ganz am Anfang eine Info darüber, was vom Bot gefragt wird. (Eventuell auch mehr Informationen über den Prozess.)
     -> Dass später wird anonym kommuniziert werden können (auch digitale Geschenke darüber austauschbar).
@@ -16,7 +21,7 @@
 -Überall prüfen, ob Nachrichten zu lang für Discord werden.
 
 --Stille Post zwischen Nutzern verbessern:
-1. Abfrage einbauen, ob man das auch wirklich lesen möchte.
+1. Abfrage einbauen, ob man das auch wirklich lesen möchte. -> Spoilerfunktion
 2. Zeitliche Limitierung einbauen, in der man keine erneute Nachricht schreiben darf.
 3. Verzögerung einbauen, bevor der eine Nachricht versendet wird.
 4. Abbruchmöglichkeit einbauen.

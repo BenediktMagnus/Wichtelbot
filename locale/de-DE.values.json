@@ -1,0 +1,8 @@
+{
+    "giftTypeAnalogue": "analog",
+    "giftTypeDigital": "digital",
+    "giftTypeAll": "beides",
+    "giftTypeNothing": "nichts",
+    "no": "nein",
+    "yes": "ja"
+}
