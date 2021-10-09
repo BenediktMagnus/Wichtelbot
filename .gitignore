@@ -10,6 +10,7 @@ pids
 
 # Editor/IDE specific files
 .vscode
+*.code-workspace
 
 # Dependency directory
 node_modules
