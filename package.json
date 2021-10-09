@@ -10,10 +10,15 @@
         "url": "git+https://github.com/BenediktMagnus/Wichtelbot.git"
     },
     "scripts": {
-        "prestart": "tsc",
+        "build": "./node_modules/.bin/tsc",
+        "clean": "rm -rf build && rm -rf coverage",
+        "coverage": "./node_modules/.bin/nyc npm run test",
+        "coverage:text": "./node_modules/.bin/nyc --reporter=text npm run test",
+        "lint": "./node_modules/.bin/eslint .",
+        "prepack": "npm run clean && npx ./node_modules/.bin/ -p tsconfig.release.json",
+        "prestart": "npm run build",
         "start": "node build/main.js",
-        "test": "./node_modules/.bin/mocha -r ts-node/register -t 12000 'tests/**/*.ts'",
-        "coverage": "./node_modules/.bin/nyc npm run test"
+        "test": "./node_modules/.bin/mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
     },
     "engines": {
         "node": ">=16.0.0"
