@@ -1,31 +1,28 @@
 {
+    "root": true,
     "env": {
+        "browser": false,
         "es6": true,
         "node": true
     },
-    "root": true,
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "project": "../tsconfig.json",
         "sourceType": "module",
-        "ecmaVersion": 2018,
-        "createDefaultProgram": true // This is a needed workaround, see https://github.com/typescript-eslint/typescript-eslint/issues/864
+        "ecmaVersion": 2018
     },
     "plugins": [
         "@typescript-eslint"
     ],
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "rules": {
-        "@typescript-eslint/no-explicit-any": "off",
         "spaced-comment": "warn",
         "no-multi-spaces": "warn",
         "no-whitespace-before-property": "warn",
-        "no-unused-expressions": "warn",
         "sort-imports": [
             "warn",
             {
@@ -42,22 +39,11 @@
                 "location": "anywhere"
             }
         ],
-        "space-before-function-paren": [
-            "warn",
-            "always"
-        ],
         "capitalized-comments": [
             "warn",
             "always",
             {
                 "ignoreConsecutiveComments": true
-            }
-        ],
-        "indent": [
-            "warn",
-            4,
-            {
-                "SwitchCase": 1
             }
         ],
         "no-extra-semi": "error",
@@ -66,13 +52,32 @@
         "no-param-reassign": "error",
         "guard-for-in": "error",
         "curly": "error",
+        "prefer-promise-reject-errors": "error",
         "prefer-const": [
             "error",
             {
                 "ignoreReadBeforeAssign": true
             }
         ],
-        "@typescript-eslint/class-name-casing": "error",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars": "off", // Provided by the tsconfig.json
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-expressions": "warn",
+        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-misused-promises": "warn",
+        "@typescript-eslint/indent": [
+            "warn",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "@typescript-eslint/space-before-function-paren": [
+            "warn",
+            "always"
+        ],
+        "@typescript-eslint/promise-function-async": "error",
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
         "@typescript-eslint/restrict-plus-operands": "error",
         "@typescript-eslint/semi": [
             "error",
@@ -86,6 +91,28 @@
                     "constructors": "off"
                 }
             }
-        ]
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "default",
+                "format": ["camelCase"],
+                "leadingUnderscore": "forbid",
+                "trailingUnderscore": "forbid"
+            },
+            {
+                "selector": "typeLike",
+                "format": ["PascalCase"],
+                "leadingUnderscore": "forbid",
+                "trailingUnderscore": "forbid"
+            },
+            {
+                "selector": "enumMember",
+                "format": ["PascalCase"],
+                "leadingUnderscore": "forbid",
+                "trailingUnderscore": "forbid"
+            }
+        ],
+        "@typescript-eslint/explicit-function-return-type": "error"
     }
 }
