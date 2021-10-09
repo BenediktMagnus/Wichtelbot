@@ -22,6 +22,8 @@
 
         "sourceMap": true,
         "removeComments": true,
+
+        "incremental": true
 	},
 	"include": [
 		"scripts/**/*.ts"
