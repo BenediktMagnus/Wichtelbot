@@ -1,13 +1,8 @@
 {
+	"extends": "../scripts/tsconfig.json",
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es2021"
-
-		"noImplicitThis": true,
-
-		"allowJs": false,
-
-		"sourceMap": true
 	},
 	"include": [
 		"./**/*.ts",
