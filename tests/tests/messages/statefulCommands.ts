@@ -44,7 +44,7 @@ describe('statefulCommands',
         );
 
         it('registration',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, contact: Contact): void =>
                 {
@@ -57,14 +57,14 @@ describe('statefulCommands',
 
                 message.prepareContact(State.New);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('registration -> yes',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, contact: Contact): void =>
                 {
@@ -77,14 +77,14 @@ describe('statefulCommands',
 
                 message.prepareContact(State.Registration);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('registration -> no',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, contact: Contact): void =>
                 {
@@ -97,14 +97,14 @@ describe('statefulCommands',
 
                 message.prepareContact(State.Registration);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('registration -> invalid',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, contact: Contact): void =>
                 {
@@ -117,14 +117,14 @@ describe('statefulCommands',
 
                 message.prepareContact(State.Registration);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsGiver -> Analogue',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -138,14 +138,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsGiver -> Digital',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -159,14 +159,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsGiver -> BothAnalogueAndDigital',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -180,14 +180,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsGiver -> invalid',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -201,14 +201,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsTaker -> Analogue',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -222,14 +222,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsTaker -> Digital',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -243,14 +243,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsTaker -> BothAnalogueAndDigital',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -264,14 +264,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftTypeAsTaker -> invalid',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -285,14 +285,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationAddress',
-            function ()
+            async function ()
             {
                 const expectedAddress = '-';
 
@@ -308,14 +308,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationAddress);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationCountry -> targeting InformationDigitalAddress',
-            function ()
+            async function ()
             {
                 const expectedCountry = Config.main.allowedCountries[0];
 
@@ -334,14 +334,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationCountry, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationCountry -> targeting InformationInternationalAllowed',
-            function ()
+            async function ()
             {
                 const expectedCountry = Config.main.allowedCountries[0];
 
@@ -360,14 +360,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationCountry, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationCountry -> targeting InformationWishList',
-            function ()
+            async function ()
             {
                 const expectedCountry = Config.main.allowedCountries[0];
 
@@ -387,14 +387,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationCountry, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationCountry -> invalid',
-            function ()
+            async function ()
             {
                 const expectedCountry = '';
 
@@ -412,14 +412,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationCountry, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationDigitalAddress -> targeting InternationalAllowed',
-            function ()
+            async function ()
             {
                 const expectedDigitalAddress = '-';
 
@@ -438,14 +438,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationDigitalAddress, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationDigitalAddress -> targeting informationWishList',
-            function ()
+            async function ()
             {
                 const expectedDigitalAddress = '-';
 
@@ -464,14 +464,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationDigitalAddress, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationInternationalAllowed -> yes',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -485,14 +485,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationInternationalAllowed);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationInternationalAllowed -> no',
-            function ()
+            async function ()
             {
                 const testCallback = (text: string, member: Member): void =>
                 {
@@ -506,14 +506,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationInternationalAllowed);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationWishList -> targeting InformationAllergies',
-            function ()
+            async function ()
             {
                 const expectedWishList = '-';
 
@@ -532,14 +532,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationWishList, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationWishList -> targeting InformationGiftExclusion',
-            function ()
+            async function ()
             {
                 const expectedWishList = '-';
 
@@ -558,14 +558,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationWishList, information);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationAllergies',
-            function ()
+            async function ()
             {
                 const expectedAllergies = '-';
 
@@ -581,14 +581,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationAllergies);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationGiftExclusion',
-            function ()
+            async function ()
             {
                 const expectedGiftExclusion = '-';
 
@@ -604,14 +604,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationGiftExclusion);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationUserExclusion',
-            function ()
+            async function ()
             {
                 const expectedUserExclusion = '-';
 
@@ -627,14 +627,14 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationUserExclusion);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }
         );
 
         it('InformationFreeText',
-            function ()
+            async function ()
             {
                 const expectedFreeText = '-';
 
@@ -652,7 +652,7 @@ describe('statefulCommands',
 
                 message.prepareMember(State.InformationFreeText);
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
             }

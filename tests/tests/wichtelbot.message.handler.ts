@@ -16,7 +16,7 @@ describe('message handler',
         let messageHandler: MessageHandler;
 
         before(
-            function ()
+            async function ()
             {
                 // Set event phase to "registration" as a basis to work with:
                 ConfigTestUtility.setToRegistrationPhase();
@@ -30,7 +30,7 @@ describe('message handler',
                 // Make first contact so we are known:
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Server);
                 message.content = Config.main.commandPrefix + Localisation.commands.contacting.commands[0];
-                messageHandler.process(message);
+                await messageHandler.process(message);
             }
         );
 
@@ -44,7 +44,7 @@ describe('message handler',
         );
 
         it('does not answer bots.',
-            function ()
+            async function ()
             {
                 const resultCallback = (): void =>
                 {
@@ -55,12 +55,12 @@ describe('message handler',
 
                 message.author.isBot = true;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
             }
         );
 
         it('does not answer in ignored channel types.',
-            function ()
+            async function ()
             {
                 const resultCallback = (): void =>
                 {
@@ -71,12 +71,12 @@ describe('message handler',
 
                 message.channel.type = ChannelType.Ignore;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
             }
         );
 
         it('does not answer non-prefixed server messages.',
-            function ()
+            async function ()
             {
                 const resultCallback = (): void =>
                 {
@@ -88,12 +88,12 @@ describe('message handler',
                 Config.main.commandPrefix = '!';
                 message.content = '?' + message.content;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
             }
         );
 
         it('reacts with first contact to unknown contacts.',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -107,14 +107,14 @@ describe('message handler',
                 const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }
         );
 
         it('calls messageNotUnterstood correctly.',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -128,7 +128,7 @@ describe('message handler',
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }

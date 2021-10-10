@@ -19,7 +19,7 @@ export class TestMessage extends MessageWithParser implements MessageDefinition
     public author: User;
     public channel: Channel;
     public client: Client;
-    public reply: SendOrReplyFunction;
+    public reply: (text: string, imageUrl?: string) => Promise<void>;
 
     constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
     {
@@ -45,7 +45,7 @@ export class TestMessage extends MessageWithParser implements MessageDefinition
             {
                 return this.channel;
             },
-            fetchUser: (): Promise<User> =>
+            fetchUser: async (): Promise<User> =>
             {
                 return new Promise(
                     (resolve): void =>
@@ -55,7 +55,8 @@ export class TestMessage extends MessageWithParser implements MessageDefinition
                 );
             },
         };
-        this.reply = reply;
+        // eslint-disable-next-line @typescript-eslint/require-await
+        this.reply = async (text, imageUrl): Promise<void> => { reply(text, imageUrl); };
     }
 }
 
@@ -83,7 +84,8 @@ export class CommandTestMessage extends TestMessage
 
     constructor (database: Database, testCallback: TestCallbackContact | TestCallbackMember, channelType: ChannelType)
     {
-        const resultCallback = (text: string): void =>
+        // eslint-disable-next-line @typescript-eslint/require-await
+        const resultCallback = async (text: string): Promise<void> =>
         {
             this.called = true;
 

@@ -17,7 +17,7 @@ describe('statelessCommands',
         let messageHandler: MessageHandler;
 
         beforeEach(
-            function ()
+            async function ()
             {
                 // Set event phase to "registration" as a basis to work with:
                 ConfigTestUtility.setToRegistrationPhase();
@@ -31,7 +31,7 @@ describe('statelessCommands',
                 // Make first contact so we are known:
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Server);
                 message.content = Config.main.commandPrefix + Localisation.commands.contacting.commands[0];
-                messageHandler.process(message);
+                await messageHandler.process(message);
             }
         );
 
@@ -45,7 +45,7 @@ describe('statelessCommands',
         );
 
         it('goodAfternoon',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -61,14 +61,14 @@ describe('statelessCommands',
 
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }
         );
 
         it('goodMorning',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -84,14 +84,14 @@ describe('statelessCommands',
 
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }
         );
 
         it('goodNight',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -107,14 +107,14 @@ describe('statelessCommands',
 
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }
         );
 
         it('hello',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -130,14 +130,14 @@ describe('statelessCommands',
 
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }
         );
 
         it('maybe',
-            function ()
+            async function ()
             {
                 let called = false;
                 let author: User;
@@ -153,7 +153,7 @@ describe('statelessCommands',
 
                 author = message.author;
 
-                messageHandler.process(message);
+                await messageHandler.process(message);
 
                 assert.strictEqual(called, true);
             }

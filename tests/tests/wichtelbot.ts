@@ -8,15 +8,22 @@ describe('wichtelbot',
         let wichtelbot: Wichtelbot;
 
         it('can be instantiated and terminated.',
-            function (done)
+            function ()
             {
-                const onStarted = (): void =>
-                {
-                    wichtelbot.terminate();
-                    done();
-                };
+                wichtelbot = new Wichtelbot(true);
 
-                wichtelbot = new Wichtelbot(onStarted, true);
+                wichtelbot.terminate();
+            }
+        );
+
+        it('can login and be terminated.',
+            async function ()
+            {
+                wichtelbot = new Wichtelbot(true);
+
+                await wichtelbot.login();
+
+                wichtelbot.terminate();
             }
         );
     }

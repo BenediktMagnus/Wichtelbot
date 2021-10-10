@@ -1,5 +1,6 @@
 import 'mocha';
 import * as Discord from 'discord.js';
+import * as mockito from 'ts-mockito';
 import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
 import {
     DiscordChannel as DiscordChannelImplementation,
@@ -10,7 +11,6 @@ import {
 import { assert } from 'chai';
 import GeneralTestUtility from '../utility/general';
 import Message from '../../scripts/wichtelbot/message/definitions/message';
-import { TestMessage } from '../utility/message';
 import User from '../../scripts/wichtelbot/message/definitions/user';
 
 describe('discord client',
@@ -18,25 +18,22 @@ describe('discord client',
     {
         let discordClient: Discord.Client;
         let discordUser: Discord.User;
+        let discordDMChannelMock: Discord.DMChannel;
         let discordDMChannel: Discord.DMChannel;
+        let discordMessageMock: Discord.Message;
         let discordMessage: Discord.Message;
 
         before(
             function ()
             {
-                const discordDMChannelInternals = {
-                    recipients: [{}],
-                };
-                const discordMessageInternals = {
-                    author: {},
-                    embeds: [],
-                    attachments: [],
-                };
+                discordClient = mockito.instance(mockito.mock(Discord.Client) as Discord.Client);
+                discordUser = mockito.instance(mockito.mock(Discord.User));
 
-                discordClient = new Discord.Client();
-                discordUser = new Discord.User(discordClient, {});
-                discordDMChannel = new Discord.DMChannel(discordClient, discordDMChannelInternals);
-                discordMessage = new Discord.Message(discordDMChannel, discordMessageInternals, discordClient);
+                discordDMChannelMock = mockito.mock(Discord.DMChannel);
+                discordDMChannel = mockito.instance(discordDMChannelMock);
+
+                discordMessageMock = mockito.mock(Discord.Message);
+                discordMessage = mockito.instance(discordMessageMock);
             }
         );
 
@@ -46,7 +43,6 @@ describe('discord client',
                 const testId = 'testId';
                 const testName = 'testName';
                 const testIsBot = true;
-                const expectedTag = testName + '#undefined';
 
                 discordUser.id = testId;
                 discordUser.username = testName;
@@ -56,7 +52,6 @@ describe('discord client',
 
                 assert.strictEqual(user.id, testId);
                 assert.strictEqual(user.name, testName);
-                assert.strictEqual(user.tag, expectedTag);
                 assert.strictEqual(user.isBot, testIsBot);
             }
         );
@@ -67,8 +62,10 @@ describe('discord client',
                 const testId = 'testId';
                 const testType = ChannelType.Personal;
 
+                mockito.when(discordDMChannelMock.isText()).thenReturn(true);
+
                 discordDMChannel.id = testId;
-                discordDMChannel.type = 'dm';
+                discordDMChannel.type = 'DM';
 
                 const channel: Channel = new DiscordChannelImplementation(discordDMChannel);
 
@@ -84,9 +81,10 @@ describe('discord client',
                 const testAuthor = new DiscordUserImplementation(discordUser);
                 const testChannel = new DiscordChannelImplementation(discordDMChannel);
 
+                mockito.when(discordMessageMock.channel).thenReturn(discordDMChannel);
+
                 discordMessage.content = testContent;
                 discordMessage.author = discordUser;
-                discordMessage.channel = discordDMChannel;
 
                 const message: Message = new DiscordMessageImplementation(discordMessage, new DiscordClientImplementation(discordClient));
 
@@ -97,21 +95,9 @@ describe('discord client',
         );
 
         it('can handle multi-messages.',
-            function ()
+            async function ()
             {
-                let numberOfCalls = 0;
-
-                const resultCallback = (): void =>
-                {
-                    numberOfCalls++;
-                };
-
-                // For the following, we have the TestMessage class to inject custom methods for handling send/reply. We can
-                // give this class to the DiscordMessageImplementation, which will use it as its internal message class instead
-                // of the normal Discord implementation.
-                // With this we can count how many times the Discord implementation logic calls the send method under the hood.
-                const testMessage = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
-                const message: Message = new DiscordMessageImplementation(testMessage as any, new DiscordClientImplementation(discordClient));
+                const message: Message = new DiscordMessageImplementation(discordMessage, new DiscordClientImplementation(discordClient));
 
                 let longMessage = '';
                 while (longMessage.length < 5000) // NOTE: Must be adjusted in case the limit is changed by Discord.
@@ -119,9 +105,9 @@ describe('discord client',
                     longMessage += GeneralTestUtility.createRandomString();
                 }
 
-                message.reply(longMessage);
+                await message.reply(longMessage);
 
-                assert.strictEqual(numberOfCalls, 3);
+                mockito.verify(discordMessageMock.reply(mockito.anyString())).times(3);
             }
         );
     }
