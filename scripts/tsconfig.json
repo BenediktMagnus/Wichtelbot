@@ -3,7 +3,7 @@
 		"module": "commonjs",
         "target": "es2021",
 
-		"outDir": "build",
+		"outDir": "../build",
 
         "strict": true,
         "noFallthroughCasesInSwitch": true,
@@ -26,6 +26,6 @@
         "incremental": true
 	},
 	"include": [
-		"scripts/**/*.ts"
+		"./**/*.ts"
 	]
 }
