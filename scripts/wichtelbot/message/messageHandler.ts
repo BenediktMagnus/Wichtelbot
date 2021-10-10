@@ -11,9 +11,6 @@ import State from './definitions/state';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
 
-// TODO: Replace all toLowerCase with toLocaleLowerCase(locale) as soon as the draft ECMA-402 is accepted.
-//       This must be the same as in Config.reload(), MessageWithParser.parse() and everywhere else!
-
 type CommandMap = Map<string, MessageFunction>;
 
 // TODO: Documentation
@@ -120,7 +117,7 @@ export default class MessageHandler
     {
         for (let command of commandInfo.commands)
         {
-            command = command.toLowerCase();
+            command = command.toLocaleLowerCase();
 
             apply(command);
         }

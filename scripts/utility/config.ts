@@ -39,7 +39,7 @@ export default abstract class Config
         {
             let country = mainConfig.allowedCountries[i];
 
-            country = country.toLowerCase();
+            country = country.toLocaleLowerCase();
 
             mainConfig.allowedCountries[i] = country;
         }

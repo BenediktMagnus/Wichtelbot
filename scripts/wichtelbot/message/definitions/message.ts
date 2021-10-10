@@ -90,7 +90,7 @@ export abstract class MessageWithParser
         this._command = this._command.replace(/^[!?.,;\s]+|[!?.,;\s]+$/g, '');
 
         // A command always lower case for correct comparisons:
-        this._command = this._command.toLowerCase();
+        this._command = this._command.toLocaleLowerCase();
 
         this.hasBeenParsed = true;
     }
