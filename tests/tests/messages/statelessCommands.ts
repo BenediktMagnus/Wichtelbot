@@ -6,7 +6,7 @@ import Config from '../../../scripts/utility/config';
 import ConfigTestUtility from '../../utility/config';
 import Database from '../../../scripts/wichtelbot/database';
 import Localisation from '../../../scripts/utility/localisation';
-import MessageHandler from '../../../scripts/wichtelbot/message/handler';
+import MessageHandler from '../../../scripts/wichtelbot/message/messageHandler';
 import { TestMessageWithFixedAuthor } from '../../utility/message';
 import User from '../../../scripts/wichtelbot/message/definitions/user';
 

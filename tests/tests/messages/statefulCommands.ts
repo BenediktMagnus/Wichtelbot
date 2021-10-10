@@ -13,7 +13,7 @@ import Information from '../../../scripts/wichtelbot/classes/information';
 import { KeyValuePairList } from '../../../scripts/utility/keyValuePair';
 import Localisation from '../../../scripts/utility/localisation';
 import Member from '../../../scripts/wichtelbot/classes/member';
-import MessageHandler from '../../../scripts/wichtelbot/message/handler';
+import MessageHandler from '../../../scripts/wichtelbot/message/messageHandler';
 import State from '../../../scripts/wichtelbot/message/definitions/state';
 
 describe('statefulCommands',
