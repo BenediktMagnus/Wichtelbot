@@ -3,7 +3,7 @@ import * as Discord from 'discord.js';
 import { DiscordClient, DiscordMessage } from './wichtelbot/clients/discord';
 import Config from './utility/config';
 import Database from './wichtelbot/database';
-import MessageHandler from './wichtelbot/message/handler';
+import MessageHandler from './wichtelbot/message/messageHandler';
 
 export default class Wichtelbot
 {
