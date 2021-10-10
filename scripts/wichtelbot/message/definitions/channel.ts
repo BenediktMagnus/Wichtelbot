@@ -5,10 +5,6 @@ export enum ChannelType
      */
     Personal,
     /**
-     * Semi-personal, direct communication with a (small) well-defined group of people.
-     */
-    Group,
-    /**
      * Open communication with a (big) changing group of people.
      */
     Server,

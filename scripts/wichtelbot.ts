@@ -12,12 +12,18 @@ export default class Wichtelbot
     protected database: Database;
     protected messageHandler: MessageHandler;
 
-    constructor (onStarted: (loginName: string) => void, inMemory = false)
+    constructor (inMemory = false)
     {
         this.database = new Database('main', 'log', inMemory);
         this.messageHandler = new MessageHandler(this.database);
 
-        this.discordClient = new Discord.Client();
+        const intents = new Discord.Intents();
+        intents.add(
+            Discord.Intents.FLAGS.DIRECT_MESSAGES,
+            Discord.Intents.FLAGS.GUILD_MESSAGES,
+        );
+
+        this.discordClient = new Discord.Client({ intents });
         this.client = new DiscordClient(this.discordClient);
 
         this.discordClient.on('error',
@@ -28,21 +34,28 @@ export default class Wichtelbot
         );
 
         this.discordClient.on('message',
-            (discordMessage) =>
+            async (discordMessage) =>
             {
                 const message = new DiscordMessage(discordMessage, this.client);
-                this.messageHandler.process(message);
+                await this.messageHandler.process(message);
                 // TODO: Get that abstraction back you removed!
             }
         );
+    }
 
+    public async login (): Promise<string>
+    {
         // Start bot:
-        this.discordClient.login(Config.bot.token).then(
-            () =>
-            {
-                onStarted(this.discordClient.user.tag);
-            }
-        );
+        await this.discordClient.login(Config.bot.token);
+
+        const loginName = this.discordClient.user?.tag;
+
+        if (loginName === undefined)
+        {
+            throw new Error('Failed to login to Discord, no user tag found.');
+        }
+
+        return loginName;
     }
 
     public terminate (): void

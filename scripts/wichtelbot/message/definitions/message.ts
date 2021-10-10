@@ -158,7 +158,7 @@ export default interface Message
      * uses this information. It can show the image directly, attach it to the message,
      * send it separately or simply send the URL (if nothing else is possible).
      */
-    reply (text: string, imageUrl?: string): void;
+    reply (text: string, imageUrl?: string): Promise<void>;
     /**
      * A method to parse the message. \
      * Parsing extracts command and parameters.

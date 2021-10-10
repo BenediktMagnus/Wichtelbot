@@ -30,8 +30,9 @@ export default class MessageHandler
     protected publicCommands: CommandMap = new Map<string, MessageFunction>();
     protected moderatorCommands: CommandMap = new Map<string, MessageFunction>();
     // Special:
-    protected firstContact: MessageFunction = (message): void => this.generalModule.firstContact(message);
-    protected messageNotUnterstood = (message: Message, availableCommands: CommandInfo[]): void => this.generalModule.notUnderstood(message, availableCommands);
+    protected firstContact: MessageFunction = async (message): Promise<void> => this.generalModule.firstContact(message);
+    protected messageNotUnterstood = async (message: Message, availableCommands: CommandInfo[]): Promise<void> =>
+        this.generalModule.notUnderstood(message, availableCommands);
 
     /**
      * The handling definition is an object-based representation of the state/command handling structure.
@@ -131,13 +132,13 @@ export default class MessageHandler
      * @param message The message to call the command with.
      * @return True if the state command has been found and called.
      */
-    protected tryToCallStateCommand (stateCommand: StateCommand, message: Message): boolean
+    protected async tryToCallStateCommand (stateCommand: StateCommand, message: Message): Promise<boolean>
     {
         if (this.stateCommands.has(stateCommand))
         {
             // There is a function available for this specific state command combination.
             const messageFunction = this.stateCommands.get(stateCommand);
-            messageFunction(message);
+            await messageFunction(message);
 
             return true;
         }
@@ -147,7 +148,7 @@ export default class MessageHandler
         }
     }
 
-    public process (message: Message): void
+    public async process (message: Message): Promise<void>
     {
         if (message.author.isBot)
         {
@@ -156,7 +157,7 @@ export default class MessageHandler
             return;
         }
 
-        if ((message.channel.type == ChannelType.Server) || message.channel.type == ChannelType.Group)
+        if (message.channel.type == ChannelType.Server)
         {
             if (!message.content.startsWith(Config.main.commandPrefix))
             {
@@ -181,7 +182,7 @@ export default class MessageHandler
             {
                 this.database.log(message.author.id, message.author.tag, message.content, message.channel.id);
 
-                messageFunction(message);
+                await messageFunction(message);
             }
         }
         else if (message.channel.type == ChannelType.Personal)
@@ -198,9 +199,9 @@ export default class MessageHandler
                 //       Short: Instead of <"command parameters"> we use <stateA: "command", stateB: "parameters">.
                 message.hasParameters = false;
 
-                if (!this.tryToCallStateCommand(new StateCommand(contact.state, ''), message) && // Catch all
-                    !this.tryToCallStateCommand(new StateCommand(contact.state, message.command), message) && // Specific state command
-                    !this.tryToCallStateCommand(new StateCommand(State.Nothing, message.command), message)) // Stateless command
+                if (! await this.tryToCallStateCommand(new StateCommand(contact.state, ''), message) && // Catch all
+                    ! await this.tryToCallStateCommand(new StateCommand(contact.state, message.command), message) && // Specific state command
+                    ! await this.tryToCallStateCommand(new StateCommand(State.Nothing, message.command), message)) // Stateless command
                 {
                     // No function found.
 
@@ -218,13 +219,13 @@ export default class MessageHandler
 
                     const availableCommands = availableStateCommands.concat(availableStatelessCommands);
 
-                    this.messageNotUnterstood(message, availableCommands);
+                    await this.messageNotUnterstood(message, availableCommands);
                 }
             }
             else
             {
                 // First contact:
-                this.firstContact(message);
+                await this.firstContact(message);
             }
         }
         else

@@ -3,6 +3,7 @@ import Config from '../../utility/config';
 import GeneralModule from './modules/generalModule';
 import GiftType from '../types/giftType';
 import InformationModule from './modules/informationModule';
+import Message from './definitions/message';
 import MessageFunction from './handlingTools/messageFunction';
 import State from "./definitions/state";
 
@@ -44,127 +45,129 @@ export default class HandlingDefinition
         {
             state: State.Nothing,
             commandInfo: Localisation.commands.goodAfternoon,
-            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodAfternoon)
+            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.goodAfternoon)
         },
         {
             state: State.Nothing,
             commandInfo: Localisation.commands.goodMorning,
-            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodMorning)
+            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.goodMorning)
         },
         {
             state: State.Nothing,
             commandInfo: Localisation.commands.goodNight,
-            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.goodNight)
+            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.goodNight)
         },
         {
             state: State.Nothing,
             commandInfo: Localisation.commands.hello,
-            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.hello)
+            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.hello)
         },
         {
             state: State.Nothing,
             commandInfo: Localisation.commands.maybe,
-            handlerFunction: (message): void => this.generalModule.reply(message, Localisation.texts.maybeResponse)
+            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.maybeResponse)
         },
         // Registration:
         {
             state: State.New,
             commandInfo: Localisation.commands.registration,
-            handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.registration, State.Registration)
+            handlerFunction: async (message): Promise<void> =>
+                this.generalModule.continue(message, Localisation.texts.registration, State.Registration)
         },
         {
             state: State.Registration,
             commandInfo: Localisation.commands.yes,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.generalModule.register(message);
-                this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
-                this.informationModule.sendCurrentGiftTypeAsGiver(message);
+                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
+                await this.informationModule.sendCurrentGiftTypeAsGiver(message);
             }
         },
         {
             state: State.Registration,
             commandInfo: Localisation.commands.no,
-            handlerFunction: (message): void => this.generalModule.continue(message, Localisation.texts.registrationCancelled, State.New)
+            handlerFunction: async (message): Promise<void> =>
+                this.generalModule.continue(message, Localisation.texts.registrationCancelled, State.New)
         },
         // Information, GiftTypeAsGiver:
         {
             state: State.InformationGiftTypeAsGiver,
             commandInfo: Localisation.commands.informationAnalogue,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsGiver(message, GiftType.Analogue);
-                this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
-                this.informationModule.sendCurrentGiftTypeAsTaker(message);
+                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         {
             state: State.InformationGiftTypeAsGiver,
             commandInfo: Localisation.commands.informationDigital,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsGiver(message, GiftType.Digital);
-                this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
-                this.informationModule.sendCurrentGiftTypeAsTaker(message);
+                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         {
             state: State.InformationGiftTypeAsGiver,
             commandInfo: Localisation.commands.informationBothAnalogueAndDigital,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsGiver(message, GiftType.All);
-                this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
-                this.informationModule.sendCurrentGiftTypeAsTaker(message);
+                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         // Information, GiftTypeAsTaker:
         {
             state: State.InformationGiftTypeAsTaker,
             commandInfo: Localisation.commands.informationAnalogue,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.Analogue);
-                this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
-                this.informationModule.sendCurrentAddress(message);
+                await this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+                await this.informationModule.sendCurrentAddress(message);
             }
         },
         {
             state: State.InformationGiftTypeAsTaker,
             commandInfo: Localisation.commands.informationDigital,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.Digital);
-                this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
-                this.informationModule.sendCurrentDigitalAddress(message);
+                await this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+                await this.informationModule.sendCurrentDigitalAddress(message);
             }
         },
         {
             state: State.InformationGiftTypeAsTaker,
             commandInfo: Localisation.commands.informationBothAnalogueAndDigital,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsTaker(message, GiftType.All);
-                this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
-                this.informationModule.sendCurrentAddress(message);
+                await this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
+                await this.informationModule.sendCurrentAddress(message);
             }
         },
         // Information, Address:
         {
             state: State.InformationAddress,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAddress(message);
-                this.generalModule.continue(message, Localisation.texts.informationCountry, State.InformationCountry);
-                this.informationModule.sendCurrentCountry(message);
+                await this.generalModule.continue(message, Localisation.texts.informationCountry, State.InformationCountry);
+                await this.informationModule.sendCurrentCountry(message);
             }
         },
         // Information, Country:
         {
             state: State.InformationCountry,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 if (Config.main.allowedCountries.includes(message.command)) // The country must be normalised. Commands are lowercase and trimmed.
                 {
@@ -174,23 +177,23 @@ export default class HandlingDefinition
 
                     if (neededInformationStates.includes(State.InformationDigitalAddress))
                     {
-                        this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
-                        this.informationModule.sendCurrentDigitalAddress(message);
+                        await this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+                        await this.informationModule.sendCurrentDigitalAddress(message);
                     }
                     else if (neededInformationStates.includes(State.InformationInternationalAllowed))
                     {
-                        this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
-                        this.informationModule.sendCurrentInternationalAllowed(message);
+                        await this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                        await this.informationModule.sendCurrentInternationalAllowed(message);
                     }
                     else
                     {
-                        this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
-                        this.informationModule.sendCurrentWishList(message);
+                        await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                        await this.informationModule.sendCurrentWishList(message);
                     }
                 }
                 else
                 {
-                    this.generalModule.reply(message, Localisation.texts.notUnderstood);
+                    await this.generalModule.reply(message, Localisation.texts.notUnderstood);
                 }
             }
         },
@@ -198,7 +201,7 @@ export default class HandlingDefinition
         {
             state: State.InformationDigitalAddress,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setDigitalAddress(message);
 
@@ -206,13 +209,13 @@ export default class HandlingDefinition
 
                 if (neededInformationStates.includes(State.InformationInternationalAllowed))
                 {
-                    this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
-                    this.informationModule.sendCurrentInternationalAllowed(message);
+                    await this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                    await this.informationModule.sendCurrentInternationalAllowed(message);
                 }
                 else
                 {
-                    this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
-                    this.informationModule.sendCurrentWishList(message);
+                    await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                    await this.informationModule.sendCurrentWishList(message);
                 }
             }
         },
@@ -220,28 +223,28 @@ export default class HandlingDefinition
         {
             state: State.InformationInternationalAllowed,
             commandInfo: Localisation.commands.yes,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setInternationalAllowed(message, true);
-                this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
-                this.informationModule.sendCurrentWishList(message);
+                await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                await this.informationModule.sendCurrentWishList(message);
             }
         },
         {
             state: State.InformationInternationalAllowed,
             commandInfo: Localisation.commands.no,
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setInternationalAllowed(message, false);
-                this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
-                this.informationModule.sendCurrentWishList(message);
+                await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                await this.informationModule.sendCurrentWishList(message);
             }
         },
         // Information, Wish List:
         {
             state: State.InformationWishList,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setWishList(message);
 
@@ -249,13 +252,13 @@ export default class HandlingDefinition
 
                 if (neededInformationStates.includes(State.InformationAllergies))
                 {
-                    this.generalModule.continue(message, Localisation.texts.informationAllergies, State.InformationAllergies);
-                    this.informationModule.sendCurrentAllergies(message);
+                    await this.generalModule.continue(message, Localisation.texts.informationAllergies, State.InformationAllergies);
+                    await this.informationModule.sendCurrentAllergies(message);
                 }
                 else
                 {
-                    this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
-                    this.informationModule.sendCurrentGiftExclusion(message);
+                    await this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                    await this.informationModule.sendCurrentGiftExclusion(message);
                 }
             }
         },
@@ -263,50 +266,50 @@ export default class HandlingDefinition
         {
             state: State.InformationAllergies,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAllergies(message);
-                this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
-                this.informationModule.sendCurrentGiftExclusion(message);
+                await this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                await this.informationModule.sendCurrentGiftExclusion(message);
             }
         },
         // Information, GiftExclusion:
         {
             state: State.InformationGiftExclusion,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftExclusion(message);
-                this.generalModule.continue(message, Localisation.texts.informationUserExclusion, State.InformationUserExclusion);
-                this.informationModule.sendCurrentUserExclusion(message);
+                await this.generalModule.continue(message, Localisation.texts.informationUserExclusion, State.InformationUserExclusion);
+                await this.informationModule.sendCurrentUserExclusion(message);
             }
         },
         // Information, UserExclusion:
         {
             state: State.InformationUserExclusion,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setUserExclusion(message);
-                this.generalModule.continue(message, Localisation.texts.informationFreeText, State.InformationFreeText);
-                this.informationModule.sendCurrentFreeText(message);
+                await this.generalModule.continue(message, Localisation.texts.informationFreeText, State.InformationFreeText);
+                await this.informationModule.sendCurrentFreeText(message);
             }
         },
         // Information, FreeText:
         {
             state: State.InformationFreeText,
             commandInfo: new CatchAllCommand(),
-            handlerFunction: (message): void =>
+            handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setFreeText(message);
-                this.informationModule.completeInformationGathering(message);
+                await this.informationModule.completeInformationGathering(message);
             }
         },
     ];
     public publicCommands: CommandDefinition[] = [
         {
             commandInfo: Localisation.commands.contacting,
-            handlerFunction: (message): void => this.generalModule.firstContact(message)
+            handlerFunction: async (message: Message): Promise<void> => this.generalModule.firstContact(message)
         }
     ];
     public moderatorCommands: CommandDefinition[] = [

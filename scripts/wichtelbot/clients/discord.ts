@@ -13,7 +13,7 @@ const maxUserNameLength = 32; // Alternatively maxUserIdLength = 20 should be en
 const maxMentionLength = maxUserNameLength + 5; // Because of the following format: <@&user> and the space
 const maxMessageWithMentionLength = maxMessageLength - maxMentionLength;
 
-type SendMessage = (message: string, attachment?: Discord.Attachment) => any;
+type SendMessage = (message: string, attachment?: Discord.MessageAttachment) => any;
 
 abstract class DiscordUtils
 {
@@ -25,7 +25,7 @@ abstract class DiscordUtils
             if ((imageUrl !== undefined) && (entryCounter === 0))
             {
                 // The image must be attached to the last message we send.
-                const attachment = new Discord.Attachment(imageUrl);
+                const attachment = new Discord.MessageAttachment(imageUrl);
                 sendMessage(messageText, attachment);
             }
             else
@@ -77,31 +77,36 @@ export class DiscordUser implements User
 
 export class DiscordChannel implements Channel
 {
-    protected channel: Discord.DMChannel | Discord.GroupDMChannel | Discord.TextChannel | null;
+    protected channel: Exclude<Discord.TextBasedChannels, Discord.ThreadChannel> | null;
 
     public readonly type: ChannelType;
 
-    constructor (channel: Discord.Channel)
+    constructor (channel: Discord.Channel|Discord.TextBasedChannels)
     {
         // Determine channel type:
-        switch (channel.type)
+        if (!channel.isText())
         {
-            case 'dm':
-                this.type = ChannelType.Personal;
-                this.channel = channel as Discord.DMChannel;
-                break;
-            case 'group':
-                this.type = ChannelType.Group;
-                this.channel = channel as Discord.GroupDMChannel;
-                break;
-            case 'text':
-            case 'news': // TODO: Check what the news channel is for.
-                this.type = ChannelType.Server;
-                this.channel = channel as Discord.TextChannel;
-                break;
-            default:
-                this.type = ChannelType.Ignore;
-                this.channel = null;
+            this.type = ChannelType.Ignore;
+            this.channel = null;
+        }
+        else
+        {
+            switch (channel.type)
+            {
+                case 'DM':
+                    this.type = ChannelType.Personal;
+                    this.channel = channel;
+                    break;
+                case 'GUILD_TEXT':
+                case 'GUILD_NEWS': // TODO: Check what the news channel is for.
+                    this.type = ChannelType.Server;
+                    this.channel = channel;
+                    break;
+                // TODO: What to do with threads?
+                default:
+                    this.type = ChannelType.Ignore;
+                    this.channel = null;
+            }
         }
     }
 
@@ -167,13 +172,13 @@ export class DiscordMessage extends MessageWithParser implements Message
         return this.responsibleClient;
     }
 
-    public reply (text: string): void
+    public async reply (text: string): Promise<void>
     {
         const splittetText = Utils.splitTextNaturally(text, maxMessageWithMentionLength);
 
         for (const messageText of splittetText)
         {
-            this.message.reply(messageText);
+            await this.message.reply(messageText);
         }
     }
 }
@@ -185,21 +190,14 @@ export class DiscordClient implements Client
 {
     protected client: Discord.Client;
 
-    constructor (client?: Discord.Client)
+    constructor (client: Discord.Client)
     {
-        if (client === undefined)
-        {
-            this.client = new Discord.Client();
-        }
-        else
-        {
-            this.client = client;
-        }
+        this.client = client;
     }
 
     public getChannel (id: string): DiscordChannel
     {
-        const channel = this.client.channels.get(id);
+        const channel = this.client.channels.cache.get(id);
 
         if (channel === undefined)
         {
@@ -211,33 +209,12 @@ export class DiscordClient implements Client
         }
     }
 
-    public fetchUser (id: string): Promise<DiscordUser>
+    public async fetchUser (id: string): Promise<DiscordUser>
     {
-        // Argh, promises...
-        // This returns a promise for giving back a User instance.
-        // In this promise, we call the Discord client to fetch a user.
-        // It gives us back a promise for a user. If this action succeeded
-        // we resolve the promise with a converted user instance.
-        // If an error occurs, we pass it through.
-        const result = new Promise<DiscordUser>(
-            (resolve, reject): void => {
-                const fetch = this.client.fetchUser(id);
+        const discordUser = await this.client.users.fetch(id);
 
-                fetch.then(
-                    (discordUser: Discord.User) => {
-                        const user = new DiscordUser(discordUser);
-                        resolve(user);
-                    }
-                );
+        const user = new DiscordUser(discordUser);
 
-                fetch.catch(
-                    (reason: any) => {
-                        reject(reason);
-                    }
-                );
-            }
-        );
-
-        return result;
+        return user;
     }
 }

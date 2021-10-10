@@ -27,33 +27,33 @@ export default class GeneralModule
      * Will set User/Contact data for the TokenString.
      * @param text The text to reply.
      */
-    public reply (message: Message, text: TokenString): void
+    public async reply (message: Message, text: TokenString): Promise<void>
     {
         const whatIsThere = this.database.getWhatIsThere(message.author);
         const answer = text.process(whatIsThere);
 
-        message.reply(answer);
+        await message.reply(answer);
     }
 
     /**
      * Sets the state of the contact, then replies.
      */
-    public continue (message: Message, text: TokenString, state: State): void
+    public async continue (message: Message, text: TokenString, state: State): Promise<void>
     {
         const contact = this.database.getContact(message.author.id);
         contact.state = state;
         this.database.updateContact(contact);
 
-        this.reply(message, text);
+        await this.reply(message, text);
     }
 
     /**
      * Makes first contact with a new user. \
      * Will save the new contact in the database.
      */
-    public firstContact (message: Message): void
+    public async firstContact (message: Message): Promise<void>
     {
-        const firstContactWaiting = (): void =>
+        const firstContactWaiting = async (): Promise<void> =>
         {
             const registrationPhaseTime = new Date(Config.main.currentEvent.registration * 1000);
 
@@ -66,7 +66,7 @@ export default class GeneralModule
 
             const answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
 
-            message.reply(answer);
+            await message.reply(answer);
         };
 
         const firstContactRegistration = (): void =>
@@ -104,24 +104,24 @@ export default class GeneralModule
             message.author.send(answer);
         };
 
-        const firstContactTooLate = (): void =>
+        const firstContactTooLate = async (): Promise<void> =>
         {
             const answer = Localisation.texts.contactingTooLate.process(message.author);
 
-            message.reply(answer);
+            await message.reply(answer);
         };
 
         switch (Config.currentEventPhase)
         {
             case WichtelEventPhase.Waiting:
-                firstContactWaiting();
+                await firstContactWaiting();
                 break;
             case WichtelEventPhase.Registration:
                 firstContactRegistration();
                 break;
             default:
                 // Wichteln or Ended
-                firstContactTooLate();
+                await firstContactTooLate();
                 break;
         }
     }
@@ -147,7 +147,7 @@ export default class GeneralModule
     /**
      * Replies context-dependend help messages.
      */
-    public notUnderstood (message: Message, availableCommands: CommandInfo[]): void
+    public async notUnderstood (message: Message, availableCommands: CommandInfo[]): Promise<void>
     {
         let answer = Localisation.texts.notUnderstood.process(message.author);
 
@@ -180,6 +180,6 @@ export default class GeneralModule
             }
         }
 
-        message.reply(answer);
+        await message.reply(answer);
     }
 }

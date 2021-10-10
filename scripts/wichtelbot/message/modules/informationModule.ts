@@ -23,7 +23,7 @@ export default class InformationModule
         this.database = database;
     }
 
-    protected sendCurrentInformationValue (message: Message, member: Member, value: string): void
+    protected async sendCurrentInformationValue (message: Message, member: Member, value: string): Promise<void>
     {
         if (value.trim() === '')
         {
@@ -34,25 +34,25 @@ export default class InformationModule
 
         const answer = Localisation.texts.oldInformation.process(member, parameters);
 
-        message.reply(answer);
+        await message.reply(answer);
     }
 
-    protected sendCurrentGiftType (message: Message, member: Member, giftType: GiftType): void
+    protected async sendCurrentGiftType (message: Message, member: Member, giftType: GiftType): Promise<void>
     {
         if (giftType !== GiftType.Nothing)
         {
-            this.sendCurrentInformationValue(message, member, Localisation.translateGiftType(giftType));
+            await this.sendCurrentInformationValue(message, member, Localisation.translateGiftType(giftType));
         }
     }
 
-    protected sendCurrentBoolean (message: Message, member: Member, booleanValue: boolean): void
+    protected async sendCurrentBoolean (message: Message, member: Member, booleanValue: boolean): Promise<void>
     {
         // NOTE: Boolean values are only send if they are true. False is the default value.
         //       This is needed to prevent sending "current values" the first time a contact registered.
         //       We could allow null for boolean values instead.
         if (booleanValue)
         {
-            this.sendCurrentInformationValue(message, member, Localisation.translateBoolean(booleanValue));
+            await this.sendCurrentInformationValue(message, member, Localisation.translateBoolean(booleanValue));
         }
     }
 
@@ -81,6 +81,9 @@ export default class InformationModule
             case GiftType.Digital:
                 result.push(State.InformationDigitalAddress);
                 break;
+            case GiftType.Nothing:
+                // FIXME: What to do here?
+                break;
         }
 
         switch (member.information.giftTypeAsGiver)
@@ -89,86 +92,90 @@ export default class InformationModule
             case GiftType.Analogue:
                 result.push(State.InformationInternationalAllowed);
                 break;
+            case GiftType.Digital:
+            case GiftType.Nothing:
+                // FIXME: What to do here?
+                break;
         }
 
         return result;
     }
 
-    public sendCurrentGiftTypeAsGiver (message: Message): void
+    public async sendCurrentGiftTypeAsGiver (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentGiftType(message, member, member.information.giftTypeAsGiver);
+        await this.sendCurrentGiftType(message, member, member.information.giftTypeAsGiver);
     }
 
-    public sendCurrentGiftTypeAsTaker (message: Message): void
+    public async sendCurrentGiftTypeAsTaker (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentGiftType(message, member, member.information.giftTypeAsTaker);
+        await this.sendCurrentGiftType(message, member, member.information.giftTypeAsTaker);
     }
 
-    public sendCurrentAddress (message: Message): void
+    public async sendCurrentAddress (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.address);
+        await this.sendCurrentInformationValue(message, member, member.information.address);
     }
 
-    public sendCurrentCountry (message: Message): void
+    public async sendCurrentCountry (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.country);
+        await this.sendCurrentInformationValue(message, member, member.information.country);
     }
 
-    public sendCurrentDigitalAddress (message: Message): void
+    public async sendCurrentDigitalAddress (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.digitalAddress);
+        await this.sendCurrentInformationValue(message, member, member.information.digitalAddress);
     }
 
-    public sendCurrentInternationalAllowed (message: Message): void
+    public async sendCurrentInternationalAllowed (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentBoolean(message, member, member.information.internationalAllowed);
+        await this.sendCurrentBoolean(message, member, member.information.internationalAllowed);
     }
 
-    public sendCurrentWishList (message: Message): void
+    public async sendCurrentWishList (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.wishList);
+        await this.sendCurrentInformationValue(message, member, member.information.wishList);
     }
 
-    public sendCurrentAllergies (message: Message): void
+    public async sendCurrentAllergies (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.allergies);
+        await this.sendCurrentInformationValue(message, member, member.information.allergies);
     }
 
-    public sendCurrentGiftExclusion (message: Message): void
+    public async sendCurrentGiftExclusion (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.giftExclusion);
+        await this.sendCurrentInformationValue(message, member, member.information.giftExclusion);
     }
 
-    public sendCurrentUserExclusion (message: Message): void
+    public async sendCurrentUserExclusion (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.userExclusion);
+        await this.sendCurrentInformationValue(message, member, member.information.userExclusion);
     }
 
-    public sendCurrentFreeText (message: Message): void
+    public async sendCurrentFreeText (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
-        this.sendCurrentInformationValue(message, member, member.information.freeText);
+        await this.sendCurrentInformationValue(message, member, member.information.freeText);
     }
 
     public setGiftTypeAsGiver (message: Message, giftType: GiftType): void
@@ -274,7 +281,7 @@ export default class InformationModule
      * Completes the information gathering by either making the contact a full member or, if he is already one,
      * replying with a text stating that the information change has been successful.
      */
-    public completeInformationGathering (message: Message): void
+    public async completeInformationGathering (message: Message): Promise<void>
     {
         const member = this.database.getMember(message.author.id);
 
@@ -297,6 +304,6 @@ export default class InformationModule
         const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
         const answer = text.process(member, parameters);
 
-        message.reply(answer);
+        await message.reply(answer);
     }
 }

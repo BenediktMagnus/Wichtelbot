@@ -10,4 +10,5 @@ export default interface Client
 {
     getChannel(id: string): Channel;
     fetchUser(id: string): Promise<User>;
+    // TODO: Destroy method "destroy"!
 }

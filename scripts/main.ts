@@ -35,20 +35,19 @@ class Main
         }
     }
 
-    public run (): void
+    public async run (): Promise<void>
     {
         console.log('Wichtelbot is starting...');
 
         this.applicationIsRunning = true;
 
-        this.wichtelbot = new Wichtelbot(
-            (loginName): void =>
-            {
-                console.log(`Wichtelbot started. Logged in as ${loginName}.\n`);
-            }
-        );
+        this.wichtelbot = new Wichtelbot();
+
+        const loginName = await this.wichtelbot.login();
+
+        console.log(`Wichtelbot started. Logged in as "${loginName}".`);
     }
 }
 
 const main = new Main();
-main.run();
+void main.run();
