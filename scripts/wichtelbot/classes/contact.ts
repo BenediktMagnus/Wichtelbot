@@ -18,10 +18,12 @@ export interface ContactData extends ContactCoreData
 
 function instanceOfContactData (object: any): object is ContactData
 {
-    const isInstance = (object.nickname !== undefined) &&
-                       (object.lastUpdateTime !== undefined) &&
-                       (object.type !== undefined) &&
-                       (object.state !== undefined);
+    const potentialContactData = object as ContactData;
+
+    const isInstance = (potentialContactData.nickname !== undefined) &&
+                       (potentialContactData.lastUpdateTime !== undefined) &&
+                       (potentialContactData.type !== undefined) &&
+                       (potentialContactData.state !== undefined);
 
     return isInstance;
 }

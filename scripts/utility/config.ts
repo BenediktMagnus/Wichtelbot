@@ -24,21 +24,14 @@ export default abstract class Config
     private static readonly mainConfigFileName = 'config';
     private static readonly botConfigFileName = 'bot';
 
-    private static _main: MainConfig = {} as any;
-    private static _bot: BotConfig = {} as any;
-
-    private static loadConfig (fileName: string): any
-    {
-        const content = JSON.parse(fs.readFileSync('./config/' + fileName + '.json', 'utf8'));
-
-        return content;
-    }
+    private static _main: MainConfig|null = null;
+    private static _bot: BotConfig|null = null;
 
     public static reload (): void
     {
-        Config._bot = Config.loadConfig(Config.botConfigFileName);
+        Config._bot = JSON.parse(fs.readFileSync('./config/' + Config.botConfigFileName + '.json', 'utf8')) as BotConfig;
 
-        const mainConfig: MainConfig = Config.loadConfig(Config.mainConfigFileName);
+        const mainConfig = JSON.parse(fs.readFileSync('./config/' + Config.mainConfigFileName + '.json', 'utf8')) as MainConfig;
         Config._main = mainConfig;
 
         // Convert all countries to lowercase for safer comparison:
@@ -54,16 +47,31 @@ export default abstract class Config
 
     public static get main (): MainConfig
     {
+        if (Config._main === null)
+        {
+            throw new Error('Config not loaded!');
+        }
+
         return Config._main;
     }
 
     public static get bot (): BotConfig
     {
+        if (Config._bot === null)
+        {
+            throw new Error('Config not loaded!');
+        }
+
         return Config._bot;
     }
 
     public static get currentEventPhase (): WichtelEventPhase
     {
+        if (this._main === null)
+        {
+            throw new Error('Config not loaded!');
+        }
+
         const currentEvent = this._main.currentEvent;
         const currentTime = Utils.getCurrentUnixTime();
 

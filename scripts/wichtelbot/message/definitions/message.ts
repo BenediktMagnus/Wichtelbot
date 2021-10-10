@@ -8,8 +8,8 @@ import User from "./user";
  */
 export abstract class MessageWithParser
 {
-    protected _command = '';
-    protected _parameters = '';
+    private _command = '';
+    private _parameters = '';
 
     protected hasBeenParsed = false;
     protected separator = '';

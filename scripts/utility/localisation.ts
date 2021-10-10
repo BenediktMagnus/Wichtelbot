@@ -74,8 +74,8 @@ export default abstract class Localisation
     private static textsPath = './locale/' + Config.main.locale + '.texts.json';
     private static valuesPath = './locale/' + Config.main.locale + '.values.json';
 
-    private static _commands: Commands = JSON.parse(fs.readFileSync(Localisation.commandsPath, 'utf8'));
-    private static _texts: Texts = JSON.parse(fs.readFileSync(Localisation.textsPath, 'utf8'),
+    private static _commands = JSON.parse(fs.readFileSync(Localisation.commandsPath, 'utf8')) as Commands;
+    private static _texts = JSON.parse(fs.readFileSync(Localisation.textsPath, 'utf8'),
         /**
          * A reviver for the JSON.parse function to convert strings into TokenString.
          */
@@ -92,8 +92,8 @@ export default abstract class Localisation
                 return value;
             }
         }
-    );
-    private static _values: Values = JSON.parse(fs.readFileSync(Localisation.valuesPath, 'utf8'));
+    ) as Texts;
+    private static _values = JSON.parse(fs.readFileSync(Localisation.valuesPath, 'utf8')) as Values;
 
     public static get commands (): Commands
     {

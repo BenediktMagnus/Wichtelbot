@@ -1,4 +1,3 @@
-import Sqlite = require('better-sqlite3');
 import * as fs from 'fs';
 
 import Contact, { ContactCoreData, ContactData } from './classes/contact';
@@ -6,6 +5,7 @@ import ContactType from './types/contactType';
 import { InformationData } from './classes/information';
 import Member from './classes/member';
 import Utils from '../utility/utils';
+import Sqlite = require('better-sqlite3');
 
 export default class Database
 {
@@ -95,7 +95,7 @@ export default class Database
      * Copies all bindable properties from an object, returning a bindable object
      * that can be used as binding parameters when running SQLite statements.
      */
-    protected getBindablesFromObject (object: any): any
+    private getBindablesFromObject<TObject> (object: TObject): TObject
     {
         // Objects can contain data that is not bindable for SQLite, for
         // example constructors, methods etc.
@@ -110,7 +110,10 @@ export default class Database
             if ((typeof value) === 'boolean')
             {
                 const valueAsNumber = value ? 1 : 0;
-                bindableObject[key] = valueAsNumber;
+
+                const indexedBindableObject = bindableObject as {[key: string]: any};
+
+                indexedBindableObject[key] = valueAsNumber;
             }
         }
 
@@ -183,7 +186,7 @@ export default class Database
         // this makes it much easier:
         statement.pluck(true);
 
-        const result = statement.get(contactId);
+        const result = !!statement.get(contactId);
 
         return result;
     }
@@ -214,7 +217,12 @@ export default class Database
             'SELECT * FROM contact WHERE id = ?'
         );
 
-        const contactData: ContactData = statement.get(contactId);
+        const contactData = statement.get(contactId) as ContactData|undefined;
+
+        if (contactData === undefined)
+        {
+            throw new Error(`Contact with ID ${contactId} not found.`);
+        }
 
         const contact = new Contact(contactData);
 
@@ -264,7 +272,7 @@ export default class Database
         // this makes it much easier:
         statement.pluck(true);
 
-        let result: boolean = statement.get(contactId);
+        let result = !!statement.get(contactId);
 
         result = !!result; // Makes sure the value is definitely a boolean.
 
@@ -326,9 +334,14 @@ export default class Database
         );
 
         const getTransactionResult = this.mainDatabase.transaction(
-            (): Member => {
-                const contactData: ContactData = contactStatement.get(contactId);
-                const informationData: InformationData = informationStatement.get(contactId);
+            (): Member|null => {
+                const contactData = contactStatement.get(contactId) as ContactData|undefined;
+                const informationData = informationStatement.get(contactId) as InformationData|undefined;
+
+                if (contactData === undefined || informationData === undefined)
+                {
+                    return null;
+                }
 
                 const member = new Member(contactData, informationData);
 
@@ -337,6 +350,11 @@ export default class Database
         );
 
         const member = getTransactionResult();
+
+        if (member === null)
+        {
+            throw new Error(`Member with ID ${contactId} not found.`);
+        }
 
         return member;
     }
@@ -395,6 +413,8 @@ export default class Database
     {
         if (this.hasContact(contactCoreData.id))
         {
+            // TODO: Create a getContactType method and use it here.
+
             const contact = this.getContact(contactCoreData.id);
 
             if (contact.type == ContactType.Contact)
