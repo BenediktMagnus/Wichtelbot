@@ -4,6 +4,7 @@
     "moderationChannelIds": [
         "0"
     ],
+    "allowedCountries": [],
     "currentEvent": {
         "name": "",
         "registration": 11,
