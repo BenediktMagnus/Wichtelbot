@@ -1,6 +1,5 @@
 import * as Discord from 'discord.js';
-
-import { DiscordClient, DiscordMessage } from './wichtelbot/clients/discord';
+import * as DiscordEndpoint from './wichtelbot/endpoints/implementations/discord';
 import Config from './utility/config';
 import Database from './wichtelbot/database';
 import MessageHandler from './wichtelbot/message/messageHandler';
@@ -8,7 +7,7 @@ import MessageHandler from './wichtelbot/message/messageHandler';
 export default class Wichtelbot
 {
     protected discordClient: Discord.Client;
-    protected client: DiscordClient;
+    protected client: DiscordEndpoint.Client;
     protected database: Database;
     protected messageHandler: MessageHandler;
 
@@ -24,7 +23,7 @@ export default class Wichtelbot
         );
 
         this.discordClient = new Discord.Client({ intents });
-        this.client = new DiscordClient(this.discordClient);
+        this.client = new DiscordEndpoint.Client(this.discordClient);
 
         this.discordClient.on('error',
             (error) =>
@@ -36,7 +35,7 @@ export default class Wichtelbot
         this.discordClient.on('message',
             async (discordMessage) =>
             {
-                const message = new DiscordMessage(discordMessage, this.client);
+                const message = new DiscordEndpoint.Message(discordMessage, this.client);
                 await this.messageHandler.process(message);
                 // TODO: Get that abstraction back you removed!
             }

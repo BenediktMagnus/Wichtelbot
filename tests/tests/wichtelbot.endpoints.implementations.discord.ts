@@ -1,17 +1,10 @@
 import 'mocha';
 import * as Discord from 'discord.js';
+import * as DiscordEndpoint from '../../scripts/wichtelbot/endpoints/implementations/discord';
 import * as mockito from 'ts-mockito';
-import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
-import {
-    DiscordChannel as DiscordChannelImplementation,
-    DiscordClient as DiscordClientImplementation,
-    DiscordMessage as DiscordMessageImplementation,
-    DiscordUser as DiscordUserImplementation,
-} from '../../scripts/wichtelbot/clients/discord';
 import { assert } from 'chai';
+import { ChannelType } from '../../scripts/wichtelbot/endpoints/definitions/channel';
 import GeneralTestUtility from '../utility/general';
-import Message from '../../scripts/wichtelbot/message/definitions/message';
-import User from '../../scripts/wichtelbot/message/definitions/user';
 
 describe('discord client',
     function ()
@@ -48,7 +41,7 @@ describe('discord client',
                 discordUser.username = testName;
                 discordUser.bot = testIsBot;
 
-                const user: User = new DiscordUserImplementation(discordUser);
+                const user = new DiscordEndpoint.User(discordUser);
 
                 assert.strictEqual(user.id, testId);
                 assert.strictEqual(user.name, testName);
@@ -67,7 +60,7 @@ describe('discord client',
                 discordDMChannel.id = testId;
                 discordDMChannel.type = 'DM';
 
-                const channel: Channel = new DiscordChannelImplementation(discordDMChannel);
+                const channel = new DiscordEndpoint.Channel(discordDMChannel);
 
                 assert.strictEqual(channel.id, testId);
                 assert.strictEqual(channel.type, testType);
@@ -78,15 +71,15 @@ describe('discord client',
             function ()
             {
                 const testContent = 'testContent';
-                const testAuthor = new DiscordUserImplementation(discordUser);
-                const testChannel = new DiscordChannelImplementation(discordDMChannel);
+                const testAuthor = new DiscordEndpoint.User(discordUser);
+                const testChannel = new DiscordEndpoint.Channel(discordDMChannel);
 
                 mockito.when(discordMessageMock.channel).thenReturn(discordDMChannel);
 
                 discordMessage.content = testContent;
                 discordMessage.author = discordUser;
 
-                const message: Message = new DiscordMessageImplementation(discordMessage, new DiscordClientImplementation(discordClient));
+                const message = new DiscordEndpoint.Message(discordMessage, new DiscordEndpoint.Client(discordClient));
 
                 assert.strictEqual(message.content, testContent);
                 assert.deepStrictEqual(message.author, testAuthor);
@@ -97,7 +90,7 @@ describe('discord client',
         it('can handle multi-messages.',
             async function ()
             {
-                const message: Message = new DiscordMessageImplementation(discordMessage, new DiscordClientImplementation(discordClient));
+                const message = new DiscordEndpoint.Message(discordMessage, new DiscordEndpoint.Client(discordClient));
 
                 let longMessage = '';
                 while (longMessage.length < 5000) // NOTE: Must be adjusted in case the limit is changed by Discord.
