@@ -15,13 +15,6 @@ jobs:
         os: [ubuntu-latest]
         node: [16.x]
         experimental: [false]
-        include:
-          - os: windows-latest
-            node: 16.x
-            experimental: true
-          - os: macos-latest
-            node: 16.x
-            experimental: true
 
     steps:
       - name: Clone repository
