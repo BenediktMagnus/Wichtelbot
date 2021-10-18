@@ -19,6 +19,9 @@ jobs:
       - name: Install npm dependencies
         run: npm install
 
+      - name: Initialising configuration
+        run: mv config/config.json.default config/config.json && mv config/bot.json.default config/bot.json
+
       - name: Run coverage
         run: npm run coverage:coveralls
 
