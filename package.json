@@ -13,6 +13,7 @@
         "build": "./node_modules/.bin/tsc -p scripts/tsconfig.json",
         "clean": "rm -rf build && rm -rf coverage",
         "coverage": "./node_modules/.bin/nyc npm run test",
+        "coverage:coveralls": "./node_modules/.bin/nyc --reporter=lcov npm run test",
         "coverage:text": "./node_modules/.bin/nyc --reporter=text npm run test",
         "lint": "npm run lint:scripts && npm run lint:tests",
         "lint:scripts": "cd scripts && ../node_modules/.bin/eslint .",
