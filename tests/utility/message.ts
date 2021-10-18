@@ -1,19 +1,14 @@
 
-import { Channel, ChannelType } from '../../scripts/wichtelbot/message/definitions/channel';
-import Client from '../../scripts/wichtelbot/message/definitions/client';
+import { Channel, ChannelType, Client, Message, MessageWithParser, State, User } from '../../scripts/wichtelbot/endpoints/definitions';
 import Contact from '../../scripts/wichtelbot/classes/contact';
 import Database from '../../scripts/wichtelbot/database';
 import GeneralTestUtility from '../utility/general';
 import Information from '../../scripts/wichtelbot/classes/information';
 import Member from '../../scripts/wichtelbot/classes/member';
-import MessageDefinition from '../../scripts/wichtelbot/message/definitions/message';
-import { MessageWithParser } from '../../scripts/wichtelbot/message/definitions/message';
-import State from '../../scripts/wichtelbot/message/definitions/state';
-import User from '../../scripts/wichtelbot/message/definitions/user';
 
 type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
 
-export class TestMessage extends MessageWithParser implements MessageDefinition
+export class TestMessage extends MessageWithParser implements Message
 {
     public content: string;
     public author: User;

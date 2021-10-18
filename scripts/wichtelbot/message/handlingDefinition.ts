@@ -3,9 +3,9 @@ import Config from '../../utility/config';
 import GeneralModule from './modules/generalModule';
 import GiftType from '../types/giftType';
 import InformationModule from './modules/informationModule';
-import Message from './definitions/message';
+import Message from '../endpoints/definitions/message';
 import MessageFunction from './handlingTools/messageFunction';
-import State from "./definitions/state";
+import State from "../endpoints/definitions/state";
 
 interface CommandDefinition
 {

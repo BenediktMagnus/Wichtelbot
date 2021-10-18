@@ -1,7 +1,7 @@
 import 'mocha';
 import { assert } from 'chai';
 
-import { ChannelType } from '../../../scripts/wichtelbot/message/definitions/channel';
+import { ChannelType } from '../../../scripts/wichtelbot/endpoints/definitions/channel';
 import { CommandTestMessage } from '../../utility/message';
 import Config from '../../../scripts/utility/config';
 import ConfigTestUtility from '../../utility/config';
@@ -14,7 +14,7 @@ import { KeyValuePairList } from '../../../scripts/utility/keyValuePair';
 import Localisation from '../../../scripts/utility/localisation';
 import Member from '../../../scripts/wichtelbot/classes/member';
 import MessageHandler from '../../../scripts/wichtelbot/message/messageHandler';
-import State from '../../../scripts/wichtelbot/message/definitions/state';
+import State from '../../../scripts/wichtelbot/endpoints/definitions/state';
 
 describe('statefulCommands',
     function ()

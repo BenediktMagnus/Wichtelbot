@@ -5,8 +5,8 @@ import ContactType from '../../types/contactType';
 import Database from '../../database';
 import { KeyValuePairList } from '../../../utility/keyValuePair';
 import Member from '../../classes/member';
-import Message from '../definitions/message';
-import State from '../definitions/state';
+import Message from '../../endpoints/definitions/message';
+import State from '../../endpoints/definitions/state';
 import TokenString from '../../../utility/tokenString';
 import WichtelEventPhase from '../../../utility/wichtelEvent';
 

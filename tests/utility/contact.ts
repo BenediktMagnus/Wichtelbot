@@ -4,7 +4,7 @@ import GeneralTestUtility from './general';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
 import Information from '../../scripts/wichtelbot/classes/information';
 import Member from '../../scripts/wichtelbot/classes/member';
-import State from '../../scripts/wichtelbot/message/definitions/state';
+import State from '../../scripts/wichtelbot/endpoints/definitions/state';
 
 export default abstract class ContactTestUtility
 {

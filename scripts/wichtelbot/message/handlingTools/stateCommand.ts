@@ -1,4 +1,4 @@
-import State from '../definitions/state';
+import State from '../../endpoints/definitions/state';
 
 export default class StateCommand
 {

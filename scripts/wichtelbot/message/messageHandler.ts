@@ -1,13 +1,13 @@
-import { ChannelType } from './definitions/channel';
+import { ChannelType } from '../endpoints/definitions/channel';
 import { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
 import Database from '../database';
 import GeneralModule from './modules/generalModule';
 import HandlingDefinition from './handlingDefinition';
 import InformationModule from './modules/informationModule';
-import Message from './definitions/message';
+import Message from '../endpoints/definitions/message';
 import MessageFunction from './handlingTools/messageFunction';
-import State from './definitions/state';
+import State from '../endpoints/definitions/state';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
 
