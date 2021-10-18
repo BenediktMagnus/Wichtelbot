@@ -1,0 +1,58 @@
+name: Test
+
+on: ["push", "pull_request"]
+
+jobs:
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+  testing:
+    name: Running tests
+    runs-on: ${{ matrix.os }}
+
+    continue-on-error: ${{ matrix.experimental }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [16.x]
+        experimental: [false]
+        include:
+          - os: windows-latest
+            node: 16.x
+            experimental: true
+          - os: macos-latest
+            node: 16.x
+            experimental: true
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
