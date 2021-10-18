@@ -1,4 +1,4 @@
-import Message from '../../endpoints/definitions/message';
+import Message from '../../endpoint/definitions/message';
 
 type MessageFunction = (message: Message) => Promise<void>;
 

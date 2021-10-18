@@ -5,8 +5,8 @@ import GiftType from "../../types/giftType";
 import { KeyValuePairList } from "../../../utility/keyValuePair";
 import Localisation from "../../../utility/localisation";
 import Member from "../../classes/member";
-import Message from "../../endpoints/definitions/message";
-import State from "../../endpoints/definitions/state";
+import Message from "../../endpoint/definitions/message";
+import State from "../../endpoint/definitions/state";
 import TokenString from "../../../utility/tokenString";
 
 /**

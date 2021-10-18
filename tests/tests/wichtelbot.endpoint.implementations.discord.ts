@@ -1,9 +1,9 @@
 import 'mocha';
 import * as Discord from 'discord.js';
-import * as DiscordEndpoint from '../../scripts/wichtelbot/endpoints/implementations/discord';
+import * as DiscordEndpoint from '../../scripts/wichtelbot/endpoint/implementations/discord';
 import * as mockito from 'ts-mockito';
 import { assert } from 'chai';
-import { ChannelType } from '../../scripts/wichtelbot/endpoints/definitions/channel';
+import { ChannelType } from '../../scripts/wichtelbot/endpoint/definitions/channel';
 import GeneralTestUtility from '../utility/general';
 
 describe('discord client',

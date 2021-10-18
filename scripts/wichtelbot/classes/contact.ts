@@ -1,5 +1,5 @@
 import ContactType from '../types/contactType';
-import State from '../endpoints/definitions/state';
+import State from '../endpoint/definitions/state';
 
 export interface ContactCoreData
 {

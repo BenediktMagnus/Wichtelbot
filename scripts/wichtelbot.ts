@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import * as DiscordEndpoint from './wichtelbot/endpoints/implementations/discord';
+import * as DiscordEndpoint from './wichtelbot/endpoint/implementations/discord';
 import Config from './utility/config';
 import Database from './wichtelbot/database';
 import MessageHandler from './wichtelbot/message/messageHandler';

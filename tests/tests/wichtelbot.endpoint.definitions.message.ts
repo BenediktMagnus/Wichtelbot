@@ -2,7 +2,7 @@ import 'mocha';
 import { assert } from 'chai';
 
 import GeneralTestUtility from '../utility/general';
-import { MessageWithParser } from '../../scripts/wichtelbot/endpoints/definitions/message';
+import { MessageWithParser } from '../../scripts/wichtelbot/endpoint/definitions/message';
 
 class TestMessageWithParser extends MessageWithParser
 {

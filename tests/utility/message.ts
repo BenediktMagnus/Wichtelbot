@@ -1,5 +1,5 @@
 
-import { Channel, ChannelType, Client, Message, MessageWithParser, State, User } from '../../scripts/wichtelbot/endpoints/definitions';
+import { Channel, ChannelType, Client, Message, MessageWithParser, State, User } from '../../scripts/wichtelbot/endpoint/definitions';
 import Contact from '../../scripts/wichtelbot/classes/contact';
 import Database from '../../scripts/wichtelbot/database';
 import GeneralTestUtility from '../utility/general';
