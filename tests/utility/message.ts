@@ -1,10 +1,11 @@
 
-import { Channel, ChannelType, Client, Message, MessageWithParser, State, User } from '../../scripts/wichtelbot/endpoint/definitions';
+import { Channel, ChannelType, Client, Message, State, User } from '../../scripts/wichtelbot/endpoint/definitions';
 import Contact from '../../scripts/wichtelbot/classes/contact';
 import Database from '../../scripts/wichtelbot/database';
 import GeneralTestUtility from '../utility/general';
 import Information from '../../scripts/wichtelbot/classes/information';
 import Member from '../../scripts/wichtelbot/classes/member';
+import { MessageWithParser } from '../../scripts/wichtelbot/endpoint/base/messageWithParser';
 
 type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
 

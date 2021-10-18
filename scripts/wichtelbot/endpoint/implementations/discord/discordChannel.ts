@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import { Channel, ChannelType } from '../../definitions/channel';
+import { Channel, ChannelType } from '../../definitions';
 import { DiscordUtils } from './discordUtils';
 import Utils from '../../../../utility/utils';
 

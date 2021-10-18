@@ -4,7 +4,7 @@ import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
 import { DiscordUtils } from './discordUtils';
 import Message from '../../definitions/message';
-import { MessageWithParser } from '../../definitions/message';
+import { MessageWithParser } from '../../base/messageWithParser';
 import Utils from '../../../../utility/utils';
 
 export class DiscordMessage extends MessageWithParser implements Message
