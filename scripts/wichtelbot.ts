@@ -37,7 +37,6 @@ export default class Wichtelbot
             {
                 const message = new DiscordEndpoint.Message(discordMessage, this.client);
                 await this.messageHandler.process(message);
-                // TODO: Get that abstraction back you removed!
             }
         );
     }

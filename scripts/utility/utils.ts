@@ -16,6 +16,8 @@ export default abstract class Utils
      */
     public static splitTextNaturally (text: string, blockLength: number, maxWordLength?: number): string[]
     {
+        // TODO: This could be replaced with Discord.Util.splitMessage().
+
         const trimmedText = text.trim();
 
         if (trimmedText.length <= blockLength)
