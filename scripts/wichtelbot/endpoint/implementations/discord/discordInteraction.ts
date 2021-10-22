@@ -72,7 +72,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         }
         else
         {
-            throw new Error('The interaction is not a message type.');
+            throw new Error('Unknown interaction type');
         }
     }
 
@@ -93,7 +93,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         }
         else
         {
-            throw new Error('The interaction is not a message type.');
+            throw new Error('Unknown interaction type');
         }
     }
 }
