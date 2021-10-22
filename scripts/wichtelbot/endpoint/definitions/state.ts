@@ -7,14 +7,14 @@ enum State
     // As contact/member:
     InformationGiftTypeAsTaker = 'questionGiftTypeAsTaker',
     InformationGiftTypeAsGiver = 'informationGiftTypeAsGiver',
-	InformationAddress = 'informationAddress',
-	InformationCountry = 'informationCountry',
-	InformationDigitalAddress = 'informationDigitalAddress',
-	InformationInternationalAllowed = 'informationInternationalAllowed',
-	InformationWishList = 'informationWishList',
-	InformationAllergies = 'informationAllergies',
-	InformationGiftExclusion = 'informationGiftExclusion',
-	InformationUserExclusion = 'informationUserExclusion',
+    InformationAddress = 'informationAddress',
+    InformationCountry = 'informationCountry',
+    InformationDigitalAddress = 'informationDigitalAddress',
+    InformationInternationalAllowed = 'informationInternationalAllowed',
+    InformationWishList = 'informationWishList',
+    InformationAllergies = 'informationAllergies',
+    InformationGiftExclusion = 'informationGiftExclusion',
+    InformationUserExclusion = 'informationUserExclusion',
     InformationFreeText = 'informationFreeText',
     // As member:
     Waiting = 'waiting', // Waiting for becoming a wichtel.

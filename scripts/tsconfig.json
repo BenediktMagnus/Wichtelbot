@@ -1,9 +1,9 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
+    "compilerOptions": {
+        "module": "commonjs",
         "target": "es2021",
 
-		"outDir": "../build",
+        "outDir": "../build",
 
         "strict": true,
         "noFallthroughCasesInSwitch": true,
@@ -24,8 +24,8 @@
         "removeComments": true,
 
         "incremental": true
-	},
-	"include": [
-		"./**/*.ts"
-	]
+    },
+    "include": [
+        "./**/*.ts"
+    ]
 }
