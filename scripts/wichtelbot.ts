@@ -46,6 +46,14 @@ export default class Wichtelbot
                 await this.messageHandler.process(message);
             }
         );
+
+        this.discordClient.on('interactionCreate',
+            async (discordInteraction) =>
+            {
+                const interaction = new DiscordEndpoint.Interaction(discordInteraction, this.client);
+                await this.messageHandler.process(interaction);
+            }
+        );
     }
 
     public async login (): Promise<string>
