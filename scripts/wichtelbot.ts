@@ -39,7 +39,7 @@ export default class Wichtelbot
             }
         );
 
-        this.discordClient.on('message',
+        this.discordClient.on('messageCreate',
             async (discordMessage) =>
             {
                 const message = new DiscordEndpoint.Message(discordMessage, this.client);
