@@ -15,6 +15,8 @@ describe('discord client',
         let discordDMChannel: Discord.DMChannel;
         let discordMessageMock: Discord.Message;
         let discordMessage: Discord.Message;
+        let discordInteractionMock: Discord.MessageComponentInteraction;
+        let discordInteraction: Discord.MessageComponentInteraction;
 
         before(
             function ()
@@ -27,6 +29,11 @@ describe('discord client',
 
                 discordMessageMock = mockito.mock(Discord.Message);
                 discordMessage = mockito.instance(discordMessageMock);
+
+                discordInteractionMock = mockito.mock(Discord.MessageComponentInteraction);
+                mockito.when(discordInteractionMock.isMessageComponent()).thenReturn(true);
+                discordInteraction = mockito.instance(discordInteractionMock);
+                discordInteraction.type = 'MESSAGE_COMPONENT';
             }
         );
 
@@ -84,6 +91,30 @@ describe('discord client',
                 assert.strictEqual(message.content, testContent);
                 assert.deepStrictEqual(message.author, testAuthor);
                 assert.deepStrictEqual(message.channel, testChannel);
+            }
+        );
+
+        it('has working interaction class.',
+            function ()
+            {
+                // TODO: This only tests message component interactions.
+
+                const testContent = 'testContent';
+                const testAuthor = new DiscordEndpoint.User(discordUser);
+                const testChannel = new DiscordEndpoint.Channel(discordDMChannel);
+
+                mockito.when(discordInteractionMock.channel).thenReturn(discordDMChannel);
+
+                discordMessage.content = testContent;
+                discordMessage.author = discordUser;
+                discordInteraction.message = discordMessage;
+                discordInteraction.user = discordUser;
+
+                const interaction = new DiscordEndpoint.Interaction(discordInteraction, new DiscordEndpoint.Client(discordClient));
+
+                assert.strictEqual(interaction.content, testContent);
+                assert.deepStrictEqual(interaction.author, testAuthor);
+                assert.deepStrictEqual(interaction.channel, testChannel);
             }
         );
 
