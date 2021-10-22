@@ -22,7 +22,14 @@ export default class Wichtelbot
             Discord.Intents.FLAGS.GUILD_MESSAGES,
         );
 
-        this.discordClient = new Discord.Client({ intents });
+        this.discordClient = new Discord.Client(
+            {
+                intents: intents,
+                partials: ['CHANNEL']
+                // NOTE: The partial is needed to receive direct messages, see https://github.com/discordjs/discord.js/issues/5687.
+                // FIXME: Partials need special handling, see https://discordjs.guide/popular-topics/partials.html#handling-partial-data.
+            }
+        );
         this.client = new DiscordEndpoint.Client(this.discordClient);
 
         this.discordClient.on('error',
