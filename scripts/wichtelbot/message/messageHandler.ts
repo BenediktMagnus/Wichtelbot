@@ -1,15 +1,15 @@
 import { ChannelType, Message, State } from '../endpoint/definitions';
+import { CommandHandlerFunction } from './handlingTools/handlerFunctions';
 import { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
 import Database from '../database';
 import GeneralModule from './modules/generalModule';
 import HandlingDefinition from './handlingDefinition';
 import InformationModule from './modules/informationModule';
-import MessageFunction from './handlingTools/messageFunction';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
 
-type CommandMap = Map<string, MessageFunction>;
+type CommandMap = Map<string, CommandHandlerFunction>;
 
 // TODO: Documentation
 export default class MessageHandler
@@ -22,10 +22,10 @@ export default class MessageHandler
     // In private messages:
     protected stateCommands = new StateCommandMap();
     // In group/server channels:
-    protected publicCommands: CommandMap = new Map<string, MessageFunction>();
-    protected moderatorCommands: CommandMap = new Map<string, MessageFunction>();
+    protected publicCommands: CommandMap = new Map<string, CommandHandlerFunction>();
+    protected moderatorCommands: CommandMap = new Map<string, CommandHandlerFunction>();
     // Special:
-    protected firstContact: MessageFunction = async (message): Promise<void> => this.generalModule.firstContact(message);
+    protected firstContact: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.firstContact(message);
     protected messageNotUnterstood = async (message: Message, availableCommands: CommandInfo[]): Promise<void> =>
         this.generalModule.notUnderstood(message, availableCommands);
 
@@ -60,26 +60,29 @@ export default class MessageHandler
         // State commands:
         for (const stateCommandDefinition of this.handlingDefinition.stateCommands)
         {
-            // For every command, fill it into the command map:
-            this.prepareCommandInfo(stateCommandDefinition.commandInfo,
-                (command: string): void =>
-                {
-                    const stateCommand = new StateCommand(stateCommandDefinition.state, command);
-
-                    this.stateCommands.set(stateCommand, stateCommandDefinition.handlerFunction);
-                }
-            );
-
-            // Fill the command list for this state:
-            let commandList: CommandInfo[] = [];
-
-            const givenCommandList = this.commandListsForEveryState.get(stateCommandDefinition.state);
-            if (givenCommandList !== undefined)
+            if (stateCommandDefinition.paths === null)
             {
-                commandList = givenCommandList;
-            }
+                const stateCommand = new StateCommand(stateCommandDefinition.state, '');
 
-            commandList.push(stateCommandDefinition.commandInfo);
+                this.stateCommands.set(stateCommand, stateCommandDefinition.handlerFunction);
+            }
+            else
+            {
+                for (const path of stateCommandDefinition.paths)
+                {
+                    this.prepareCommandInfo(path.command,
+                        (command: string): void =>
+                        {
+                            const stateCommand = new StateCommand(stateCommandDefinition.state, command);
+
+                            this.stateCommands.set(
+                                stateCommand,
+                                async (message) => stateCommandDefinition.handlerFunction(message, path.result)
+                            );
+                        }
+                    );
+                }
+            }
         }
 
         // Public commands:
@@ -160,7 +163,7 @@ export default class MessageHandler
                 return;
             }
 
-            let messageFunction: MessageFunction | undefined;
+            let messageFunction: CommandHandlerFunction | undefined;
 
             if (Config.main.moderationChannelIds.includes(message.channel.id))
             {

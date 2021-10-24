@@ -1,13 +1,13 @@
-import MessageFunction from './messageFunction';
+import { CommandHandlerFunction } from './handlerFunctions';
 import StateCommand from './stateCommand';
 
 export default class StateCommandMap
 {
-    protected map = new Map<string, MessageFunction>();
+    protected map = new Map<string, CommandHandlerFunction>();
 
-    public set (stateCommand: StateCommand, messageFunction: MessageFunction): void
+    public set (stateCommand: StateCommand, handlerFunction: CommandHandlerFunction): void
     {
-        this.map.set(stateCommand.key, messageFunction);
+        this.map.set(stateCommand.key, handlerFunction);
     }
 
     public has (stateCommand: StateCommand): boolean
@@ -17,7 +17,7 @@ export default class StateCommandMap
         return result;
     }
 
-    public get (stateCommand: StateCommand): MessageFunction
+    public get (stateCommand: StateCommand): CommandHandlerFunction
     {
         const messageFunction = this.map.get(stateCommand.key);
 

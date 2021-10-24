@@ -1,28 +1,40 @@
+import { CommandHandlerFunction, StateCommandHandlerFunction } from './handlingTools/handlerFunctions';
 import Localisation, { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
 import GeneralModule from './modules/generalModule';
 import GiftType from '../types/giftType';
 import InformationModule from './modules/informationModule';
 import Message from '../endpoint/definitions/message';
-import MessageFunction from './handlingTools/messageFunction';
 import State from "../endpoint/definitions/state";
+import TokenString from '../../utility/tokenString';
 
 interface CommandDefinition
 {
     commandInfo: CommandInfo;
-    handlerFunction: MessageFunction;
+    handlerFunction: CommandHandlerFunction;
 }
 
-interface StateCommandDefinition extends CommandDefinition
+interface CommandPath
+{
+    command: CommandInfo;
+    result: any;
+}
+
+interface PathedStateCommandDefinition
 {
     state: State;
+    paths: CommandPath[];
+    handlerFunction: StateCommandHandlerFunction;
 }
 
-class CatchAllCommand implements CommandInfo
+interface CatchallStateCommandDefinition
 {
-    public commands: string[] = [''];
-    public info: string | undefined = undefined;
+    state: State;
+    paths: null;
+    handlerFunction: CommandHandlerFunction;
 }
+
+type StateCommandDefinition = PathedStateCommandDefinition | CatchallStateCommandDefinition;
 
 /**
  * The handling definition is an object-based representation of the state/command handling structure.
@@ -44,79 +56,88 @@ export default class HandlingDefinition
         // Stateless commands:
         {
             state: State.Nothing,
-            commandInfo: Localisation.commands.goodAfternoon,
-            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.goodAfternoon)
+            paths: [
+                {
+                    command: Localisation.commands.goodAfternoon,
+                    result: Localisation.texts.goodAfternoon,
+                },
+                {
+                    command: Localisation.commands.goodMorning,
+                    result: Localisation.texts.goodMorning,
+                },
+                {
+                    command: Localisation.commands.goodNight,
+                    result: Localisation.texts.goodNight,
+                },
+                {
+                    command: Localisation.commands.hello,
+                    result: Localisation.texts.hello,
+                },
+                {
+                    command: Localisation.commands.maybe,
+                    result: Localisation.texts.maybeResponse,
+                }
+            ],
+            handlerFunction: async (message, result): Promise<void> => this.generalModule.reply(message, result)
         },
-        {
-            state: State.Nothing,
-            commandInfo: Localisation.commands.goodMorning,
-            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.goodMorning)
-        },
-        {
-            state: State.Nothing,
-            commandInfo: Localisation.commands.goodNight,
-            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.goodNight)
-        },
-        {
-            state: State.Nothing,
-            commandInfo: Localisation.commands.hello,
-            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.hello)
-        },
-        {
-            state: State.Nothing,
-            commandInfo: Localisation.commands.maybe,
-            handlerFunction: async (message): Promise<void> => this.generalModule.reply(message, Localisation.texts.maybeResponse)
-        },
-        // Registration:
+        // Initialise registration:
         {
             state: State.New,
-            commandInfo: Localisation.commands.registration,
-            handlerFunction: async (message): Promise<void> =>
-                this.generalModule.continue(message, Localisation.texts.registration, State.Registration)
+            paths: [
+                {
+                    command: Localisation.commands.registration,
+                    result: Localisation.texts.registration,
+                },
+            ],
+            handlerFunction: async (message, result): Promise<void> => this.generalModule.continue(message, result, State.Registration)
         },
+        // Confirm registration:
         {
             state: State.Registration,
-            commandInfo: Localisation.commands.yes,
-            handlerFunction: async (message: Message): Promise<void> =>
+            paths: [
+                {
+                    command: Localisation.commands.yes,
+                    result: Localisation.texts.informationGiftTypeAsGiver,
+                },
+                {
+                    command: Localisation.commands.no,
+                    result: Localisation.texts.registrationCancelled,
+                },
+            ],
+            handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
             {
-                this.generalModule.register(message);
-                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
-                await this.informationModule.sendCurrentGiftTypeAsGiver(message);
+                if (result === Localisation.texts.informationGiftTypeAsGiver)
+                {
+                    this.generalModule.register(message);
+                    await this.generalModule.continue(message, result, State.InformationGiftTypeAsGiver);
+                    await this.informationModule.sendCurrentGiftTypeAsGiver(message);
+                }
+                else
+                {
+                    await this.generalModule.continue(message, result, State.New);
+                }
             }
-        },
-        {
-            state: State.Registration,
-            commandInfo: Localisation.commands.no,
-            handlerFunction: async (message): Promise<void> =>
-                this.generalModule.continue(message, Localisation.texts.registrationCancelled, State.New)
         },
         // Information, GiftTypeAsGiver:
         {
             state: State.InformationGiftTypeAsGiver,
-            commandInfo: Localisation.commands.informationAnalogue,
-            handlerFunction: async (message: Message): Promise<void> =>
+            paths: [
+                {
+                    command: Localisation.commands.informationAnalogue,
+                    result: GiftType.Analogue
+                },
+                {
+                    command: Localisation.commands.informationDigital,
+                    result: GiftType.Digital
+                },
+                {
+                    command: Localisation.commands.informationBothAnalogueAndDigital,
+                    result: GiftType.All
+                }
+            ],
+            handlerFunction: async (message: Message, result: GiftType): Promise<void> =>
             {
-                this.informationModule.setGiftTypeAsGiver(message, GiftType.Analogue);
-                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
-                await this.informationModule.sendCurrentGiftTypeAsTaker(message);
-            }
-        },
-        {
-            state: State.InformationGiftTypeAsGiver,
-            commandInfo: Localisation.commands.informationDigital,
-            handlerFunction: async (message: Message): Promise<void> =>
-            {
-                this.informationModule.setGiftTypeAsGiver(message, GiftType.Digital);
-                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
-                await this.informationModule.sendCurrentGiftTypeAsTaker(message);
-            }
-        },
-        {
-            state: State.InformationGiftTypeAsGiver,
-            commandInfo: Localisation.commands.informationBothAnalogueAndDigital,
-            handlerFunction: async (message: Message): Promise<void> =>
-            {
-                this.informationModule.setGiftTypeAsGiver(message, GiftType.All);
+                this.informationModule.setGiftTypeAsGiver(message, result);
                 await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
                 await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
@@ -124,38 +145,39 @@ export default class HandlingDefinition
         // Information, GiftTypeAsTaker:
         {
             state: State.InformationGiftTypeAsTaker,
-            commandInfo: Localisation.commands.informationAnalogue,
-            handlerFunction: async (message: Message): Promise<void> =>
+            paths: [
+                {
+                    command: Localisation.commands.informationAnalogue,
+                    result: GiftType.Analogue
+                },
+                {
+                    command: Localisation.commands.informationDigital,
+                    result: GiftType.Digital
+                },
+                {
+                    command: Localisation.commands.informationBothAnalogueAndDigital,
+                    result: GiftType.All
+                }
+            ],
+            handlerFunction: async (message: Message, result: GiftType): Promise<void> =>
             {
-                this.informationModule.setGiftTypeAsTaker(message, GiftType.Analogue);
-                await this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
-                await this.informationModule.sendCurrentAddress(message);
-            }
-        },
-        {
-            state: State.InformationGiftTypeAsTaker,
-            commandInfo: Localisation.commands.informationDigital,
-            handlerFunction: async (message: Message): Promise<void> =>
-            {
-                this.informationModule.setGiftTypeAsTaker(message, GiftType.Digital);
-                await this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
-                await this.informationModule.sendCurrentDigitalAddress(message);
-            }
-        },
-        {
-            state: State.InformationGiftTypeAsTaker,
-            commandInfo: Localisation.commands.informationBothAnalogueAndDigital,
-            handlerFunction: async (message: Message): Promise<void> =>
-            {
-                this.informationModule.setGiftTypeAsTaker(message, GiftType.All);
-                await this.generalModule.continue(message, Localisation.texts.informationAddress, State.InformationAddress);
-                await this.informationModule.sendCurrentAddress(message);
+                this.informationModule.setGiftTypeAsTaker(message, result);
+                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
+
+                if (result === GiftType.Digital)
+                {
+                    await this.informationModule.sendCurrentDigitalAddress(message);
+                }
+                else
+                {
+                    await this.informationModule.sendCurrentAddress(message);
+                }
             }
         },
         // Information, Address:
         {
             state: State.InformationAddress,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAddress(message);
@@ -166,10 +188,12 @@ export default class HandlingDefinition
         // Information, Country:
         {
             state: State.InformationCountry,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
-                if (Config.main.allowedCountries.includes(message.command)) // The country must be normalised. Commands are lowercase and trimmed.
+                const normalisedCountry = message.command; // Commands are already normalised, i.e. lowercase and trimmed.
+
+                if (Config.main.allowedCountries.includes(normalisedCountry))
                 {
                     this.informationModule.setCountry(message);
 
@@ -177,12 +201,20 @@ export default class HandlingDefinition
 
                     if (neededInformationStates.includes(State.InformationDigitalAddress))
                     {
-                        await this.generalModule.continue(message, Localisation.texts.informationDigitalAddress, State.InformationDigitalAddress);
+                        await this.generalModule.continue(
+                            message,
+                            Localisation.texts.informationDigitalAddress,
+                            State.InformationDigitalAddress
+                        );
                         await this.informationModule.sendCurrentDigitalAddress(message);
                     }
                     else if (neededInformationStates.includes(State.InformationInternationalAllowed))
                     {
-                        await this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                        await this.generalModule.continue(
+                            message,
+                            Localisation.texts.informationInternationalAllowed,
+                            State.InformationInternationalAllowed
+                        );
                         await this.informationModule.sendCurrentInternationalAllowed(message);
                     }
                     else
@@ -200,7 +232,7 @@ export default class HandlingDefinition
         // Information, DigitalAddress:
         {
             state: State.InformationDigitalAddress,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setDigitalAddress(message);
@@ -209,7 +241,11 @@ export default class HandlingDefinition
 
                 if (neededInformationStates.includes(State.InformationInternationalAllowed))
                 {
-                    await this.generalModule.continue(message, Localisation.texts.informationInternationalAllowed, State.InformationInternationalAllowed);
+                    await this.generalModule.continue(
+                        message,
+                        Localisation.texts.informationInternationalAllowed,
+                        State.InformationInternationalAllowed
+                    );
                     await this.informationModule.sendCurrentInternationalAllowed(message);
                 }
                 else
@@ -222,20 +258,19 @@ export default class HandlingDefinition
         // Information, InternationalAllowed:
         {
             state: State.InformationInternationalAllowed,
-            commandInfo: Localisation.commands.yes,
-            handlerFunction: async (message: Message): Promise<void> =>
+            paths: [
+                {
+                    command: Localisation.commands.yes,
+                    result: true
+                },
+                {
+                    command: Localisation.commands.no,
+                    result: false
+                },
+            ],
+            handlerFunction: async (message: Message, result: boolean): Promise<void> =>
             {
-                this.informationModule.setInternationalAllowed(message, true);
-                await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
-                await this.informationModule.sendCurrentWishList(message);
-            }
-        },
-        {
-            state: State.InformationInternationalAllowed,
-            commandInfo: Localisation.commands.no,
-            handlerFunction: async (message: Message): Promise<void> =>
-            {
-                this.informationModule.setInternationalAllowed(message, false);
+                this.informationModule.setInternationalAllowed(message, result);
                 await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
                 await this.informationModule.sendCurrentWishList(message);
             }
@@ -243,7 +278,7 @@ export default class HandlingDefinition
         // Information, Wish List:
         {
             state: State.InformationWishList,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setWishList(message);
@@ -265,7 +300,7 @@ export default class HandlingDefinition
         // Information, Allergies:
         {
             state: State.InformationAllergies,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAllergies(message);
@@ -276,7 +311,7 @@ export default class HandlingDefinition
         // Information, GiftExclusion:
         {
             state: State.InformationGiftExclusion,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftExclusion(message);
@@ -287,7 +322,7 @@ export default class HandlingDefinition
         // Information, UserExclusion:
         {
             state: State.InformationUserExclusion,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setUserExclusion(message);
@@ -298,14 +333,15 @@ export default class HandlingDefinition
         // Information, FreeText:
         {
             state: State.InformationFreeText,
-            commandInfo: new CatchAllCommand(),
+            paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setFreeText(message);
                 await this.informationModule.completeInformationGathering(message);
             }
-        },
+        }
     ];
+
     public publicCommands: CommandDefinition[] = [
         {
             commandInfo: Localisation.commands.contacting,
