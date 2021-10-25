@@ -43,9 +43,9 @@ class Main
 
         this.wichtelbot = new Wichtelbot();
 
-        const loginName = await this.wichtelbot.run();
+        await this.wichtelbot.run();
 
-        console.log(`Wichtelbot started. Logged in as "${loginName}".`);
+        console.log(`Wichtelbot started.`);
     }
 }
 
