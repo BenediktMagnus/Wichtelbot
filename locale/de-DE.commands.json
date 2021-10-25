@@ -57,6 +57,6 @@
         "info": "Startet den Registrierungsprozess."
     },
     "yes": {
-        "commands": ["ja", "jap", "jawohl", "okay", "meinetwegen"]
+        "commands": ["ja", "jap", "jawohl", "okay", "ok", "meinetwegen"]
     }
 }
