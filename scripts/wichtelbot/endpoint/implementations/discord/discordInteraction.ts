@@ -64,7 +64,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         || this.interaction.isMessageComponent()
         || this.interaction.isSelectMenu())
         {
-            content = this.interaction.message.content;
+            content = this.interaction.customId;
         }
         else if (this.interaction.isCommand()
             ||this.interaction.isContextMenu())
@@ -89,42 +89,50 @@ export class DiscordInteraction extends MessageWithParser implements Message
     {
         if (this.interaction.isButton()
         || this.interaction.isMessageComponent()
-        || this.interaction.isSelectMenu()
-        || this.interaction.isCommand()
+        || this.interaction.isSelectMenu())
+        {
+            await this.interaction.deferUpdate();
+        }
+        else if (this.interaction.isCommand()
         || this.interaction.isContextMenu())
         {
             await this.interaction.deferReply();
+        }
+        else
+        {
+            throw new Error('Unknown interaction type');
         }
     }
 
     public async reply (text: string, components?: Component[], imageUrl?: string): Promise<void>
     {
+        const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
+
         if (this.interaction.isButton()
-            || this.interaction.isCommand()
-            || this.interaction.isContextMenu()
             || this.interaction.isMessageComponent()
             || this.interaction.isSelectMenu())
         {
-            const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
+            const actionRow = new Discord.MessageActionRow();
+            const messageButton = new Discord.MessageButton();
+            messageButton.setLabel(this.interaction.customId);
+            messageButton.setCustomId(this.interaction.customId);
+            messageButton.setStyle('PRIMARY');
+            messageButton.setDisabled(true);
+            actionRow.addComponents(messageButton);
 
-            for (const messageText of splittetText)
-            {
-                const reply: Discord.MessageOptions = {
-                    content: messageText,
-                };
-
-                if (components !== undefined)
+            await this.interaction.update(
                 {
-                    reply.components = DiscordUtils.convertComponents(components);
+                    content: this.interaction.message.content,
+                    components: [actionRow],
                 }
+            );
 
-                if (imageUrl !== undefined)
-                {
-                    reply.attachments = [new Discord.MessageAttachment(imageUrl)];
-                }
-
-                await this.interaction.editReply(reply);
-            }
+            await DiscordUtils.sendMultiMessage(this.interaction.followUp.bind(this.interaction), splittetText, components, imageUrl);
+        }
+        else if (this.interaction.isCommand()
+            || this.interaction.isContextMenu())
+        {
+            await DiscordUtils.sendMultiMessage(this.interaction.editReply.bind(this.interaction), splittetText, components, imageUrl);
         }
         else
         {

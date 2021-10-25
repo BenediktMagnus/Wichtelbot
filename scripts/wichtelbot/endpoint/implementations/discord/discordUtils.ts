@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import { Button, ButtonStyle, Component, ComponentType, Select } from '../../definitions';
+import { ButtonStyle, Component, ComponentType } from '../../definitions';
 
 const safetyMargin = 16;
 const maxMessageLength = 2000 - safetyMargin;
@@ -64,13 +64,11 @@ export abstract class DiscordUtils
             {
                 case ComponentType.Button:
                 {
-                    const button = component as Button;
-
                     const messageButton = new Discord.MessageButton();
-                    messageButton.setLabel(button.label);
-                    messageButton.setCustomId(button.value);
+                    messageButton.setLabel(component.label);
+                    messageButton.setCustomId(component.value);
 
-                    switch (button.style)
+                    switch (component.style)
                     {
                         case ButtonStyle.Primary:
                             messageButton.setStyle('PRIMARY');
@@ -95,13 +93,11 @@ export abstract class DiscordUtils
                 }
                 case ComponentType.Select:
                 {
-                    const select = component as Select;
-
                     const messageSelect = new Discord.MessageSelectMenu();
-                    messageSelect.setPlaceholder(select.placeholder);
+                    messageSelect.setPlaceholder(component.placeholder);
                     messageSelect.setCustomId('menu'); // TODO: Should this be unique or even given by the user?
 
-                    for (const option of select.options)
+                    for (const option of component.options)
                     {
                         messageSelect.addOptions(
                             {

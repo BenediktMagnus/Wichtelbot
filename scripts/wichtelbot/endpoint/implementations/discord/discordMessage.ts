@@ -50,28 +50,11 @@ export class DiscordMessage extends MessageWithParser implements Message
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
+        await DiscordUtils.sendMultiMessage(this.message.reply.bind(this.message), splittetText, components, imageUrl);
+
         /* TODO: This is really only needed for the Steckbrief.
                  Instead of naively splitting the text, we could create an embed for each part. It has a title for the question of the
                  Steckbrief and a description for the answer with a length limit of 4096 (much more than the 2000 of a message).
         */
-
-        for (const messageText of splittetText)
-        {
-            const reply: Discord.MessageOptions = {
-                content: messageText,
-            };
-
-            if (components !== undefined)
-            {
-                reply.components = DiscordUtils.convertComponents(components);
-            }
-
-            if (imageUrl !== undefined)
-            {
-                reply.attachments = [new Discord.MessageAttachment(imageUrl)];
-            }
-
-            await this.message.reply(reply);
-        }
     }
 }

@@ -1,4 +1,5 @@
 import Localisation, { CommandInfo } from '../../../utility/localisation';
+import { Component } from '../../endpoint/definitions';
 import Config from '../../../utility/config';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
@@ -27,24 +28,24 @@ export default class GeneralModule
      * Will set User/Contact data for the TokenString.
      * @param text The text to reply.
      */
-    public async reply (message: Message, text: TokenString): Promise<void>
+    public async reply (message: Message, text: TokenString, components?: Component[]): Promise<void>
     {
         const whatIsThere = this.database.getWhatIsThere(message.author);
         const answer = text.process(whatIsThere);
 
-        await message.reply(answer);
+        await message.reply(answer, components);
     }
 
     /**
      * Sets the state of the contact, then replies.
      */
-    public async continue (message: Message, text: TokenString, state: State): Promise<void>
+    public async continue (message: Message, state: State, text: TokenString, components?: Component[]): Promise<void>
     {
         const contact = this.database.getContact(message.author.id);
         contact.state = state;
         this.database.updateContact(contact);
 
-        await this.reply(message, text);
+        await this.reply(message, text, components);
     }
 
     /**

@@ -1,3 +1,4 @@
+import { ButtonStyle, ComponentType } from '../endpoint/definitions';
 import { CommandHandlerFunction, StateCommandHandlerFunction } from './handlingTools/handlerFunctions';
 import Localisation, { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
@@ -89,7 +90,26 @@ export default class HandlingDefinition
                     result: Localisation.texts.registration,
                 },
             ],
-            handlerFunction: async (message, result): Promise<void> => this.generalModule.continue(message, result, State.Registration)
+            handlerFunction: async (message, result): Promise<void> =>
+                this.generalModule.continue(
+                    message,
+                    State.Registration,
+                    result,
+                    [
+                        {
+                            type: ComponentType.Button,
+                            style: ButtonStyle.Success,
+                            label: Localisation.commands.yes.commands[0],
+                            value: Localisation.commands.yes.commands[0],
+                        },
+                        {
+                            type: ComponentType.Button,
+                            style: ButtonStyle.Danger,
+                            label: Localisation.commands.no.commands[0],
+                            value: Localisation.commands.no.commands[0],
+                        }
+                    ]
+                )
         },
         // Confirm registration:
         {
@@ -109,12 +129,12 @@ export default class HandlingDefinition
                 if (result === Localisation.texts.informationGiftTypeAsGiver)
                 {
                     this.generalModule.register(message);
-                    await this.generalModule.continue(message, result, State.InformationGiftTypeAsGiver);
+                    await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result);
                     await this.informationModule.sendCurrentGiftTypeAsGiver(message);
                 }
                 else
                 {
-                    await this.generalModule.continue(message, result, State.New);
+                    await this.generalModule.continue(message, State.New, result);
                 }
             }
         },
@@ -138,7 +158,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message, result: GiftType): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsGiver(message, result);
-                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsTaker, State.InformationGiftTypeAsTaker);
+                await this.generalModule.continue(message, State.InformationGiftTypeAsTaker, Localisation.texts.informationGiftTypeAsTaker);
                 await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
@@ -162,7 +182,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message, result: GiftType): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsTaker(message, result);
-                await this.generalModule.continue(message, Localisation.texts.informationGiftTypeAsGiver, State.InformationGiftTypeAsGiver);
+                await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, Localisation.texts.informationGiftTypeAsGiver);
 
                 if (result === GiftType.Digital)
                 {
@@ -181,7 +201,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAddress(message);
-                await this.generalModule.continue(message, Localisation.texts.informationCountry, State.InformationCountry);
+                await this.generalModule.continue(message, State.InformationCountry, Localisation.texts.informationCountry);
                 await this.informationModule.sendCurrentCountry(message);
             }
         },
@@ -203,8 +223,8 @@ export default class HandlingDefinition
                     {
                         await this.generalModule.continue(
                             message,
-                            Localisation.texts.informationDigitalAddress,
-                            State.InformationDigitalAddress
+                            State.InformationDigitalAddress,
+                            Localisation.texts.informationDigitalAddress
                         );
                         await this.informationModule.sendCurrentDigitalAddress(message);
                     }
@@ -212,14 +232,14 @@ export default class HandlingDefinition
                     {
                         await this.generalModule.continue(
                             message,
-                            Localisation.texts.informationInternationalAllowed,
-                            State.InformationInternationalAllowed
+                            State.InformationInternationalAllowed,
+                            Localisation.texts.informationInternationalAllowed
                         );
                         await this.informationModule.sendCurrentInternationalAllowed(message);
                     }
                     else
                     {
-                        await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                        await this.generalModule.continue(message, State.InformationWishList, Localisation.texts.informationWishList);
                         await this.informationModule.sendCurrentWishList(message);
                     }
                 }
@@ -243,14 +263,14 @@ export default class HandlingDefinition
                 {
                     await this.generalModule.continue(
                         message,
-                        Localisation.texts.informationInternationalAllowed,
-                        State.InformationInternationalAllowed
+                        State.InformationInternationalAllowed,
+                        Localisation.texts.informationInternationalAllowed
                     );
                     await this.informationModule.sendCurrentInternationalAllowed(message);
                 }
                 else
                 {
-                    await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                    await this.generalModule.continue(message, State.InformationWishList, Localisation.texts.informationWishList);
                     await this.informationModule.sendCurrentWishList(message);
                 }
             }
@@ -271,7 +291,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message, result: boolean): Promise<void> =>
             {
                 this.informationModule.setInternationalAllowed(message, result);
-                await this.generalModule.continue(message, Localisation.texts.informationWishList, State.InformationWishList);
+                await this.generalModule.continue(message, State.InformationWishList, Localisation.texts.informationWishList);
                 await this.informationModule.sendCurrentWishList(message);
             }
         },
@@ -287,12 +307,12 @@ export default class HandlingDefinition
 
                 if (neededInformationStates.includes(State.InformationAllergies))
                 {
-                    await this.generalModule.continue(message, Localisation.texts.informationAllergies, State.InformationAllergies);
+                    await this.generalModule.continue(message, State.InformationAllergies, Localisation.texts.informationAllergies);
                     await this.informationModule.sendCurrentAllergies(message);
                 }
                 else
                 {
-                    await this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                    await this.generalModule.continue(message, State.InformationGiftExclusion, Localisation.texts.informationGiftExclusion);
                     await this.informationModule.sendCurrentGiftExclusion(message);
                 }
             }
@@ -304,7 +324,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAllergies(message);
-                await this.generalModule.continue(message, Localisation.texts.informationGiftExclusion, State.InformationGiftExclusion);
+                await this.generalModule.continue(message, State.InformationGiftExclusion, Localisation.texts.informationGiftExclusion);
                 await this.informationModule.sendCurrentGiftExclusion(message);
             }
         },
@@ -315,7 +335,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setGiftExclusion(message);
-                await this.generalModule.continue(message, Localisation.texts.informationUserExclusion, State.InformationUserExclusion);
+                await this.generalModule.continue(message, State.InformationUserExclusion, Localisation.texts.informationUserExclusion);
                 await this.informationModule.sendCurrentUserExclusion(message);
             }
         },
@@ -326,7 +346,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setUserExclusion(message);
-                await this.generalModule.continue(message, Localisation.texts.informationFreeText, State.InformationFreeText);
+                await this.generalModule.continue(message, State.InformationFreeText, Localisation.texts.informationFreeText);
                 await this.informationModule.sendCurrentFreeText(message);
             }
         },
