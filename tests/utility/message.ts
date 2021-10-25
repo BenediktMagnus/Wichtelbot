@@ -9,7 +9,7 @@ import { MessageWithParser } from '../../scripts/wichtelbot/endpoint/base/messag
 
 // TODO: Can this whole file be replaced with mockito?
 
-type SendOrReplyFunction = (text: string, components?: Component[], imageUrl?: string) => void;
+type SendOrReplyFunction = (text: string, components?: Component[], imageUrl?: string) => Promise<void>;
 
 export class TestMessage extends MessageWithParser implements Message
 {

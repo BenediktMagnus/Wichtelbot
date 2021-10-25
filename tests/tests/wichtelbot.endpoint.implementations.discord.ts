@@ -108,9 +108,7 @@ describe('discord client',
 
                 mockito.when(discordInteractionMock.channel).thenReturn(discordDMChannel);
 
-                discordMessage.content = testContent;
-                discordMessage.author = discordUser;
-                discordInteraction.message = discordMessage;
+                discordInteraction.customId = testContent;
                 discordInteraction.user = discordUser;
 
                 const interaction = new DiscordEndpoint.Interaction(discordInteraction, new DiscordEndpoint.Client(discordClient));

@@ -24,7 +24,7 @@ describe('message handler',
                 database = new Database('mainTest', 'logTest', true);
                 messageHandler = new MessageHandler(database);
 
-                const resultCallback = (): void => {};
+                const resultCallback = async (): Promise<void> => {};
 
                 // Make first contact so we are known:
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Server);
@@ -45,7 +45,7 @@ describe('message handler',
         it('does not answer bots.',
             async function ()
             {
-                const resultCallback = (): void =>
+                const resultCallback = async (): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.fail('The bot must not answer bot messages!');
                 };
@@ -61,7 +61,7 @@ describe('message handler',
         it('does not answer in ignored channel types.',
             async function ()
             {
-                const resultCallback = (): void =>
+                const resultCallback = async (): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.fail('The bot must not answer in ignored channels!');
                 };
@@ -77,7 +77,7 @@ describe('message handler',
         it('does not answer non-prefixed server messages.',
             async function ()
             {
-                const resultCallback = (): void =>
+                const resultCallback = async (): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.fail('The bot must not answer non-prefixed server messages!');
                 };
@@ -97,13 +97,13 @@ describe('message handler',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.contactingRegistration.process(author));
                     called = true;
                 };
 
-                const message = new TestMessage(() => {}, resultCallback, resultCallback, ChannelType.Personal);
+                const message = new TestMessage(async () => {}, resultCallback, resultCallback, ChannelType.Personal);
                 author = message.author;
 
                 await messageHandler.process(message);
@@ -118,7 +118,7 @@ describe('message handler',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.notUnderstood.process(author));
                     called = true;

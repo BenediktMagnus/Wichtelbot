@@ -25,7 +25,7 @@ describe('statelessCommands',
                 database = new Database('mainTest', 'logTest', true);
                 messageHandler = new MessageHandler(database);
 
-                const resultCallback = (): void => {};
+                const resultCallback = async (): Promise<void> => {};
 
                 // Make first contact so we are known:
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Server);
@@ -49,7 +49,7 @@ describe('statelessCommands',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.goodAfternoon.process(author));
                     called = true;
@@ -72,7 +72,7 @@ describe('statelessCommands',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.goodMorning.process(author));
                     called = true;
@@ -95,7 +95,7 @@ describe('statelessCommands',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.goodNight.process(author));
                     called = true;
@@ -118,7 +118,7 @@ describe('statelessCommands',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.hello.process(author));
                     called = true;
@@ -141,7 +141,7 @@ describe('statelessCommands',
                 let called = false;
                 let author: User;
 
-                const resultCallback = (text: string): void =>
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
                 {
                     assert.strictEqual(text, Localisation.texts.maybeResponse.process(author));
                     called = true;
