@@ -134,7 +134,7 @@ describe('discord client',
 
                 await message.reply(longMessage);
 
-                mockito.verify(discordMessageMock.reply(mockito.anyString())).times(3);
+                mockito.verify(discordMessageMock.reply(mockito.anything())).times(3);
             }
         );
     }

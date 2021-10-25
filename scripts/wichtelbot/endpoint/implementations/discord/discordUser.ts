@@ -1,6 +1,6 @@
 import * as Discord from 'discord.js';
+import { Component, User } from '../../definitions';
 import { DiscordUtils } from './discordUtils';
-import User from '../../definitions/user';
 import Utils from '../../../../utility/utils';
 
 export class DiscordUser implements User
@@ -32,10 +32,10 @@ export class DiscordUser implements User
         return this.user.bot;
     }
 
-    public send (text: string, imageUrl?: string): void
+    public send (text: string, components?: Component[], imageUrl?: string): void
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageLength);
 
-        DiscordUtils.sendMultiMessage(this.user.send.bind(this.user), splittetText, imageUrl);
+        DiscordUtils.sendMultiMessage(this.user.send.bind(this.user), splittetText, components, imageUrl);
     }
 }

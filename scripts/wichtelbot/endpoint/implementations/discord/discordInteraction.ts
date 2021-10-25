@@ -1,10 +1,10 @@
 import * as Discord from 'discord.js';
+import { Component, Message } from '../../definitions';
 import Config from '../../../../utility/config';
 import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
 import { DiscordUtils } from './discordUtils';
-import Message from '../../definitions/message';
 import { MessageWithParser } from '../../base/messageWithParser';
 import Utils from '../../../../utility/utils';
 
@@ -97,7 +97,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         }
     }
 
-    public async reply (text: string): Promise<void>
+    public async reply (text: string, components?: Component[], imageUrl?: string): Promise<void>
     {
         if (this.interaction.isButton()
             || this.interaction.isCommand()
@@ -109,7 +109,21 @@ export class DiscordInteraction extends MessageWithParser implements Message
 
             for (const messageText of splittetText)
             {
-                await this.interaction.editReply(messageText);
+                const reply: Discord.MessageOptions = {
+                    content: messageText,
+                };
+
+                if (components !== undefined)
+                {
+                    reply.components = DiscordUtils.convertComponents(components);
+                }
+
+                if (imageUrl !== undefined)
+                {
+                    reply.attachments = [new Discord.MessageAttachment(imageUrl)];
+                }
+
+                await this.interaction.editReply(reply);
             }
         }
         else

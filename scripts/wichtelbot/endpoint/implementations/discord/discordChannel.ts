@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import { Channel, ChannelType } from '../../definitions';
+import { Channel, ChannelType, Component } from '../../definitions';
 import { DiscordUtils } from './discordUtils';
 import Utils from '../../../../utility/utils';
 
@@ -48,7 +48,7 @@ export class DiscordChannel implements Channel
         return this.channel.id;
     }
 
-    public send (text: string, imageUrl?: string): void
+    public send (text: string, components?: Component[], imageUrl?: string): void
     {
         if (this.channel === null)
         {
@@ -57,6 +57,6 @@ export class DiscordChannel implements Channel
 
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageLength);
 
-        DiscordUtils.sendMultiMessage(this.channel.send.bind(this.channel), splittetText, imageUrl);
+        DiscordUtils.sendMultiMessage(this.channel.send.bind(this.channel), splittetText, components, imageUrl);
     }
 }

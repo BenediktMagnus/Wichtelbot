@@ -1,9 +1,9 @@
 import * as Discord from 'discord.js';
+import { Component, Message } from '../../definitions';
 import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
 import { DiscordUtils } from './discordUtils';
-import Message from '../../definitions/message';
 import { MessageWithParser } from '../../base/messageWithParser';
 import Utils from '../../../../utility/utils';
 
@@ -46,10 +46,9 @@ export class DiscordMessage extends MessageWithParser implements Message
         return this.responsibleClient;
     }
 
-    public async reply (text: string): Promise<void>
+    public async reply (text: string, components?: Component[], imageUrl?: string): Promise<void>
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
-
 
         /* TODO: This is really only needed for the Steckbrief.
                  Instead of naively splitting the text, we could create an embed for each part. It has a title for the question of the
@@ -58,7 +57,21 @@ export class DiscordMessage extends MessageWithParser implements Message
 
         for (const messageText of splittetText)
         {
-            await this.message.reply(messageText);
+            const reply: Discord.MessageOptions = {
+                content: messageText,
+            };
+
+            if (components !== undefined)
+            {
+                reply.components = DiscordUtils.convertComponents(components);
+            }
+
+            if (imageUrl !== undefined)
+            {
+                reply.attachments = [new Discord.MessageAttachment(imageUrl)];
+            }
+
+            await this.message.reply(reply);
         }
     }
 }

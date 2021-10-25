@@ -1,5 +1,5 @@
 
-import { Channel, ChannelType, Client, Message, State, User } from '../../scripts/wichtelbot/endpoint/definitions';
+import { Channel, ChannelType, Client, Component, Message, State, User } from '../../scripts/wichtelbot/endpoint/definitions';
 import Contact from '../../scripts/wichtelbot/classes/contact';
 import Database from '../../scripts/wichtelbot/database';
 import GeneralTestUtility from '../utility/general';
@@ -7,7 +7,9 @@ import Information from '../../scripts/wichtelbot/classes/information';
 import Member from '../../scripts/wichtelbot/classes/member';
 import { MessageWithParser } from '../../scripts/wichtelbot/endpoint/base/messageWithParser';
 
-type SendOrReplyFunction = (text: string, imageUrl?: string) => void;
+// TODO: Can this whole file be replaced with mockito?
+
+type SendOrReplyFunction = (text: string, components?: Component[], imageUrl?: string) => void;
 
 export class TestMessage extends MessageWithParser implements Message
 {
@@ -15,7 +17,7 @@ export class TestMessage extends MessageWithParser implements Message
     public author: User;
     public channel: Channel;
     public client: Client;
-    public reply: (text: string, imageUrl?: string) => Promise<void>;
+    public reply: (text: string, components?: Component[], imageUrl?: string) => Promise<void>;
 
     constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
     {

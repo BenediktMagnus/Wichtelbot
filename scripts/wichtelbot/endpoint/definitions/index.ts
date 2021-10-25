@@ -1,5 +1,11 @@
 export { Channel } from './channel';
 export { ChannelType } from './channelType';
+export { Button } from './component/button';
+export { ButtonStyle } from './component/buttonStyle';
+export { Component } from './component/component';
+export { ComponentType } from './component/componentType';
+export { Select } from './component/select';
+export { SelectOption } from './component/selectOption';
 export { default as Client } from './client';
 export { default as Message } from './message';
 export { default as State } from './state';

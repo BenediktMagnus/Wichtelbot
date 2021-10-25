@@ -1,5 +1,6 @@
 import { Channel } from "./channel";
 import Client from './client';
+import { Component } from "./component/component";
 import User from "./user";
 
 /**
@@ -38,14 +39,14 @@ export default interface Message
     client: Client;
     /**
      * A method to reply directly to the message. \
-     * How this is exactly represented (in the same channel, as a tree, with a mention
-     * or with a special connection) is free to be chosen by the client library.
+     * How this is exactly represented (in the same channel, as a tree, with a mention or with a special connection) is free to be chosen
+     * by the client library.
      * @param text The text to send.
-     * @param imageUrl An optional URL to an image. The client library must decide how it
-     * uses this information. It can show the image directly, attach it to the message,
-     * send it separately or simply send the URL (if nothing else is possible).
+     * @param components An optional list of components to send with the message. The client library decides if and how to present these.
+     * @param imageUrl An optional URL to an image. The client library must decide how it uses this information. It can show the image
+     * directly, attach it to the message, send it separately or simply send the URL (if nothing else is possible).
      */
-    reply (text: string, imageUrl?: string): Promise<void>;
+    reply (text: string, components?: Component[], imageUrl?: string): Promise<void>;
     /**
      * A method to parse the message. \
      * Parsing extracts command and parameters.
