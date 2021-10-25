@@ -26,6 +26,7 @@ interface Commands
     yes: CommandInfo;
 }
 
+// TODO: Documentation
 interface Texts
 {
     becameMember: TokenString;
@@ -33,6 +34,7 @@ interface Texts
     commandInfo: TokenString;
     contactingTooEarly: TokenString;
     contactingRegistration: TokenString;
+    contactingResponse: TokenString;
     contactingAlreadyRegistered: TokenString;
     contactingTooLate: TokenString;
     goodAfternoon: TokenString;

@@ -4,6 +4,7 @@ import * as DiscordEndpoint from '../../scripts/wichtelbot/endpoint/implementati
 import * as mockito from 'ts-mockito';
 import { assert } from 'chai';
 import { ChannelType } from '../../scripts/wichtelbot/endpoint/definitions';
+import Config from '../../scripts/utility/config';
 import GeneralTestUtility from '../utility/general';
 
 describe('discord client',
@@ -103,6 +104,8 @@ describe('discord client',
                 const testAuthor = new DiscordEndpoint.User(discordUser);
                 const testChannel = new DiscordEndpoint.Channel(discordDMChannel);
 
+                const expectedContent = Config.main.commandPrefix + 'testContent';
+
                 mockito.when(discordInteractionMock.channel).thenReturn(discordDMChannel);
 
                 discordMessage.content = testContent;
@@ -112,7 +115,7 @@ describe('discord client',
 
                 const interaction = new DiscordEndpoint.Interaction(discordInteraction, new DiscordEndpoint.Client(discordClient));
 
-                assert.strictEqual(interaction.content, testContent);
+                assert.strictEqual(interaction.content, expectedContent);
                 assert.deepStrictEqual(interaction.author, testAuthor);
                 assert.deepStrictEqual(interaction.channel, testChannel);
             }

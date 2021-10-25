@@ -103,7 +103,7 @@ describe('message handler',
                     called = true;
                 };
 
-                const message = new TestMessage(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                const message = new TestMessage(() => {}, resultCallback, resultCallback, ChannelType.Personal);
                 author = message.author;
 
                 await messageHandler.process(message);

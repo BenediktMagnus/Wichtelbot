@@ -32,7 +32,7 @@ export default class MessageHandler
     /**
      * The handling definition is an object-based representation of the state/command handling structure.
      */
-    protected readonly handlingDefinition: HandlingDefinition;
+    public readonly handlingDefinition: HandlingDefinition;
 
     /**
      * Containts a list of commands for every state.

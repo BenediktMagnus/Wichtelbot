@@ -17,6 +17,7 @@ interface BotConfig
 {
     name: string;
     token: string;
+    clientId: string;
 }
 
 export default abstract class Config

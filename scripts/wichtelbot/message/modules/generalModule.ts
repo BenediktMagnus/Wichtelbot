@@ -53,7 +53,9 @@ export default class GeneralModule
      */
     public async firstContact (message: Message): Promise<void>
     {
-        const firstContactWaiting = async (): Promise<void> =>
+        let answer: string;
+
+        if (Config.currentEventPhase == WichtelEventPhase.Waiting)
         {
             const registrationPhaseTime = new Date(Config.main.currentEvent.registration * 1000);
 
@@ -64,12 +66,9 @@ export default class GeneralModule
             parameters.addPair('hour', registrationPhaseTime.getHours().toString());
             parameters.addPair('minute', registrationPhaseTime.getMinutes().toString());
 
-            const answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
-
-            await message.reply(answer);
-        };
-
-        const firstContactRegistration = (): void =>
+            answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
+        }
+        else if (Config.currentEventPhase == WichtelEventPhase.Registration)
         {
             let text: TokenString;
 
@@ -99,31 +98,17 @@ export default class GeneralModule
                 }
             }
 
-            const answer = text.process(message.author);
+            const privateMessage = text.process(message.author);
+            message.author.send(privateMessage);
 
-            message.author.send(answer);
-        };
-
-        const firstContactTooLate = async (): Promise<void> =>
-        {
-            const answer = Localisation.texts.contactingTooLate.process(message.author);
-
-            await message.reply(answer);
-        };
-
-        switch (Config.currentEventPhase)
-        {
-            case WichtelEventPhase.Waiting:
-                await firstContactWaiting();
-                break;
-            case WichtelEventPhase.Registration:
-                firstContactRegistration();
-                break;
-            default:
-                // Wichteln or Ended
-                await firstContactTooLate();
-                break;
+            answer = Localisation.texts.contactingResponse.process(message.author);
         }
+        else // Wichteln or Ended
+        {
+            answer = Localisation.texts.contactingTooLate.process(message.author);
+        }
+
+        await message.reply(answer);
     }
 
     /**

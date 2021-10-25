@@ -1,4 +1,5 @@
 import * as Discord from 'discord.js';
+import Config from '../../../../utility/config';
 import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
@@ -57,22 +58,42 @@ export class DiscordInteraction extends MessageWithParser implements Message
 
     public get content (): string
     {
+        let content: string;
+
         if (this.interaction.isButton()
         || this.interaction.isMessageComponent()
         || this.interaction.isSelectMenu())
         {
-            return this.interaction.message.content;
+            content = this.interaction.message.content;
         }
         else if (this.interaction.isCommand()
             ||this.interaction.isContextMenu())
         {
-            return this.interaction.commandName;
+            content = this.interaction.commandName;
 
             // TODO: The parameters are missing.
         }
         else
         {
             throw new Error('Unknown interaction type');
+        }
+
+        return Config.main.commandPrefix + content;
+    }
+
+    /**
+     * Defer the reply to prevent a timeout after three seconds. \
+     * Must be called as soon as possible and before reply is called.
+     */
+    public async defer (): Promise<void>
+    {
+        if (this.interaction.isButton()
+        || this.interaction.isMessageComponent()
+        || this.interaction.isSelectMenu()
+        || this.interaction.isCommand()
+        || this.interaction.isContextMenu())
+        {
+            await this.interaction.deferReply();
         }
     }
 
