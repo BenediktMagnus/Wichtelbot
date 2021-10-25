@@ -91,6 +91,24 @@ export abstract class DiscordUtils
                 }
                 case ComponentType.Select:
                 {
+                    const select = component as Select;
+
+                    const messageSelect = new Discord.MessageSelectMenu();
+                    messageSelect.setPlaceholder(select.placeholder);
+                    messageSelect.setCustomId('menu'); // TODO: Should this be unique or even given by the user?
+
+                    for (const option of select.options)
+                    {
+                        messageSelect.addOptions(
+                            {
+                                label: option.label,
+                                value: option.value,
+                            }
+                        );
+                    }
+
+                    actionRow.addComponents(messageSelect);
+
                     break;
                 }
             }
