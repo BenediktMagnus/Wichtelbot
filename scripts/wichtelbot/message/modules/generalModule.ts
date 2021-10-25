@@ -99,7 +99,7 @@ export default class GeneralModule
             }
 
             const privateMessage = text.process(message.author);
-            message.author.send(privateMessage);
+            await message.author.send(privateMessage);
 
             answer = Localisation.texts.contactingResponse.process(message.author);
         }

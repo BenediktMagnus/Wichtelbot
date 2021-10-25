@@ -32,10 +32,10 @@ export class DiscordUser implements User
         return this.user.bot;
     }
 
-    public send (text: string, components?: Component[], imageUrl?: string): void
+    public async send (text: string, components?: Component[], imageUrl?: string): Promise<void>
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageLength);
 
-        DiscordUtils.sendMultiMessage(this.user.send.bind(this.user), splittetText, components, imageUrl);
+        await DiscordUtils.sendMultiMessage(this.user.send.bind(this.user), splittetText, components, imageUrl);
     }
 }

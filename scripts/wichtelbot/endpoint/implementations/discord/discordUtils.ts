@@ -7,15 +7,19 @@ const maxUserNameLength = 32; // Alternatively maxUserIdLength = 20 should be en
 const maxMentionLength = maxUserNameLength + 5; // Because of the following format: <@&user> and the space
 const maxMessageWithMentionLength = maxMessageLength - maxMentionLength;
 
-type SendMessage = (options: Discord.MessageOptions) => any;
+type SendMessage = (options: Discord.MessageOptions) => Promise<any>;
 
 export abstract class DiscordUtils
 {
     public static readonly maxMessageLength = maxMessageLength;
     public static readonly maxMessageWithMentionLength = maxMessageWithMentionLength;
 
-    // TODO: Make this method async.
-    public static sendMultiMessage (sendMessage: SendMessage, messageTexts: string[], components?: Component[], imageUrl?: string): void
+    public static async sendMultiMessage (
+        sendMessage: SendMessage,
+        messageTexts: string[],
+        components?: Component[],
+        imageUrl?: string
+    ): Promise<void>
     {
         let entryCounter = messageTexts.length - 1;
         for (const messageText of messageTexts)
@@ -41,7 +45,7 @@ export abstract class DiscordUtils
                 }
             }
 
-            sendMessage(messageOptions);
+            await sendMessage(messageOptions);
 
             entryCounter--;
         }

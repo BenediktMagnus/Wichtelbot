@@ -48,7 +48,7 @@ export class DiscordChannel implements Channel
         return this.channel.id;
     }
 
-    public send (text: string, components?: Component[], imageUrl?: string): void
+    public async send (text: string, components?: Component[], imageUrl?: string): Promise<void>
     {
         if (this.channel === null)
         {
@@ -57,6 +57,6 @@ export class DiscordChannel implements Channel
 
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageLength);
 
-        DiscordUtils.sendMultiMessage(this.channel.send.bind(this.channel), splittetText, components, imageUrl);
+        await DiscordUtils.sendMultiMessage(this.channel.send.bind(this.channel), splittetText, components, imageUrl);
     }
 }
