@@ -66,7 +66,7 @@ export abstract class DiscordUtils
                 {
                     const messageButton = new Discord.MessageButton();
                     messageButton.setLabel(component.label);
-                    messageButton.setCustomId(component.value);
+                    messageButton.setCustomId(component.label);
 
                     switch (component.style)
                     {
@@ -101,8 +101,8 @@ export abstract class DiscordUtils
                     {
                         messageSelect.addOptions(
                             {
-                                label: option.label,
-                                value: option.value,
+                                label: option,
+                                value: option,
                             }
                         );
                     }

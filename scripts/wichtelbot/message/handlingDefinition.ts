@@ -100,13 +100,11 @@ export default class HandlingDefinition
                             type: ComponentType.Button,
                             style: ButtonStyle.Success,
                             label: Localisation.commands.yes.commands[0],
-                            value: Localisation.commands.yes.commands[0],
                         },
                         {
                             type: ComponentType.Button,
                             style: ButtonStyle.Danger,
                             label: Localisation.commands.no.commands[0],
-                            value: Localisation.commands.no.commands[0],
                         }
                     ]
                 )
