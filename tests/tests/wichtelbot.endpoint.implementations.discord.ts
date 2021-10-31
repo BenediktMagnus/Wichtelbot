@@ -16,8 +16,8 @@ describe('discord client',
         let discordDMChannel: Discord.DMChannel;
         let discordMessageMock: Discord.Message;
         let discordMessage: Discord.Message;
-        let discordInteractionMock: Discord.MessageComponentInteraction;
-        let discordInteraction: Discord.MessageComponentInteraction;
+        let discordInteractionMock: Discord.ButtonInteraction;
+        let discordInteraction: Discord.ButtonInteraction;
 
         before(
             function ()
@@ -31,10 +31,11 @@ describe('discord client',
                 discordMessageMock = mockito.mock(Discord.Message);
                 discordMessage = mockito.instance(discordMessageMock);
 
-                discordInteractionMock = mockito.mock(Discord.MessageComponentInteraction);
-                mockito.when(discordInteractionMock.isMessageComponent()).thenReturn(true);
+                discordInteractionMock = mockito.mock(Discord.ButtonInteraction);
+                mockito.when(discordInteractionMock.isButton()).thenReturn(true);
                 discordInteraction = mockito.instance(discordInteractionMock);
                 discordInteraction.type = 'MESSAGE_COMPONENT';
+                discordInteraction.componentType = 'BUTTON';
             }
         );
 
@@ -98,7 +99,7 @@ describe('discord client',
         it('has working interaction class.',
             function ()
             {
-                // TODO: This only tests message component interactions.
+                // TODO: This only tests button interactions.
 
                 const testContent = 'testContent';
                 const testAuthor = new DiscordEndpoint.User(discordUser);

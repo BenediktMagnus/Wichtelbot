@@ -61,7 +61,6 @@ export class DiscordInteraction extends MessageWithParser implements Message
         let content: string;
 
         if (this.interaction.isButton()
-        || this.interaction.isMessageComponent()
         || this.interaction.isSelectMenu())
         {
             content = this.interaction.customId;
@@ -88,7 +87,6 @@ export class DiscordInteraction extends MessageWithParser implements Message
     public async defer (): Promise<void>
     {
         if (this.interaction.isButton()
-        || this.interaction.isMessageComponent()
         || this.interaction.isSelectMenu())
         {
             await this.interaction.deferUpdate();
@@ -109,7 +107,6 @@ export class DiscordInteraction extends MessageWithParser implements Message
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
         if (this.interaction.isButton()
-            || this.interaction.isMessageComponent()
             || this.interaction.isSelectMenu())
         {
             const actionRow = new Discord.MessageActionRow();
