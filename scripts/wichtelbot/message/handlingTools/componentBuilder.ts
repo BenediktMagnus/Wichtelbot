@@ -4,6 +4,8 @@ import Localisation from "../../../utility/localisation";
 
 export abstract class ComponentBuilder
 {
+    // TODO: Config.main.commandPrefix for components on servers?
+
     public static readonly yesNo: Component[] = [
         {
             type: ComponentType.Button,

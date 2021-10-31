@@ -105,8 +105,6 @@ describe('discord client',
                 const testAuthor = new DiscordEndpoint.User(discordUser);
                 const testChannel = new DiscordEndpoint.Channel(discordDMChannel);
 
-                const expectedContent = Config.main.commandPrefix + 'testContent';
-
                 mockito.when(discordInteractionMock.channel).thenReturn(discordDMChannel);
 
                 discordInteraction.customId = testContent;
@@ -114,7 +112,7 @@ describe('discord client',
 
                 const interaction = new DiscordEndpoint.Interaction(discordInteraction, new DiscordEndpoint.Client(discordClient));
 
-                assert.strictEqual(interaction.content, expectedContent);
+                assert.strictEqual(interaction.content, testContent);
                 assert.deepStrictEqual(interaction.author, testAuthor);
                 assert.deepStrictEqual(interaction.channel, testChannel);
             }

@@ -58,17 +58,18 @@ export class DiscordInteraction extends MessageWithParser implements Message
 
     public get content (): string
     {
-        let content: string;
-
-        if (this.interaction.isButton()
-        || this.interaction.isSelectMenu())
+        if (this.interaction.isButton())
         {
-            content = this.interaction.customId;
+            return this.interaction.customId;
+        }
+        else if (this.interaction.isSelectMenu())
+        {
+            return this.interaction.values[0]; // TODO: What about multiselect?
         }
         else if (this.interaction.isCommand()
             ||this.interaction.isContextMenu())
         {
-            content = this.interaction.commandName;
+            return Config.main.commandPrefix + this.interaction.commandName;
 
             // TODO: The parameters are missing.
         }
@@ -76,8 +77,6 @@ export class DiscordInteraction extends MessageWithParser implements Message
         {
             throw new Error('Unknown interaction type');
         }
-
-        return Config.main.commandPrefix + content;
     }
 
     /**
@@ -118,7 +117,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
             if (this.interaction.isSelectMenu())
             {
                 // If it is a select menu, the result is the selected option:
-                messageButton.setLabel(this.interaction.values[0]);
+                messageButton.setLabel(this.interaction.values[0]); // TODO: What about multiselect?
             }
             else
             {
