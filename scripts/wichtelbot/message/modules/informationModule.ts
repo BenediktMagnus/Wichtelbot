@@ -126,6 +126,9 @@ export default class InformationModule
     {
         const member = this.database.getMember(message.author.id);
 
+        // TODO: The country from the database is all lowercase, it should be made "normal" (starting with an upper case,
+        //       or even decently localised) at this point.
+
         await this.sendCurrentInformationValue(message, member, member.information.country);
     }
 

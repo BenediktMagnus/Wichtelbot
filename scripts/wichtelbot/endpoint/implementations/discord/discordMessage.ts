@@ -55,6 +55,7 @@ export class DiscordMessage extends MessageWithParser implements Message
         /* TODO: This is really only needed for the Steckbrief.
                  Instead of naively splitting the text, we could create an embed for each part. It has a title for the question of the
                  Steckbrief and a description for the answer with a length limit of 4096 (much more than the 2000 of a message).
+                 -> NO! This is also used for the "sendCurrentXY" functions. Maybe we need to standardise this like the components?
         */
     }
 }
