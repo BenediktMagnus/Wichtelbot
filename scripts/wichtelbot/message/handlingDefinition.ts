@@ -111,7 +111,7 @@ export default class HandlingDefinition
                 if (result === Localisation.texts.informationGiftTypeAsGiver)
                 {
                     this.generalModule.register(message);
-                    await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result);
+                    await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
                     await this.informationModule.sendCurrentGiftTypeAsGiver(message);
                 }
                 else
@@ -140,7 +140,12 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message, result: GiftType): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsGiver(message, result);
-                await this.generalModule.continue(message, State.InformationGiftTypeAsTaker, Localisation.texts.informationGiftTypeAsTaker);
+                await this.generalModule.continue(
+                    message,
+                    State.InformationGiftTypeAsTaker,
+                    Localisation.texts.informationGiftTypeAsTaker,
+                    ComponentBuilder.giftTypes
+                );
                 await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
@@ -183,7 +188,12 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message): Promise<void> =>
             {
                 this.informationModule.setAddress(message);
-                await this.generalModule.continue(message, State.InformationCountry, Localisation.texts.informationCountry);
+                await this.generalModule.continue(
+                    message,
+                    State.InformationCountry,
+                    Localisation.texts.informationCountry,
+                    ComponentBuilder.countries
+                );
                 await this.informationModule.sendCurrentCountry(message);
             }
         },
@@ -246,7 +256,8 @@ export default class HandlingDefinition
                     await this.generalModule.continue(
                         message,
                         State.InformationInternationalAllowed,
-                        Localisation.texts.informationInternationalAllowed
+                        Localisation.texts.informationInternationalAllowed,
+                        ComponentBuilder.yesNo
                     );
                     await this.informationModule.sendCurrentInternationalAllowed(message);
                 }
