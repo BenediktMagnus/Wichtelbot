@@ -197,6 +197,7 @@ export default class MessageHandler
                 //       Short: Instead of <"command parameters"> we use <stateA: "command", stateB: "parameters">.
                 message.hasParameters = false;
 
+                // TODO: Catch all commands should check for the 2.000 character limit as Discord Nitro users can send more.
                 if (! await this.tryToCallStateCommand(new StateCommand(contact.state, ''), message) && // Catch all
                     ! await this.tryToCallStateCommand(new StateCommand(contact.state, message.command), message) && // Specific state command
                     ! await this.tryToCallStateCommand(new StateCommand(State.Nothing, message.command), message)) // Stateless command
