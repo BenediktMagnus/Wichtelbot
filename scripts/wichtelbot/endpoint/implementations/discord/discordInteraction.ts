@@ -113,8 +113,22 @@ export class DiscordInteraction extends MessageWithParser implements Message
             || this.interaction.isSelectMenu())
         {
             const actionRow = new Discord.MessageActionRow();
+
+            // Replace the existing buttons with a disabled button having the result as label:
+
             const messageButton = new Discord.MessageButton();
-            messageButton.setLabel(this.interaction.customId);
+
+            if (this.interaction.isSelectMenu())
+            {
+                // If it is a select menu, the result is the selected option:
+                messageButton.setLabel(this.interaction.values[0]);
+            }
+            else
+            {
+                // If it is a button, the result is the custom ID (which is the same as the button text):
+                messageButton.setLabel(this.interaction.customId);
+            }
+
             messageButton.setCustomId(this.interaction.customId);
             messageButton.setStyle('PRIMARY');
             messageButton.setDisabled(true);
