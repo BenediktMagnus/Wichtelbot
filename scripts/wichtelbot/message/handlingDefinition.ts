@@ -164,7 +164,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message, result: GiftType): Promise<void> =>
             {
                 this.informationModule.setGiftTypeAsTaker(message, result);
-                await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, Localisation.texts.informationGiftTypeAsGiver);
+                await this.generalModule.continue(message, State.InformationAddress, Localisation.texts.informationAddress);
 
                 if (result === GiftType.Digital)
                 {
