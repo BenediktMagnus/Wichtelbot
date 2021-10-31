@@ -1,6 +1,6 @@
-import { ButtonStyle, ComponentType } from '../endpoint/definitions';
 import { CommandHandlerFunction, StateCommandHandlerFunction } from './handlingTools/handlerFunctions';
 import Localisation, { CommandInfo } from '../../utility/localisation';
+import { ComponentBuilder } from './handlingTools/componentBuilder';
 import Config from '../../utility/config';
 import GeneralModule from './modules/generalModule';
 import GiftType from '../types/giftType';
@@ -91,23 +91,7 @@ export default class HandlingDefinition
                 },
             ],
             handlerFunction: async (message, result): Promise<void> =>
-                this.generalModule.continue(
-                    message,
-                    State.Registration,
-                    result,
-                    [
-                        {
-                            type: ComponentType.Button,
-                            style: ButtonStyle.Success,
-                            label: Localisation.commands.yes.commands[0],
-                        },
-                        {
-                            type: ComponentType.Button,
-                            style: ButtonStyle.Danger,
-                            label: Localisation.commands.no.commands[0],
-                        }
-                    ]
-                )
+                this.generalModule.continue(message, State.Registration, result, ComponentBuilder.yesNo)
         },
         // Confirm registration:
         {

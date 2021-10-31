@@ -37,6 +37,7 @@ interface Texts
     contactingResponse: TokenString;
     contactingAlreadyRegistered: TokenString;
     contactingTooLate: TokenString;
+    countrySelectPlaceholder: TokenString;
     goodAfternoon: TokenString;
     goodMorning: TokenString;
     goodNight: TokenString;
@@ -105,6 +106,11 @@ export default abstract class Localisation
     public static get texts (): Texts
     {
         return Localisation._texts;
+    }
+
+    public static get values (): Values
+    {
+        return Localisation._values;
     }
 
     public static translateBoolean (value: boolean): string

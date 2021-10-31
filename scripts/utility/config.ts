@@ -28,12 +28,16 @@ export default abstract class Config
     private static _main: MainConfig|null = null;
     private static _bot: BotConfig|null = null;
 
+    private static _rawCountries: string[]|null = null;
+
     public static reload (): void
     {
         Config._bot = JSON.parse(fs.readFileSync('./config/' + Config.botConfigFileName + '.json', 'utf8')) as BotConfig;
 
         const mainConfig = JSON.parse(fs.readFileSync('./config/' + Config.mainConfigFileName + '.json', 'utf8')) as MainConfig;
         Config._main = mainConfig;
+
+        Config._rawCountries = mainConfig.allowedCountries.slice(); // Clone the array.
 
         // Convert all countries to lowercase for safer comparison:
         for (let i = mainConfig.allowedCountries.length; i-- > 0;)
@@ -92,6 +96,16 @@ export default abstract class Config
         {
             return WichtelEventPhase.Ended;
         }
+    }
+
+    public static get rawCountries (): string[]
+    {
+        if (Config._rawCountries === null)
+        {
+            throw new Error('Config not loaded!');
+        }
+
+        return Config._rawCountries;
     }
 }
 Config.reload();
