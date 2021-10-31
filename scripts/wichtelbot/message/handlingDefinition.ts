@@ -352,6 +352,21 @@ export default class HandlingDefinition
                 this.informationModule.setFreeText(message);
                 await this.informationModule.completeInformationGathering(message);
             }
+        },
+        // Change information:
+        {
+            state: State.Waiting,
+            paths: [
+                {
+                    command: Localisation.commands.changeInformation,
+                    result: Localisation.texts.informationGiftTypeAsGiver,
+                }
+            ],
+            handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
+            {
+                await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
+                await this.informationModule.sendCurrentGiftTypeAsGiver(message);
+            }
         }
     ];
 

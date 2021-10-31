@@ -1,4 +1,7 @@
 {
+    "changeInformation": {
+        "commands": ["ändern", "Angaben ändern", "Informationen ändern"]
+    },
     "contacting": {
         "commands": [
             "wichteln",

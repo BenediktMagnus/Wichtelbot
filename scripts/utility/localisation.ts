@@ -12,6 +12,7 @@ export interface CommandInfo
 
 interface Commands
 {
+    changeInformation: CommandInfo;
     contacting: CommandInfo;
     goodAfternoon: CommandInfo;
     goodMorning: CommandInfo;
