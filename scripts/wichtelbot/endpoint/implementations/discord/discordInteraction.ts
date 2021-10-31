@@ -120,7 +120,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
             messageButton.setDisabled(true);
             actionRow.addComponents(messageButton);
 
-            await this.interaction.update(
+            await this.interaction.editReply(
                 {
                     content: this.interaction.message.content,
                     components: [actionRow],
