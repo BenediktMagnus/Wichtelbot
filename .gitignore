@@ -22,8 +22,7 @@ coverage
 build
 
 # Configurations
-config/bot.json
-config/config.json
+config/*.json
 
 # Databases
 data/*.sqlite
