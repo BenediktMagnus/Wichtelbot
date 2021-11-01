@@ -88,13 +88,20 @@ export default class GeneralModule
 
                 if (contact.type == ContactType.Contact)
                 {
-                    // If the contact type is "Contact", he has not registered in THIS event yet.
-                    text = Localisation.texts.contactingRegistration;
+                    if ((contact.state == State.Nothing) || (contact.state == State.New))
+                    {
+                        // Not registered in THIS event yet.
+                        text = Localisation.texts.contactingRegistration;
+                    }
+                    else
+                    {
+                        // In the middle of the registration:
+                        text = Localisation.texts.contactingWhileRegistration;
+                    }
                 }
                 else
                 {
-                    // Otherwise, if it is of another contact type he wants to
-                    // register again, which we answer with a special text.
+                    // Otherwise, if it is of another contact type he wants to register again, which we answer with a special text.
                     text = Localisation.texts.contactingAlreadyRegistered;
                 }
             }

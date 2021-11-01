@@ -7,6 +7,7 @@
     "contactingResponse": "Hohoho, {contact.nickname}, ich habe dir geschrieben!",
     "contactingAlreadyRegistered": "Hallo, {contact.nickname}!\nDu hast dich bereits für das Wichteln registriert.",
     "contactingTooLate": "Die Anmeldephase ist leider vorbei. Aber das nächste Wichteln kommt bestimmt!",
+    "contactingWhileRegistration": "Du registrierst dich doch gerade!",
     "countrySelectPlaceholder": "Land auswählen",
     "goodAfternoon": "Guten Tag, {contact.nickname}!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",

@@ -38,6 +38,7 @@ interface Texts
     contactingResponse: TokenString;
     contactingAlreadyRegistered: TokenString;
     contactingTooLate: TokenString;
+    contactingWhileRegistration: TokenString;
     countrySelectPlaceholder: TokenString;
     goodAfternoon: TokenString;
     goodMorning: TokenString;
