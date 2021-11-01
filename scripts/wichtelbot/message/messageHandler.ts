@@ -155,6 +155,12 @@ export default class MessageHandler
             return;
         }
 
+        if (message.content.length === 0)
+        {
+            // We will not process empty messages.
+            return;
+        }
+
         if (message.channel.type == ChannelType.Server)
         {
             if (!message.content.startsWith(Config.main.commandPrefix))
