@@ -148,6 +148,8 @@ export default class MessageHandler
 
     public async process (message: Message): Promise<void>
     {
+        // FIXME: How could we handle that two buttons are pressed (two messages are sent) at the same time?
+
         if (message.author.isBot)
         {
             // We will not process messages from bots like ourself.

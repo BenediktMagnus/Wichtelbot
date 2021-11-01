@@ -39,8 +39,6 @@ type StateCommandDefinition = PathedStateCommandDefinition | CatchallStateComman
 
 /**
  * The handling definition is an object-based representation of the state/command handling structure.
- *
- * TODO: This class is bad, not as bad as the informationModule, but bad. The duplicate code must be reduced.
  */
 export default class HandlingDefinition
 {
@@ -78,6 +76,7 @@ export default class HandlingDefinition
                     command: Localisation.commands.maybe,
                     result: Localisation.texts.maybeResponse,
                 }
+                // TODO: Response to "thank you".
             ],
             handlerFunction: async (message: Message, result: TokenString): Promise<void> => this.generalModule.reply(message, result)
         },
@@ -372,8 +371,10 @@ export default class HandlingDefinition
             {
                 await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
                 await this.informationModule.sendCurrentGiftTypeAsGiver(message);
+                // TODO: Send a warning that the change process must be completed otherwise one is not registered anymore.
             }
         }
+        // TODO: Deregister command
     ];
 
     public publicCommands: CommandDefinition[] = [

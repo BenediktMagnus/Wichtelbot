@@ -111,6 +111,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
             const actionRow = new Discord.MessageActionRow();
 
             // Replace the existing buttons with a disabled button having the result as label:
+            // FIXME: Buttons must also be disabled when a normal message is sent instead of a button click!
 
             const messageButton = new Discord.MessageButton();
 

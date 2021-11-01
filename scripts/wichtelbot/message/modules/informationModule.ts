@@ -35,6 +35,8 @@ export default class InformationModule
         const answer = Localisation.texts.oldInformation.process(member, parameters);
 
         await message.reply(answer);
+
+        // TODO: It would be handy if current fulltext messages had an accept button to reuse the current information with one click.
     }
 
     protected async sendCurrentGiftType (message: Message, member: Member, giftType: GiftType): Promise<void>
