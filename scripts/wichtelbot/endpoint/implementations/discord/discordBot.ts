@@ -50,6 +50,12 @@ export class DiscordBot
 
     private async onMessage (discordMessage: Discord.Message): Promise<void>
     {
+        if (discordMessage.system)
+        {
+            // Ignore system messages as they are not meant for the bot and it cannot be replied to them.
+            return;
+        }
+
         const message = new DiscordMessage(discordMessage, this.client);
         await this.messageHandler.process(message);
     }
