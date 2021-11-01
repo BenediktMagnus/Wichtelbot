@@ -79,7 +79,7 @@ export default class HandlingDefinition
                     result: Localisation.texts.maybeResponse,
                 }
             ],
-            handlerFunction: async (message, result): Promise<void> => this.generalModule.reply(message, result)
+            handlerFunction: async (message: Message, result: TokenString): Promise<void> => this.generalModule.reply(message, result)
         },
         // Initialise registration:
         {
@@ -90,7 +90,7 @@ export default class HandlingDefinition
                     result: Localisation.texts.registration,
                 },
             ],
-            handlerFunction: async (message, result): Promise<void> =>
+            handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
                 this.generalModule.continue(message, State.Registration, result, ComponentBuilder.yesNo)
         },
         // Confirm registration:
