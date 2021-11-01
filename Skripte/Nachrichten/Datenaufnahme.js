@@ -1,24 +1,4 @@
 /**
- * Eine Sammlung aller vom Bot benutzten Texte.
- */
-const Texte = require('../../Config/Texte.json');
-
-var Nutzerverwaltung;
-
-var ModulAllgemein;
-
-/**
- * Initialisiert das Datenaufnahmemodul der Nachrichtenverarbeitung.
- * @param {Object} Nutzerbibliothek
- * @param {Object} NeuesModulAllgemein Das allgemeine Modul der Nachrichtenverarbeitung mit grundlegenden Basisfunktionen.
- */
-exports.Initialisieren = function (Nutzerbibliothek, NeuesModulAllgemein)
-{
-    Nutzerverwaltung = Nutzerbibliothek;
-    ModulAllgemein = NeuesModulAllgemein;
-};
-
-/**
  * Nimmt die gesendeten Daten auf und fährt mit dem nächsten Ziel fort.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
@@ -131,17 +111,3 @@ function WunschlisteVerarbeiten (Nachricht, Nutzer)
     ModulAllgemein.AlteDatenAusgeben(Nachricht, Nutzer);
 }
 exports.WunschlisteVerarbeiten = WunschlisteVerarbeiten;
-
-/**
- * Setzt die Datenaufnahme zurück, sodass der Nutzer erneut alles eingeben kann.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- * @param {Object} Nutzer Das Nutzerobjekt mit allen Angaben zum Nutzer.
- * @param {Object} Befehlsobjekt Das Befehlsobjekt der Zustandsdefinition, das gerade ausgeführt wird.
- */
-function DatenÄndern (Nachricht, Nutzer, Befehlsobjekt)
-{
-    Nachricht.reply(Texte.ÄnderungStarten);
-
-    ModulAllgemein.Fortfahren(Nachricht, Nutzer, Befehlsobjekt);
-}
-exports.DatenÄndern = DatenÄndern;
