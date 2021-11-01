@@ -53,8 +53,7 @@ export class TestMessage extends MessageWithParser implements Message
                 );
             },
         };
-        // eslint-disable-next-line @typescript-eslint/require-await
-        this.reply = async (text, imageUrl): Promise<void> => { reply(text, imageUrl); };
+        this.reply = async (text, imageUrl): Promise<void> => { await reply(text, imageUrl); };
     }
 }
 
