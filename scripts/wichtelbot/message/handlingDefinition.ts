@@ -225,7 +225,8 @@ export default class HandlingDefinition
                         await this.generalModule.continue(
                             message,
                             State.InformationInternationalAllowed,
-                            Localisation.texts.informationInternationalAllowed
+                            Localisation.texts.informationInternationalAllowed,
+                            ComponentBuilder.yesNo
                         );
                         await this.informationModule.sendCurrentInternationalAllowed(message);
                     }
