@@ -1,6 +1,7 @@
 {
     "changeInformation": {
-        "commands": ["ändern", "Angaben ändern", "Informationen ändern"]
+        "commands": ["ändern", "Angaben ändern", "Informationen ändern"],
+        "info": "Ermöglicht, die gemachten Angaben noch einmal zu überarbeiten."
     },
     "contacting": {
         "commands": [
