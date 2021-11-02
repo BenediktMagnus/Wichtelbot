@@ -21,18 +21,21 @@ interface CommandPath
     result: any;
 }
 
-interface PathedStateCommandDefinition
+interface BaseCommandDefinition
 {
     state: State;
     /** True if the command comes from a previously send component, otherwise false. */
     expectsComponentResult: boolean;
+}
+
+interface PathedStateCommandDefinition extends BaseCommandDefinition
+{
     paths: CommandPath[];
     handlerFunction: StateCommandHandlerFunction;
 }
 
-interface CatchallStateCommandDefinition
+interface CatchallStateCommandDefinition extends BaseCommandDefinition
 {
-    state: State;
     paths: null;
     handlerFunction: CommandHandlerFunction;
 }
@@ -195,6 +198,7 @@ export default class HandlingDefinition
         // Information, Address:
         {
             state: State.InformationAddress,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -211,6 +215,7 @@ export default class HandlingDefinition
         // Information, Country:
         {
             state: State.InformationCountry,
+            expectsComponentResult: true,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -256,6 +261,7 @@ export default class HandlingDefinition
         // Information, DigitalAddress:
         {
             state: State.InformationDigitalAddress,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -304,6 +310,7 @@ export default class HandlingDefinition
         // Information, Wish List:
         {
             state: State.InformationWishList,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -326,6 +333,7 @@ export default class HandlingDefinition
         // Information, Allergies:
         {
             state: State.InformationAllergies,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -337,6 +345,7 @@ export default class HandlingDefinition
         // Information, GiftExclusion:
         {
             state: State.InformationGiftExclusion,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -348,6 +357,7 @@ export default class HandlingDefinition
         // Information, UserExclusion:
         {
             state: State.InformationUserExclusion,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
@@ -359,6 +369,7 @@ export default class HandlingDefinition
         // Information, FreeText:
         {
             state: State.InformationFreeText,
+            expectsComponentResult: false,
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {

@@ -71,6 +71,11 @@ export default class MessageHandler
         // State commands:
         for (const stateCommandDefinition of this.handlingDefinition.stateCommands)
         {
+            if (stateCommandDefinition.expectsComponentResult)
+            {
+                this.componentExpectedStates.add(stateCommandDefinition.state);
+            }
+
             if (stateCommandDefinition.paths === null)
             {
                 const stateCommand = new StateCommand(stateCommandDefinition.state, '');
@@ -79,11 +84,6 @@ export default class MessageHandler
             }
             else
             {
-                if (stateCommandDefinition.expectsComponentResult)
-                {
-                    this.componentExpectedStates.add(stateCommandDefinition.state);
-                }
-
                 for (const path of stateCommandDefinition.paths)
                 {
                     this.prepareCommandInfo(path.command,
