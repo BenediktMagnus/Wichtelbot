@@ -7,7 +7,7 @@ const maxUserNameLength = 32; // Alternatively maxUserIdLength = 20 should be en
 const maxMentionLength = maxUserNameLength + 5; // Because of the following format: <@&user> and the space
 const maxMessageWithMentionLength = maxMessageLength - maxMentionLength;
 
-type SendMessage = (options: Discord.MessageOptions) => Promise<any>;
+export type SendMessage = (options: Discord.MessageOptions) => Promise<any>;
 
 export abstract class DiscordUtils
 {

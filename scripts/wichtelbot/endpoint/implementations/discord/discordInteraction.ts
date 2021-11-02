@@ -4,7 +4,7 @@ import Config from '../../../../utility/config';
 import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
-import { DiscordUtils } from './discordUtils';
+import { DiscordUtils, SendMessage } from './discordUtils';
 import { MessageWithParser } from '../../base/messageWithParser';
 import Utils from '../../../../utility/utils';
 
@@ -138,7 +138,17 @@ export class DiscordInteraction extends MessageWithParser implements Message
                 }
             );
 
-            await DiscordUtils.sendMultiMessage(this.interaction.followUp.bind(this.interaction), splittetText, components, imageUrl);
+            let sendMessageFunction: SendMessage;
+            if (this.interaction.channel !== null)
+            {
+                sendMessageFunction = this.interaction.channel.send.bind(this.interaction.channel);
+            }
+            else
+            {
+                sendMessageFunction = this.interaction.followUp.bind(this.interaction);
+            }
+
+            await DiscordUtils.sendMultiMessage(sendMessageFunction, splittetText, components, imageUrl);
         }
         else if (this.interaction.isCommand()
             || this.interaction.isContextMenu())

@@ -50,7 +50,7 @@ export class DiscordMessage extends MessageWithParser implements Message
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
-        await DiscordUtils.sendMultiMessage(this.message.reply.bind(this.message), splittetText, components, imageUrl);
+        await DiscordUtils.sendMultiMessage(this.message.channel.send.bind(this.message.channel), splittetText, components, imageUrl);
 
         /* TODO: This is really only needed for the Steckbrief.
                  Instead of naively splitting the text, we could create an embed for each part. It has a title for the question of the
