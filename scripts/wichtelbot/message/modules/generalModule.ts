@@ -58,7 +58,12 @@ export default class GeneralModule
 
         if (Config.currentEventPhase == WichtelEventPhase.Waiting)
         {
-            const registrationPhaseTime = new Date(Config.main.currentEvent.registration * 1000);
+            const registrationTimeInMs = Config.main.currentEvent.registration * 1000;
+            const randomTimeSpanInMs = 1000 * 60 * 60 * 24;
+            const offsetInMs = 1000 * 60 * 60 * 12; // Prevents that the randomness "circles" around the real time.
+            const randomAdditionInMs = Math.random() * randomTimeSpanInMs * (Math.random() > 0.5 ? 1 : -1);
+
+            const registrationPhaseTime = new Date(registrationTimeInMs + randomAdditionInMs + offsetInMs);
 
             const parameters = new KeyValuePairList();
             parameters.addPair('year', registrationPhaseTime.getFullYear().toString());
