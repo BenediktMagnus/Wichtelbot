@@ -62,10 +62,10 @@ export default class GeneralModule
 
             const parameters = new KeyValuePairList();
             parameters.addPair('year', registrationPhaseTime.getFullYear().toString());
-            parameters.addPair('month', registrationPhaseTime.getMonth().toString());
-            parameters.addPair('day', registrationPhaseTime.getDay().toString());
+            parameters.addPair('month', (registrationPhaseTime.getMonth() + 1).toString());
+            parameters.addPair('day', registrationPhaseTime.getDate().toString());
             parameters.addPair('hour', registrationPhaseTime.getHours().toString());
-            parameters.addPair('minute', registrationPhaseTime.getMinutes().toString());
+            parameters.addPair('minute', registrationPhaseTime.getMinutes().toString().padStart(2, '0'));
 
             answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
         }
