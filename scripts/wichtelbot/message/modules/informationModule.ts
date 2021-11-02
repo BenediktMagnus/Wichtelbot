@@ -51,7 +51,7 @@ export default class InformationModule
     {
         // NOTE: Boolean values are only send if they are true. False is the default value.
         //       This is needed to prevent sending "current values" the first time a contact registered.
-        //       We could allow null for boolean values instead.
+        // TODO: We could allow null for boolean values instead.
         if (booleanValue)
         {
             await this.sendCurrentInformationValue(message, member, Localisation.translateBoolean(booleanValue));
@@ -310,5 +310,7 @@ export default class InformationModule
         const answer = text.process(member, parameters);
 
         await message.reply(answer);
+
+        // TODO: Should we send an overview (like the Steckbrief) to the user?
     }
 }

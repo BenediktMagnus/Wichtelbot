@@ -39,7 +39,7 @@ export default interface Message
      */
     channel: Channel;
     /**
-     * The client that is instantiated the message.
+     * The client that has instantiated the message.
      */
     client: Client;
     /**

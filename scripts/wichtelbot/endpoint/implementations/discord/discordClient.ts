@@ -17,7 +17,7 @@ export class DiscordClient implements Client
 
     public getChannel (id: string): DiscordChannel
     {
-        const channel = this.client.channels.cache.get(id);
+        const channel = this.client.channels.cache.get(id); // TODO: Shouldn't this be fetched, too?
 
         if (channel === undefined)
         {

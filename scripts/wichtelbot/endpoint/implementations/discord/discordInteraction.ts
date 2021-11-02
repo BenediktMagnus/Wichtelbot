@@ -1,10 +1,10 @@
 import * as Discord from 'discord.js';
 import { Component, Message } from '../../definitions';
+import { DiscordUtils, SendMessage } from './discordUtils';
 import Config from '../../../../utility/config';
 import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
-import { DiscordUtils, SendMessage } from './discordUtils';
 import { MessageWithParser } from '../../base/messageWithParser';
 import Utils from '../../../../utility/utils';
 

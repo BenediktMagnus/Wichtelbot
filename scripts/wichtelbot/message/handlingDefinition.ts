@@ -403,6 +403,7 @@ export default class HandlingDefinition
             handlerFunction: async (message: Message): Promise<void> => this.generalModule.firstContact(message)
         }
     ];
+
     public moderatorCommands: CommandDefinition[] = [
 
     ];

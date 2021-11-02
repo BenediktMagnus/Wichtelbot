@@ -22,6 +22,9 @@ enum CommandCallResult
 // TODO: Documentation
 export default class MessageHandler
 {
+    // TODO: Make everything private instead of protected (the same for every class where protected is not needed).
+    // TODO: Initialise all fields in the constructor only, not in the declaration (the same for every other class).
+
     protected database: Database;
 
     protected generalModule: GeneralModule;
