@@ -33,6 +33,7 @@ interface Texts
     becameMember: TokenString;
     changedInformation: TokenString;
     commandInfo: TokenString;
+    contactingFailedResponse: TokenString;
     contactingTooEarly: TokenString;
     contactingRegistration: TokenString;
     contactingResponse: TokenString;

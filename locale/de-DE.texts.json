@@ -2,6 +2,7 @@
     "becameMember": "Herzlichen Glückwunsch, du hast dich erfolgreich zum Wichteln „{var.currentEventName}“ registriert.\nToll!\n\nWas nun? Nun wird gewartet, bis der Anmeldeschluss kommt. Dann wird gelost und du bekommst hier alle Informationen zu deinem Wichtel.\n\nDu hast einen Fehler gemacht oder etwas vergessen? Kein Problem, mit „ändern“ kannst du deine Angaben bis zum Anmeldeschluss jederzeit überarbeiten.\n\nFrohes Hibbeln bis zum Auslosetag!",
     "changedInformation": "Angaben erfolgreich geändert. Du kannst jederzeit mittels „ändern“ die Angaben erneut anpassen.",
     "commandInfo": "\"{command.name}\": {command.info}",
+    "contactingFailedResponse": "Ich konnte dich nicht erreichen, {contact.nickname}. Hast du Direktnachrichten von Servermitgliedern erlaubt?",
     "contactingTooEarly": "Die Anmeldephase beginnt erst am {date.day}.{date.month}.{date.year} um {date.hour}:{date.minute} Uhr.",
     "contactingRegistration": "Hallo, {contact.nickname}!\nSchön, dass du am 8ter Wichteln teilnehmen willst!\nSchreibe „registrieren“, um den Anmeldevorgang zu starten.",
     "contactingResponse": "Hohoho, {contact.nickname}, ich habe dir geschrieben!",

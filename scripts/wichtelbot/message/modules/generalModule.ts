@@ -106,10 +106,18 @@ export default class GeneralModule
                 }
             }
 
-            const privateMessage = text.process(message.author);
-            await message.author.send(privateMessage);
+            try
+            {
+                const privateMessage = text.process(message.author);
+                await message.author.send(privateMessage);
 
-            answer = Localisation.texts.contactingResponse.process(message.author);
+                answer = Localisation.texts.contactingResponse.process(message.author);
+            }
+            catch (error)
+            {
+                // If there is an error, we probably are not allowed to send private messages. Inform the user about this:
+                answer = Localisation.texts.contactingFailedResponse.process(message.author);
+            }
         }
         else // Wichteln or Ended
         {
