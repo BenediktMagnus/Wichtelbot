@@ -62,6 +62,7 @@ interface Texts
     oldInformation: TokenString;
     registration: TokenString;
     registrationCancelled: TokenString;
+    sentComponentText: TokenString;
 }
 
 interface Values

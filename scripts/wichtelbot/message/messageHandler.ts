@@ -11,6 +11,14 @@ import StateCommandMap from './handlingTools/stateCommandMap';
 
 type CommandMap = Map<string, CommandHandlerFunction>;
 
+enum CommandCallResult
+{
+    Called = 'called',
+    NotFound = 'notFound',
+    /** Found but the state expects a component origin which is not given. */
+    MissingComponentOrigin = 'missingComponentOrigin',
+}
+
 // TODO: Documentation
 export default class MessageHandler
 {
@@ -28,6 +36,9 @@ export default class MessageHandler
     protected firstContact: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.firstContact(message);
     protected messageNotUnterstood = async (message: Message, availableCommands: CommandInfo[]): Promise<void> =>
         this.generalModule.notUnderstood(message, availableCommands);
+    protected sentComponentText: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.sentComponentText(message);
+
+    protected componentExpectedStates: Set<State> = new Set();
 
     /**
      * The handling definition is an object-based representation of the state/command handling structure.
@@ -68,6 +79,11 @@ export default class MessageHandler
             }
             else
             {
+                if (stateCommandDefinition.expectsComponentResult)
+                {
+                    this.componentExpectedStates.add(stateCommandDefinition.state);
+                }
+
                 for (const path of stateCommandDefinition.paths)
                 {
                     this.prepareCommandInfo(path.command,
@@ -126,24 +142,39 @@ export default class MessageHandler
 
     /**
      * Tries to find a state command and returns if it has been called.
-     * @param stateCommand The state command to search for.
      * @param message The message to call the command with.
+     * @param state The state of the user that sent the message.
      * @return True if the state command has been found and called.
      */
-    protected async tryToCallStateCommand (stateCommand: StateCommand, message: Message): Promise<boolean>
+    protected async tryToCallCommand (message: Message, state: State): Promise<CommandCallResult>
     {
-        if (this.stateCommands.has(stateCommand))
-        {
-            // There is a function available for this specific state command combination.
-            const messageFunction = this.stateCommands.get(stateCommand);
-            await messageFunction(message);
+        const stateCommands = [
+            new StateCommand(state, ''), // Catch all
+            new StateCommand(state, message.command), // Specific state command
+            new StateCommand(State.Nothing, message.command), // Stateless command
+        ];
 
-            return true;
-        }
-        else
+        for (const stateCommand of stateCommands)
         {
-            return false;
+            if (this.stateCommands.has(stateCommand))
+            {
+                // There is a function available for this specific state command.
+
+                if ((!message.hasComponentOrigin) && (stateCommand.state != State.Nothing) && (this.componentExpectedStates.has(state)))
+                {
+                    // A statefull command that expects a component origin but got a text message.
+
+                    return CommandCallResult.MissingComponentOrigin;
+                }
+
+                const messageFunction = this.stateCommands.get(stateCommand);
+                await messageFunction(message);
+
+                return CommandCallResult.Called;
+            }
         }
+
+        return CommandCallResult.NotFound;
     }
 
     public async process (message: Message): Promise<void>
@@ -205,28 +236,39 @@ export default class MessageHandler
                 //       Short: Instead of <"command parameters"> we use <stateA: "command", stateB: "parameters">.
                 message.hasParameters = false;
 
-                // TODO: Catch all commands should check for the 2.000 character limit as Discord Nitro users can send more.
-                if (! await this.tryToCallStateCommand(new StateCommand(contact.state, ''), message) && // Catch all
-                    ! await this.tryToCallStateCommand(new StateCommand(contact.state, message.command), message) && // Specific state command
-                    ! await this.tryToCallStateCommand(new StateCommand(State.Nothing, message.command), message)) // Stateless command
+                // FIXME: Catch all commands should check for the 2.000 character limit as Discord Nitro users can send more.
+
+                const commandCallResult = await this.tryToCallCommand(message, contact.state);
+
+                switch (commandCallResult)
                 {
-                    // No function found.
-
-                    let availableStateCommands = this.commandListsForEveryState.get(contact.state);
-                    if (availableStateCommands === undefined)
+                    case CommandCallResult.Called:
+                        // We need to do nothing here, already called successfully.
+                        break;
+                    case CommandCallResult.MissingComponentOrigin:
+                        // Who sent us the text on a button has to be put to his place:
+                        await this.sentComponentText(message);
+                        break;
+                    case CommandCallResult.NotFound:
                     {
-                        availableStateCommands = [];
+                        let availableStateCommands = this.commandListsForEveryState.get(contact.state);
+                        if (availableStateCommands === undefined)
+                        {
+                            availableStateCommands = [];
+                        }
+
+                        let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
+                        if (availableStatelessCommands === undefined)
+                        {
+                            availableStatelessCommands = [];
+                        }
+
+                        const availableCommands = availableStateCommands.concat(availableStatelessCommands);
+
+                        await this.messageNotUnterstood(message, availableCommands);
+
+                        break;
                     }
-
-                    let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
-                    if (availableStatelessCommands === undefined)
-                    {
-                        availableStatelessCommands = [];
-                    }
-
-                    const availableCommands = availableStateCommands.concat(availableStatelessCommands);
-
-                    await this.messageNotUnterstood(message, availableCommands);
                 }
             }
             else

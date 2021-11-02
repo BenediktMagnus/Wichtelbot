@@ -12,6 +12,8 @@ export class DiscordMessage extends MessageWithParser implements Message
     protected message: Discord.Message;
     protected responsibleClient: DiscordClient;
 
+    public readonly hasComponentOrigin: boolean;
+
     constructor (message: Discord.Message, responsibleClient: DiscordClient)
     {
         super();
@@ -20,6 +22,8 @@ export class DiscordMessage extends MessageWithParser implements Message
         this.responsibleClient = responsibleClient;
         // NOTE: We could use the Discord.Message.client property here, but because we then needed
         //       to create a new DiscordClient instance, this would create a circular dependency.
+
+        this.hasComponentOrigin = false;
     }
 
     public get content (): string

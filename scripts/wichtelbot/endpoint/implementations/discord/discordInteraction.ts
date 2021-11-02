@@ -16,6 +16,8 @@ export class DiscordInteraction extends MessageWithParser implements Message
     private interaction: Discord.Interaction;
     private responsibleClient: DiscordClient;
 
+    public readonly hasComponentOrigin: boolean;
+
     constructor (interaction: Discord.Interaction, responsibleClient: DiscordClient)
     {
         super();
@@ -29,6 +31,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         this.responsibleClient = responsibleClient;
 
         this.hasParameters = false;
+        this.hasComponentOrigin = this.interaction.isButton() || this.interaction.isSelectMenu();
     }
 
     public get author (): DiscordUser

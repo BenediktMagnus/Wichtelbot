@@ -24,6 +24,8 @@ interface CommandPath
 interface PathedStateCommandDefinition
 {
     state: State;
+    /** True if the command comes from a previously send component, otherwise false. */
+    expectsComponentResult: boolean;
     paths: CommandPath[];
     handlerFunction: StateCommandHandlerFunction;
 }
@@ -55,6 +57,7 @@ export default class HandlingDefinition
         // Stateless commands:
         {
             state: State.Nothing,
+            expectsComponentResult: false,
             paths: [
                 {
                     command: Localisation.commands.goodAfternoon,
@@ -83,6 +86,7 @@ export default class HandlingDefinition
         // Initialise registration:
         {
             state: State.New,
+            expectsComponentResult: false,
             paths: [
                 {
                     command: Localisation.commands.registration,
@@ -95,6 +99,7 @@ export default class HandlingDefinition
         // Confirm registration:
         {
             state: State.Registration,
+            expectsComponentResult: true,
             paths: [
                 {
                     command: Localisation.commands.yes,
@@ -122,6 +127,7 @@ export default class HandlingDefinition
         // Information, GiftTypeAsGiver:
         {
             state: State.InformationGiftTypeAsGiver,
+            expectsComponentResult: true,
             paths: [
                 {
                     command: Localisation.commands.informationAnalogue,
@@ -151,6 +157,7 @@ export default class HandlingDefinition
         // Information, GiftTypeAsTaker:
         {
             state: State.InformationGiftTypeAsTaker,
+            expectsComponentResult: true,
             paths: [
                 {
                     command: Localisation.commands.informationAnalogue,
@@ -276,6 +283,7 @@ export default class HandlingDefinition
         // Information, InternationalAllowed:
         {
             state: State.InformationInternationalAllowed,
+            expectsComponentResult: true,
             paths: [
                 {
                     command: Localisation.commands.yes,
@@ -361,6 +369,7 @@ export default class HandlingDefinition
         // Change information:
         {
             state: State.Waiting,
+            expectsComponentResult: false,
             paths: [
                 {
                     command: Localisation.commands.changeInformation,

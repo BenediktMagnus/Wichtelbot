@@ -18,6 +18,11 @@ export default interface Message
      */
     hasParameters: boolean;
     /**
+     * If true, the message comes from a used component (e.g. a button click).
+     * If false, the message is textual user input.
+     */
+    hasComponentOrigin: boolean;
+    /**
      * The command of the message.
      */
     command: string;

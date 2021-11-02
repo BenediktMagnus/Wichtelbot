@@ -151,6 +151,16 @@ export default class GeneralModule
     }
 
     /**
+     * Replies with the appropriate text for sending the text on a component instead of clicking it.
+     */
+    public async sentComponentText (message: Message): Promise<void>
+    {
+        const answer = Localisation.texts.sentComponentText.process(message.author);
+
+        await message.reply(answer);
+    }
+
+    /**
      * Replies context-dependend help messages.
      */
     public async notUnderstood (message: Message, availableCommands: CommandInfo[]): Promise<void>
