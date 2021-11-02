@@ -11,6 +11,7 @@
     },
     "scripts": {
         "build": "./node_modules/.bin/tsc -p scripts/tsconfig.json",
+        "build:release": "./node_modules/.bin/tsc -p scripts/tsconfig.release.json",
         "clean": "rm -rf build && rm -rf coverage",
         "coverage": "./node_modules/.bin/nyc npm run test",
         "coverage:coveralls": "./node_modules/.bin/nyc --reporter=lcov npm run test",
@@ -18,7 +19,7 @@
         "lint": "npm run lint:scripts && npm run lint:tests",
         "lint:scripts": "cd scripts && ../node_modules/.bin/eslint .",
         "lint:tests": "cd tests && ../node_modules/.bin/eslint .",
-        "prepack": "npm run clean && ./node_modules/.bin/tsc -p scripts/tsconfig.release.json",
+        "prepack": "npm run clean && npm run build:release",
         "prestart": "npm run build",
         "start": "node build/main.js",
         "test": "./node_modules/.bin/mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
