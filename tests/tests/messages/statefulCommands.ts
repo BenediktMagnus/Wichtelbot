@@ -113,7 +113,7 @@ describe('statefulCommands',
                 };
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
-                message.content = '';
+                message.content = '-';
 
                 message.prepareContact(State.Registration);
 
@@ -200,7 +200,7 @@ describe('statefulCommands',
                 };
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
-                message.content = '';
+                message.content = '-';
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
@@ -287,7 +287,7 @@ describe('statefulCommands',
                 };
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
-                message.content = '';
+                message.content = '-';
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
@@ -405,17 +405,15 @@ describe('statefulCommands',
         it('InformationCountry -> invalid',
             async function ()
             {
-                const expectedCountry = '';
-
                 const testCallback = (text: string, member: Member): void =>
                 {
-                    assert.strictEqual(text, Localisation.texts.notUnderstood.process(member));
+                    assert.strictEqual(text, Localisation.texts.sentComponentText.process(member));
                     assert.strictEqual(member.state, State.InformationCountry);
-                    assert.strictEqual(member.information.country, expectedCountry);
+                    assert.strictEqual(member.information.country, '');
                 };
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
-                message.content = expectedCountry;
+                message.content = '-';
 
                 const information = new Information('');
 
