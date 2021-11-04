@@ -1,6 +1,6 @@
 import { ChannelType, Message, State } from '../endpoint/definitions';
+import Localisation, { CommandInfo } from '../../utility/localisation';
 import { CommandHandlerFunction } from './handlingTools/handlerFunctions';
-import { CommandInfo } from '../../utility/localisation';
 import Config from '../../utility/config';
 import Database from '../database';
 import GeneralModule from './modules/generalModule';
@@ -32,13 +32,15 @@ export default class MessageHandler
 
     // In private messages:
     protected stateCommands = new StateCommandMap();
+    protected helpCommands: string[] = [];
     // In group/server channels:
     protected publicCommands: CommandMap = new Map<string, CommandHandlerFunction>();
     protected moderatorCommands: CommandMap = new Map<string, CommandHandlerFunction>();
     // Special:
     protected firstContact: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.firstContact(message);
-    protected messageNotUnterstood = async (message: Message, availableCommands: CommandInfo[]): Promise<void> =>
-        this.generalModule.notUnderstood(message, availableCommands);
+    protected messageNotUnterstood = async (message: Message): Promise<void> => this.generalModule.notUnderstood(message);
+    protected sentHelpText = async (message: Message, availableCommands: CommandInfo[]): Promise<void> =>
+        this.generalModule.sendHelpText(message, availableCommands);
     protected sentComponentText: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.sentComponentText(message);
 
     protected componentExpectedStates: Set<State> = new Set();
@@ -101,6 +103,9 @@ export default class MessageHandler
                         }
                     );
                 }
+
+                const commandList = stateCommandDefinition.paths.map((path) => path.command);
+                this.commandListsForEveryState.set(stateCommandDefinition.state, commandList);
             }
         }
 
@@ -125,6 +130,14 @@ export default class MessageHandler
                 }
             );
         }
+
+        // Help commands:
+        this.prepareCommandInfo(Localisation.commands.help,
+            (command: string): void =>
+            {
+                this.helpCommands.push(command);
+            }
+        );
     }
 
     /**
@@ -151,6 +164,15 @@ export default class MessageHandler
      */
     protected async tryToCallCommand (message: Message, state: State): Promise<CommandCallResult>
     {
+        // Help command:
+        if (this.helpCommands.includes(message.command))
+        {
+            const availableCommands = this.getAvailableCommands(state);
+            await this.sentHelpText(message, availableCommands);
+
+            return CommandCallResult.Called;
+        }
+
         const stateCommands = [
             new StateCommand(state, ''), // Catch all
             new StateCommand(state, message.command), // Specific state command
@@ -253,25 +275,8 @@ export default class MessageHandler
                         await this.sentComponentText(message);
                         break;
                     case CommandCallResult.NotFound:
-                    {
-                        let availableStateCommands = this.commandListsForEveryState.get(contact.state);
-                        if (availableStateCommands === undefined)
-                        {
-                            availableStateCommands = [];
-                        }
-
-                        let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
-                        if (availableStatelessCommands === undefined)
-                        {
-                            availableStatelessCommands = [];
-                        }
-
-                        const availableCommands = availableStateCommands.concat(availableStatelessCommands);
-
-                        await this.messageNotUnterstood(message, availableCommands);
-
+                        await this.messageNotUnterstood(message);
                         break;
-                    }
                 }
             }
             else
@@ -285,5 +290,24 @@ export default class MessageHandler
             // We must ignore channels of type "Ignore".
             return;
         }
+    }
+
+    private getAvailableCommands (state: State): CommandInfo[]
+    {
+        let availableStateCommands = this.commandListsForEveryState.get(state);
+        if (availableStateCommands === undefined)
+        {
+            availableStateCommands = [];
+        }
+
+        let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
+        if (availableStatelessCommands === undefined)
+        {
+            availableStatelessCommands = [];
+        }
+
+        const availableCommands = availableStateCommands.concat(availableStatelessCommands);
+
+        return availableCommands;
     }
 }

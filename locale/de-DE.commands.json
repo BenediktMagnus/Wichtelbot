@@ -49,6 +49,19 @@
             "hey"
         ]
     },
+    "help": {
+        "commands": [
+            "Hilfe",
+            "Hilf mir",
+            "Info",
+            "Befehle",
+            "Kommandos",
+            "Was",
+            "Wie bitte",
+            "Hä"
+        ],
+        "info": "Zeigt an, welche Befehle derzeit zur Verfügung stehen."
+    },
     "informationAnalogue": {
         "commands": ["analog", "nur analog"]
     },

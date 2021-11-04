@@ -19,6 +19,7 @@ interface Commands
     goodMorning: CommandInfo;
     goodNight: CommandInfo;
     hello: CommandInfo;
+    help: CommandInfo;
     informationAnalogue: CommandInfo;
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
@@ -60,6 +61,7 @@ interface Texts
     informationUserExclusion: TokenString;
     informationWishList: TokenString;
     maybeResponse: TokenString;
+    noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;
     registration: TokenString;

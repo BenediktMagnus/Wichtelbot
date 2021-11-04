@@ -163,9 +163,16 @@ export default class GeneralModule
     /**
      * Replies context-dependend help messages.
      */
-    public async notUnderstood (message: Message, availableCommands: CommandInfo[]): Promise<void>
+    public async notUnderstood (message: Message): Promise<void>
     {
-        let answer = Localisation.texts.notUnderstood.process(message.author);
+        const answer = Localisation.texts.notUnderstood.process(message.author);
+
+        await message.reply(answer);
+    }
+
+    public async sendHelpText (message: Message, availableCommands: CommandInfo[]): Promise<void>
+    {
+        let helpText: string|null = null;
 
         // Print every available command with an info text as help message:
         if (availableCommands.length > 0)
@@ -179,8 +186,11 @@ export default class GeneralModule
                     continue;
                 }
 
-                const parameters = new KeyValuePairList('name', commandInfo.info);
-                const singleCommandInfoText = Localisation.texts.commandInfo.process(undefined, parameters);
+                const parameters = new KeyValuePairList();
+                parameters.addPair('name', commandInfo.commands[0]);
+                parameters.addPair('info', commandInfo.info);
+
+                const singleCommandInfoText = Localisation.texts.commandInfo.process(message.author, parameters);
 
                 commandInfoTexts.push(singleCommandInfoText);
             }
@@ -190,12 +200,18 @@ export default class GeneralModule
                 const infoText = commandInfoTexts.join('\n');
 
                 const parameters = new KeyValuePairList('commandInfo', infoText);
-                const helpText = Localisation.texts.helpText.process(undefined, parameters);
-
-                answer += '\n\n' + helpText;
+                helpText = Localisation.texts.helpText.process(message.author, parameters);
             }
         }
 
-        await message.reply(answer);
+        if (helpText === null)
+        {
+            const answer = Localisation.texts.noCommandsAvailable.process(message.author);
+            await message.reply(answer);
+        }
+        else
+        {
+            await message.reply(helpText);
+        }
     }
 }
