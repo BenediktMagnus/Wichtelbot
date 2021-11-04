@@ -14,6 +14,7 @@ interface Commands
 {
     changeInformation: CommandInfo;
     contacting: CommandInfo;
+    deregistration: CommandInfo;
     goodAfternoon: CommandInfo;
     goodMorning: CommandInfo;
     goodNight: CommandInfo;
@@ -41,6 +42,7 @@ interface Texts
     contactingTooLate: TokenString;
     contactingWhileRegistration: TokenString;
     countrySelectPlaceholder: TokenString;
+    deregistration: TokenString;
     goodAfternoon: TokenString;
     goodMorning: TokenString;
     goodNight: TokenString;

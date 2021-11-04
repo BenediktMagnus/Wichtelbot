@@ -14,6 +14,10 @@
             "wischtöööln"
         ]
     },
+    "deregistration": {
+        "commands": ["abmelden"],
+        "info": "Hebt die Registrierung auf und meldet dich vom Wichteln ab."
+    },
     "goodAfternoon": {
         "commands": [
             "guten Tag",

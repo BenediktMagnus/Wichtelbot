@@ -385,13 +385,23 @@ export default class HandlingDefinition
                 {
                     command: Localisation.commands.changeInformation,
                     result: Localisation.texts.informationGiftTypeAsGiver,
+                },
+                {
+                    command: Localisation.commands.deregistration,
+                    result: Localisation.texts.deregistration,
                 }
             ],
             handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
             {
-                await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
-                await this.informationModule.sendCurrentGiftTypeAsGiver(message);
-                // TODO: Send a warning that the change process must be completed otherwise one is not registered anymore.
+                if (result === Localisation.texts.informationGiftTypeAsGiver)
+                {
+                    await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
+                    await this.informationModule.sendCurrentGiftTypeAsGiver(message);
+                }
+                else if (result === Localisation.texts.deregistration)
+                {
+                    await this.generalModule.continue(message, State.New, result);
+                }
             }
         }
         // TODO: Deregister command
