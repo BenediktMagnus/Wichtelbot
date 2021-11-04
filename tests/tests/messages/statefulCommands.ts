@@ -72,6 +72,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.yes.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareContact(State.Registration);
 
@@ -92,6 +93,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.no.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareContact(State.Registration);
 
@@ -133,6 +135,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.informationAnalogue.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
@@ -154,6 +157,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.informationDigital.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
@@ -175,6 +179,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.informationBothAnalogueAndDigital.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationGiftTypeAsGiver);
 
@@ -217,6 +222,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.informationAnalogue.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
@@ -238,6 +244,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.informationDigital.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
@@ -259,6 +266,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.informationBothAnalogueAndDigital.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationGiftTypeAsTaker);
 
@@ -326,6 +334,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = expectedCountry;
+                message.hasComponentOrigin = true;
 
                 const information = new Information('');
                 information.giftTypeAsTaker = GiftType.All;
@@ -352,6 +361,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = expectedCountry;
+                message.hasComponentOrigin = true;
 
                 const information = new Information('');
                 information.giftTypeAsGiver = GiftType.All;
@@ -378,6 +388,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = expectedCountry;
+                message.hasComponentOrigin = true;
 
                 const information = new Information('');
                 information.giftTypeAsTaker = GiftType.Analogue;
@@ -480,6 +491,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.yes.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationInternationalAllowed);
 
@@ -501,6 +513,7 @@ describe('statefulCommands',
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = Localisation.commands.no.commands[0];
+                message.hasComponentOrigin = true;
 
                 message.prepareMember(State.InformationInternationalAllowed);
 

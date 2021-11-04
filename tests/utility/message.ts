@@ -17,11 +17,14 @@ export class TestMessage extends MessageWithParser implements Message
     public author: User;
     public channel: Channel;
     public client: Client;
+    public hasComponentOrigin: boolean;
     public reply: (text: string, components?: Component[], imageUrl?: string) => Promise<void>;
 
     constructor (reply: SendOrReplyFunction, userSend: SendOrReplyFunction, channelSend: SendOrReplyFunction, channelType: ChannelType)
     {
         super();
+
+        this.hasComponentOrigin = false;
 
         // TODO: Utility for author/client creation.
 
