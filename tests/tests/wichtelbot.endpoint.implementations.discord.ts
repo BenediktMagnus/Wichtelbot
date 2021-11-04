@@ -116,22 +116,5 @@ describe('discord client',
                 assert.deepStrictEqual(interaction.channel, testChannel);
             }
         );
-
-        it('can handle multi-messages.',
-            async function ()
-            {
-                const message = new DiscordEndpoint.Message(discordMessage, new DiscordEndpoint.Client(discordClient));
-
-                let longMessage = '';
-                while (longMessage.length < 5000) // NOTE: Must be adjusted in case the limit is changed by Discord.
-                {
-                    longMessage += GeneralTestUtility.createRandomString();
-                }
-
-                await message.reply(longMessage);
-
-                mockito.verify(discordMessageMock.reply(mockito.anything())).times(3);
-            }
-        );
     }
 );
