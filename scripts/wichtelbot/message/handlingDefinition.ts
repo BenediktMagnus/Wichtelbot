@@ -377,7 +377,7 @@ export default class HandlingDefinition
                 await this.informationModule.completeInformationGathering(message);
             }
         },
-        // Change information:
+        // Waiting for Wichtel assignment:
         {
             state: State.Waiting,
             expectsComponentResult: false,
@@ -388,7 +388,7 @@ export default class HandlingDefinition
                 },
                 {
                     command: Localisation.commands.deregistration,
-                    result: Localisation.texts.deregistration,
+                    result: Localisation.texts.confirmDeregistration,
                 }
             ],
             handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
@@ -398,13 +398,38 @@ export default class HandlingDefinition
                     await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
                     await this.informationModule.sendCurrentGiftTypeAsGiver(message);
                 }
-                else if (result === Localisation.texts.deregistration)
+                else if (result === Localisation.texts.confirmDeregistration)
                 {
-                    await this.generalModule.continue(message, State.New, result);
+                    await this.generalModule.continue(message, State.ConfirmDeregistration, result, ComponentBuilder.yesNo);
+                }
+            }
+        },
+        // Confirm Deregistration:
+        {
+            state: State.ConfirmDeregistration,
+            expectsComponentResult: true,
+            paths: [
+                {
+                    command: Localisation.commands.yes,
+                    result: true
+                },
+                {
+                    command: Localisation.commands.no,
+                    result: false
+                },
+            ],
+            handlerFunction: async (message: Message, result: boolean): Promise<void> =>
+            {
+                if (result)
+                {
+                    await this.generalModule.continue(message, State.New, Localisation.texts.deregistration);
+                }
+                else
+                {
+                    await this.generalModule.continue(message, State.Waiting, Localisation.texts.deregistrationCancelled);
                 }
             }
         }
-        // TODO: Deregister command
     ];
 
     public publicCommands: CommandDefinition[] = [

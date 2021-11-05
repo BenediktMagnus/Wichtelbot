@@ -18,7 +18,7 @@ enum State
     InformationFreeText = 'informationFreeText',
     // As member:
     Waiting = 'waiting', // Waiting for becoming a wichtel.
-    ConfirmInformationChange = 'confirmInformationChange',
+    ConfirmDeregistration = 'confirmDeregistration',
     // As wichtel:
     MessageToGiftGiver = 'messageToGiftGiver',
     MessageToGiftTaker = 'messageToGiftTaker',

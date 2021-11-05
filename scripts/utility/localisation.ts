@@ -35,6 +35,7 @@ interface Texts
     becameMember: TokenString;
     changedInformation: TokenString;
     commandInfo: TokenString;
+    confirmDeregistration: TokenString;
     contactingFailedResponse: TokenString;
     contactingTooEarly: TokenString;
     contactingRegistration: TokenString;
@@ -44,6 +45,7 @@ interface Texts
     contactingWhileRegistration: TokenString;
     countrySelectPlaceholder: TokenString;
     deregistration: TokenString;
+    deregistrationCancelled: TokenString;
     goodAfternoon: TokenString;
     goodMorning: TokenString;
     goodNight: TokenString;
