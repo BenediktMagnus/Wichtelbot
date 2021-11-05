@@ -61,6 +61,7 @@ interface Texts
     informationUserExclusion: TokenString;
     informationWishList: TokenString;
     maybeResponse: TokenString;
+    messageTooLong: TokenString;
     noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;

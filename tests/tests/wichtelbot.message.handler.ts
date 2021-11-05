@@ -5,6 +5,7 @@ import { assert } from 'chai';
 import Config from '../../scripts/utility/config';
 import ConfigTestUtility from '../utility/config';
 import Database from '../../scripts/wichtelbot/database';
+import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 import Localisation from '../../scripts/utility/localisation';
 import MessageHandler from '../../scripts/wichtelbot/message/messageHandler';
 
@@ -126,6 +127,33 @@ describe('message handler',
 
                 const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
                 author = message.author;
+
+                await messageHandler.process(message);
+
+                assert.strictEqual(called, true);
+            }
+        );
+
+        it('answers with messageTooLong if message is too long.',
+            async function ()
+            {
+                let called = false;
+                let author: User;
+
+                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                {
+                    const parameters = new KeyValuePairList();
+                    parameters.addPair('messageLength', `${message.content.length}`);
+                    parameters.addPair('maxLength', `${Config.main.maxMessageLength}`);
+
+                    assert.strictEqual(text, Localisation.texts.messageTooLong.process(author, parameters));
+                    called = true;
+                };
+
+                const message = new TestMessageWithFixedAuthor(resultCallback, resultCallback, resultCallback, ChannelType.Personal);
+                author = message.author;
+
+                message.content = 'a'.repeat(Config.main.maxMessageLength + 1);
 
                 await messageHandler.process(message);
 

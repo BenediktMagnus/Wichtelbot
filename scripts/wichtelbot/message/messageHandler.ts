@@ -213,6 +213,13 @@ export default class MessageHandler
             return;
         }
 
+        if (message.content.length > Config.main.maxMessageLength)
+        {
+            await this.generalModule.sendMessageTooLong(message);
+
+            return;
+        }
+
         if (message.channel.type == ChannelType.Server)
         {
             if (!message.content.startsWith(Config.main.commandPrefix))
@@ -254,8 +261,6 @@ export default class MessageHandler
                 //       make inputs, we use catch all commands to save the full input.
                 //       Short: Instead of <"command parameters"> we use <stateA: "command", stateB: "parameters">.
                 message.hasParameters = false;
-
-                // FIXME: Catch all commands should check for the 2.000 character limit as Discord Nitro users can send more.
 
                 const commandCallResult = await this.tryToCallCommand(message, contact.state);
 

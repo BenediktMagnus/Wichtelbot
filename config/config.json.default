@@ -1,6 +1,7 @@
 {
     "locale": "de-DE",
     "commandPrefix": "!",
+    "maxMessageLength": "2000",
     "moderationChannelIds": [
         "0"
     ],

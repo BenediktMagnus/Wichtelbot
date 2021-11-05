@@ -7,6 +7,7 @@ interface MainConfig
 {
     locale: string;
     commandPrefix: string;
+    maxMessageLength: number;
     moderationChannelIds: string[];
     allowedCountries: string[];
     currentEvent: WichtelEvent;

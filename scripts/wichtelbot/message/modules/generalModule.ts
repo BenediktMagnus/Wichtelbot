@@ -194,4 +194,15 @@ export default class GeneralModule
             await message.reply(helpText);
         }
     }
+
+    public async sendMessageTooLong (message: Message): Promise<void>
+    {
+        const parameters = new KeyValuePairList();
+        parameters.addPair('messageLength', `${message.content.length}`);
+        parameters.addPair('maxLength', `${Config.main.maxMessageLength}`);
+
+        const answer = Localisation.texts.messageTooLong.process(message.author, parameters);
+
+        await message.reply(answer);
+    }
 }

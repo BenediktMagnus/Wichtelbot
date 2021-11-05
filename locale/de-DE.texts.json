@@ -28,6 +28,7 @@
     "informationUserExclusion": "Du möchtest irgendjemandem lieber nichts schenken, zum Beispiel, weil ihr eh gut befreundet seid? Dann darfst du hier bis zu drei Personen nennen (Discordname mit Tag, bspw. „Wichtelbot#6656“), die dir nicht mehr zugelost werden können. Wenn du niemanden ausschließen möchtest, schreibe einfach „-“.\n\nUnabhängig davon werde ich versuchen, dir kein Wichtelkind zuzuweisen, das du schon einmal bewichtelt hast.",
     "informationWishList": "Worüber freust du dich?\nDu kannst hier einen kleinen Text schreiben, was dir so gefällt oder ganz konkret eine Steam- oder Amazonwunschliste verlinken. Alles ist erlaubt, was deinem Wichtel dabei hilft, sich ein Bild zu machen, womit er dir eine Freude bereiten könnte.\n\nZusätzlich erhältst du später noch die Möglichkeit, Dinge auszuschließen, die du nicht magst und etwas ganz allgemein über dich zu erzählen.",
     "maybeResponse": "Ein Vielleicht gibts nicht! Die Weltherrschaft braucht eindeutige Ergebnisse!",
+    "messageTooLong": "Deine letzte Nachricht ist {var.messageLength} Zeichen lang. Erlaubt sind aber nur {var.maxLength} Zeichen. Kürze sie bitte und schicke mir dann den neuen Text.",
     "noCommandsAvailable": "Derzeit stehen keine besonderen Befehle zur Verfügung.",
     "notUnderstood": "Häää? Probiers nochmal.",
     "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
