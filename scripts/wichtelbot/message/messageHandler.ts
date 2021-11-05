@@ -36,12 +36,6 @@ export default class MessageHandler
     // In group/server channels:
     protected publicCommands: CommandMap = new Map<string, CommandHandlerFunction>();
     protected moderatorCommands: CommandMap = new Map<string, CommandHandlerFunction>();
-    // Special:
-    protected firstContact: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.firstContact(message);
-    protected messageNotUnterstood = async (message: Message): Promise<void> => this.generalModule.notUnderstood(message);
-    protected sentHelpText = async (message: Message, availableCommands: CommandInfo[]): Promise<void> =>
-        this.generalModule.sendHelpText(message, availableCommands);
-    protected sentComponentText: CommandHandlerFunction = async (message): Promise<void> => this.generalModule.sentComponentText(message);
 
     protected componentExpectedStates: Set<State> = new Set();
 
@@ -168,7 +162,7 @@ export default class MessageHandler
         if (this.helpCommands.includes(message.command))
         {
             const availableCommands = this.getAvailableCommands(state);
-            await this.sentHelpText(message, availableCommands);
+            await this.generalModule.sendHelpText(message, availableCommands);
 
             return CommandCallResult.Called;
         }
@@ -271,18 +265,26 @@ export default class MessageHandler
                         // We need to do nothing here, already called successfully.
                         break;
                     case CommandCallResult.MissingComponentOrigin:
-                        // Who sent us the text on a button has to be put to his place:
-                        await this.sentComponentText(message);
-                        break;
+                        {
+                            // Who sent us the text on a button has to be put to his place:
+                            const answer = Localisation.texts.sentComponentText.process(message.author);
+                            await message.reply(answer);
+
+                            break;
+                        }
                     case CommandCallResult.NotFound:
-                        await this.messageNotUnterstood(message);
-                        break;
+                        {
+                            const answer = Localisation.texts.notUnderstood.process(message.author);
+                            await message.reply(answer);
+
+                            break;
+                        }
                 }
             }
             else
             {
                 // First contact:
-                await this.firstContact(message);
+                await this.generalModule.makeFirstContact(message);
             }
         }
         else

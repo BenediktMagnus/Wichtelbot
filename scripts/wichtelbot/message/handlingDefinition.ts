@@ -410,7 +410,7 @@ export default class HandlingDefinition
     public publicCommands: CommandDefinition[] = [
         {
             commandInfo: Localisation.commands.contacting,
-            handlerFunction: async (message: Message): Promise<void> => this.generalModule.firstContact(message)
+            handlerFunction: async (message: Message): Promise<void> => this.generalModule.makeFirstContact(message)
         }
     ];
 
