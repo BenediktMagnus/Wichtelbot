@@ -1,3 +1,4 @@
+import { Visualisation, VisualisationType } from "../../endpoint/definitions";
 import Config from "../../../utility/config";
 import ContactType from "../../types/contactType";
 import Database from "../../database";

@@ -1,4 +1,4 @@
-import { Component } from "./component/component";
+import { Additions } from "./additions";
 
 /**
  * Interface representation of a user.
@@ -28,10 +28,7 @@ export default interface User
      * How this is exactly represented (with a direct message or as a mention or similar)
      * is free to be chosen by the client library.
      * @param text The text to send.
-     * @param components An optional list of components to send with the message. The client library decides if and how to present these.
-     * @param imageUrl An optional URL to an image. The client library must decide how it
-     * uses this information. It can show the image directly, attach it to the message,
-     * send it separately or simply send the URL (if nothing else is possible).
+     * @param additions Optional additions.
      */
-    send (text: string, components?: Component[], imageUrl?: string): Promise<void>;
+    send (text: string, additions?: Additions): Promise<void>;
 }

@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import { Component, Message } from '../../definitions';
+import { Additions, Message } from '../../definitions';
 import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
@@ -50,16 +50,10 @@ export class DiscordMessage extends MessageWithParser implements Message
         return this.responsibleClient;
     }
 
-    public async reply (text: string, components?: Component[], imageUrl?: string): Promise<void>
+    public async reply (text: string, additions?: Additions): Promise<void>
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
-        await DiscordUtils.sendMultiMessage(this.message.channel.send.bind(this.message.channel), splittetText, components, imageUrl);
-
-        /* TODO: This is really only needed for the Steckbrief.
-                 Instead of naively splitting the text, we could create an embed for each part. It has a title for the question of the
-                 Steckbrief and a description for the answer with a length limit of 4096 (much more than the 2000 of a message).
-                 -> NO! This is also used for the "sendCurrentXY" functions. Maybe we need to standardise this like the components?
-        */
+        await DiscordUtils.sendMultiMessage(this.message.channel.send.bind(this.message.channel), splittetText, additions);
     }
 }

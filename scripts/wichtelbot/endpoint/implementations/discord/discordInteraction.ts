@@ -1,5 +1,5 @@
 import * as Discord from 'discord.js';
-import { Component, Message } from '../../definitions';
+import { Additions, Message } from '../../definitions';
 import { DiscordUtils, SendMessage } from './discordUtils';
 import Config from '../../../../utility/config';
 import { DiscordChannel } from './discordChannel';
@@ -104,7 +104,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         }
     }
 
-    public async reply (text: string, components?: Component[], imageUrl?: string): Promise<void>
+    public async reply (text: string, additions?: Additions): Promise<void>
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
@@ -150,12 +150,12 @@ export class DiscordInteraction extends MessageWithParser implements Message
                 sendMessageFunction = this.interaction.followUp.bind(this.interaction);
             }
 
-            await DiscordUtils.sendMultiMessage(sendMessageFunction, splittetText, components, imageUrl);
+            await DiscordUtils.sendMultiMessage(sendMessageFunction, splittetText, additions);
         }
         else if (this.interaction.isCommand()
             || this.interaction.isContextMenu())
         {
-            await DiscordUtils.sendMultiMessage(this.interaction.editReply.bind(this.interaction), splittetText, components, imageUrl);
+            await DiscordUtils.sendMultiMessage(this.interaction.editReply.bind(this.interaction), splittetText, additions);
         }
         else
         {

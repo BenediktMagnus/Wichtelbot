@@ -1,5 +1,5 @@
 import Localisation, { CommandInfo } from '../../../utility/localisation';
-import { Component } from '../../endpoint/definitions';
+import { Additions } from '../../endpoint/definitions';
 import Config from '../../../utility/config';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
@@ -28,24 +28,24 @@ export default class GeneralModule
      * Will set User/Contact data for the TokenString.
      * @param text The text to reply.
      */
-    public async reply (message: Message, text: TokenString, components?: Component[]): Promise<void>
+    public async reply (message: Message, text: TokenString, options?: Additions): Promise<void>
     {
         const whatIsThere = this.database.getWhatIsThere(message.author);
         const answer = text.process(whatIsThere);
 
-        await message.reply(answer, components);
+        await message.reply(answer, options);
     }
 
     /**
      * Sets the state of the contact, then replies.
      */
-    public async continue (message: Message, state: State, text: TokenString, components?: Component[]): Promise<void>
+    public async continue (message: Message, state: State, text: TokenString, options?: Additions): Promise<void>
     {
         const contact = this.database.getContact(message.author.id);
         contact.state = state;
         this.database.updateContact(contact);
 
-        await this.reply(message, text, components);
+        await this.reply(message, text, options);
     }
 
     /**
@@ -195,11 +195,11 @@ export default class GeneralModule
         }
     }
 
-    public async sendMessageTooLong (message: Message): Promise<void>
+    public async sendMessageTooLong (message: Message, maxLength?: number): Promise<void>
     {
         const parameters = new KeyValuePairList();
         parameters.addPair('messageLength', `${message.content.length}`);
-        parameters.addPair('maxLength', `${Config.main.maxMessageLength}`);
+        parameters.addPair('maxLength', `${maxLength ?? Config.main.maxMessageLength}`);
 
         const answer = Localisation.texts.messageTooLong.process(message.author, parameters);
 

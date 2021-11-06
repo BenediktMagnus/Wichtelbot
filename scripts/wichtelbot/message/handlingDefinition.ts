@@ -50,6 +50,11 @@ export default class HandlingDefinition
     protected generalModule: GeneralModule;
     protected informationModule: InformationModule;
 
+    private get maxShortMessageLength (): number
+    {
+        return Math.floor(Config.main.maxMessageLength / 2);
+    }
+
     constructor (generalModule: GeneralModule, informationModule: InformationModule)
     {
         this.generalModule = generalModule;
@@ -200,6 +205,13 @@ export default class HandlingDefinition
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
+                if (message.content.length > this.maxShortMessageLength)
+                {
+                    await this.generalModule.sendMessageTooLong(message, this.maxShortMessageLength);
+
+                    return;
+                }
+
                 this.informationModule.setAddress(message);
                 await this.generalModule.continue(
                     message,
@@ -261,6 +273,13 @@ export default class HandlingDefinition
             paths: null,
             handlerFunction: async (message: Message): Promise<void> =>
             {
+                if (message.content.length > this.maxShortMessageLength)
+                {
+                    await this.generalModule.sendMessageTooLong(message, this.maxShortMessageLength);
+
+                    return;
+                }
+
                 this.informationModule.setDigitalAddress(message);
 
                 const neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);

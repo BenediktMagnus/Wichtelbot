@@ -1,11 +1,12 @@
 import * as Discord from 'discord.js';
-import { ButtonStyle, Component, ComponentType } from '../../definitions';
+import { Additions, ButtonStyle, Component, ComponentType, Visualisation, VisualisationType } from '../../definitions';
 
 const safetyMargin = 16;
 const maxMessageLength = 2000 - safetyMargin;
 const maxUserNameLength = 32; // Alternatively maxUserIdLength = 20 should be enough, but this is safe.
 const maxMentionLength = maxUserNameLength + 5; // Because of the following format: <@&user> and the space
 const maxMessageWithMentionLength = maxMessageLength - maxMentionLength;
+const maxEmbedLength = 6000;
 
 export type SendMessage = (options: Discord.MessageOptions) => Promise<any>;
 
@@ -17,8 +18,7 @@ export abstract class DiscordUtils
     public static async sendMultiMessage (
         sendMessage: SendMessage,
         messageTexts: string[],
-        components?: Component[],
-        imageUrl?: string
+        additions?: Additions
     ): Promise<void>
     {
         let entryCounter = messageTexts.length - 1;
@@ -28,26 +28,77 @@ export abstract class DiscordUtils
                 content: messageText,
             };
 
-            if (entryCounter === 0)
+            if ((entryCounter === 0) && (additions !== undefined))
             {
-                // Components and images must be attached to the last message we send.
+                // Optional additions must be attached to the last message we send.
 
-                if (components !== undefined)
+                if (typeof additions === 'string')
                 {
-                    const messageComponents = this.convertComponents(components);
+                    const attachment = new Discord.MessageAttachment(additions);
+                    messageOptions.attachments = [attachment];
+                }
+                else if (this.isComponents(additions))
+                {
+                    const messageComponents = this.convertComponents(additions);
                     messageOptions.components = messageComponents;
                 }
-
-                if (imageUrl !== undefined)
+                else if (this.isVisualisations(additions))
                 {
-                    const attachment = new Discord.MessageAttachment(imageUrl);
-                    messageOptions.attachments = [attachment];
+                    // The compact visualisations are added as a shared embed to the last message.
+
+                    const sharedCompactEmbed = new Discord.MessageEmbed();
+
+                    for (const visualisation of additions)
+                    {
+                        if (visualisation.type == VisualisationType.Compact)
+                        {
+                            sharedCompactEmbed.addField(visualisation.headline, visualisation.text);
+                        }
+                    }
+
+                    messageOptions.embeds = [sharedCompactEmbed];
                 }
             }
 
             await sendMessage(messageOptions);
 
             entryCounter--;
+        }
+
+        // All normal visualisations are send as seperate messages:
+        if ((additions !== undefined) && (this.isVisualisations(additions)))
+        {
+            let embeds: Discord.MessageEmbed[] = [];
+            let characterSum = 0;
+
+            for (const visualisation of additions)
+            {
+                if (visualisation.type == VisualisationType.Normal)
+                {
+                    const normalEmbed = new Discord.MessageEmbed();
+                    normalEmbed.setTitle(visualisation.headline);
+                    normalEmbed.setDescription(visualisation.text);
+
+                    const characterCount = visualisation.headline.length + visualisation.text.length;
+
+                    if (characterSum + characterCount > maxEmbedLength)
+                    {
+                        await sendMessage({ embeds: embeds });
+                        embeds = [normalEmbed];
+                        characterSum = characterCount;
+                    }
+                    else
+                    {
+                        embeds.push(normalEmbed);
+                        characterSum += characterCount;
+                    }
+                }
+            }
+
+            if (embeds.length > 0)
+            {
+                await sendMessage({ embeds: embeds });
+            }
         }
     }
 
@@ -116,5 +167,37 @@ export abstract class DiscordUtils
 
         // TODO: What about multiple rows?
         return [actionRow];
+    }
+
+    public static isComponents (additions: Additions): additions is Component[]
+    {
+        if (typeof additions === 'string')
+        {
+            return false;
+        }
+        else if (additions.length === 0)
+        {
+            return true;
+        }
+        else
+        {
+            return Object.values(ComponentType).includes(additions[0].type as ComponentType);
+        }
+    }
+
+    public static isVisualisations (additions: Additions): additions is Visualisation[]
+    {
+        if (typeof additions === 'string')
+        {
+            return false;
+        }
+        else if (additions.length === 0)
+        {
+            return true;
+        }
+        else
+        {
+            return Object.values(VisualisationType).includes(additions[0].type as VisualisationType);
+        }
     }
 }
