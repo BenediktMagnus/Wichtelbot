@@ -67,8 +67,18 @@ interface Texts
     noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;
+    profileName: TokenString;
+    profileGiftType: TokenString;
+    profileCounty: TokenString;
+    profileAddress: TokenString;
+    profileDigitalAddress: TokenString;
+    profileWishlist: TokenString;
+    profileAllergies: TokenString;
+    profileExclusion: TokenString;
+    profileFreeText: TokenString;
     registration: TokenString;
     registrationCancelled: TokenString;
+    registrationProfileOverview: TokenString;
     sentComponentText: TokenString;
 }
 
