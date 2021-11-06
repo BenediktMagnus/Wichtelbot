@@ -119,7 +119,6 @@ export default class HandlingDefinition
                 {
                     this.generalModule.register(message);
                     await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
-                    await this.informationModule.sendCurrentGiftTypeAsGiver(message);
                 }
                 else
                 {
@@ -154,7 +153,6 @@ export default class HandlingDefinition
                     Localisation.texts.informationGiftTypeAsTaker,
                     ComponentBuilder.giftTypes
                 );
-                await this.informationModule.sendCurrentGiftTypeAsTaker(message);
             }
         },
         // Information, GiftTypeAsTaker:
@@ -209,7 +207,6 @@ export default class HandlingDefinition
                     Localisation.texts.informationCountry,
                     ComponentBuilder.countries
                 );
-                await this.informationModule.sendCurrentCountry(message);
             }
         },
         // Information, Country:
@@ -244,7 +241,6 @@ export default class HandlingDefinition
                             Localisation.texts.informationInternationalAllowed,
                             ComponentBuilder.yesNo
                         );
-                        await this.informationModule.sendCurrentInternationalAllowed(message);
                     }
                     else
                     {
@@ -277,7 +273,6 @@ export default class HandlingDefinition
                         Localisation.texts.informationInternationalAllowed,
                         ComponentBuilder.yesNo
                     );
-                    await this.informationModule.sendCurrentInternationalAllowed(message);
                 }
                 else
                 {
@@ -396,7 +391,6 @@ export default class HandlingDefinition
                 if (result === Localisation.texts.informationGiftTypeAsGiver)
                 {
                     await this.generalModule.continue(message, State.InformationGiftTypeAsGiver, result, ComponentBuilder.giftTypes);
-                    await this.informationModule.sendCurrentGiftTypeAsGiver(message);
                 }
                 else if (result === Localisation.texts.confirmDeregistration)
                 {
