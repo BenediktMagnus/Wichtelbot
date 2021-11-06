@@ -5,6 +5,7 @@ import ContactTestUtility from '../utility/contact';
 import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 import Localisation from '../../scripts/utility/localisation';
 import TokenString from '../../scripts/utility/tokenString';
+import Config from '../../scripts/utility/config';
 
 describe('tokenString',
     function ()
@@ -46,6 +47,9 @@ describe('tokenString',
             {
                 const member = ContactTestUtility.createRandomMember();
 
+                member.information.country = Config.main.allowedCountries[0];
+                const expectedCountry = Localisation.translateCountry(member.information.country);
+
                 const internationalAllowedString = Localisation.translateBoolean(member.information.internationalAllowed);
                 const giftTypeAsTakerString = Localisation.translateGiftType(member.information.giftTypeAsTaker);
                 const giftTypeAsGiverString = Localisation.translateGiftType(member.information.giftTypeAsGiver);
@@ -58,7 +62,7 @@ describe('tokenString',
                                   '{information.userExclusion}, {information.freeText}';
                 const expectedString = `${member.name}, ${member.tag}, ${member.nickname},` +
                                        `${giftTypeAsTakerString}, ${giftTypeAsGiverString},` +
-                                       `${member.information.address}, ${member.information.country}, ${member.information.digitalAddress},` +
+                                       `${member.information.address}, ${expectedCountry}, ${member.information.digitalAddress},` +
                                        `${internationalAllowedString}, ${member.information.wishList},` +
                                        `${member.information.allergies}, ${member.information.giftExclusion},` +
                                        `${member.information.userExclusion}, ${member.information.freeText}`;

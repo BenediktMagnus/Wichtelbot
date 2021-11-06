@@ -129,10 +129,9 @@ export default class InformationModule
     {
         const member = this.database.getMember(message.author.id);
 
-        // TODO: The country from the database is all lowercase, it should be made "normal" (starting with an upper case,
-        //       or even decently localised) at this point.
+        const localisedCountry = Localisation.translateCountry(member.information.country);
 
-        await this.sendCurrentInformationValue(message, member, member.information.country);
+        await this.sendCurrentInformationValue(message, member, localisedCountry);
     }
 
     public async sendCurrentDigitalAddress (message: Message): Promise<void>
@@ -341,7 +340,7 @@ export default class InformationModule
             visualisations.push(
                 {
                     headline: Localisation.texts.profileCounty.process(member),
-                    text: member.information.country,
+                    text: Localisation.translateCountry(member.information.country),
                     type: VisualisationType.Compact
                 }
             );

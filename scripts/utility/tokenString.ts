@@ -94,13 +94,14 @@ export default class TokenString
         if (contactData instanceof Member)
         {
             map.set('address', contactData.information.address);
-            map.set('country', contactData.information.country);
             map.set('digitalAddress', contactData.information.digitalAddress);
             map.set('wishList', contactData.information.wishList);
             map.set('allergies', contactData.information.allergies);
             map.set('giftExclusion', contactData.information.giftExclusion);
             map.set('userExclusion', contactData.information.userExclusion);
             map.set('freeText', contactData.information.freeText);
+
+            map.set('country', Localisation.translateCountry(contactData.information.country));
 
             map.set('internationalAllowed', Localisation.translateBoolean(contactData.information.internationalAllowed));
 

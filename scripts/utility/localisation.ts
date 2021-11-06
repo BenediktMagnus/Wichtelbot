@@ -165,4 +165,14 @@ export default abstract class Localisation
 
         return result;
     }
+
+    public static translateCountry (country: string): string
+    {
+        // NOTE: The countries are already in the local language all over the database. Technically, this only corrects the capitalisation.
+
+        const indexOfCountry = Config.main.allowedCountries.indexOf(country);
+        const localisedCountry = Config.rawCountries[indexOfCountry];
+
+        return localisedCountry;
+    }
 }

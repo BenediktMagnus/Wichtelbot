@@ -647,14 +647,22 @@ describe('statefulCommands',
             {
                 const expectedFreeText = '-';
 
+                let called = false;
+
                 const testCallback = (text: string, member: Member): void =>
                 {
-                    const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
-                    assert.strictEqual(text, Localisation.texts.becameMember.process(member, parameters));
-                    assert.strictEqual(member.state, State.Waiting);
-                    assert.strictEqual(member.type, ContactType.Member);
-                    assert.strictEqual(member.information.freeText, expectedFreeText);
+                    if (!called) // Only check the first call.
+                    {
+                        const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
+                        assert.strictEqual(text, Localisation.texts.becameMember.process(member, parameters));
+                        assert.strictEqual(member.state, State.Waiting);
+                        assert.strictEqual(member.type, ContactType.Member);
+                        assert.strictEqual(member.information.freeText, expectedFreeText);
+                    }
+                    called = true;
                 };
+
+                // TODO: This is messy. Using mockito instead could make this much easier.
 
                 const message = new CommandTestMessage(database, testCallback, ChannelType.Personal);
                 message.content = expectedFreeText;
@@ -664,6 +672,7 @@ describe('statefulCommands',
                 await messageHandler.process(message);
 
                 assert.strictEqual(message.called, true);
+                assert.strictEqual(called, true);
             }
         );
     }
