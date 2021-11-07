@@ -205,4 +205,13 @@ export default class GeneralModule
 
         await message.reply(answer);
     }
+
+    public async callMods (message: Message): Promise<void>
+    {
+        const moderationInfo = Localisation.texts.moderationNeedHelp.process(message.author);
+
+        const moderationChannel = await message.client.fetchChannel(Config.main.moderationChannelId);
+
+        await moderationChannel.send(moderationInfo);
+    }
 }

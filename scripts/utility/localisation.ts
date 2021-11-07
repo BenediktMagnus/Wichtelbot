@@ -12,6 +12,7 @@ export interface CommandInfo
 
 interface Commands
 {
+    callMods: CommandInfo;
     changeInformation: CommandInfo;
     contacting: CommandInfo;
     deregistration: CommandInfo;
@@ -67,6 +68,8 @@ interface Texts
     noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;
+    moderationNeedHelp: TokenString;
+    modsCalled: TokenString;
     profileName: TokenString;
     profileGiftType: TokenString;
     profileCounty: TokenString;

@@ -68,6 +68,10 @@ export default class HandlingDefinition
             expectsComponentResult: false,
             paths: [
                 {
+                    command: Localisation.commands.callMods,
+                    result: Localisation.texts.modsCalled,
+                },
+                {
                     command: Localisation.commands.goodAfternoon,
                     result: Localisation.texts.goodAfternoon,
                 },
@@ -89,7 +93,15 @@ export default class HandlingDefinition
                 }
                 // TODO: Response to "thank you".
             ],
-            handlerFunction: async (message: Message, result: TokenString): Promise<void> => this.generalModule.reply(message, result)
+            handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
+            {
+                if (result === Localisation.texts.modsCalled)
+                {
+                    await this.generalModule.callMods(message);
+                }
+
+                await this.generalModule.reply(message, result);
+            }
         },
         // Initialise registration:
         {

@@ -168,9 +168,9 @@ export default class MessageHandler
         }
 
         const stateCommands = [
-            new StateCommand(state, ''), // Catch all
             new StateCommand(state, message.command), // Specific state command
             new StateCommand(State.Nothing, message.command), // Stateless command
+            new StateCommand(state, ''), // Catch all
         ];
 
         for (const stateCommand of stateCommands)

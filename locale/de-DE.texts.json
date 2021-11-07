@@ -34,6 +34,8 @@
     "noCommandsAvailable": "Derzeit stehen keine besonderen Befehle zur Verfügung.",
     "notUnderstood": "Häää? Probiers nochmal.",
     "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
+    "moderationNeedHelp": "@WischtööölOrga Der Wichtel {contact.nickname} ({contact.tag}) bittet um Hilfe.",
+    "modsCalled": "Keine Sorge! Hilfe ist unterwegs! (So schnell sie kann...)",
     "profileName": "Name",
     "profileGiftType": "Bewichtelungsart",
     "profileCounty": "Land",
