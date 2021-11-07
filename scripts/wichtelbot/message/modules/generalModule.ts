@@ -220,4 +220,13 @@ export default class GeneralModule
 
         await moderationChannel.send(moderationInfo);
     }
+
+    public async sendSternenroseImage (message: Message): Promise<void>
+    {
+        await this.reply(
+            message,
+            Localisation.texts.sternenrose,
+            'https://cdn.discordapp.com/attachments/391928490456514561/394095185275125760/Weihn8.jpg'
+        );
+    }
 }

@@ -27,6 +27,7 @@ interface Commands
     maybe: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
+    sternenrose: CommandInfo;
     yes: CommandInfo;
 }
 
@@ -83,6 +84,7 @@ interface Texts
     registrationCancelled: TokenString;
     registrationProfileOverview: TokenString;
     sentComponentText: TokenString;
+    sternenrose: TokenString;
 }
 
 interface Values

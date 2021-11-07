@@ -93,6 +93,9 @@
         "commands": ["registrieren"],
         "info": "Startet den Registrierungsprozess."
     },
+    "sternenrose": {
+        "commands": ["sternenrose"]
+    },
     "yes": {
         "commands": ["ja", "jap", "jawohl", "okay", "ok", "meinetwegen"]
     }

@@ -90,17 +90,28 @@ export default class HandlingDefinition
                 {
                     command: Localisation.commands.maybe,
                     result: Localisation.texts.maybeResponse,
+                },
+                {
+                    command: Localisation.commands.sternenrose,
+                    result: Localisation.texts.sternenrose,
                 }
                 // TODO: Response to "thank you".
             ],
             handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
             {
-                if (result === Localisation.texts.modsCalled)
+                if (result === Localisation.texts.sternenrose)
                 {
-                    await this.generalModule.callMods(message);
+                    await this.generalModule.sendSternenroseImage(message);
                 }
+                else
+                {
+                    if (result === Localisation.texts.modsCalled)
+                    {
+                        await this.generalModule.callMods(message);
+                    }
 
-                await this.generalModule.reply(message, result);
+                    await this.generalModule.reply(message, result);
+                }
             }
         },
         // Initialise registration:
