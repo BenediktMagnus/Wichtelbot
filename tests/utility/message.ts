@@ -42,7 +42,7 @@ export class TestMessage extends MessageWithParser implements Message
             send: channelSend,
         };
         this.client = {
-            getChannel: (): Channel =>
+            fetchChannel: async (): Promise<Channel> =>
             {
                 return this.channel;
             },

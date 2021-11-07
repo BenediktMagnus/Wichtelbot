@@ -8,7 +8,7 @@ import User from "./user";
  */
 export default interface Client
 {
-    getChannel(id: string): Channel;
+    fetchChannel(id: string): Promise<Channel>;
     fetchUser(id: string): Promise<User>;
     // TODO: Destroy method "destroy"!
 }

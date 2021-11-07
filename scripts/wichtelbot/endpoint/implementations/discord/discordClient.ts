@@ -15,13 +15,13 @@ export class DiscordClient implements Client
         this.client = client;
     }
 
-    public getChannel (id: string): DiscordChannel
+    public async fetchChannel (id: string): Promise<DiscordChannel>
     {
-        const channel = this.client.channels.cache.get(id); // TODO: Shouldn't this be fetched, too?
+        const channel = await this.client.channels.fetch(id);
 
-        if (channel === undefined)
+        if (channel === null)
         {
-            throw ReferenceError('');
+            throw ReferenceError(`Could not fetch Discord channel with id ${id}`);
         }
         else
         {
