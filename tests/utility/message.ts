@@ -84,7 +84,6 @@ export class CommandTestMessage extends TestMessage
 
     constructor (database: Database, testCallback: TestCallbackContact | TestCallbackMember, channelType: ChannelType)
     {
-        // eslint-disable-next-line @typescript-eslint/require-await
         const resultCallback = async (text: string): Promise<void> =>
         {
             this.called = true;

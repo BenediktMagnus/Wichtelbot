@@ -46,7 +46,7 @@ describe('message handler',
         it('does not answer bots.',
             async function ()
             {
-                const resultCallback = async (): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                const resultCallback = async (): Promise<void> =>
                 {
                     assert.fail('The bot must not answer bot messages!');
                 };
@@ -62,7 +62,7 @@ describe('message handler',
         it('does not answer in ignored channel types.',
             async function ()
             {
-                const resultCallback = async (): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                const resultCallback = async (): Promise<void> =>
                 {
                     assert.fail('The bot must not answer in ignored channels!');
                 };
@@ -78,7 +78,7 @@ describe('message handler',
         it('does not answer non-prefixed server messages.',
             async function ()
             {
-                const resultCallback = async (): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                const resultCallback = async (): Promise<void> =>
                 {
                     assert.fail('The bot must not answer non-prefixed server messages!');
                 };
@@ -98,7 +98,7 @@ describe('message handler',
                 let called = false;
                 let author: User;
 
-                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                const resultCallback = async (text: string): Promise<void> =>
                 {
                     assert.strictEqual(text, Localisation.texts.contactingRegistration.process(author));
                     called = true;
@@ -119,7 +119,7 @@ describe('message handler',
                 let called = false;
                 let author: User;
 
-                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                const resultCallback = async (text: string): Promise<void> =>
                 {
                     assert.strictEqual(text, Localisation.texts.notUnderstood.process(author));
                     called = true;
@@ -140,7 +140,7 @@ describe('message handler',
                 let called = false;
                 let author: User;
 
-                const resultCallback = async (text: string): Promise<void> => // eslint-disable-line @typescript-eslint/require-await
+                const resultCallback = async (text: string): Promise<void> =>
                 {
                     const parameters = new KeyValuePairList();
                     parameters.addPair('messageLength', `${message.content.length}`);
