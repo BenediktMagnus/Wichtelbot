@@ -2,9 +2,7 @@
     "locale": "de-DE",
     "commandPrefix": "!",
     "maxMessageLength": "2000",
-    "moderationChannelIds": [
-        "0"
-    ],
+    "moderationChannelId": "0",
     "allowedCountries": [
         "Germany"
     ],

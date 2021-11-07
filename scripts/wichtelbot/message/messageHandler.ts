@@ -230,7 +230,7 @@ export default class MessageHandler
 
             let messageFunction: CommandHandlerFunction | undefined;
 
-            if (Config.main.moderationChannelIds.includes(message.channel.id))
+            if (message.channel.id === Config.main.moderationChannelId)
             {
                 // Moderation:
                 messageFunction = this.moderatorCommands.get(message.command);
