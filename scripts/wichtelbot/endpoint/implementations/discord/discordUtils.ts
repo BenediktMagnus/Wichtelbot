@@ -34,8 +34,11 @@ export abstract class DiscordUtils
 
                 if (typeof additions === 'string')
                 {
-                    const attachment = new Discord.MessageAttachment(additions);
-                    messageOptions.attachments = [attachment];
+                    messageOptions.files = [
+                        {
+                            attachment: additions,
+                        },
+                    ];
                 }
                 else if (this.isComponents(additions))
                 {
