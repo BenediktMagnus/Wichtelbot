@@ -59,11 +59,15 @@ export default class GeneralModule
         if (Config.currentEventPhase == WichtelEventPhase.Waiting)
         {
             const registrationTimeInMs = Config.main.currentEvent.registration * 1000;
-            const randomTimeSpanInMs = 1000 * 60 * 60 * 24;
-            const offsetInMs = 1000 * 60 * 60 * 12; // Prevents that the randomness "circles" around the real time.
-            const randomAdditionInMs = Math.random() * randomTimeSpanInMs * (Math.random() > 0.5 ? 1 : -1);
+            const nowInMs = Date.now();
+            const msUntilRegistration = registrationTimeInMs - nowInMs;
 
-            const registrationPhaseTime = new Date(registrationTimeInMs + randomAdditionInMs + offsetInMs);
+            // Twice as long after the registration then until it prevents that the random dates "circles" around the real one:
+            const timeSpanInMs = msUntilRegistration * 3;
+
+            const randomAdditionInMs = Math.floor(Math.random() * timeSpanInMs);
+
+            const registrationPhaseTime = new Date(nowInMs + randomAdditionInMs);
 
             const parameters = new KeyValuePairList();
             parameters.addPair('year', registrationPhaseTime.getFullYear().toString());
