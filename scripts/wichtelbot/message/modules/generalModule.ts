@@ -212,7 +212,9 @@ export default class GeneralModule
 
     public async callMods (message: Message): Promise<void>
     {
-        const moderationInfo = Localisation.texts.moderationNeedHelp.process(message.author);
+        const parameters = new KeyValuePairList('moderationRoleId', Config.main.moderationRoleId);
+
+        const moderationInfo = Localisation.texts.moderationNeedHelp.process(message.author, parameters);
 
         const moderationChannel = await message.client.fetchChannel(Config.main.moderationChannelId);
 
