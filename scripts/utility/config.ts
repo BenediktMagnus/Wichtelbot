@@ -9,6 +9,7 @@ interface MainConfig
     commandPrefix: string;
     maxMessageLength: number;
     moderationChannelId: string;
+    moderationRoleId: string;
     allowedCountries: string[];
     currentEvent: WichtelEvent;
     eventHistory: WichtelEvent[];

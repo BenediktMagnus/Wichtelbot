@@ -3,6 +3,7 @@
     "commandPrefix": "!",
     "maxMessageLength": "2000",
     "moderationChannelId": "0",
+    "moderationRoleId": "0",
     "allowedCountries": [
         "Germany"
     ],

@@ -68,7 +68,7 @@ interface Texts
     noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;
-    moderationNeedHelp: TokenString;
+    moderationNeedHelp: TokenString; // TODO: This includes a Discord specific mention which is not portable to other implementations.
     modsCalled: TokenString;
     profileName: TokenString;
     profileGiftType: TokenString;
