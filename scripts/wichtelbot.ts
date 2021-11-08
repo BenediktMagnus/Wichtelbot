@@ -1,5 +1,5 @@
 import * as DiscordEndpoint from './wichtelbot/endpoint/implementations/discord';
-import Database from './wichtelbot/database';
+import Database from './wichtelbot/database/database';
 import MessageHandler from './wichtelbot/message/messageHandler';
 
 export default class Wichtelbot

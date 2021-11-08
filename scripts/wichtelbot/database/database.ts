@@ -1,10 +1,15 @@
 import * as fs from 'fs';
 
-import Contact, { ContactCoreData, ContactData } from './classes/contact';
-import ContactType from './types/contactType';
-import { InformationData } from './classes/information';
-import Member from './classes/member';
-import Utils from '../utility/utils';
+import Contact, { ContactCoreData, ContactData } from '../classes/contact';
+import Config from '../../utility/config';
+import ContactType from '../types/contactType';
+import GiftType from '../types/giftType';
+import { GiftTypeStatistics } from './giftTypeStatistics';
+import { InformationData } from '../classes/information';
+import Member from '../classes/member';
+import { ParcelStatistics } from './parcelStatistics';
+import { State } from '../endpoint/definitions';
+import Utils from '../../utility/utils';
 import Sqlite = require('better-sqlite3');
 
 export default class Database
@@ -165,6 +170,18 @@ export default class Database
         return result;
     }
 
+    /**
+     * Runs the given statement with the given parameters and returns the result as a number.
+     */
+    private getCount (statement: Sqlite.Statement, parameters: unknown): number
+    {
+        statement.pluck(true);
+
+        const count = statement.get(parameters) as number;
+
+        return count;
+    }
+
     public hasContact (contactId: string): boolean
     {
         const statement = this.mainDatabase.prepare(
@@ -245,6 +262,15 @@ export default class Database
         statement.run(
             this.getBindablesFromObject(contact)
         );
+    }
+
+    public getContactCount (): number
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT COUNT(*) FROM contact WHERE contact.state != ?'
+        );
+
+        return this.getCount(statement, State.Nothing); // All contacts in this event phase have a state not equal to "Nothing".
     }
 
     /**
@@ -399,6 +425,15 @@ export default class Database
         runTransaction();
     }
 
+    public getWaitingMemberCount (): number
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT COUNT(*) FROM contact WHERE contact.state = ?'
+        );
+
+        return this.getCount(statement, State.Waiting);
+    }
+
     /**
      * Will return the type of contact that can be found for this ID. \
      * If no contact is found, the given contactCoreData will be returned instead.
@@ -428,6 +463,55 @@ export default class Database
             // If no contact has been found, return the core data that has been given:
             return contactCoreData;
         }
+    }
+
+    public getGiftTypeStatistics (): GiftTypeStatistics
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                COUNT(CASE WHEN information.giftTypeAsGiver = :analogueGiftType THEN 1 END) AS analogueGiverCount,
+                COUNT(CASE WHEN information.giftTypeAsGiver = :digitalGiftType THEN 1 END) AS digitalGiverCount,
+                COUNT(CASE WHEN information.giftTypeAsGiver = :allGiftType THEN 1 END) AS allGiverCount,
+                COUNT(CASE WHEN information.giftTypeAsTaker = :analogueGiftType THEN 1 END) AS analogueTakerCount,
+                COUNT(CASE WHEN information.giftTypeAsTaker = :digitalGiftType THEN 1 END) AS digitalTakerCount,
+                COUNT(CASE WHEN information.giftTypeAsTaker = :allGiftType THEN 1 END) AS allTakerCount
+            FROM
+                information
+            LEFT JOIN
+                contact ON information.contactId = contact.id
+            WHERE
+                information.lastUpdateTime >= :currentEventRegistrationTime
+                AND contact.state = :waitingState`
+        );
+
+        const result = statement.get(
+            {
+                analogueGiftType: GiftType.Analogue,
+                digitalGiftType: GiftType.Digital,
+                allGiftType: GiftType.All,
+                currentEventRegistrationTime: Config.main.currentEvent.registration,
+                waitingState: State.Waiting,
+            }
+        ) as GiftTypeStatistics;
+
+        return result;
+    }
+
+    public getParcelStatistics (): ParcelStatistics
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                COUNT(CASE WHEN shippingDate != '' THEN 1 END) AS sentCount,
+                COUNT(CASE WHEN receivingDate != '' THEN 1 END) AS receivedCount
+            FROM
+                parcel
+            WHERE
+                wichtelEvent = ?`
+        );
+
+        const result = statement.get(Config.main.currentEvent.name) as ParcelStatistics;
+
+        return result;
     }
 }
 
