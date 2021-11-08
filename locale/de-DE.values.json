@@ -4,5 +4,9 @@
     "giftTypeAll": "beides",
     "giftTypeNothing": "nichts",
     "no": "nein",
-    "yes": "ja"
+    "yes": "ja",
+    "wichtelEventPhaseEnded": "Postwichteln",
+    "wichtelEventPhaseRegistration": "Registrierung",
+    "wichtelEventPhaseWaiting": "Präwichteln",
+    "wichtelEventPhaseWichteln": "Wichteln"
 }
