@@ -11,7 +11,6 @@ export interface ContactCoreData
 export interface ContactData extends ContactCoreData
 {
     nickname: string;
-    lastUpdateTime: number;
     type: ContactType;
     state: State;
 }
@@ -21,7 +20,6 @@ function instanceOfContactData (object: any): object is ContactData
     const potentialContactData = object as ContactData;
 
     const isInstance = (potentialContactData.nickname !== undefined) &&
-                       (potentialContactData.lastUpdateTime !== undefined) &&
                        (potentialContactData.type !== undefined) &&
                        (potentialContactData.state !== undefined);
 
@@ -34,7 +32,6 @@ export default class Contact implements ContactData
     public tag: string; // The contact's tag, a contextual identifier.
     public name: string; // The base name.
     public nickname: string; // A setable nickname for the contact for readability purposes, defaults to the name.
-    public lastUpdateTime: number; // Unix time
     public type: ContactType;
     public state: State; // The current state the contact is in, used as communication state.
 
@@ -57,14 +54,12 @@ export default class Contact implements ContactData
                 this.nickname = contactData.nickname;
             }
 
-            this.lastUpdateTime = contactData.lastUpdateTime;
             this.type = contactData.type;
             this.state = contactData.state;
         }
         else
         {
             this.nickname = this.name;
-            this.lastUpdateTime = 0;
             this.type = ContactType.Contact;
             this.state = State.Nothing;
         }

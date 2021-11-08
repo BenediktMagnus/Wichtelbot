@@ -1,6 +1,6 @@
 import * as fs from 'fs';
-
 import Contact, { ContactCoreData, ContactData } from './classes/contact';
+import Config from '../utility/config';
 import ContactType from './types/contactType';
 import { InformationData } from './classes/information';
 import Member from './classes/member';
@@ -187,20 +187,16 @@ export default class Database
         return result;
     }
 
-    /**
-     * NOTE: The contact objects's lastUpdateTime will be updated.
-     * TODO: Give the save methods a better name like "insert" or "create" or "saveNew".
-     */
     public saveContact (contact: Contact): void
     {
+        // TODO: Give the save methods a better name like "insert" or "create" or "saveNew".
+
         const statement = this.mainDatabase.prepare(
             `INSERT INTO
-                contact (id, tag, name, nickname, lastUpdateTime, type, state)
+                contact (id, tag, name, nickname, type, state)
             VALUES
-                (:id, :tag, :name, :nickname, :lastUpdateTime, :type, :state)`
+                (:id, :tag, :name, :nickname, :type, :state)`
         );
-
-        contact.lastUpdateTime = Utils.getCurrentUnixTime();
 
         statement.run(
             this.getBindablesFromObject(contact)
@@ -225,19 +221,13 @@ export default class Database
         return contact;
     }
 
-    /**
-     * NOTE: The contact objects's lastUpdateTime will be updated.
-     */
     public updateContact (contact: Contact): void
     {
-        contact.lastUpdateTime = Utils.getCurrentUnixTime();
-
         const statement = this.mainDatabase.prepare(
             `UPDATE
                 contact
             SET
-                tag = :tag, name = :name, nickname = :nickname,
-                lastUpdateTime = :lastUpdateTime, type = :type, state = :state
+                tag = :tag, name = :name, nickname = :nickname, type = :type, state = :state
             WHERE
                 id = :id`
         );
@@ -277,20 +267,18 @@ export default class Database
 
     /**
      * Saves a member in the database by saving its information and updating the contact. \
-     * NOTE: The member and the information objects' lastUpdateTime will be updated.
+     * NOTE: The information objects' wichtelEvent will be updated/set.
      */
     public saveMember (member: Member): void
     {
-        member.lastUpdateTime = Utils.getCurrentUnixTime();
-        member.information.lastUpdateTime = member.lastUpdateTime;
+        member.information.wichtelEvent = Config.main.currentEvent.name;
 
         // When saving a member, the contact data still exists and only needs to be updated:
         const contactStatement = this.mainDatabase.prepare(
             `UPDATE
                 contact
             SET
-                tag = :tag, name = :name, nickname = :nickname,
-                lastUpdateTime = :lastUpdateTime, type = :type, state = :state
+                tag = :tag, name = :name, nickname = :nickname, type = :type, state = :state
             WHERE
                 id = :id`
         );
@@ -298,10 +286,10 @@ export default class Database
         // The information data must nevertheless be created because the former contact had no information.
         const informationStatement = this.mainDatabase.prepare(
             `INSERT INTO
-                information (contactId, lastUpdateTime, giftTypeAsTaker, giftTypeAsGiver, address, country,
+                information (contactId, wichtelEvent, giftTypeAsTaker, giftTypeAsGiver, address, country,
                              digitalAddress, internationalAllowed, wishList, allergies, giftExclusion, userExclusion, freeText)
             VALUES
-                (:contactId, :lastUpdateTime, :giftTypeAsTaker, :giftTypeAsGiver, :address, :country,
+                (:contactId, :wichtelEvent, :giftTypeAsTaker, :giftTypeAsGiver, :address, :country,
                  :digitalAddress, :internationalAllowed, :wishList, :allergies, :giftExclusion, :userExclusion, :freeText)`
         );
 
@@ -357,19 +345,17 @@ export default class Database
 
     /**
      * Updates an existing member (contact and information data) in the database. \
-     * NOTE: The contact and the information objects' lastUpdateTime will be updated.
+     * NOTE: The information objects' wichtelEvent will be updated.
      */
     public updateMember (member: Member): void
     {
-        member.lastUpdateTime = Utils.getCurrentUnixTime();
-        member.information.lastUpdateTime = member.lastUpdateTime;
+        member.information.wichtelEvent = Config.main.currentEvent.name;
 
         const contactStatement = this.mainDatabase.prepare(
             `UPDATE
                 contact
             SET
-                tag = :tag, name = :name, nickname = :nickname,
-                lastUpdateTime = :lastUpdateTime, type = :type, state = :state
+                tag = :tag, name = :name, nickname = :nickname, type = :type, state = :state
             WHERE
                 id = :id`
         );
@@ -378,7 +364,7 @@ export default class Database
             `UPDATE
                 information
             SET
-                lastUpdateTime = :lastUpdateTime, giftTypeAsTaker = :giftTypeAsTaker,
+                wichtelEvent = :wichtelEvent, giftTypeAsTaker = :giftTypeAsTaker,
                 giftTypeAsGiver = :giftTypeAsGiver, address = :address, country = :country,
                 digitalAddress = :digitalAddress, internationalAllowed = :internationalAllowed,
                 wishList = :wishList, allergies = :allergies, giftExclusion = :giftExclusion,

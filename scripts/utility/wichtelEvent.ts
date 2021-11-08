@@ -1,9 +1,9 @@
 enum WichtelEventPhase
 {
-    Waiting,
-    Registration,
-    Wichteln,
-    Ended,
+    Waiting = 'waiting',
+    Registration = 'registration',
+    Wichteln = 'wichteln',
+    Ended = 'ended',
 }
 
 export default WichtelEventPhase;

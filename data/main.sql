@@ -5,7 +5,6 @@ CREATE TABLE `contact` (
     `tag` TEXT NOT NULL UNIQUE,
     `name` TEXT NOT NULL UNIQUE,
     `nickname` TEXT NOT NULL UNIQUE,
-    `lastUpdateTime` INTEGER NOT NULL DEFAULT 0,
     `type` TEXT NOT NULL,
     `state` TEXT NOT NULL,
     PRIMARY KEY(`id`)
@@ -28,7 +27,7 @@ CREATE TABLE `relationship` (
 
 CREATE TABLE `information` (
     `contactId` TEXT NOT NULL UNIQUE,
-    `lastUpdateTime` INTEGER NOT NULL DEFAULT 0,
+    `wichtelEvent` TEXT NOT NULL,
     `giftTypeAsTaker` TEXT NOT NULL DEFAULT '',
     `giftTypeAsGiver` TEXT NOT NULL DEFAULT '',
     `address` TEXT NOT NULL DEFAULT '',
@@ -45,10 +44,10 @@ CREATE TABLE `information` (
 ) WITHOUT ROWID;
 
 CREATE TABLE `exclusion` (
+    `wichtelEvent` TEXT NOT NULL,
     `giverId` TEXT NOT NULL,
     `takerId` TEXT NOT NULL,
     `reason` TEXT NOT NULL,
-    `lastUpdateTime` INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY(`takerId`) REFERENCES `contact`(`id`),
     FOREIGN KEY(`giverId`) REFERENCES `contact`(`id`)
 );

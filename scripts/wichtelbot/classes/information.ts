@@ -1,9 +1,10 @@
+import Config from "../../utility/config";
 import GiftType from "../types/giftType";
 
 export interface InformationData
 {
     contactId: string;
-    lastUpdateTime: number;
+    wichtelEvent: string;
     giftTypeAsTaker: GiftType;
     giftTypeAsGiver: GiftType;
     address: string;
@@ -20,7 +21,7 @@ export interface InformationData
 export default class Information implements InformationData
 {
     public contactId: string;
-    public lastUpdateTime: number;
+    public wichtelEvent: string;
     public giftTypeAsTaker: GiftType;
     public giftTypeAsGiver: GiftType;
     public address: string;
@@ -36,7 +37,7 @@ export default class Information implements InformationData
     constructor (contactIdOrInformationData: string | InformationData)
     {
         this.contactId = '';
-        this.lastUpdateTime = 0;
+        this.wichtelEvent = Config.main.currentEvent.name;
         this.giftTypeAsTaker = GiftType.Nothing;
         this.giftTypeAsGiver = GiftType.Nothing;
         this.address = '';

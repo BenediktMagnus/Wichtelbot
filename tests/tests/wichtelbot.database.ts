@@ -64,7 +64,6 @@ describe('database',
                 const returnedContact = database.getContact(contact.id);
 
                 assert.deepStrictEqual(returnedContact, contact);
-                assert.notStrictEqual(returnedContact.lastUpdateTime, 0);
             }
         );
 
@@ -101,8 +100,6 @@ describe('database',
                 const returnedMember = database.getMember(member.id);
 
                 assert.deepStrictEqual(returnedMember, member);
-                assert.notStrictEqual(returnedMember.lastUpdateTime, 0);
-                assert.notStrictEqual(returnedMember.information.lastUpdateTime, 0);
             }
         );
 

@@ -1,4 +1,5 @@
 import Contact, { ContactCoreData, ContactData } from '../../scripts/wichtelbot/classes/contact';
+import Config from '../../scripts/utility/config';
 import ContactType from '../../scripts/wichtelbot/types/contactType';
 import GeneralTestUtility from './general';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
@@ -58,7 +59,6 @@ export default abstract class ContactTestUtility
         const contactData = {
             ...contactCoreData,
             nickname: contactCoreData.name,
-            lastUpdateTime: GeneralTestUtility.createRandomInteger(),
             type: ContactType.Contact,
             state: ContactTestUtility.createRandomState(),
         };
@@ -80,7 +80,7 @@ export default abstract class ContactTestUtility
         const information = new Information(
             {
                 contactId: contactId,
-                lastUpdateTime: 0,
+                wichtelEvent: Config.main.currentEvent.name,
                 giftTypeAsTaker: ContactTestUtility.getRandomGiftType(),
                 giftTypeAsGiver: ContactTestUtility.getRandomGiftType(),
                 address: GeneralTestUtility.createRandomString(),
