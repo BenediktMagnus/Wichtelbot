@@ -433,6 +433,36 @@ export default class Database
         }
     }
 
+    public getWaitingMember (): Member[]
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                contact.*, information.*
+            FROM
+                contact
+            LEFT JOIN
+                information
+                    ON information.contactId = contact.id
+            WHERE
+                contact.type = ?`
+        );
+
+        statement.expand(true); // Expands the result to have one sub-object for each table.
+
+        const resultData = statement.all(ContactType.Member) as { contact: ContactData, information: InformationData }[];
+
+        const members: Member[] = [];
+
+        for (const result of resultData)
+        {
+            const member = new Member(result.contact, result.information);
+
+            members.push(member);
+        }
+
+        return members;
+    }
+
     public getUserExclusions (): Exclusion[]
     {
         const statement = this.mainDatabase.prepare(
