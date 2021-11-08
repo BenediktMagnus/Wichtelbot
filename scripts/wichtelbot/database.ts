@@ -268,9 +268,7 @@ export default class Database
         // this makes it much easier:
         statement.pluck(true);
 
-        let result = !!statement.get(contactId);
-
-        result = !!result; // Makes sure the value is definitely a boolean.
+        const result = !!statement.get(contactId); // Make sure the value is definitely a boolean.
 
         return result;
     }

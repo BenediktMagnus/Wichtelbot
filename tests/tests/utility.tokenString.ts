@@ -1,11 +1,10 @@
 import 'mocha';
 import { assert } from 'chai';
-
+import Config from '../../scripts/utility/config';
 import ContactTestUtility from '../utility/contact';
 import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 import Localisation from '../../scripts/utility/localisation';
 import TokenString from '../../scripts/utility/tokenString';
-import Config from '../../scripts/utility/config';
 
 describe('tokenString',
     function ()
