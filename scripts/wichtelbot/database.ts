@@ -2,6 +2,7 @@ import * as fs from 'fs';
 
 import Contact, { ContactCoreData, ContactData } from './classes/contact';
 import ContactType from './types/contactType';
+import { Exclusion } from './classes/exclusion';
 import { InformationData } from './classes/information';
 import Member from './classes/member';
 import Utils from '../utility/utils';
@@ -430,6 +431,26 @@ export default class Database
             // If no contact has been found, return the core data that has been given:
             return contactCoreData;
         }
+    }
+
+    public getUserExclusions (): Exclusion[]
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT * FROM exclusion'
+        );
+
+        const rawExclusions = statement.all() as Exclusion[];
+
+        const exclusions: Exclusion[] = [];
+
+        for (const rawExclusion of rawExclusions)
+        {
+            const exclusion = new Exclusion(rawExclusion);
+
+            exclusions.push(exclusion);
+        }
+
+        return exclusions;
     }
 }
 
