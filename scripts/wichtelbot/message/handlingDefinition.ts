@@ -6,6 +6,7 @@ import GeneralModule from './modules/generalModule';
 import GiftType from '../types/giftType';
 import InformationModule from './modules/informationModule';
 import Message from '../endpoint/definitions/message';
+import { ModerationModule } from './modules/moderationModule';
 import State from "../endpoint/definitions/state";
 import TokenString from '../../utility/tokenString';
 
@@ -49,16 +50,18 @@ export default class HandlingDefinition
 {
     protected generalModule: GeneralModule;
     protected informationModule: InformationModule;
+    protected moderationModule: ModerationModule;
 
     private get maxShortMessageLength (): number
     {
         return Math.floor(Config.main.maxMessageLength / 2);
     }
 
-    constructor (generalModule: GeneralModule, informationModule: InformationModule)
+    constructor (generalModule: GeneralModule, informationModule: InformationModule, moderationModule: ModerationModule)
     {
         this.generalModule = generalModule;
         this.informationModule = informationModule;
+        this.moderationModule = moderationModule;
     }
 
     public stateCommands: StateCommandDefinition[] = [
@@ -476,6 +479,9 @@ export default class HandlingDefinition
     ];
 
     public moderatorCommands: CommandDefinition[] = [
-
+        {
+            commandInfo: Localisation.commands.moddingStatus,
+            handlerFunction: async (message: Message): Promise<void> => this.moderationModule.sendStatus(message)
+        }
     ];
 }

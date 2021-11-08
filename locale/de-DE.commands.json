@@ -86,6 +86,14 @@
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
+    "moddingStatus":
+    {
+        "commands": [
+            "Wichtelstatus",
+            "Status"
+        ],
+        "info": "Gibt Informationen zum aktuellen Status des Wichtelns aus."
+    },
     "no": {
         "commands": ["nein", "ne", "nö", "ausgeschlossen", "auf keinen Fall"]
     },

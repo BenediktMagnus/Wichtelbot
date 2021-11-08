@@ -26,6 +26,7 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
+    moddingStatus: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
     sternenrose: CommandInfo;
@@ -71,6 +72,9 @@ interface Texts
     notUnderstood: TokenString;
     oldInformation: TokenString;
     moderationNeedHelp: TokenString; // TODO: This includes a Discord specific mention which is not portable to other implementations.
+    moderationStatus: TokenString;
+    moderationStatusEventPhase: TokenString;
+    moderationStatusEventPhaseWithNextPhase: TokenString;
     modsCalled: TokenString;
     profileName: TokenString;
     profileGiftType: TokenString;
