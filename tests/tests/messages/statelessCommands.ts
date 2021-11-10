@@ -3,7 +3,7 @@ import { assert } from 'chai';
 import { ChannelType } from '../../../scripts/wichtelbot/endpoint/definitions';
 import Config from '../../../scripts/utility/config';
 import ConfigTestUtility from '../../utility/config';
-import Database from '../../../scripts/wichtelbot/database';
+import Database from '../../../scripts/wichtelbot/database/database';
 import Localisation from '../../../scripts/utility/localisation';
 import MessageHandler from '../../../scripts/wichtelbot/message/messageHandler';
 import { TestMessageWithFixedAuthor } from '../../utility/message';
