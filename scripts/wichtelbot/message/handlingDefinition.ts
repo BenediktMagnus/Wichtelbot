@@ -75,12 +75,20 @@ export default class HandlingDefinition
                     result: Localisation.texts.modsCalled,
                 },
                 {
-                    command: Localisation.commands.goodAfternoon,
-                    result: Localisation.texts.goodAfternoon,
+                    command: Localisation.commands.sternenrose,
+                    result: Localisation.texts.sternenrose,
                 },
                 {
                     command: Localisation.commands.goodMorning,
                     result: Localisation.texts.goodMorning,
+                },
+                {
+                    command: Localisation.commands.goodAfternoon,
+                    result: Localisation.texts.goodAfternoon,
+                },
+                {
+                    command: Localisation.commands.goodEvening,
+                    result: Localisation.texts.goodEvening,
                 },
                 {
                     command: Localisation.commands.goodNight,
@@ -95,10 +103,13 @@ export default class HandlingDefinition
                     result: Localisation.texts.maybeResponse,
                 },
                 {
-                    command: Localisation.commands.sternenrose,
-                    result: Localisation.texts.sternenrose,
+                    command: Localisation.commands.thankYou,
+                    result: Localisation.texts.thankYouResponse,
+                },
+                {
+                    command: Localisation.commands.yourAreWelcome,
+                    result: Localisation.texts.yourAreWelcomeRespone,
                 }
-                // TODO: Response to "thank you".
             ],
             handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
             {

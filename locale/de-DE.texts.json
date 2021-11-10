@@ -14,6 +14,7 @@
     "deregistration": "Schade, {contact.nickname}! Ich hab dich vom Wichteln abgemeldet. Wenn du wieder mitmachen möchtest, schreibe „registrieren“.",
     "deregistrationCancelled": "Puh, nochmal Glück gehabt! Schön, dass du dabei bleibst!",
     "goodAfternoon": "Guten Tag, {contact.nickname}!",
+    "goodEvening": "Guten Abend, {contact.nickname}!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",
     "goodNight": "Schlaf schön, {contact.nickname}!",
     "hello": "Hallööö, {contact.nickname}!",
@@ -52,5 +53,7 @@
     "registrationCancelled": "Schade! Wenn du es dir anders überlegen solltest, schreibe einfach „registrieren“, um den Anmeldevorgang erneut zu starten.",
     "registrationProfileOverview": "Hier noch einen Überblick über deinen aktuellen Steckbrief:",
     "sentComponentText": "Klicken! Du sollst klicken!",
-    "sternenrose": "Vielen Dank, Sterni! :)"
+    "sternenrose": "Vielen Dank, Sterni! :)",
+    "thankYouResponse": "Bitte!",
+    "yourAreWelcomeRespone": "🙂"
 }

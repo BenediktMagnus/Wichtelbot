@@ -18,6 +18,7 @@ interface Commands
     contacting: CommandInfo;
     deregistration: CommandInfo;
     goodAfternoon: CommandInfo;
+    goodEvening: CommandInfo;
     goodMorning: CommandInfo;
     goodNight: CommandInfo;
     hello: CommandInfo;
@@ -30,7 +31,9 @@ interface Commands
     no: CommandInfo;
     registration: CommandInfo;
     sternenrose: CommandInfo;
+    thankYou: CommandInfo;
     yes: CommandInfo;
+    yourAreWelcome: CommandInfo;
 }
 
 // TODO: Documentation
@@ -51,6 +54,7 @@ interface Texts
     deregistration: TokenString;
     deregistrationCancelled: TokenString;
     goodAfternoon: TokenString;
+    goodEvening: TokenString;
     goodMorning: TokenString;
     goodNight: TokenString;
     hello: TokenString;
@@ -90,6 +94,8 @@ interface Texts
     registrationProfileOverview: TokenString;
     sentComponentText: TokenString;
     sternenrose: TokenString;
+    thankYouResponse: TokenString;
+    yourAreWelcomeRespone: TokenString;
 }
 
 interface Values

@@ -36,6 +36,12 @@
             "Tag"
         ]
     },
+    "goodEvening": {
+        "commands": [
+            "guten Abend",
+            "Abend"
+        ]
+    },
     "goodMorning": {
         "commands": [
             "guten Morgen",
@@ -104,7 +110,26 @@
     "sternenrose": {
         "commands": ["sternenrose"]
     },
+    "thankYou": {
+        "commands": [
+            "Danke",
+            "Dankeschön",
+            "Dankesehr",
+            "Danke dir",
+            "Vielen Dank",
+            "Großen Dank"
+        ]
+    },
     "yes": {
         "commands": ["ja", "jap", "jawohl", "okay", "ok", "meinetwegen"]
+    },
+    "yourAreWelcome": {
+        "commands": [
+            "Bitte",
+            "Bittesehr",
+            "Bitte sehr",
+            "Bitteschön",
+            "Bitte schön"
+        ]
     }
 }
