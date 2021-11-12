@@ -1,6 +1,7 @@
 import * as fs from 'fs';
-
 import Contact, { ContactCoreData, ContactData } from './classes/contact';
+import { Relationship, RelationshipData } from './classes/relationship';
+import Config from '../utility/config';
 import ContactType from './types/contactType';
 import { Exclusion } from './classes/exclusion';
 import { InformationData } from './classes/information';
@@ -481,6 +482,49 @@ export default class Database
         }
 
         return exclusions;
+    }
+
+    public getRelationships (): Relationship[]
+    {
+        // TODO: Could these kind of statements be abstracted as "get all and return as this class instances"?
+
+        const statement = this.mainDatabase.prepare(
+            'SELECT * FROM relationship'
+        );
+
+        const rawRelationships = statement.all() as Relationship[];
+
+        const relationships: Relationship[] = [];
+
+        for (const rawRelationship of rawRelationships)
+        {
+            const relationship = new Relationship(rawRelationship);
+
+            relationships.push(relationship);
+        }
+
+        return relationships;
+    }
+
+    public saveRelationships (relationships: RelationshipData[]): void
+    {
+        const statement = this.mainDatabase.prepare(
+            `INSERT INTO
+                relationship (wichtelEvent, giverId, takerId)
+            VALUES
+                (:wichtelEvent, :giverId, :takerId)`
+        );
+
+        for (const relationship of relationships)
+        {
+            const parameters = {
+                wichtelEvent: Config.main.currentEvent.name,
+                giverId: relationship.giverId,
+                takerId: relationship.takerId,
+            };
+
+            statement.run(parameters);
+        }
     }
 }
 
