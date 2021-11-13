@@ -27,6 +27,7 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
+    moddingRunAssignment: CommandInfo;
     moddingStatus: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
@@ -39,6 +40,8 @@ interface Commands
 // TODO: Documentation
 interface Texts
 {
+    assignmentError: TokenString;
+    assignmentSuccessful: TokenString;
     becameMember: TokenString;
     changedInformation: TokenString;
     commandInfo: TokenString;

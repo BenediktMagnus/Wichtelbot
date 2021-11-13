@@ -1,5 +1,6 @@
 import { ChannelType, Message, State } from '../endpoint/definitions';
 import Localisation, { CommandInfo } from '../../utility/localisation';
+import { AssignmentModule } from './modules/assignmentModule';
 import { CommandHandlerFunction } from './handlingTools/handlerFunctions';
 import Config from '../../utility/config';
 import Database from '../database/database';
@@ -31,6 +32,7 @@ export default class MessageHandler
     protected generalModule: GeneralModule;
     protected informationModule: InformationModule;
     protected moderationModule: ModerationModule;
+    protected assignmentModule: AssignmentModule;
 
     // In private messages:
     protected stateCommands = new StateCommandMap();
@@ -59,8 +61,14 @@ export default class MessageHandler
         this.generalModule = new GeneralModule(database);
         this.informationModule = new InformationModule(database);
         this.moderationModule = new ModerationModule(database);
+        this.assignmentModule = new AssignmentModule(database);
 
-        this.handlingDefinition = new HandlingDefinition(this.generalModule, this.informationModule, this.moderationModule);
+        this.handlingDefinition = new HandlingDefinition(
+            this.generalModule,
+            this.informationModule,
+            this.moderationModule,
+            this.assignmentModule
+        );
 
         this.applyHandlingDefinition();
     }

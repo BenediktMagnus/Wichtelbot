@@ -1,5 +1,6 @@
 import { CommandHandlerFunction, StateCommandHandlerFunction } from './handlingTools/handlerFunctions';
 import Localisation, { CommandInfo } from '../../utility/localisation';
+import { AssignmentModule } from './modules/assignmentModule';
 import { ComponentBuilder } from './handlingTools/componentBuilder';
 import Config from '../../utility/config';
 import GeneralModule from './modules/generalModule';
@@ -51,17 +52,23 @@ export default class HandlingDefinition
     protected generalModule: GeneralModule;
     protected informationModule: InformationModule;
     protected moderationModule: ModerationModule;
+    protected assignmentModule: AssignmentModule;
 
     private get maxShortMessageLength (): number
     {
         return Math.floor(Config.main.maxMessageLength / 2);
     }
 
-    constructor (generalModule: GeneralModule, informationModule: InformationModule, moderationModule: ModerationModule)
-    {
+    constructor (
+        generalModule: GeneralModule,
+        informationModule: InformationModule,
+        moderationModule: ModerationModule,
+        assignmentModule: AssignmentModule
+    ) {
         this.generalModule = generalModule;
         this.informationModule = informationModule;
         this.moderationModule = moderationModule;
+        this.assignmentModule = assignmentModule;
     }
 
     public stateCommands: StateCommandDefinition[] = [
@@ -490,6 +497,22 @@ export default class HandlingDefinition
     ];
 
     public moderatorCommands: CommandDefinition[] = [
+        {
+            commandInfo: Localisation.commands.moddingRunAssignment,
+            handlerFunction: async (message: Message): Promise<void> =>
+            {
+                const asssignmentResult = this.assignmentModule.runAssignment();
+
+                if (asssignmentResult)
+                {
+                    await this.generalModule.reply(message, Localisation.texts.assignmentSuccessful);
+                }
+                else
+                {
+                    await this.generalModule.reply(message, Localisation.texts.assignmentError);
+                }
+            }
+        },
         {
             commandInfo: Localisation.commands.moddingStatus,
             handlerFunction: async (message: Message): Promise<void> => this.moderationModule.sendStatus(message)

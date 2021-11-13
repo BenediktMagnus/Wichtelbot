@@ -92,6 +92,14 @@
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
+    "moddingRunAssignment":
+    {
+        "commands": [
+            "Auslosen",
+            "ZiehungAusführen"
+        ],
+        "info": "Führt die Auslosung der Wichtel aus."
+    },
     "moddingStatus":
     {
         "commands": [
