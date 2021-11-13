@@ -1,4 +1,4 @@
-import Database from '../../database';
+import Database from '../../database/database';
 import { Exclusion } from '../../classes/exclusion';
 import { ExclusionReason } from '../../types/exclusionReason';
 import GiftType from '../../types/giftType';

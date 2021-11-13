@@ -2,7 +2,7 @@ import { ChannelType, Message, State } from '../endpoint/definitions';
 import Localisation, { CommandInfo } from '../../utility/localisation';
 import { CommandHandlerFunction } from './handlingTools/handlerFunctions';
 import Config from '../../utility/config';
-import Database from '../database';
+import Database from '../database/database';
 import GeneralModule from './modules/generalModule';
 import HandlingDefinition from './handlingDefinition';
 import InformationModule from './modules/informationModule';

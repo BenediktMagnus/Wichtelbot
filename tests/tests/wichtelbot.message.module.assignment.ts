@@ -2,7 +2,7 @@ import 'mocha';
 import { assert } from 'chai';
 import { AssignmentModule } from '../../scripts/wichtelbot/message/modules/assignmentModule';
 import ContactTestUtility from '../utility/contact';
-import Database from '../../scripts/wichtelbot/database';
+import Database from '../../scripts/wichtelbot/database/database';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
 import Member from '../../scripts/wichtelbot/classes/member';
 import { RelationshipTestUtility } from '../utility/relationship';

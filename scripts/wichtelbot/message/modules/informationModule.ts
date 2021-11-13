@@ -1,7 +1,7 @@
 import { Visualisation, VisualisationType } from "../../endpoint/definitions";
 import Config from "../../../utility/config";
 import ContactType from "../../types/contactType";
-import Database from "../../database";
+import Database from "../../database/database";
 import GiftType from "../../types/giftType";
 import { KeyValuePairList } from "../../../utility/keyValuePair";
 import Localisation from "../../../utility/localisation";

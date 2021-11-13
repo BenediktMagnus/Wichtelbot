@@ -1,7 +1,7 @@
 import 'mocha';
 import { AssignmentModule } from '../../scripts/wichtelbot/message/modules/assignmentModule';
 import ContactTestUtility from '../utility/contact';
-import Database from '../../scripts/wichtelbot/database';
+import Database from '../../scripts/wichtelbot/database/database';
 import Member from '../../scripts/wichtelbot/classes/member';
 
 const testCount = 1000;

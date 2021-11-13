@@ -6,7 +6,7 @@ import Config from '../../../scripts/utility/config';
 import ConfigTestUtility from '../../utility/config';
 import Contact from '../../../scripts/wichtelbot/classes/contact';
 import ContactType from '../../../scripts/wichtelbot/types/contactType';
-import Database from '../../../scripts/wichtelbot/database';
+import Database from '../../../scripts/wichtelbot/database/database';
 import GiftType from '../../../scripts/wichtelbot/types/giftType';
 import Information from '../../../scripts/wichtelbot/classes/information';
 import { KeyValuePairList } from '../../../scripts/utility/keyValuePair';

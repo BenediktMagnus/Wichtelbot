@@ -3,7 +3,7 @@ import { Additions } from '../../endpoint/definitions';
 import Config from '../../../utility/config';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
-import Database from '../../database';
+import Database from '../../database/database';
 import { KeyValuePairList } from '../../../utility/keyValuePair';
 import Member from '../../classes/member';
 import Message from '../../endpoint/definitions/message';

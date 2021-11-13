@@ -1,12 +1,12 @@
 import * as fs from 'fs';
-import Contact, { ContactCoreData, ContactData } from './classes/contact';
-import { Exclusion, ExclusionData } from './classes/exclusion';
-import { Relationship, RelationshipData } from './classes/relationship';
-import Config from '../utility/config';
-import ContactType from './types/contactType';
-import { InformationData } from './classes/information';
-import Member from './classes/member';
-import Utils from '../utility/utils';
+import Contact, { ContactCoreData, ContactData } from '../classes/contact';
+import { Exclusion, ExclusionData } from '../classes/exclusion';
+import { Relationship, RelationshipData } from '../classes/relationship';
+import Config from '../../utility/config';
+import ContactType from '../types/contactType';
+import { InformationData } from '../classes/information';
+import Member from '../classes/member';
+import Utils from '../../utility/utils';
 import Sqlite = require('better-sqlite3');
 
 export default class Database

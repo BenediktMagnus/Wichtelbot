@@ -4,7 +4,7 @@ import { TestMessage, TestMessageWithFixedAuthor } from '../utility/message';
 import { assert } from 'chai';
 import Config from '../../scripts/utility/config';
 import ConfigTestUtility from '../utility/config';
-import Database from '../../scripts/wichtelbot/database';
+import Database from '../../scripts/wichtelbot/database/database';
 import { KeyValuePairList } from '../../scripts/utility/keyValuePair';
 import Localisation from '../../scripts/utility/localisation';
 import MessageHandler from '../../scripts/wichtelbot/message/messageHandler';
