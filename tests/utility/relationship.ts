@@ -17,22 +17,22 @@ export abstract class RelationshipTestUtility
 
             for (const relationship of relationships)
             {
-                assert.notEqual(relationship.giverId, relationship.takerId);
+                assert.notEqual(relationship.giverId, relationship.takerId, 'Validity check, giver and taker are identical');
 
                 if (relationship.giverId === member.id)
                 {
-                    assert.isFalse(foundGiver);
+                    assert.isFalse(foundGiver, 'Validity check, giver appeared twice');
                     foundGiver = true;
                 }
                 else if (relationship.takerId === member.id)
                 {
-                    assert.isFalse(foundTaker);
+                    assert.isFalse(foundTaker, 'Validity check, taker appeared twice');
                     foundTaker = true;
                 }
             }
 
-            assert.isTrue(foundGiver);
-            assert.isTrue(foundTaker);
+            assert.isTrue(foundGiver, 'Validity check, one giver is missing');
+            assert.isTrue(foundTaker, 'Validity check, one taker is missing');
         }
     }
 
@@ -73,14 +73,14 @@ export abstract class RelationshipTestUtility
             const takerHasAllGiftType = taker.information.giftTypeAsTaker === GiftType.All;
             const isGiftTypeCompatible = giftTypesAreTheSame || giverHasAllGiftType || takerHasAllGiftType;
 
-            assert.isTrue(isGiftTypeCompatible);
+            assert.isTrue(isGiftTypeCompatible, 'Gift type compatibility check failed');
 
             const countriesAreTheSame = giver.information.country === taker.information.country;
             const noneHasAnalogueGiftType = giver.information.giftTypeAsGiver === GiftType.Analogue
                 || taker.information.giftTypeAsTaker === GiftType.Analogue;
             const isInternationalCompatible = countriesAreTheSame || noneHasAnalogueGiftType || giver.information.internationalAllowed;
 
-            assert.isTrue(isInternationalCompatible);
+            assert.isTrue(isInternationalCompatible, 'International compatibility check failed');
         }
     }
 }
