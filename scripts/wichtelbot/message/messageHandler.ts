@@ -6,6 +6,7 @@ import Database from '../database/database';
 import GeneralModule from './modules/generalModule';
 import HandlingDefinition from './handlingDefinition';
 import InformationModule from './modules/informationModule';
+import { ModerationModule } from './modules/moderationModule';
 import StateCommand from './handlingTools/stateCommand';
 import StateCommandMap from './handlingTools/stateCommandMap';
 
@@ -29,6 +30,7 @@ export default class MessageHandler
 
     protected generalModule: GeneralModule;
     protected informationModule: InformationModule;
+    protected moderationModule: ModerationModule;
 
     // In private messages:
     protected stateCommands = new StateCommandMap();
@@ -56,8 +58,9 @@ export default class MessageHandler
 
         this.generalModule = new GeneralModule(database);
         this.informationModule = new InformationModule(database);
+        this.moderationModule = new ModerationModule(database);
 
-        this.handlingDefinition = new HandlingDefinition(this.generalModule, this.informationModule);
+        this.handlingDefinition = new HandlingDefinition(this.generalModule, this.informationModule, this.moderationModule);
 
         this.applyHandlingDefinition();
     }

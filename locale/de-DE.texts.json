@@ -14,6 +14,7 @@
     "deregistration": "Schade, {contact.nickname}! Ich hab dich vom Wichteln abgemeldet. Wenn du wieder mitmachen möchtest, schreibe „registrieren“.",
     "deregistrationCancelled": "Puh, nochmal Glück gehabt! Schön, dass du dabei bleibst!",
     "goodAfternoon": "Guten Tag, {contact.nickname}!",
+    "goodEvening": "Guten Abend, {contact.nickname}!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",
     "goodNight": "Schlaf schön, {contact.nickname}!",
     "hello": "Hallööö, {contact.nickname}!",
@@ -35,6 +36,9 @@
     "notUnderstood": "Häää? Probiers nochmal.",
     "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
     "moderationNeedHelp": "<@&{var.moderationRoleId}> Der Wichtel {contact.nickname} ({contact.tag}) bittet um Hilfe.",
+    "moderationStatus": "**Status des Wichtelns {var.currentEventName}**\nAktuelle Phase: {var.eventPhaseString}\n\nAnzahl Teilnehmer: {var.contactCount}\nDavon vollständig registriert: {var.waitingMemberCount}\n\nBewichtelungsarten:\nAls Wichtelpate: {var.analogueGiverCount} mal analog, {var.digitalGiverCount} mal digital, {var.allGiverCount} mal beides\nAls Wichtelkind: {var.analogueTakerCount} mal analog, {var.digitalTakerCount} mal digital, {var.allTakerCount} mal beides\n\nPakete: {var.parcelSentCount} versendet, {var.parcelReceivedCount} erhalten",
+    "moderationStatusEventPhase": "{var.currentEventPhase}",
+    "moderationStatusEventPhaseWithNextPhase": "{var.currentEventPhase} ({var.nextEventPhase} startet am {date.day}.{date.month}.{date.year} um {date.hour}:{date.minute} Uhr)",
     "modsCalled": "Keine Sorge! Hilfe ist unterwegs! (So schnell sie kann...)",
     "profileName": "Name",
     "profileGiftType": "Bewichtelungsart",
@@ -49,5 +53,7 @@
     "registrationCancelled": "Schade! Wenn du es dir anders überlegen solltest, schreibe einfach „registrieren“, um den Anmeldevorgang erneut zu starten.",
     "registrationProfileOverview": "Hier noch einen Überblick über deinen aktuellen Steckbrief:",
     "sentComponentText": "Klicken! Du sollst klicken!",
-    "sternenrose": "Vielen Dank, Sterni! :)"
+    "sternenrose": "Vielen Dank, Sterni! :)",
+    "thankYouResponse": "Bitte!",
+    "yourAreWelcomeRespone": "🙂"
 }

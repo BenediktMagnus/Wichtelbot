@@ -1,4 +1,3 @@
-
 import { Channel, ChannelType, Client, Component, Message, State, User } from '../../scripts/wichtelbot/endpoint/definitions';
 import Contact from '../../scripts/wichtelbot/classes/contact';
 import Database from '../../scripts/wichtelbot/database/database';

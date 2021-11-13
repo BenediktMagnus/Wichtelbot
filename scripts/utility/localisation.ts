@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import Config from './config';
 import GiftType from '../wichtelbot/types/giftType';
 import TokenString from './tokenString';
+import WichtelEventPhase from './wichtelEvent';
 
 export interface CommandInfo
 {
@@ -17,6 +18,7 @@ interface Commands
     contacting: CommandInfo;
     deregistration: CommandInfo;
     goodAfternoon: CommandInfo;
+    goodEvening: CommandInfo;
     goodMorning: CommandInfo;
     goodNight: CommandInfo;
     hello: CommandInfo;
@@ -25,10 +27,13 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
+    moddingStatus: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
     sternenrose: CommandInfo;
+    thankYou: CommandInfo;
     yes: CommandInfo;
+    yourAreWelcome: CommandInfo;
 }
 
 // TODO: Documentation
@@ -49,6 +54,7 @@ interface Texts
     deregistration: TokenString;
     deregistrationCancelled: TokenString;
     goodAfternoon: TokenString;
+    goodEvening: TokenString;
     goodMorning: TokenString;
     goodNight: TokenString;
     hello: TokenString;
@@ -70,6 +76,9 @@ interface Texts
     notUnderstood: TokenString;
     oldInformation: TokenString;
     moderationNeedHelp: TokenString; // TODO: This includes a Discord specific mention which is not portable to other implementations.
+    moderationStatus: TokenString;
+    moderationStatusEventPhase: TokenString;
+    moderationStatusEventPhaseWithNextPhase: TokenString;
     modsCalled: TokenString;
     profileName: TokenString;
     profileGiftType: TokenString;
@@ -85,6 +94,8 @@ interface Texts
     registrationProfileOverview: TokenString;
     sentComponentText: TokenString;
     sternenrose: TokenString;
+    thankYouResponse: TokenString;
+    yourAreWelcomeRespone: TokenString;
 }
 
 interface Values
@@ -95,6 +106,10 @@ interface Values
     giftTypeNothing: string;
     no: string;
     yes: string;
+    wichtelEventPhaseEnded: string,
+    wichtelEventPhaseRegistration: string,
+    wichtelEventPhaseWaiting: string,
+    wichtelEventPhaseWichteln: string,
 }
 
 export default abstract class Localisation
@@ -148,27 +163,19 @@ export default abstract class Localisation
 
     public static translateGiftType (giftType: GiftType): string
     {
-        let result = '';
-
         switch (giftType)
         {
             case GiftType.Analogue:
-                result = Localisation._values.giftTypeAnalogue;
-                break;
+                return Localisation._values.giftTypeAnalogue;
             case GiftType.Digital:
-                result = Localisation._values.giftTypeDigital;
-                break;
+                return Localisation._values.giftTypeDigital;
             case GiftType.All:
-                result = Localisation._values.giftTypeAll;
-                break;
+                return Localisation._values.giftTypeAll;
             case GiftType.Nothing:
-                result = Localisation._values.giftTypeNothing;
-                break;
+                return Localisation._values.giftTypeNothing;
             default:
                 throw TypeError('Invalid gift type to translate.');
         }
-
-        return result;
     }
 
     public static translateCountry (country: string): string
@@ -179,5 +186,22 @@ export default abstract class Localisation
         const localisedCountry = Config.rawCountries[indexOfCountry];
 
         return localisedCountry;
+    }
+
+    public static translateWichtelEventPhase (eventPhase: WichtelEventPhase): string
+    {
+        switch (eventPhase)
+        {
+            case WichtelEventPhase.Waiting:
+                return Localisation._values.wichtelEventPhaseWaiting;
+            case WichtelEventPhase.Registration:
+                return Localisation._values.wichtelEventPhaseRegistration;
+            case WichtelEventPhase.Wichteln:
+                return Localisation._values.wichtelEventPhaseWichteln;
+            case WichtelEventPhase.Ended:
+                return Localisation._values.wichtelEventPhaseEnded;
+            default:
+                throw TypeError('Invalid event phase to translate.');
+        }
     }
 }

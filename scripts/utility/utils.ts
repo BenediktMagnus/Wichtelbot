@@ -1,3 +1,12 @@
+interface DateStrings
+{
+    year: string;
+    month: string;
+    day: string;
+    hour: string;
+    minute: string;
+}
+
 export default abstract class Utils
 {
     private static readonly defaultMaxWordLength = 100;
@@ -5,6 +14,17 @@ export default abstract class Utils
     public static getCurrentUnixTime (): number
     {
         return Math.floor(new Date().getTime() / 1000);
+    }
+
+    public static dateToDateStrings (unixTime: Date): DateStrings
+    {
+        return {
+            'year': unixTime.getFullYear().toString(),
+            'month': (unixTime.getMonth() + 1).toString(),
+            'day': unixTime.getDate().toString(),
+            'hour': unixTime.getHours().toString(),
+            'minute': unixTime.getMinutes().toString().padStart(2, '0'),
+        };
     }
 
     /**

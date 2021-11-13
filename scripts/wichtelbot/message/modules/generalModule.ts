@@ -9,6 +9,7 @@ import Member from '../../classes/member';
 import Message from '../../endpoint/definitions/message';
 import State from '../../endpoint/definitions/state';
 import TokenString from '../../../utility/tokenString';
+import Utils from '../../../utility/utils';
 import WichtelEventPhase from '../../../utility/wichtelEvent';
 
 /**
@@ -69,12 +70,14 @@ export default class GeneralModule
 
             const registrationPhaseTime = new Date(nowInMs + randomAdditionInMs);
 
+            const registrationDateStrings = Utils.dateToDateStrings(registrationPhaseTime);
+
             const parameters = new KeyValuePairList();
-            parameters.addPair('year', registrationPhaseTime.getFullYear().toString());
-            parameters.addPair('month', (registrationPhaseTime.getMonth() + 1).toString());
-            parameters.addPair('day', registrationPhaseTime.getDate().toString());
-            parameters.addPair('hour', registrationPhaseTime.getHours().toString());
-            parameters.addPair('minute', registrationPhaseTime.getMinutes().toString().padStart(2, '0'));
+            parameters.addPair('year', registrationDateStrings.year);
+            parameters.addPair('month', registrationDateStrings.month);
+            parameters.addPair('day', registrationDateStrings.day);
+            parameters.addPair('hour', registrationDateStrings.hour);
+            parameters.addPair('minute', registrationDateStrings.minute);
 
             answer = Localisation.texts.contactingTooEarly.process(message.author, parameters);
         }

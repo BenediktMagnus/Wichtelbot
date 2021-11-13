@@ -36,6 +36,12 @@
             "Tag"
         ]
     },
+    "goodEvening": {
+        "commands": [
+            "guten Abend",
+            "Abend"
+        ]
+    },
     "goodMorning": {
         "commands": [
             "guten Morgen",
@@ -86,6 +92,14 @@
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
+    "moddingStatus":
+    {
+        "commands": [
+            "Wichtelstatus",
+            "Status"
+        ],
+        "info": "Gibt Informationen zum aktuellen Status des Wichtelns aus."
+    },
     "no": {
         "commands": ["nein", "ne", "nö", "ausgeschlossen", "auf keinen Fall"]
     },
@@ -96,7 +110,26 @@
     "sternenrose": {
         "commands": ["sternenrose"]
     },
+    "thankYou": {
+        "commands": [
+            "Danke",
+            "Dankeschön",
+            "Dankesehr",
+            "Danke dir",
+            "Vielen Dank",
+            "Großen Dank"
+        ]
+    },
     "yes": {
         "commands": ["ja", "jap", "jawohl", "okay", "ok", "meinetwegen"]
+    },
+    "yourAreWelcome": {
+        "commands": [
+            "Bitte",
+            "Bittesehr",
+            "Bitte sehr",
+            "Bitteschön",
+            "Bitte schön"
+        ]
     }
 }

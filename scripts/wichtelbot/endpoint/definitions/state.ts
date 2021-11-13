@@ -1,7 +1,7 @@
 enum State
 {
     // As contact:
-    Nothing = '', // Is allowed to do nothing but stateless commands.
+    Nothing = 'nothing', // Is allowed to do nothing but stateless commands.
     New = 'new',
     Registration = 'registration',
     // As contact/member:

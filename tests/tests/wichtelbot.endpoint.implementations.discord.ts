@@ -4,7 +4,6 @@ import * as DiscordEndpoint from '../../scripts/wichtelbot/endpoint/implementati
 import * as mockito from 'ts-mockito';
 import { assert } from 'chai';
 import { ChannelType } from '../../scripts/wichtelbot/endpoint/definitions';
-import GeneralTestUtility from '../utility/general';
 
 describe('discord client',
     function ()
