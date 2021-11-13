@@ -6,6 +6,8 @@ import Database from '../../scripts/wichtelbot/database';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
 import Member from '../../scripts/wichtelbot/classes/member';
 import { RelationshipTestUtility } from '../utility/relationship';
+import { ExclusionData } from '../../scripts/wichtelbot/classes/exclusion';
+import { ExclusionReason } from '../../scripts/wichtelbot/types/exclusionReason';
 
 describe('assignment module',
     function ()
@@ -154,6 +156,58 @@ describe('assignment module',
 
                 RelationshipTestUtility.assertValidity(relationships, newMembers);
                 RelationshipTestUtility.assertCompatibility(relationships, newMembers);
+            }
+        );
+
+        it('can assign members with exclusions',
+            function ()
+            {
+                const newMembers: Member[] = [];
+
+                for (let i = 0; i < 4; i++)
+                {
+                    const newMember = ContactTestUtility.createRandomMemberWithMostCompatibleInformation();
+
+                    newMembers.push(newMember);
+                    database.saveContact(newMember);
+                    database.saveMember(newMember);
+                }
+
+                const exclusions: ExclusionData[] = [
+                    {
+                        giverId: newMembers[0].id,
+                        takerId: newMembers[1].id,
+                        reason: ExclusionReason.Wish,
+                    },
+                    {
+                        giverId: newMembers[0].id,
+                        takerId: newMembers[2].id,
+                        reason: ExclusionReason.Wish,
+                    },
+                    {
+                        giverId: newMembers[1].id,
+                        takerId: newMembers[2].id,
+                        reason: ExclusionReason.Wish,
+                    },
+                    {
+                        giverId: newMembers[1].id,
+                        takerId: newMembers[3].id,
+                        reason: ExclusionReason.Wish,
+                    },
+                ];
+
+                database.saveUserExclusions(exclusions);
+
+                const successful = assignmentModule.assign();
+
+                assert.isTrue(successful);
+
+                const relationships = database.getRelationships();
+
+                assert.equal(relationships.length, 4);
+
+                RelationshipTestUtility.assertValidity(relationships, newMembers);
+                RelationshipTestUtility.assertCompatibility(relationships, newMembers, exclusions);
             }
         );
 

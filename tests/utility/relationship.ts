@@ -1,4 +1,6 @@
 import { assert } from "chai";
+import { ExclusionData } from "../../scripts/wichtelbot/classes/exclusion";
+import { ExclusionReason } from "../../scripts/wichtelbot/types/exclusionReason";
 import GiftType from "../../scripts/wichtelbot/types/giftType";
 import Member from "../../scripts/wichtelbot/classes/member";
 import { Relationship } from "../../scripts/wichtelbot/classes/relationship";
@@ -39,7 +41,7 @@ export abstract class RelationshipTestUtility
     /**
      * Proofs the compatibility of every relationship.
     */
-    public static assertCompatibility (relationships: Relationship[], members: Member[]): void
+    public static assertCompatibility (relationships: Relationship[], members: Member[], exclusions: ExclusionData[] = []): void
     {
         for (const relationship of relationships)
         {
@@ -81,6 +83,16 @@ export abstract class RelationshipTestUtility
             const isInternationalCompatible = countriesAreTheSame || noneHasAnalogueGiftType || giver.information.internationalAllowed;
 
             assert.isTrue(isInternationalCompatible, 'International compatibility check failed');
+
+            for (const exclusion of exclusions)
+            {
+                if (exclusion.reason == ExclusionReason.Wish)
+                {
+                    const isNoExclusion = exclusion.giverId !== giver.id || exclusion.takerId !== taker.id;
+
+                    assert.isTrue(isNoExclusion, 'Exclusion compatibility check failed');
+                }
+            }
         }
     }
 }
