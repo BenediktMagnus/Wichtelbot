@@ -40,7 +40,7 @@ export class AssignmentModule
      * Run the assignment.
      * @returns True if successful, false otherwise.
      */
-    public assign (): boolean // TODO: Return the reason for failure.
+    public runAssignment (): boolean // TODO: Return the reason for failure.
     {
         const members = this.database.getWaitingMember();
 

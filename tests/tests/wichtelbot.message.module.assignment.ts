@@ -3,11 +3,11 @@ import { assert } from 'chai';
 import { AssignmentModule } from '../../scripts/wichtelbot/message/modules/assignmentModule';
 import ContactTestUtility from '../utility/contact';
 import Database from '../../scripts/wichtelbot/database/database';
+import { ExclusionData } from '../../scripts/wichtelbot/classes/exclusion';
+import { ExclusionReason } from '../../scripts/wichtelbot/types/exclusionReason';
 import GiftType from '../../scripts/wichtelbot/types/giftType';
 import Member from '../../scripts/wichtelbot/classes/member';
 import { RelationshipTestUtility } from '../utility/relationship';
-import { ExclusionData } from '../../scripts/wichtelbot/classes/exclusion';
-import { ExclusionReason } from '../../scripts/wichtelbot/types/exclusionReason';
 
 describe('assignment module',
     function ()
@@ -45,7 +45,7 @@ describe('assignment module',
                     database.saveMember(newMember);
                 }
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isTrue(successful);
 
@@ -73,7 +73,7 @@ describe('assignment module',
                     database.saveMember(newMember);
                 }
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isTrue(successful);
 
@@ -101,7 +101,7 @@ describe('assignment module',
                     database.saveMember(newMember);
                 }
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isTrue(successful);
 
@@ -146,7 +146,7 @@ describe('assignment module',
                     database.saveMember(newMember);
                 }
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isTrue(successful);
 
@@ -198,7 +198,7 @@ describe('assignment module',
 
                 database.saveUserExclusions(exclusions);
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isTrue(successful);
 
@@ -214,7 +214,7 @@ describe('assignment module',
         it('cannot assign with zero members',
             function ()
             {
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isFalse(successful);
             }
@@ -228,7 +228,7 @@ describe('assignment module',
                 database.saveContact(newMember);
                 database.saveMember(newMember);
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isFalse(successful);
             }
@@ -248,7 +248,7 @@ describe('assignment module',
                     database.saveMember(newMember);
                 }
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isFalse(successful);
             }
@@ -279,7 +279,7 @@ describe('assignment module',
                     database.saveMember(newMember);
                 }
 
-                const successful = assignmentModule.assign();
+                const successful = assignmentModule.runAssignment();
 
                 assert.isFalse(successful);
             }

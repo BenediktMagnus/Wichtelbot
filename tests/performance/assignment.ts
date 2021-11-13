@@ -53,7 +53,7 @@ function performanceTest (this: Mocha.Suite): void
     it('members.',
         function ()
         {
-            assignmentModule.assign();
+            assignmentModule.runAssignment();
         }
     );
 }

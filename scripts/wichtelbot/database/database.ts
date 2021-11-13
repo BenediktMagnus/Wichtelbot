@@ -671,28 +671,6 @@ export function Nutzerzahlen (Callback)
 }
 
 /**
- * Liest alle eingetragenen Ausschlüsse aus der Datenbank.
- * @param {Number} NutzerId Die Discord-ID des Nutzers.
- * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
- * /
-export function Ausschlüsse (NutzerId, Callback)
-{
-    mainDatabase.all(
-        'SELECT * FROM Ausschluesse WHERE NutzerId = ? ORDER BY Zeit',
-        NutzerId,
-        function (Fehler, Reihen)
-        {
-            Fehlerbehandlung(Fehler);
-
-            if (Fehler)
-                Reihen = [];
-
-            Callback(Reihen);
-        }
-    );
-}
-
-/**
  * Liest alle Steamnamen aus der Datenbank.
  * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
  * /
@@ -730,27 +708,6 @@ export function WichtelOhneVerschicktesPaket (Callback)
                 Reihen = [];
 
             Callback(Reihen);
-        }
-    );
-}
-
-/**
- * Trägt eine Liste an Nutzer-Wichtel-Zuordnungen in die Datenbank ein.
- * @param {Array} Zuordnungen Eine Liste von Objekten mit .Nutzer.Id und .Wichtel.Id.
- * @param {Function} Callback Callback, der nach dem Eintragen der Wichtel ausgeführt wird.
- * /
-export function WichtelEintragen (Zuordnungen, Callback)
-{
-    let Transaktion = NeueTransaktion(mainDatabase.Name);
-
-    let Vorgang = Transaktion.prepare("INSERT INTO Wichtel (NutzerId, WichtelId) VALUES (?, ?)", Transaktion.Fehlerbehandlung);
-
-    for (let Zuordnung of Zuordnungen)
-        Vorgang.run(Zuordnung.Nutzer.Id, Zuordnung.Wichtel.Id, Transaktion.Fehlerbehandlung);
-
-    Vorgang.finalize(function ()
-        {
-            Callback(Transaktion.Schließen());
         }
     );
 }
