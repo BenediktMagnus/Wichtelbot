@@ -498,6 +498,10 @@ export default class HandlingDefinition
 
     public moderatorCommands: CommandDefinition[] = [
         {
+            commandInfo: Localisation.commands.moddingDistributeWichtelProfiles,
+            handlerFunction: async (message: Message): Promise<void> => this.moderationModule.distributeWichtelProfiles(message)
+        },
+        {
             commandInfo: Localisation.commands.moddingEndRegistration, // TODO: Remove with cron feature that does this automatically.
             handlerFunction: async (message: Message): Promise<void> => this.moderationModule.endRegistration(message)
         },

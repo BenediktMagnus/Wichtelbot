@@ -1,8 +1,9 @@
+import { Message, State } from "../../endpoint/definitions";
 import Config from "../../../utility/config";
 import Database from "../../database/database";
+import { HandlingUtils } from "../handlingTools/handlingUtils";
 import { KeyValuePairList } from "../../../utility/keyValuePair";
 import Localisation from "../../../utility/localisation";
-import { Message, State } from "../../endpoint/definitions";
 import Utils from "../../../utility/utils";
 import WichtelEventPhase from "../../../utility/wichtelEvent";
 
@@ -108,6 +109,28 @@ export class ModerationModule
 
         const parameters = new KeyValuePairList('waitingMemberCount', `${members.length}`);
         const answer = Localisation.texts.moderationRegistrationEnded.process(message.author, parameters);
+
+        await message.reply(answer);
+    }
+
+    public async distributeWichtelProfiles (message: Message): Promise<void>
+    {
+        const relationships = this.database.getRelationshipsWithMembers();
+
+        for (const relationship of relationships)
+        {
+            const profileOverviewText = Localisation.texts.wichtelProfileDistribution.process(relationship.giver);
+            const profileVisualisations = HandlingUtils.getProfileVisualisations(relationship.taker);
+
+            await message.reply(profileOverviewText, profileVisualisations);
+
+            relationship.giver.state = State.Wichteling;
+            // NOTE: We can use "updateContacts" instead of "updateMembers" because we changed the state, which is only part of the contact:
+            this.database.updateContact(relationship.giver);
+        }
+
+        const parameters = new KeyValuePairList('profileCount', `${relationships.length}`);
+        const answer = Localisation.texts.moderationProfilesDistributed.process(message.author, parameters);
 
         await message.reply(answer);
     }

@@ -23,6 +23,7 @@ enum State
     /** While assignment is running; cannot change information. */
     Assignment = 'assignment',
     // As wichtel:
+    Wichteling = 'wichteling',
     MessageToGiftGiver = 'messageToGiftGiver',
     MessageToGiftTaker = 'messageToGiftTaker',
     ParcelSendConsignmentNumber = 'sendParcelConsignmentNumber',

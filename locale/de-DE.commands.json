@@ -92,6 +92,13 @@
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
+    "moddingDistributeWichtelProfiles":
+    {
+        "commands": [
+            "SteckbriefeVerteilen"
+        ],
+        "info": "Verteilt die Steckbriefe der Wichtelkinder an alle Wichtelpaten."
+    },
     "moddingEndRegistration":
     {
         "commands": [

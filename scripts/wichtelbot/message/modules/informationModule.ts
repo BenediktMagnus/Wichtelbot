@@ -1,8 +1,8 @@
-import { Visualisation, VisualisationType } from "../../endpoint/definitions";
 import Config from "../../../utility/config";
 import ContactType from "../../types/contactType";
 import Database from "../../database/database";
 import GiftType from "../../types/giftType";
+import { HandlingUtils } from "../handlingTools/handlingUtils";
 import { KeyValuePairList } from "../../../utility/keyValuePair";
 import Localisation from "../../../utility/localisation";
 import Member from "../../classes/member";
@@ -313,93 +313,7 @@ export default class InformationModule
 
         // Send an overview of all information gathered in the form of the own profile:
         const profileOverviewText = Localisation.texts.registrationProfileOverview.process(member);
-        const profileVisualisations = this.getProfileVisualisations(member);
+        const profileVisualisations = HandlingUtils.getProfileVisualisations(member);
         await message.reply(profileOverviewText, profileVisualisations);
-    }
-
-    public getProfileVisualisations (member: Member): Visualisation[]
-    {
-        const visualisations: Visualisation[] = [
-            {
-                headline: Localisation.texts.profileName.process(member),
-                text: member.name,
-                type: VisualisationType.Compact
-            },
-            {
-                headline: Localisation.texts.profileGiftType.process(member),
-                text: Localisation.translateGiftType(member.information.giftTypeAsTaker),
-                type: VisualisationType.Compact
-            }
-        ];
-
-        const sendAnalogue = member.information.giftTypeAsTaker == GiftType.Analogue || member.information.giftTypeAsTaker == GiftType.All;
-        const sendDigital = member.information.giftTypeAsGiver == GiftType.Digital || member.information.giftTypeAsGiver == GiftType.All;
-
-        if (sendAnalogue)
-        {
-            visualisations.push(
-                {
-                    headline: Localisation.texts.profileCounty.process(member),
-                    text: Localisation.translateCountry(member.information.country),
-                    type: VisualisationType.Compact
-                }
-            );
-
-            visualisations.push(
-                {
-                    headline: Localisation.texts.profileAddress.process(member),
-                    text: member.information.address,
-                    type: VisualisationType.Compact
-                }
-            );
-        }
-
-        if (sendDigital)
-        {
-            visualisations.push(
-                {
-                    headline: Localisation.texts.profileDigitalAddress.process(member),
-                    text: member.information.digitalAddress,
-                    type: VisualisationType.Compact
-                }
-            );
-        }
-
-        visualisations.push(
-            {
-                headline: Localisation.texts.profileWishlist.process(member),
-                text: member.information.wishList,
-                type: VisualisationType.Normal
-            }
-        );
-
-        if (sendAnalogue)
-        {
-            visualisations.push(
-                {
-                    headline: Localisation.texts.profileAllergies.process(member),
-                    text: member.information.allergies,
-                    type: VisualisationType.Normal
-                }
-            );
-        }
-
-        visualisations.push(
-            {
-                headline: Localisation.texts.profileExclusion.process(member),
-                text: member.information.giftExclusion,
-                type: VisualisationType.Normal
-            }
-        );
-
-        visualisations.push(
-            {
-                headline: Localisation.texts.profileFreeText.process(member),
-                text: member.information.freeText,
-                type: VisualisationType.Normal
-            }
-        );
-
-        return visualisations;
     }
 }
