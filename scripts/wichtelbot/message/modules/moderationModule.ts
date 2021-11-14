@@ -116,18 +116,23 @@ export class ModerationModule
 
     public async distributeWichtelProfiles (message: Message): Promise<void>
     {
-        const relationships = this.database.getRelationshipsWithMembers();
+        // TODO: This is relatively slow. Could it be sped up? Getting the contacts/members could be cached or maybe the profile is slow?
+
+        const relationships = this.database.getRelationships();
 
         for (const relationship of relationships)
         {
-            const profileOverviewText = Localisation.texts.wichtelProfileDistribution.process(relationship.giver);
-            const profileVisualisations = HandlingUtils.getProfileVisualisations(relationship.taker);
+            const giver = this.database.getContact(relationship.giverId);
+            const taker = this.database.getMember(relationship.takerId);
 
-            await message.reply(profileOverviewText, profileVisualisations);
+            const profileOverviewText = Localisation.texts.wichtelProfileDistribution.process(giver);
+            const profileVisualisations = HandlingUtils.getProfileVisualisations(taker);
 
-            relationship.giver.state = State.Wichteling;
-            // NOTE: We can use "updateContacts" instead of "updateMembers" because we changed the state, which is only part of the contact:
-            this.database.updateContact(relationship.giver);
+            const giverUser = await message.client.fetchUser(giver.id);
+            await giverUser.send(profileOverviewText, profileVisualisations);
+
+            giver.state = State.Wichteling;
+            this.database.updateContact(giver);
         }
 
         const parameters = new KeyValuePairList('profileCount', `${relationships.length}`);

@@ -9,7 +9,6 @@ import { GiftTypeStatistics } from './giftTypeStatistics';
 import { InformationData } from '../classes/information';
 import Member from '../classes/member';
 import { ParcelStatistics } from './parcelStatistics';
-import { RelationshipWithMembers } from './relationshipWithMembers';
 import { State } from '../endpoint/definitions';
 import Utils from '../../utility/utils';
 import Sqlite = require('better-sqlite3');
@@ -568,51 +567,6 @@ export default class Database
         }
 
         return relationships;
-    }
-
-    public getRelationshipsWithMembers (): RelationshipWithMembers[]
-    {
-        const statement = this.mainDatabase.prepare(
-            `SELECT
-            giverContact.*, giverInformation.*, takerContact.*, takerInformation.*
-            FROM
-                relationship
-            LEFT JOIN
-                contact AS giverContact
-                    ON giverContact.id = relationship.giverId
-            LEFT JOIN
-                information AS giverInformation
-                    ON giverInformation.contactId = giverContact.id
-            LEFT JOIN
-                contact AS takerContact
-                    ON takerContact.id = relationship.takerId
-            LEFT JOIN
-                information AS takerInformation
-                    ON takerInformation.contactId = takerContact.id`
-        );
-
-        statement.expand(true);
-
-        const resultData = statement.all() as {
-            giverContact: ContactData,
-            giverInformation: InformationData,
-            takerContact: ContactData,
-            takerInformation: InformationData
-        }[];
-
-        const relationshipsWithMembers: RelationshipWithMembers[] = [];
-
-        for (const result of resultData)
-        {
-            const relationshipWithMembers: RelationshipWithMembers = {
-                giver: new Member(result.giverContact, result.giverInformation),
-                taker: new Member(result.takerContact, result.takerInformation),
-            };
-
-            relationshipsWithMembers.push(relationshipWithMembers);
-        }
-
-        return relationshipsWithMembers;
     }
 
     public saveRelationships (relationships: RelationshipData[]): void
