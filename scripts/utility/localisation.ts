@@ -27,6 +27,7 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
+    moddingEndRegistration: CommandInfo;
     moddingRunAssignment: CommandInfo; // TODO: Rename "modding" commands to "moderation".
     moddingStatus: CommandInfo;
     no: CommandInfo;
@@ -79,6 +80,7 @@ interface Texts
     notUnderstood: TokenString;
     oldInformation: TokenString;
     moderationNeedHelp: TokenString; // TODO: This includes a Discord specific mention which is not portable to other implementations.
+    moderationRegistrationEnded: TokenString;
     moderationStatus: TokenString;
     moderationStatusEventPhase: TokenString;
     moderationStatusEventPhaseWithNextPhase: TokenString;

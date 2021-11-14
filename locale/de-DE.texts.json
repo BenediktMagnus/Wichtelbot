@@ -38,6 +38,7 @@
     "notUnderstood": "Häää? Probiers nochmal.",
     "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
     "moderationNeedHelp": "<@&{var.moderationRoleId}> Der Wichtel {contact.nickname} ({contact.tag}) bittet um Hilfe.",
+    "moderationRegistrationEnded": "Registrierungsphase beendet. \nAnzahl Wartender: {var.waitingMemberCount}",
     "moderationStatus": "**Status des Wichtelns {var.currentEventName}**\nAktuelle Phase: {var.eventPhaseString}\n\nAnzahl Teilnehmer: {var.contactCount}\nDavon vollständig registriert: {var.waitingMemberCount}\n\nBewichtelungsarten:\nAls Wichtelpate: {var.analogueGiverCount} mal analog, {var.digitalGiverCount} mal digital, {var.allGiverCount} mal beides\nAls Wichtelkind: {var.analogueTakerCount} mal analog, {var.digitalTakerCount} mal digital, {var.allTakerCount} mal beides\n\nPakete: {var.parcelSentCount} versendet, {var.parcelReceivedCount} erhalten",
     "moderationStatusEventPhase": "{var.currentEventPhase}",
     "moderationStatusEventPhaseWithNextPhase": "{var.currentEventPhase} ({var.nextEventPhase} startet am {date.day}.{date.month}.{date.year} um {date.hour}:{date.minute} Uhr)",

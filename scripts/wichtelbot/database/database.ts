@@ -248,21 +248,32 @@ export default class Database
      */
     public updateContact (contact: Contact): void
     {
-        contact.lastUpdateTime = Utils.getCurrentUnixTime();
+        this.updateContacts([contact]);
+    }
 
+    /**
+     * NOTE: The contact objects's lastUpdateTime will be updated.
+     */
+    public updateContacts (contacts: Contact[]): void
+    {
         const statement = this.mainDatabase.prepare(
             `UPDATE
-                contact
-            SET
-                tag = :tag, name = :name, nickname = :nickname,
-                lastUpdateTime = :lastUpdateTime, type = :type, state = :state
-            WHERE
-                id = :id`
+                 contact
+             SET
+                 tag = :tag, name = :name, nickname = :nickname,
+                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
+             WHERE
+                 id = :id`
         );
 
-        statement.run(
-            this.getBindablesFromObject(contact)
-        );
+        for (const contact of contacts)
+        {
+            contact.lastUpdateTime = Utils.getCurrentUnixTime();
+
+            statement.run(
+                this.getBindablesFromObject(contact)
+            );
+        }
     }
 
     public getContactCount (): number

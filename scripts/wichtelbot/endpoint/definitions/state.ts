@@ -20,6 +20,8 @@ enum State
     /** Waiting for becoming a Wichtel. */
     Waiting = 'waiting', // TODO: Rename to "registered".
     ConfirmDeregistration = 'confirmDeregistration',
+    /** While assignment is running; cannot change information. */
+    Assignment = 'assignment', // TODO: Rename to "waiting" after "waiting" has been renamed to "registered".
     // As wichtel:
     MessageToGiftGiver = 'messageToGiftGiver',
     MessageToGiftTaker = 'messageToGiftTaker',

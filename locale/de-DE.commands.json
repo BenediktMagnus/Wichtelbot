@@ -92,6 +92,16 @@
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
+    "moddingEndRegistration":
+    {
+        "commands": [
+            "RegistrierungsphaseBeenden",
+            "RegistrierungBeenden",
+            "AnmeldephaseBeenden",
+            "AnmeldungBeenden"
+        ],
+        "info": "Beendet die Registrierungsphase und versetzt alle vollständig registrierten Teilnehmer in den Wartezustand."
+    },
     "moddingRunAssignment":
     {
         "commands": [
