@@ -112,6 +112,7 @@ export default abstract class ContactTestUtility
     public static createRandomMemberWithMostCompatibleInformation (): Member
     {
         const member = ContactTestUtility.createRandomMember();
+        member.state = State.Waiting;
         member.information.country = 'deutschland';
         member.information.giftTypeAsGiver = GiftType.All;
         member.information.giftTypeAsTaker = GiftType.All;
