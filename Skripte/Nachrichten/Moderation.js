@@ -178,34 +178,6 @@ function NachrichtEntfernen (Nachricht)
 exports.NachrichtEntfernen = NachrichtEntfernen;
 
 /**
- * Ermittelt die aktuelle Anzahl an gegebener Wichtel.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- */
-function Wichtelstatus (Nachricht)
-{
-    Datenbankverwaltung.Nutzerzahlen(function (Ergebnis)
-        {
-            let Antwort = Texte.Wichtelstatus;
-            Antwort = Antwort.replace(/\[\[GESAMT\]\]/g, Ergebnis.Gesamt);
-            Antwort = Antwort.replace(/\[\[TEILNEHMER\]\]/g, Ergebnis.Teilnehmer);
-
-            Nachricht.channel.send(Antwort);
-        }
-    );
-}
-exports.Wichtelstatus = Wichtelstatus;
-
-/**
- * Gibt eine Info zu den möglichen Moderationsbefehlen aus.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- */
-function Info (Nachricht)
-{
-    Nachricht.channel.send(Texte.ModerationInfo);
-}
-exports.Info = Info;
-
-/**
  * Beendet die Anmeldephase und gibt allen Teilnehmern den Wichtelstatus.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */
@@ -237,31 +209,6 @@ function AnmeldephaseBeenden (Nachricht)
     );
 }
 exports.AnmeldephaseBeenden = AnmeldephaseBeenden;
-
-/**
- * Führt die Ziehung der Wichtel aus.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- */
-function ZiehungAusführen (Nachricht)
-{
-    let Prioritätenliste = [];
-
-    if (Nachricht.Parameter != '')
-        Prioritätenliste = Nachricht.Parameter.split("\n");
-
-    let Ziehung = require('../Ziehung.js');
-
-    Ziehung.Initialisieren(Nutzerverwaltung, Datenbankverwaltung, Klient);
-    Ziehung.Ausführen(Prioritätenliste, function (IstFehlerfrei)
-        {
-            if (IstFehlerfrei)
-                Nachricht.reply("\n" + Texte.ZiehungAusgeführt);
-            else
-                Nachricht.reply("\n" + Texte.ZiehungFehlgeschlagen);
-        }
-    );
-}
-exports.ZiehungAusführen = ZiehungAusführen;
 
 /**
  * Listet alle Steamnamen von Nutzern auf, die digital bewichtelt werden wollen.
