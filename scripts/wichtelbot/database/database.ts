@@ -477,12 +477,12 @@ export default class Database
                 information
                     ON information.contactId = contact.id
             WHERE
-                contact.type = ?`
+                contact.state = ?`
         );
 
         statement.expand(true); // Expands the result to have one sub-object for each table.
 
-        const resultData = statement.all(ContactType.Member) as { contact: ContactData, information: InformationData }[];
+        const resultData = statement.all(State.Waiting) as { contact: ContactData, information: InformationData }[];
 
         const members: Member[] = [];
 
