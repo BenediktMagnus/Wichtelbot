@@ -17,7 +17,8 @@ enum State
     InformationUserExclusion = 'informationUserExclusion',
     InformationFreeText = 'informationFreeText',
     // As member:
-    Waiting = 'waiting', // Waiting for becoming a wichtel.
+    /** Waiting for becoming a Wichtel. */
+    Waiting = 'waiting', // TODO: Rename to "registered".
     ConfirmDeregistration = 'confirmDeregistration',
     // As wichtel:
     MessageToGiftGiver = 'messageToGiftGiver',

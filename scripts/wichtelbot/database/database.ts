@@ -206,7 +206,7 @@ export default class Database
     }
 
     /**
-     * NOTE: The contact objects's lastUpdateTime will be updated.
+     * NOTE: The contact object's lastUpdateTime will be updated.
      * TODO: Give the save methods a better name like "insert" or "create" or "saveNew".
      */
     public saveContact (contact: Contact): void
@@ -244,7 +244,7 @@ export default class Database
     }
 
     /**
-     * NOTE: The contact objects's lastUpdateTime will be updated.
+     * NOTE: The contact object's lastUpdateTime will be updated.
      */
     public updateContact (contact: Contact): void
     {
@@ -426,15 +426,6 @@ export default class Database
         runTransaction();
     }
 
-    public getWaitingMemberCount (): number
-    {
-        const statement = this.mainDatabase.prepare(
-            'SELECT COUNT(*) FROM contact WHERE contact.state = ?'
-        );
-
-        return this.getCount(statement, State.Waiting);
-    }
-
     /**
      * Will return the type of contact that can be found for this ID. \
      * If no contact is found, the given contactCoreData will be returned instead.
@@ -466,7 +457,16 @@ export default class Database
         }
     }
 
-    public getWaitingMember (): Member[]
+    public getWaitingMemberCount (): number
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT COUNT(*) FROM contact WHERE contact.state = ?'
+        );
+
+        return this.getCount(statement, State.Waiting);
+    }
+
+    public getWaitingMembers (): Member[]
     {
         const statement = this.mainDatabase.prepare(
             `SELECT

@@ -42,7 +42,7 @@ export class AssignmentModule
      */
     public runAssignment (): boolean // TODO: Return the reason for failure.
     {
-        const members = this.database.getWaitingMember();
+        const members = this.database.getWaitingMembers();
 
         if (members.length === 0)
         {

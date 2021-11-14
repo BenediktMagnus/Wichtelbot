@@ -27,7 +27,7 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
-    moddingRunAssignment: CommandInfo;
+    moddingRunAssignment: CommandInfo; // TODO: Rename "modding" commands to "moderation".
     moddingStatus: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
