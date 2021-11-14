@@ -392,7 +392,7 @@ export default class Database
         return member;
     }
 
-    public getMembersWithState (state: State): Member[]
+    public getMembersByState (state: State): Member[]
     {
         const statement = this.mainDatabase.prepare(
             `SELECT

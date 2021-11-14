@@ -43,7 +43,7 @@ export class AssignmentModule
      */
     public runAssignment (): boolean // TODO: Return the reason for failure.
     {
-        const members = this.database.getMembersWithState(State.Assignment);
+        const members = this.database.getMembersByState(State.Assignment);
 
         if (members.length === 0)
         {

@@ -97,7 +97,7 @@ export class ModerationModule
      */
     public async endRegistration (message: Message): Promise<void>
     {
-        const members = this.database.getMembersWithState(State.Waiting);
+        const members = this.database.getMembersByState(State.Waiting);
 
         for (const member of members)
         {
