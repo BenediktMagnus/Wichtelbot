@@ -21,7 +21,7 @@ enum State
     Waiting = 'waiting', // TODO: Rename to "registered".
     ConfirmDeregistration = 'confirmDeregistration',
     /** While assignment is running; cannot change information. */
-    Assignment = 'assignment', // TODO: Rename to "waiting" after "waiting" has been renamed to "registered".
+    Assignment = 'assignment',
     // As wichtel:
     MessageToGiftGiver = 'messageToGiftGiver',
     MessageToGiftTaker = 'messageToGiftTaker',

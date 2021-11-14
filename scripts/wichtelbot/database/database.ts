@@ -391,6 +391,36 @@ export default class Database
         return member;
     }
 
+    public getMembersWithState (state: State): Member[]
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                contact.*, information.*
+            FROM
+                contact
+            LEFT JOIN
+                information
+                    ON information.contactId = contact.id
+            WHERE
+                contact.state = ?`
+        );
+
+        statement.expand(true); // Expands the result to have one sub-object for each table.
+
+        const resultData = statement.all(state) as { contact: ContactData, information: InformationData }[];
+
+        const members: Member[] = [];
+
+        for (const result of resultData)
+        {
+            const member = new Member(result.contact, result.information);
+
+            members.push(member);
+        }
+
+        return members;
+    }
+
     /**
      * Updates an existing member (contact and information data) in the database. \
      * NOTE: The contact and the information objects' lastUpdateTime will be updated.
@@ -475,36 +505,6 @@ export default class Database
         );
 
         return this.getCount(statement, State.Waiting);
-    }
-
-    public getWaitingMembers (): Member[]
-    {
-        const statement = this.mainDatabase.prepare(
-            `SELECT
-                contact.*, information.*
-            FROM
-                contact
-            LEFT JOIN
-                information
-                    ON information.contactId = contact.id
-            WHERE
-                contact.state = ?`
-        );
-
-        statement.expand(true); // Expands the result to have one sub-object for each table.
-
-        const resultData = statement.all(State.Waiting) as { contact: ContactData, information: InformationData }[];
-
-        const members: Member[] = [];
-
-        for (const result of resultData)
-        {
-            const member = new Member(result.contact, result.information);
-
-            members.push(member);
-        }
-
-        return members;
     }
 
     public getUserExclusions (): Exclusion[]

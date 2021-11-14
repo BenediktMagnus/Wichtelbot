@@ -4,6 +4,7 @@ import { ExclusionReason } from '../../types/exclusionReason';
 import GiftType from '../../types/giftType';
 import Member from '../../classes/member';
 import { RelationshipData } from '../../classes/relationship';
+import { State } from '../../endpoint/definitions';
 
 interface Candidate
 {
@@ -42,7 +43,7 @@ export class AssignmentModule
      */
     public runAssignment (): boolean // TODO: Return the reason for failure.
     {
-        const members = this.database.getWaitingMembers();
+        const members = this.database.getMembersWithState(State.Assignment);
 
         if (members.length === 0)
         {
