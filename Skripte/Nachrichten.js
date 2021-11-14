@@ -24,18 +24,9 @@ export default class MessageHandler
             "löschenachricht": {
                 Funktion: ModulModeration.NachrichtEntfernen
             },
-            "anmeldephasebeenden": {
-                Funktion: ModulModeration.AnmeldephaseBeenden
-            },
-            "ziehungausführen": {
-                Funktion: ModulModeration.ZiehungAusführen
-            },
             "steamnamenauflisten": {
                 Funktion: ModulModeration.SteamnamenAuflisten
             },
-            "steckbriefeverteilen": {
-                Funktion: ModulModeration.SteckbriefeVerteilen
-            }
         },
         //Nur in einem bestimmten Zustand gültig:
         Zustände: {

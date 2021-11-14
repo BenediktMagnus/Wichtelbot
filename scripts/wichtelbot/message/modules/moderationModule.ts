@@ -19,6 +19,7 @@ export class ModerationModule
     public async sendStatus (message: Message): Promise<void>
     {
         // TODO: This could be improved with visualisations.
+        // TODO: What about mods?
 
         const currentEventPhase = Localisation.translateWichtelEventPhase(Config.currentEventPhase);
 

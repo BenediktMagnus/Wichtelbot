@@ -689,45 +689,6 @@ export default class Database
 /*
 
 /**
- * Lädt alle Nutzer aus der Datenbank.
- * @param {Function} Callback Callback, der für jeden gefundenen Nutzer ausgeführt wird. Parameter: {Object} Reihe.
- * /
-export function AlleNutzerLaden (Callback)
-{
-    mainDatabase.each(
-        `SELECT Nutzer.*, Informationen.*, Wichtelkinder.WichtelId AS WichtelkindId, Wichtelpaten.NutzerId AS WichtelpateId FROM Nutzer
-         LEFT JOIN Informationen ON Nutzer.Id = Informationen.NutzerId
-         LEFT JOIN Wichtel AS Wichtelkinder ON Nutzer.Id = Wichtelkinder.NutzerId
-         LEFT JOIN Wichtel AS Wichtelpaten ON Nutzer.Id = Wichtelpaten.WichtelId`,
-        function (Fehler, Reihe)
-        {
-            Fehlerbehandlung(Fehler);
-            Callback(Reihe);
-        }
-    );
-}
-
-/**
- * Ermittelt die relevanten Nutzerzahlen: Gesamtzahl, Teilnehmer; abzüglich Mods.
- * @param {Function} Callback Callback, der nach dem Erhalt des Ergebnisses ausgeführt wird. Parameter: {Object} Reihe.
- * /
-export function Nutzerzahlen (Callback)
-{
-    mainDatabase.get(
-        `SELECT
-            COUNT(*) AS Gesamt,
-            SUM(CASE WHEN Zustand = 'Teilnehmer' THEN 1 ELSE 0 END) AS Teilnehmer
-        FROM Nutzer
-        WHERE Id NOT IN (SELECT NutzerId FROM Mods)`,
-        function (Fehler, Reihe)
-        {
-            Fehlerbehandlung(Fehler);
-            Callback(Reihe);
-        }
-    );
-}
-
-/**
  * Liest alle Steamnamen aus der Datenbank.
  * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
  * /
