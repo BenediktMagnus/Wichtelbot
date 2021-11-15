@@ -1,6 +1,7 @@
 import * as fs from 'fs';
-
 import Contact, { ContactCoreData, ContactData } from '../classes/contact';
+import { Exclusion, ExclusionData } from '../classes/exclusion';
+import { Relationship, RelationshipData } from '../classes/relationship';
 import Config from '../../utility/config';
 import ContactType from '../types/contactType';
 import GiftType from '../types/giftType';
@@ -205,7 +206,7 @@ export default class Database
     }
 
     /**
-     * NOTE: The contact objects's lastUpdateTime will be updated.
+     * NOTE: The contact object's lastUpdateTime will be updated.
      * TODO: Give the save methods a better name like "insert" or "create" or "saveNew".
      */
     public saveContact (contact: Contact): void
@@ -243,25 +244,36 @@ export default class Database
     }
 
     /**
-     * NOTE: The contact objects's lastUpdateTime will be updated.
+     * NOTE: The contact object's lastUpdateTime will be updated.
      */
     public updateContact (contact: Contact): void
     {
-        contact.lastUpdateTime = Utils.getCurrentUnixTime();
+        this.updateContacts([contact]);
+    }
 
+    /**
+     * NOTE: The contact objects's lastUpdateTime will be updated.
+     */
+    public updateContacts (contacts: Contact[]): void
+    {
         const statement = this.mainDatabase.prepare(
             `UPDATE
-                contact
-            SET
-                tag = :tag, name = :name, nickname = :nickname,
-                lastUpdateTime = :lastUpdateTime, type = :type, state = :state
-            WHERE
-                id = :id`
+                 contact
+             SET
+                 tag = :tag, name = :name, nickname = :nickname,
+                 lastUpdateTime = :lastUpdateTime, type = :type, state = :state
+             WHERE
+                 id = :id`
         );
 
-        statement.run(
-            this.getBindablesFromObject(contact)
-        );
+        for (const contact of contacts)
+        {
+            contact.lastUpdateTime = Utils.getCurrentUnixTime();
+
+            statement.run(
+                this.getBindablesFromObject(contact)
+            );
+        }
     }
 
     public getContactCount (): number
@@ -379,6 +391,36 @@ export default class Database
         return member;
     }
 
+    public getMembersByState (state: State): Member[]
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                contact.*, information.*
+            FROM
+                contact
+            LEFT JOIN
+                information
+                    ON information.contactId = contact.id
+            WHERE
+                contact.state = ?`
+        );
+
+        statement.expand(true); // Expands the result to have one sub-object for each table.
+
+        const resultData = statement.all(state) as { contact: ContactData, information: InformationData }[];
+
+        const members: Member[] = [];
+
+        for (const result of resultData)
+        {
+            const member = new Member(result.contact, result.information);
+
+            members.push(member);
+        }
+
+        return members;
+    }
+
     /**
      * Updates an existing member (contact and information data) in the database. \
      * NOTE: The contact and the information objects' lastUpdateTime will be updated.
@@ -425,15 +467,6 @@ export default class Database
         runTransaction();
     }
 
-    public getWaitingMemberCount (): number
-    {
-        const statement = this.mainDatabase.prepare(
-            'SELECT COUNT(*) FROM contact WHERE contact.state = ?'
-        );
-
-        return this.getCount(statement, State.Waiting);
-    }
-
     /**
      * Will return the type of contact that can be found for this ID. \
      * If no contact is found, the given contactCoreData will be returned instead.
@@ -462,6 +495,98 @@ export default class Database
         {
             // If no contact has been found, return the core data that has been given:
             return contactCoreData;
+        }
+    }
+
+    public getWaitingMemberCount (): number
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT COUNT(*) FROM contact WHERE contact.state = ?'
+        );
+
+        return this.getCount(statement, State.Waiting);
+    }
+
+    public getUserExclusions (): Exclusion[]
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT * FROM exclusion'
+        );
+
+        const rawExclusions = statement.all() as Exclusion[];
+
+        const exclusions: Exclusion[] = [];
+
+        for (const rawExclusion of rawExclusions)
+        {
+            const exclusion = new Exclusion(rawExclusion);
+
+            exclusions.push(exclusion);
+        }
+
+        return exclusions;
+    }
+
+    public saveUserExclusions (exclusions: ExclusionData[]): void
+    {
+        const statement = this.mainDatabase.prepare(
+            `INSERT INTO
+                exclusion (giverId, takerId, reason, lastUpdateTime)
+            VALUES
+                (:giverId, :takerId, :reason, :lastUpdateTime)`
+        );
+
+        for (const exclusion of exclusions)
+        {
+            const parameters = {
+                lastUpdateTime: Utils.getCurrentUnixTime(),
+                ...this.getBindablesFromObject(exclusion)
+            };
+
+            statement.run(parameters);
+        }
+    }
+
+    public getRelationships (): Relationship[]
+    {
+        // TODO: Could these kind of statements be abstracted as "get all and return as this class instances"?
+
+        const statement = this.mainDatabase.prepare(
+            'SELECT * FROM relationship'
+        );
+
+        const rawRelationships = statement.all() as Relationship[];
+
+        const relationships: Relationship[] = [];
+
+        for (const rawRelationship of rawRelationships)
+        {
+            const relationship = new Relationship(rawRelationship);
+
+            relationships.push(relationship);
+        }
+
+        return relationships;
+    }
+
+    public saveRelationships (relationships: RelationshipData[]): void
+    {
+        const statement = this.mainDatabase.prepare(
+            `INSERT INTO
+                relationship (wichtelEvent, giverId, takerId)
+            VALUES
+                (:wichtelEvent, :giverId, :takerId)`
+        );
+
+        for (const relationship of relationships)
+        {
+            const parameters = {
+                wichtelEvent: Config.main.currentEvent.name,
+                giverId: relationship.giverId,
+                takerId: relationship.takerId,
+            };
+
+            statement.run(parameters);
         }
     }
 
@@ -518,67 +643,6 @@ export default class Database
 /*
 
 /**
- * Lädt alle Nutzer aus der Datenbank.
- * @param {Function} Callback Callback, der für jeden gefundenen Nutzer ausgeführt wird. Parameter: {Object} Reihe.
- * /
-export function AlleNutzerLaden (Callback)
-{
-    mainDatabase.each(
-        `SELECT Nutzer.*, Informationen.*, Wichtelkinder.WichtelId AS WichtelkindId, Wichtelpaten.NutzerId AS WichtelpateId FROM Nutzer
-         LEFT JOIN Informationen ON Nutzer.Id = Informationen.NutzerId
-         LEFT JOIN Wichtel AS Wichtelkinder ON Nutzer.Id = Wichtelkinder.NutzerId
-         LEFT JOIN Wichtel AS Wichtelpaten ON Nutzer.Id = Wichtelpaten.WichtelId`,
-        function (Fehler, Reihe)
-        {
-            Fehlerbehandlung(Fehler);
-            Callback(Reihe);
-        }
-    );
-}
-
-/**
- * Ermittelt die relevanten Nutzerzahlen: Gesamtzahl, Teilnehmer; abzüglich Mods.
- * @param {Function} Callback Callback, der nach dem Erhalt des Ergebnisses ausgeführt wird. Parameter: {Object} Reihe.
- * /
-export function Nutzerzahlen (Callback)
-{
-    mainDatabase.get(
-        `SELECT
-            COUNT(*) AS Gesamt,
-            SUM(CASE WHEN Zustand = 'Teilnehmer' THEN 1 ELSE 0 END) AS Teilnehmer
-        FROM Nutzer
-        WHERE Id NOT IN (SELECT NutzerId FROM Mods)`,
-        function (Fehler, Reihe)
-        {
-            Fehlerbehandlung(Fehler);
-            Callback(Reihe);
-        }
-    );
-}
-
-/**
- * Liest alle eingetragenen Ausschlüsse aus der Datenbank.
- * @param {Number} NutzerId Die Discord-ID des Nutzers.
- * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
- * /
-export function Ausschlüsse (NutzerId, Callback)
-{
-    mainDatabase.all(
-        'SELECT * FROM Ausschluesse WHERE NutzerId = ? ORDER BY Zeit',
-        NutzerId,
-        function (Fehler, Reihen)
-        {
-            Fehlerbehandlung(Fehler);
-
-            if (Fehler)
-                Reihen = [];
-
-            Callback(Reihen);
-        }
-    );
-}
-
-/**
  * Liest alle Steamnamen aus der Datenbank.
  * @param {Function} Callback Callback, der nach dem Laden der Ausschlüsse ausgeführt wird. Parameter: {Array} Ausschlusswichtel.
  * /
@@ -616,48 +680,6 @@ export function WichtelOhneVerschicktesPaket (Callback)
                 Reihen = [];
 
             Callback(Reihen);
-        }
-    );
-}
-
-/**
- * Trägt eine Liste an Nutzer-Wichtel-Zuordnungen in die Datenbank ein.
- * @param {Array} Zuordnungen Eine Liste von Objekten mit .Nutzer.Id und .Wichtel.Id.
- * @param {Function} Callback Callback, der nach dem Eintragen der Wichtel ausgeführt wird.
- * /
-export function WichtelEintragen (Zuordnungen, Callback)
-{
-    let Transaktion = NeueTransaktion(mainDatabase.Name);
-
-    let Vorgang = Transaktion.prepare("INSERT INTO Wichtel (NutzerId, WichtelId) VALUES (?, ?)", Transaktion.Fehlerbehandlung);
-
-    for (let Zuordnung of Zuordnungen)
-        Vorgang.run(Zuordnung.Nutzer.Id, Zuordnung.Wichtel.Id, Transaktion.Fehlerbehandlung);
-
-    Vorgang.finalize(function ()
-        {
-            Callback(Transaktion.Schließen());
-        }
-    );
-}
-
-/**
- * Setzt den Status einer Liste von Nutzern (Teilnehmern) auf "Wichtel".
- * @param {Array} Teilnehmerliste Eine Liste von Nutzer-IDs, dessen Status zu "Wichtel" geändert werden soll.
- * @param {Function} Callback Callback, der nach dem Eintragen der Wichtel ausgeführt wird.
- * /
-export function TeilnehmerZuWichtelnMachen (Teilnehmerliste, Callback)
-{
-    let Transaktion = NeueTransaktion(mainDatabase.Name);
-
-    let Vorgang = Transaktion.prepare("UPDATE Nutzer SET Zustand = 'Wartend' WHERE Id = ?", Transaktion.Fehlerbehandlung);
-
-    for (let TeilnehmerId of Teilnehmerliste)
-        Vorgang.run(TeilnehmerId, Transaktion.Fehlerbehandlung);
-
-    Vorgang.finalize(function ()
-        {
-            Callback(Transaktion.Schließen());
         }
     );
 }

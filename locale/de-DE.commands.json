@@ -9,7 +9,7 @@
             "Rufe Hilfe",
             "Ruf Hilfe"
         ],
-        "info": "Schicke eine Nachricht an die Wichtelorga. Es wird sich dann jemand bei dir melden und dir bei deinem Problem helfen."
+        "info": "Schickt eine Nachricht an die Wichtelorga. Es wird sich dann jemand bei dir melden und dir bei deinem Problem helfen."
     },
     "changeInformation": {
         "commands": [
@@ -91,6 +91,31 @@
     },
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
+    },
+    "moddingDistributeWichtelProfiles":
+    {
+        "commands": [
+            "SteckbriefeVerteilen"
+        ],
+        "info": "Verteilt die Steckbriefe der Wichtelkinder an alle Wichtelpaten."
+    },
+    "moddingEndRegistration":
+    {
+        "commands": [
+            "RegistrierungsphaseBeenden",
+            "RegistrierungBeenden",
+            "AnmeldephaseBeenden",
+            "AnmeldungBeenden"
+        ],
+        "info": "Beendet die Registrierungsphase und versetzt alle vollständig registrierten Teilnehmer in den Wartezustand."
+    },
+    "moddingRunAssignment":
+    {
+        "commands": [
+            "Auslosen",
+            "ZiehungAusführen"
+        ],
+        "info": "Führt die Auslosung der Wichtel aus."
     },
     "moddingStatus":
     {

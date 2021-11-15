@@ -27,6 +27,9 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
+    moddingDistributeWichtelProfiles: CommandInfo;
+    moddingEndRegistration: CommandInfo;
+    moddingRunAssignment: CommandInfo; // TODO: Rename "modding" commands to "moderation".
     moddingStatus: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
@@ -39,6 +42,8 @@ interface Commands
 // TODO: Documentation
 interface Texts
 {
+    assignmentError: TokenString;
+    assignmentSuccessful: TokenString;
     becameMember: TokenString;
     changedInformation: TokenString;
     commandInfo: TokenString;
@@ -76,6 +81,8 @@ interface Texts
     notUnderstood: TokenString;
     oldInformation: TokenString;
     moderationNeedHelp: TokenString; // TODO: This includes a Discord specific mention which is not portable to other implementations.
+    moderationRegistrationEnded: TokenString;
+    moderationProfilesDistributed: TokenString;
     moderationStatus: TokenString;
     moderationStatusEventPhase: TokenString;
     moderationStatusEventPhaseWithNextPhase: TokenString;
@@ -95,6 +102,7 @@ interface Texts
     sentComponentText: TokenString;
     sternenrose: TokenString;
     thankYouResponse: TokenString;
+    wichtelProfileDistribution: TokenString;
     yourAreWelcomeRespone: TokenString;
 }
 

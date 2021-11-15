@@ -1,8 +1,9 @@
+import { Message, State } from "../../endpoint/definitions";
 import Config from "../../../utility/config";
 import Database from "../../database/database";
+import { HandlingUtils } from "../handlingTools/handlingUtils";
 import { KeyValuePairList } from "../../../utility/keyValuePair";
 import Localisation from "../../../utility/localisation";
-import { Message } from "../../endpoint/definitions";
 import Utils from "../../../utility/utils";
 import WichtelEventPhase from "../../../utility/wichtelEvent";
 
@@ -18,6 +19,7 @@ export class ModerationModule
     public async sendStatus (message: Message): Promise<void>
     {
         // TODO: This could be improved with visualisations.
+        // TODO: What about mods?
 
         const currentEventPhase = Localisation.translateWichtelEventPhase(Config.currentEventPhase);
 
@@ -87,6 +89,54 @@ export class ModerationModule
         parameters.addPair('parcelReceivedCount', `${parcelStatistics.receivedCount}`);
 
         const answer = Localisation.texts.moderationStatus.process(message.author, parameters);
+
+        await message.reply(answer);
+    }
+
+    /**
+     * End the registration phase and give all members that have completed the registration the "assignment" status.
+     */
+    public async endRegistration (message: Message): Promise<void>
+    {
+        const members = this.database.getMembersByState(State.Waiting);
+
+        for (const member of members)
+        {
+            member.state = State.Assignment;
+        }
+
+        // NOTE: We can use "updateContacts" instead of "updateMembers" because we changed the state, which is only part of the contact:
+        this.database.updateContacts(members);
+
+        const parameters = new KeyValuePairList('waitingMemberCount', `${members.length}`);
+        const answer = Localisation.texts.moderationRegistrationEnded.process(message.author, parameters);
+
+        await message.reply(answer);
+    }
+
+    public async distributeWichtelProfiles (message: Message): Promise<void>
+    {
+        // TODO: This is relatively slow. Could it be sped up? Getting the contacts/members could be cached or maybe the profile is slow?
+
+        const relationships = this.database.getRelationships();
+
+        for (const relationship of relationships)
+        {
+            const giver = this.database.getContact(relationship.giverId);
+            const taker = this.database.getMember(relationship.takerId);
+
+            const profileOverviewText = Localisation.texts.wichtelProfileDistribution.process(giver);
+            const profileVisualisations = HandlingUtils.getProfileVisualisations(taker);
+
+            const giverUser = await message.client.fetchUser(giver.id);
+            await giverUser.send(profileOverviewText, profileVisualisations);
+
+            giver.state = State.Wichteling;
+            this.database.updateContact(giver);
+        }
+
+        const parameters = new KeyValuePairList('profileCount', `${relationships.length}`);
+        const answer = Localisation.texts.moderationProfilesDistributed.process(message.author, parameters);
 
         await message.reply(answer);
     }

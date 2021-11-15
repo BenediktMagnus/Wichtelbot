@@ -101,10 +101,22 @@ export default abstract class ContactTestUtility
     public static createRandomMember (): Member
     {
         const contact = ContactTestUtility.createRandomContact();
-        const information = ContactTestUtility.createRandomMemberInformation();
+        const information = ContactTestUtility.createRandomMemberInformation(contact.id);
 
         const member = new Member(contact, information);
         member.type = ContactType.Member;
+
+        return member;
+    }
+
+    public static createRandomMemberWithMostCompatibleInformation (): Member
+    {
+        const member = ContactTestUtility.createRandomMember();
+        member.state = State.Assignment;
+        member.information.country = 'deutschland';
+        member.information.giftTypeAsGiver = GiftType.All;
+        member.information.giftTypeAsTaker = GiftType.All;
+        member.information.internationalAllowed = true;
 
         return member;
     }

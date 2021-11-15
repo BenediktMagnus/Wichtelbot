@@ -17,9 +17,13 @@ enum State
     InformationUserExclusion = 'informationUserExclusion',
     InformationFreeText = 'informationFreeText',
     // As member:
-    Waiting = 'waiting', // Waiting for becoming a wichtel.
+    /** Waiting for becoming a Wichtel. */
+    Waiting = 'waiting', // TODO: Rename to "registered".
     ConfirmDeregistration = 'confirmDeregistration',
+    /** While assignment is running; cannot change information. */
+    Assignment = 'assignment',
     // As wichtel:
+    Wichteling = 'wichteling',
     MessageToGiftGiver = 'messageToGiftGiver',
     MessageToGiftTaker = 'messageToGiftTaker',
     ParcelSendConsignmentNumber = 'sendParcelConsignmentNumber',
