@@ -358,21 +358,15 @@ export class AssignmentModule
                 const aIsPriority = priorities.has(pairingA.giver);
                 const bIsPriority = priorities.has(pairingB.giver);
 
-                if (aIsPriority || bIsPriority)
+                if (aIsPriority && !bIsPriority)
                 {
-                    if (aIsPriority && bIsPriority)
-                    {
-                        return 0;
-                    }
-                    else if (aIsPriority)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return 1;
-                    }
+                    return -1;
                 }
+                else if (bIsPriority && !aIsPriority)
+                {
+                    return 1;
+                }
+                // If both are prioritised, sort by score as if both were not.
 
                 // The value of the chain is determined by the accumulated weighting of all the wichtel plus their total number.
                 // The higher the value, the less important the user is for the selection.
