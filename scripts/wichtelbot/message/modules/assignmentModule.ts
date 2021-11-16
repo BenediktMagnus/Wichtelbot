@@ -1,3 +1,4 @@
+import ContactType from '../../types/contactType';
 import Database from '../../database/database';
 import { Exclusion } from '../../classes/exclusion';
 import { ExclusionReason } from '../../types/exclusionReason';
@@ -77,6 +78,13 @@ export class AssignmentModule
         );
 
         this.database.saveRelationships(relationships);
+
+        // All members now finally become wichtels:
+        for (const member of members)
+        {
+            member.type = ContactType.Wichtel;
+        }
+        this.database.updateContacts(members);
 
         return true;
     }
