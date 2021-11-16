@@ -12,6 +12,7 @@ import { ParcelStatistics } from './parcelStatistics';
 import { State } from '../endpoint/definitions';
 import Utils from '../../utility/utils';
 import Sqlite = require('better-sqlite3');
+import Wichtel from '../classes/wichtel';
 
 export default class Database
 {
@@ -467,11 +468,70 @@ export default class Database
         runTransaction();
     }
 
+    public getWichtel (contactId: string): Wichtel
+    {
+        const contactStatement = this.mainDatabase.prepare(
+            'SELECT * FROM contact WHERE id = ?'
+        );
+
+        const informationStatement = this.mainDatabase.prepare(
+            'SELECT * FROM information WHERE contactId = ?'
+        );
+
+        const relationshipStatement = this.mainDatabase.prepare(
+            `SELECT
+                *
+            FROM
+                (
+                    SELECT
+                        giverId
+                    FROM
+                        relationship
+                    WHERE
+                        takerId = :contactId
+                ),
+                (
+                    SELECT
+                        takerId
+                    FROM
+                        relationship
+                    WHERE
+                        giverId = :contactId
+                )`
+        );
+
+        const getTransactionResult = this.mainDatabase.transaction(
+            (): Wichtel|null => {
+                const contactData = contactStatement.get(contactId) as ContactData|undefined;
+                const informationData = informationStatement.get(contactId) as InformationData|undefined;
+                const relationshipData = relationshipStatement.get({contactId: contactId}) as RelationshipData|undefined;
+
+                if (contactData === undefined || informationData === undefined || relationshipData === undefined)
+                {
+                    return null;
+                }
+
+                const wichtel = new Wichtel(contactData, informationData, relationshipData);
+
+                return wichtel;
+            }
+        );
+
+        const wichtel = getTransactionResult();
+
+        if (wichtel === null)
+        {
+            throw new Error(`Wichtel with ID ${contactId} not found.`);
+        }
+
+        return wichtel;
+    }
+
     /**
      * Will return the type of contact that can be found for this ID. \
      * If no contact is found, the given contactCoreData will be returned instead.
      */
-    public getWhatIsThere (contactCoreData: ContactCoreData): ContactCoreData | Contact | Member
+    public getWhatIsThere (contactCoreData: ContactCoreData): ContactCoreData | Contact | Member | Wichtel
     {
         if (this.hasContact(contactCoreData.id))
         {
@@ -483,13 +543,18 @@ export default class Database
             {
                 return contact;
             }
-            else
+            else if (contact.type == ContactType.Member)
             {
                 const member = this.getMember(contactCoreData.id);
 
                 return member;
             }
-            // TODO: Add Wichtel.
+            else
+            {
+                const wichtel = this.getWichtel(contactCoreData.id);
+
+                return wichtel;
+            }
         }
         else
         {
