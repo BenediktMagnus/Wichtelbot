@@ -37,6 +37,10 @@
     "noCommandsAvailable": "Derzeit stehen keine besonderen Befehle zur Verfügung.",
     "notUnderstood": "Häää? Probiers nochmal.",
     "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
+    "messageFromGiftGiverOrTaker": "*hust*",
+    "messageFromGiftGiverHeadline": "Von deinem Wichtelpaten...",
+    "messageFromGiftTakerHeadline": "Von deinem Wichtelkind...",
+    "messageToGiftGiverOrTakerSent": "Ich reiche deine stille Post weiter... hoffentlich kann ich mir all das fehlerfrei merken...",
     "moderationNeedHelp": "<@&{var.moderationRoleId}> Der Wichtel {contact.nickname} ({contact.tag}) bittet um Hilfe.",
     "moderationRegistrationEnded": "Registrierungsphase beendet. \nAnzahl Wartender: {var.waitingMemberCount}",
     "moderationProfilesDistributed": "Alle {var.profileCount} Steckbriefe wurden verteilt.",
@@ -60,5 +64,7 @@
     "sternenrose": "Vielen Dank, Sterni! :)",
     "thankYouResponse": "Bitte!",
     "wichtelProfileDistribution": "Hallo {contact.nickname},\ndie Auslosung ist vorüber!\nHier ist der Steckbrief deines Wichtelkindes:",
+    "writeOwnGiftGiver": "Was möchtest du deinem Wichtelpaten schreiben? \nDenke daran, dies ist nur für wirklich wichtige Anmerkungen und Korrekturen gedacht, nicht für Pläuschchen! \n\n...\nIm Ernst! Ich bekomme das mit!",
+    "writeOwnGiftTaker": "Was möchtest du deinem Wichtelkind schreiben? \nBitte denke daran, dass dein Wichtelkind nicht weiß, wer du bist und das auch so bleiben sollte. Es wäre nicht schön, wenn die Überraschung vor dem Wichtelstream ruiniert würde! \nSchreibe ihm also bitte **nur**, wenn es **wirklich** nicht anders geht. Und wenn, dann halte dich kurz, denn schon dein Schreibstil könnte dich schnell verraten!",
     "yourAreWelcomeRespone": "🙂"
 }

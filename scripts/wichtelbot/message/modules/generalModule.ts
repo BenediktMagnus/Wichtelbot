@@ -1,5 +1,5 @@
 import Localisation, { CommandInfo } from '../../../utility/localisation';
-import { Additions } from '../../endpoint/definitions';
+import { Additions, Visualisation, VisualisationType } from '../../endpoint/definitions';
 import Config from '../../../utility/config';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
@@ -231,5 +231,37 @@ export default class GeneralModule
             Localisation.texts.sternenrose,
             'https://cdn.discordapp.com/attachments/391928490456514561/394095185275125760/Weihn8.jpg'
         );
+    }
+
+    public async sendMessageToOwnGiftGiver (message: Message): Promise<void>
+    {
+        const wichtel = this.database.getWichtel(message.author.id);
+
+        const giverUser = await message.client.fetchUser(wichtel.giverId);
+
+        const messageText = Localisation.texts.messageFromGiftGiverOrTaker.process(message.author);
+        const messageVisualisation: Visualisation = {
+            headline: Localisation.texts.messageFromGiftTakerHeadline.process(message.author),
+            text: message.content,
+            type: VisualisationType.Normal
+        };
+
+        await giverUser.send(messageText, [messageVisualisation]);
+    }
+
+    public async sendMessageToOwnGiftTaker (message: Message): Promise<void>
+    {
+        const wichtel = this.database.getWichtel(message.author.id);
+
+        const takerUser = await message.client.fetchUser(wichtel.takerId);
+
+        const messageText = Localisation.texts.messageFromGiftGiverOrTaker.process(message.author);
+        const messageVisualisation: Visualisation = {
+            headline: Localisation.texts.messageFromGiftGiverHeadline.process(message.author),
+            text: message.content,
+            type: VisualisationType.Normal
+        };
+
+        await takerUser.send(messageText, [messageVisualisation]);
     }
 }

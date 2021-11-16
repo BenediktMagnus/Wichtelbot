@@ -10,6 +10,7 @@ import Message from '../endpoint/definitions/message';
 import { ModerationModule } from './modules/moderationModule';
 import State from "../endpoint/definitions/state";
 import TokenString from '../../utility/tokenString';
+import { StateAndText } from './handlingTools/stateAndText';
 
 interface CommandDefinition
 {
@@ -485,6 +486,52 @@ export default class HandlingDefinition
                 {
                     await this.generalModule.continue(message, State.Waiting, Localisation.texts.deregistrationCancelled);
                 }
+            }
+        },
+        // Wichtel things:
+        {
+            state: State.Wichteling,
+            expectsComponentResult: false,
+            paths: [
+                {
+                    command: Localisation.commands.writeOwnGiftGiver,
+                    result: {
+                        state: State.MessageToGiftGiver,
+                        text: Localisation.texts.writeOwnGiftGiver
+                    },
+                },
+                {
+                    command: Localisation.commands.writeOwnGiftTaker,
+                    result: {
+                        state: State.MessageToGiftTaker,
+                        text: Localisation.texts.writeOwnGiftTaker
+                    },
+                }
+            ],
+            handlerFunction: async (message: Message, result: StateAndText): Promise<void> =>
+            {
+                await this.generalModule.continue(message, result.state, result.text);
+            }
+        },
+        // Message to gift giver/taker:
+        {
+            state: State.MessageToGiftGiver,
+            expectsComponentResult: false,
+            paths: null,
+            handlerFunction: async (message: Message): Promise<void> =>
+            {
+                await this.generalModule.sendMessageToOwnGiftGiver(message);
+                await this.generalModule.continue(message, State.Wichteling, Localisation.texts.messageToGiftGiverOrTakerSent);
+            }
+        },
+        {
+            state: State.MessageToGiftTaker,
+            expectsComponentResult: false,
+            paths: null,
+            handlerFunction: async (message: Message): Promise<void> =>
+            {
+                await this.generalModule.sendMessageToOwnGiftTaker(message);
+                await this.generalModule.continue(message, State.Wichteling, Localisation.texts.messageToGiftGiverOrTakerSent);
             }
         }
     ];

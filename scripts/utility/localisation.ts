@@ -35,6 +35,8 @@ interface Commands
     registration: CommandInfo;
     sternenrose: CommandInfo;
     thankYou: CommandInfo;
+    writeOwnGiftGiver: CommandInfo;
+    writeOwnGiftTaker: CommandInfo;
     yes: CommandInfo;
     yourAreWelcome: CommandInfo;
 }
@@ -80,6 +82,10 @@ interface Texts
     noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;
+    messageFromGiftGiverOrTaker: TokenString;
+    messageFromGiftGiverHeadline: TokenString;
+    messageFromGiftTakerHeadline: TokenString;
+    messageToGiftGiverOrTakerSent: TokenString;
     moderationNeedHelp: TokenString; // TODO: This includes a Discord specific mention which is not portable to other implementations.
     moderationRegistrationEnded: TokenString;
     moderationProfilesDistributed: TokenString;
@@ -103,6 +109,8 @@ interface Texts
     sternenrose: TokenString;
     thankYouResponse: TokenString;
     wichtelProfileDistribution: TokenString;
+    writeOwnGiftGiver: TokenString;
+    writeOwnGiftTaker: TokenString;
     yourAreWelcomeRespone: TokenString;
 }
 
