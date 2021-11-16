@@ -59,7 +59,10 @@ export abstract class DiscordUtils
                         }
                     }
 
-                    messageOptions.embeds = [sharedCompactEmbed];
+                    if (sharedCompactEmbed.fields.length > 0)
+                    {
+                        messageOptions.embeds = [sharedCompactEmbed];
+                    }
                 }
             }
 
