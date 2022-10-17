@@ -20,7 +20,6 @@
         "lint:scripts": "cd scripts && .eslint .",
         "lint:tests": "cd tests && .eslint .",
         "prepack": "npm run clean && npm run build:release",
-        "prestart": "npm run build",
         "start": "node build/main.js",
         "test": "mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
     },
