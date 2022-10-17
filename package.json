@@ -10,19 +10,19 @@
         "url": "git+https://github.com/BenediktMagnus/Wichtelbot.git"
     },
     "scripts": {
-        "build": "./node_modules/.bin/tsc -p scripts/tsconfig.json",
-        "build:release": "./node_modules/.bin/tsc -p scripts/tsconfig.release.json",
+        "build": "tsc -p scripts/tsconfig.json",
+        "build:release": "tsc -p scripts/tsconfig.release.json",
         "clean": "rm -rf build && rm -rf coverage",
-        "coverage": "./node_modules/.bin/nyc npm run test",
-        "coverage:coveralls": "./node_modules/.bin/nyc --reporter=lcov npm run test",
-        "coverage:text": "./node_modules/.bin/nyc --reporter=text npm run test",
+        "coverage": "nyc npm run test",
+        "coverage:coveralls": "nyc --reporter=lcov npm run test",
+        "coverage:text": "nyc --reporter=text npm run test",
         "lint": "npm run lint:scripts && npm run lint:tests",
-        "lint:scripts": "cd scripts && ../node_modules/.bin/eslint .",
-        "lint:tests": "cd tests && ../node_modules/.bin/eslint .",
+        "lint:scripts": "cd scripts && .eslint .",
+        "lint:tests": "cd tests && .eslint .",
         "prepack": "npm run clean && npm run build:release",
         "prestart": "npm run build",
         "start": "node build/main.js",
-        "test": "./node_modules/.bin/mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
+        "test": "mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
     },
     "engines": {
         "node": ">=16.9.0"
