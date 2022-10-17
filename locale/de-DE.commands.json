@@ -151,7 +151,7 @@
     },
     "writeOwnGiftTaker": {
         "commands": ["Meinem mir bekannten Wichtelkind schreiben"],
-        "info": "Schreibe deinem Wichtekind, den du zwar kennst, der aber nicht weiß, wer du bist. Du solltest dich dabei stark zurückhalten und nur das Nötigste zusammenfassen, um eine Erkennung zu vermeiden."
+        "info": "Schreibe deinem Wichtelkind, das du zwar kennst, das aber nicht weiß, wer du bist. Du solltest dich dabei stark zurückhalten und nur das Nötigste zusammenfassen, um eine Erkennung zu vermeiden."
     },
     "yes": {
         "commands": ["ja", "jap", "jawohl", "okay", "ok", "meinetwegen"]
