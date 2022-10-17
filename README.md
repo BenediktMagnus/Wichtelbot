@@ -80,8 +80,8 @@ Hier folgen Beschreibungen, wie der Wichtelbot eingerichtet und bedient werden k
 
 - Die neueste (vorkompilierte) Version findet sich [hier](https://github.com/BenediktMagnus/Wichtelbot/releases).
 - Der Bot läuft nur auf Linux (getestet mit Ubuntu 22.04 und Debian 11). Er könnte, muss aber nicht, auf anderen Betriebssystemen laufen.
-- Du brauchst Node.js (https://nodejs.org/) in Version 16.9.0 oder höher.
-- Alle Abhängigkeiten werden mit `npm install` installiert (NPM ist Teil von Node.js).
+- Es wird Node.js (https://nodejs.org/) in Version 16.9.0 oder höher benötigt.
+- Vor dem Start muss `npm install` ausgeführt werden, um alle weiteren Abhängigkeiten zu installieren (NPM ist Teil von Node.js).
 
 ### Wichtelbot konfigurieren
 
