@@ -25,7 +25,7 @@
         "test": "./node_modules/.bin/mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
     },
     "engines": {
-        "node": ">=16.0.0"
+        "node": ">=16.9.0"
     },
     "dependencies": {
         "@discordjs/builders": "0.8.2",
