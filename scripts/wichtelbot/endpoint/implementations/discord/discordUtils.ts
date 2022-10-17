@@ -55,6 +55,7 @@ export abstract class DiscordUtils
                     {
                         if (visualisation.type == VisualisationType.Compact)
                         {
+                            // FIXME: Warum gab es hier leere Felder?!
                             sharedCompactEmbed.addField(visualisation.headline, visualisation.text);
                         }
                     }

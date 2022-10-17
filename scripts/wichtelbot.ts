@@ -2,6 +2,8 @@ import * as DiscordEndpoint from './wichtelbot/endpoint/implementations/discord'
 import Database from './wichtelbot/database/database';
 import MessageHandler from './wichtelbot/message/messageHandler';
 
+// TODO: Bot kann registrierten Wichteln einer Gruppe hinzufügen und diese aktuell halten!
+
 export default class Wichtelbot
 {
     protected discordBot: DiscordEndpoint.Bot;
