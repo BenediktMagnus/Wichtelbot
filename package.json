@@ -17,8 +17,8 @@
         "coverage:coveralls": "nyc --reporter=lcov npm run test",
         "coverage:text": "nyc --reporter=text npm run test",
         "lint": "npm run lint:scripts && npm run lint:tests",
-        "lint:scripts": "cd scripts && .eslint .",
-        "lint:tests": "cd tests && .eslint .",
+        "lint:scripts": "cd scripts && eslint .",
+        "lint:tests": "cd tests && eslint .",
         "prepack": "npm run clean && npm run build:release",
         "start": "node build/main.js",
         "test": "mocha -r ts-node/register/transpile-only -t 12000 'tests/**/*.ts'"
