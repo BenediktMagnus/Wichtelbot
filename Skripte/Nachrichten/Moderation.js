@@ -166,18 +166,6 @@ function NachrichtAnAlleSpätenWichtelSenden (Nachricht)
 exports.NachrichtAnAlleSpätenWichtelSenden = NachrichtAnAlleSpätenWichtelSenden;
 
 /**
- * Entfernt eine Nachricht aus dem öffentlichen Wichtelkanal anhand seiner Id.
- * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
- */
-function NachrichtEntfernen (Nachricht)
-{
-    let NachrichtenId = Nachricht.Parameter.replace(/[^/\d]/g,''); //Entfernt alles außer Zahlen.
-
-    Klient.channels.get(Config.KanalIdWichteln).delete(NachrichtenId);
-}
-exports.NachrichtEntfernen = NachrichtEntfernen;
-
-/**
  * Listet alle Steamnamen von Nutzern auf, die digital bewichtelt werden wollen.
  * @param {Object} Nachricht Die Nachricht, die per Discord erhalten wurde, ein Discordnachrichtenobjekt.
  */

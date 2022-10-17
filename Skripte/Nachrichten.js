@@ -21,9 +21,6 @@ export default class MessageHandler
             "nachrichtanallespätenwichtel": {
                 Funktion: ModulModeration.NachrichtAnAlleSpätenWichtelSenden
             },
-            "löschenachricht": {
-                Funktion: ModulModeration.NachrichtEntfernen
-            },
             "steamnamenauflisten": {
                 Funktion: ModulModeration.SteamnamenAuflisten
             },
@@ -31,16 +28,6 @@ export default class MessageHandler
         //Nur in einem bestimmten Zustand gültig:
         Zustände: {
             Wichtel: {
-                "anonym meinem wichtelpaten schreiben": {
-                    Funktion: ModulAllgemein.Fortfahren,
-                    Ziel: "NachrichtAnWichtelpaten",
-                    Text: Texte.NachrichtAnWichtelpaten
-                },
-                "anonym meinem wichtelkind schreiben": {
-                    Funktion: ModulAllgemein.Fortfahren,
-                    Ziel: "NachrichtAnWichtelkind",
-                    Text: Texte.NachrichtAnWichtelkind
-                },
                 "paket ist unterwegs": {
                     Funktion: ModulPakete.DatumEinsetzenUndFortfahren,
                     Ziel: "PaketGesendetNummer",
@@ -51,14 +38,6 @@ export default class MessageHandler
                     Ziel: "PaketEmpfangenDatum",
                     Text: Texte.PaketEmpfangenDatum
                 }
-            },
-            NachrichtAnWichtelpaten: {
-                Datenaufnahme: true,
-                Funktion: ModulAllgemein.NachrichtAnWichtelpaten
-            },
-            NachrichtAnWichtelkind: {
-                Datenaufnahme: true,
-                Funktion: ModulAllgemein.NachrichtAnWichtelkind
             },
             PaketGesendetNummer: {
                 Datenaufnahme: true,
