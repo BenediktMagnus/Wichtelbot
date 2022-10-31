@@ -124,7 +124,11 @@ export class ModerationModule
         {
             const giver = this.database.getContact(relationship.giverId);
             const taker = this.database.getMember(relationship.takerId);
-
+            
+            if (giver.state == State.Wichteling) {
+                continue;
+            }
+            
             const profileOverviewText = Localisation.texts.wichtelProfileDistribution.process(giver);
             const profileVisualisations = HandlingUtils.getProfileVisualisations(taker);
 

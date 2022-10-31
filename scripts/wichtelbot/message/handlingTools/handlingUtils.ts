@@ -21,7 +21,7 @@ export abstract class HandlingUtils
         ];
 
         const sendAnalogue = member.information.giftTypeAsTaker == GiftType.Analogue || member.information.giftTypeAsTaker == GiftType.All;
-        const sendDigital = member.information.giftTypeAsGiver == GiftType.Digital || member.information.giftTypeAsGiver == GiftType.All;
+        const sendDigital = member.information.giftTypeAsTaker == GiftType.Digital || member.information.giftTypeAsTaker == GiftType.All;
 
         if (sendAnalogue)
         {
