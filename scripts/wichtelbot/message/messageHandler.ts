@@ -224,13 +224,6 @@ export default class MessageHandler
             return;
         }
 
-        if (message.content.length > Config.main.maxMessageLength)
-        {
-            await this.generalModule.sendMessageTooLong(message);
-
-            return;
-        }
-
         if (message.channel.type == ChannelType.Server)
         {
             if (!message.content.startsWith(Config.main.commandPrefix))
@@ -254,6 +247,13 @@ export default class MessageHandler
 
             if (messageFunction !== undefined)
             {
+                // As we now know the message is relevant for the bot, check if it is too long:
+                if (message.content.length > Config.main.maxMessageLength)
+                {
+                    await this.generalModule.sendMessageTooLong(message);
+                    return;
+                }
+
                 this.database.log(message.author.id, message.author.tag, message.content, message.channel.id);
 
                 await messageFunction(message);
@@ -261,6 +261,13 @@ export default class MessageHandler
         }
         else if (message.channel.type == ChannelType.Personal)
         {
+            // Every private message is relevant to the bot, so check every private message for the maximum length:
+            if (message.content.length > Config.main.maxMessageLength)
+            {
+                await this.generalModule.sendMessageTooLong(message);
+                return;
+            }
+
             this.database.log(message.author.id, message.author.tag, message.content);
 
             if (this.database.hasContact(message.author.id))
