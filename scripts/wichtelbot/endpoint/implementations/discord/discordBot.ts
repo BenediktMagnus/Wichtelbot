@@ -20,12 +20,18 @@ export class DiscordBot
     {
         this.messageHandler = messageHander;
 
-        const intents = new Discord.Intents();
-        intents.add(
-            Discord.Intents.FLAGS.DIRECT_MESSAGES,
-            Discord.Intents.FLAGS.GUILD_MESSAGES,
-            Discord.Intents.FLAGS.GUILDS,
+        const intents = new Discord.IntentsBitField(
+            [
+                Discord.GatewayIntentBits.Guilds,
+                Discord.GatewayIntentBits.GuildMembers,
+                Discord.GatewayIntentBits.GuildMessages,
+                Discord.GatewayIntentBits.DirectMessages,
+                Discord.GatewayIntentBits.DirectMessageReactions,
+                Discord.GatewayIntentBits.MessageContent,
+            ]
         );
+
+        const partials = ['CHANNEL'];
 
         this.nativeClient = new Discord.Client(
             {
