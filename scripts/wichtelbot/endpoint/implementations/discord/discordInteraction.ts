@@ -45,8 +45,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
     {
         if (this.interaction.channel === null)
         {
-            throw new Error('The interaction channel is null.');
-            // TODO: What should/can we do here?
+            throw new Error('The interaction channel is null. Has "fetchIfNecessary" been called?');
         }
 
         const channel = new DiscordChannel(this.interaction.channel);
@@ -79,6 +78,18 @@ export class DiscordInteraction extends MessageWithParser implements Message
         else
         {
             throw new Error('Unknown interaction type');
+        }
+    }
+
+    /**
+     * Fetches partial data of the interaction if necessary.
+     * Must be called after construction and before any other method.
+     */
+    public async fetchIfNecessary (): Promise<void>
+    {
+        if ((this.interaction.channel === null) && (this.interaction.channelId != null))
+        {
+            await this.responsibleClient.fetchChannel(this.interaction.channelId);
         }
     }
 

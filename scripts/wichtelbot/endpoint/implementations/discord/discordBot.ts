@@ -63,6 +63,8 @@ export class DiscordBot
     private async onInteraction (discordInteraction: Discord.Interaction): Promise<void>
     {
         const interaction = new DiscordInteraction(discordInteraction, this.client);
+        await interaction.fetchIfNecessary();
+
         await interaction.defer();
         await this.messageHandler.process(interaction);
     }
