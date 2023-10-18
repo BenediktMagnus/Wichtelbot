@@ -1,5 +1,5 @@
+import { Additions, User, Visualisation, VisualisationType } from '../../endpoint/definitions';
 import Localisation, { CommandInfo } from '../../../utility/localisation';
-import { Additions, Visualisation, VisualisationType } from '../../endpoint/definitions';
 import Config from '../../../utility/config';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
@@ -137,6 +137,33 @@ export default class GeneralModule
         }
 
         await message.reply(answer);
+    }
+
+    /**
+     * Updates the contact data (tag and name) of a contact if it is in the database.
+     * @param user The user to update the contact data for.
+     * @param contact If set, the contact to update. If not set, the contact will be fetched from the database.
+     */
+    public updateContactDataIfInDatabase (user: User, contact?: Contact): void
+    {
+        let foundContact = contact;
+
+        if (foundContact === undefined)
+        {
+            if (this.database.hasContact(user.id))
+            {
+                foundContact = this.database.getContact(user.id);
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        foundContact.tag = user.tag;
+        foundContact.name = user.name;
+
+        this.database.updateContact(foundContact);
     }
 
     /**

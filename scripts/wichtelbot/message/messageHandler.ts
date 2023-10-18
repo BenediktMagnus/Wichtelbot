@@ -256,6 +256,8 @@ export default class MessageHandler
 
                 this.database.log(message.author.id, message.author.tag, message.content, message.channel.id);
 
+                this.generalModule.updateContactDataIfInDatabase(message.author);
+
                 await messageFunction(message);
             }
         }
@@ -273,6 +275,8 @@ export default class MessageHandler
             if (this.database.hasContact(message.author.id))
             {
                 const contact = this.database.getContact(message.author.id);
+
+                this.generalModule.updateContactDataIfInDatabase(message.author, contact);
 
                 // NOTE: In personal channels, we do not use the "command/parameters" concept because it is much more natural
                 //       to speak with the bot in words and sentences. Therefor we use the message content. If we have to
