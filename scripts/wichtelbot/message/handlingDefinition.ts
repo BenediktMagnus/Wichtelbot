@@ -11,6 +11,7 @@ import { ModerationModule } from './modules/moderationModule';
 import State from "../endpoint/definitions/state";
 import { StateAndText } from './handlingTools/stateAndText';
 import TokenString from '../../utility/tokenString';
+import { HandlingUtils } from './handlingTools/handlingUtils';
 
 interface CommandDefinition
 {
@@ -321,6 +322,13 @@ export default class HandlingDefinition
                 if (message.content.length > this.maxShortMessageLength)
                 {
                     await this.generalModule.sendMessageTooLong(message, this.maxShortMessageLength);
+
+                    return;
+                }
+
+                if (!HandlingUtils.isValidSteamFriendshipCode(message.content) && (message.content != '-')) // TODO: Bad hard coded value.
+                {
+                    await this.generalModule.reply(message, Localisation.texts.invalidSteamFriendshipCode);
 
                     return;
                 }

@@ -103,8 +103,8 @@ export abstract class HandlingUtils
         return visualisations;
     }
 
-    private static isValidSteamFriendshipCode (value: string): boolean
+    public static isValidSteamFriendshipCode (value: string): boolean
     {
-        return /^\d+$/.test(value);
+        return /^\d+$/.test(value.trim());
     }
 }

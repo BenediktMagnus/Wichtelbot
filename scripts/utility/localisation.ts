@@ -78,6 +78,7 @@ interface Texts
     informationSteamFriendshipCode: TokenString;
     informationUserExclusion: TokenString;
     informationWishList: TokenString;
+    invalidSteamFriendshipCode: TokenString;
     maybeResponse: TokenString;
     messageTooLong: TokenString;
     noCommandsAvailable: TokenString;
