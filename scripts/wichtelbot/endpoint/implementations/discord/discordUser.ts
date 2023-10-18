@@ -24,7 +24,7 @@ export class DiscordUser implements User
 
     public get name (): string
     {
-        return this.user.username;
+        return this.user.displayName;
     }
 
     public get isBot (): boolean
