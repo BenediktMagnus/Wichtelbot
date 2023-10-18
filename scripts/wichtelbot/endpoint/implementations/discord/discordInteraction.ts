@@ -22,7 +22,8 @@ export class DiscordInteraction extends MessageWithParser implements Message
     {
         super();
 
-        if (interaction.type !== 'APPLICATION_COMMAND' && interaction.type !== 'MESSAGE_COMPONENT')
+        if (interaction.type !== Discord.InteractionType.ApplicationCommand
+            && interaction.type !== Discord.InteractionType.MessageComponent)
         {
             throw new Error('The interaction is not a message type.');
         }
@@ -31,7 +32,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         this.responsibleClient = responsibleClient;
 
         this.hasParameters = false;
-        this.hasComponentOrigin = this.interaction.isButton() || this.interaction.isSelectMenu();
+        this.hasComponentOrigin = this.interaction.isButton() || this.interaction.isStringSelectMenu();
     }
 
     public get author (): DiscordUser
@@ -64,12 +65,12 @@ export class DiscordInteraction extends MessageWithParser implements Message
         {
             return this.interaction.customId;
         }
-        else if (this.interaction.isSelectMenu())
+        else if (this.interaction.isStringSelectMenu())
         {
             return this.interaction.values[0]; // TODO: What about multiselect?
         }
         else if (this.interaction.isCommand()
-            ||this.interaction.isContextMenu())
+            ||this.interaction.isContextMenuCommand())
         {
             return Config.main.commandPrefix + this.interaction.commandName;
 
@@ -100,12 +101,12 @@ export class DiscordInteraction extends MessageWithParser implements Message
     public async defer (): Promise<void>
     {
         if (this.interaction.isButton()
-        || this.interaction.isSelectMenu())
+        || this.interaction.isStringSelectMenu())
         {
             await this.interaction.deferUpdate();
         }
         else if (this.interaction.isCommand()
-        || this.interaction.isContextMenu())
+        || this.interaction.isContextMenuCommand())
         {
             await this.interaction.deferReply();
         }
@@ -120,15 +121,15 @@ export class DiscordInteraction extends MessageWithParser implements Message
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
         if (this.interaction.isButton()
-            || this.interaction.isSelectMenu())
+            || this.interaction.isStringSelectMenu())
         {
-            const actionRow = new Discord.MessageActionRow();
+            const actionRow = new Discord.ActionRowBuilder<Discord.ButtonBuilder>();
 
             // Replace the existing buttons with a disabled button having the result as label:
 
-            const messageButton = new Discord.MessageButton();
+            const messageButton = new Discord.ButtonBuilder();
 
-            if (this.interaction.isSelectMenu())
+            if (this.interaction.isStringSelectMenu())
             {
                 // If it is a select menu, the result is the selected option:
                 messageButton.setLabel(this.interaction.values[0]); // TODO: What about multiselect?
@@ -140,7 +141,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
             }
 
             messageButton.setCustomId(this.interaction.customId);
-            messageButton.setStyle('PRIMARY');
+            messageButton.setStyle(Discord.ButtonStyle.Primary);
             messageButton.setDisabled(true);
             actionRow.addComponents(messageButton);
 
@@ -164,7 +165,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
             await DiscordUtils.sendMultiMessage(sendMessageFunction, splittetText, additions);
         }
         else if (this.interaction.isCommand()
-            || this.interaction.isContextMenu())
+            || this.interaction.isContextMenuCommand())
         {
             await DiscordUtils.sendMultiMessage(this.interaction.editReply.bind(this.interaction), splittetText, additions);
         }

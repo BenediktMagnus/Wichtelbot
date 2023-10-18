@@ -8,7 +8,7 @@ const maxMentionLength = maxUserNameLength + 5; // Because of the following form
 const maxMessageWithMentionLength = maxMessageLength - maxMentionLength;
 const maxEmbedLength = 6000;
 
-export type SendMessage = (options: Discord.MessageOptions) => Promise<any>;
+export type SendMessage = (options: Discord.BaseMessageOptions) => Promise<any>;
 
 export abstract class DiscordUtils
 {
@@ -24,7 +24,7 @@ export abstract class DiscordUtils
         let entryCounter = messageTexts.length - 1;
         for (const messageText of messageTexts)
         {
-            const messageOptions: Discord.MessageOptions = {
+            const messageOptions: Discord.BaseMessageOptions = {
                 content: messageText,
             };
 
@@ -49,18 +49,23 @@ export abstract class DiscordUtils
                 {
                     // The compact visualisations are added as a shared embed to the last message.
 
-                    const sharedCompactEmbed = new Discord.MessageEmbed();
+                    const sharedCompactEmbed = new Discord.EmbedBuilder();
 
                     for (const visualisation of additions)
                     {
                         if (visualisation.type == VisualisationType.Compact)
                         {
-                            // FIXME: Warum gab es hier leere Felder?!
-                            sharedCompactEmbed.addField(visualisation.headline, visualisation.text);
+                            sharedCompactEmbed.addFields(
+                                [
+                                    {
+                                        name: visualisation.headline, value: visualisation.text
+                                    }
+                                ]
+                            );
                         }
                     }
 
-                    if (sharedCompactEmbed.fields.length > 0)
+                    if (sharedCompactEmbed.length > 0)
                     {
                         messageOptions.embeds = [sharedCompactEmbed];
                     }
@@ -75,14 +80,14 @@ export abstract class DiscordUtils
         // All normal visualisations are send as seperate messages:
         if ((additions !== undefined) && (this.isVisualisations(additions)))
         {
-            let embeds: Discord.MessageEmbed[] = [];
+            let embeds: Discord.EmbedBuilder[] = [];
             let characterSum = 0;
 
             for (const visualisation of additions)
             {
                 if (visualisation.type == VisualisationType.Normal)
                 {
-                    const normalEmbed = new Discord.MessageEmbed();
+                    const normalEmbed = new Discord.EmbedBuilder();
                     normalEmbed.setTitle(visualisation.headline);
                     normalEmbed.setDescription(visualisation.text);
 
@@ -112,9 +117,10 @@ export abstract class DiscordUtils
     /**
      * Convert a list of component definitions to Discord message components.
      */
-    public static convertComponents (components: Component[]): Discord.MessageActionRow[]
+    public static convertComponents (components: Component[]):
+        Discord.ActionRowBuilder<Discord.ButtonBuilder | Discord.StringSelectMenuBuilder>[]
     {
-        const actionRow = new Discord.MessageActionRow();
+        const actionRow = new Discord.ActionRowBuilder<Discord.ButtonBuilder | Discord.StringSelectMenuBuilder>();
 
         for (const component of components)
         {
@@ -122,26 +128,26 @@ export abstract class DiscordUtils
             {
                 case ComponentType.Button:
                 {
-                    const messageButton = new Discord.MessageButton();
+                    const messageButton = new Discord.ButtonBuilder();
                     messageButton.setLabel(component.label);
                     messageButton.setCustomId(component.label);
 
                     switch (component.style)
                     {
                         case ButtonStyle.Primary:
-                            messageButton.setStyle('PRIMARY');
+                            messageButton.setStyle(Discord.ButtonStyle.Primary);
                             break;
                         case ButtonStyle.Secondary:
-                            messageButton.setStyle('SECONDARY');
+                            messageButton.setStyle(Discord.ButtonStyle.Secondary);
                             break;
                         case ButtonStyle.Success:
-                            messageButton.setStyle('SUCCESS');
+                            messageButton.setStyle(Discord.ButtonStyle.Success);
                             break;
                         case ButtonStyle.Danger:
-                            messageButton.setStyle('DANGER');
+                            messageButton.setStyle(Discord.ButtonStyle.Danger);
                             break;
                         case ButtonStyle.Link:
-                            messageButton.setStyle('LINK');
+                            messageButton.setStyle(Discord.ButtonStyle.Link);
                             break;
                     }
 
@@ -151,7 +157,7 @@ export abstract class DiscordUtils
                 }
                 case ComponentType.Select:
                 {
-                    const messageSelect = new Discord.MessageSelectMenu();
+                    const messageSelect = new Discord.StringSelectMenuBuilder();
                     messageSelect.setPlaceholder(component.placeholder);
                     messageSelect.setCustomId('menu'); // TODO: Should this be unique or even given by the user?
 

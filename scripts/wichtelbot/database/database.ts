@@ -9,9 +9,9 @@ import { GiftTypeStatistics } from './giftTypeStatistics';
 import { InformationData } from '../classes/information';
 import Member from '../classes/member';
 import { ParcelStatistics } from './parcelStatistics';
+import Sqlite from 'better-sqlite3';
 import { State } from '../endpoint/definitions';
 import Utils from '../../utility/utils';
-import Sqlite = require('better-sqlite3');
 import Wichtel from '../classes/wichtel';
 
 export default class Database
@@ -100,7 +100,7 @@ export default class Database
      * Copies all bindable properties from an object, returning a bindable object
      * that can be used as binding parameters when running SQLite statements.
      */
-    private getBindablesFromObject<TObject> (object: TObject): TObject
+    private getBindablesFromObject<TObject extends object> (object: TObject): TObject
     {
         // Objects can contain data that is not bindable for SQLite, for
         // example constructors, methods etc.

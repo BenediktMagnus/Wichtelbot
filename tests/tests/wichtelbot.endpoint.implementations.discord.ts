@@ -32,8 +32,8 @@ describe('discord client',
                 discordInteractionMock = mockito.mock(Discord.ButtonInteraction);
                 mockito.when(discordInteractionMock.isButton()).thenReturn(true);
                 discordInteraction = mockito.instance(discordInteractionMock);
-                discordInteraction.type = 'MESSAGE_COMPONENT';
-                discordInteraction.componentType = 'BUTTON';
+                discordInteraction.type = Discord.InteractionType.MessageComponent;
+                discordInteraction.componentType = Discord.ComponentType.Button;
             }
         );
 
@@ -62,10 +62,10 @@ describe('discord client',
                 const testId = 'testId';
                 const testType = ChannelType.Personal;
 
-                mockito.when(discordDMChannelMock.isText()).thenReturn(true);
+                mockito.when(discordDMChannelMock.isTextBased()).thenReturn(true);
 
                 discordDMChannel.id = testId;
-                discordDMChannel.type = 'DM';
+                discordDMChannel.type = Discord.ChannelType.DM;
 
                 const channel = new DiscordEndpoint.Channel(discordDMChannel);
 

@@ -2,7 +2,7 @@
     "extends": "../scripts/tsconfig.json",
     "compilerOptions": {
         "module": "commonjs",
-        "target": "es2021"
+        "target": "es2022"
     },
     "include": [
         "./**/*.ts",
