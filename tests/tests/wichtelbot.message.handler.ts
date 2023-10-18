@@ -137,6 +137,8 @@ describe('message handler',
         it('answers with messageTooLong if message is too long.',
             async function ()
             {
+                // TODO: It shall answer in personal channels and on servers if the message is a relevant command, otherwise ignore it.
+
                 let called = false;
                 let author: User;
 

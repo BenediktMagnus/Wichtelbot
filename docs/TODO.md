@@ -1,7 +1,10 @@
-Wichtig:
--Funktion herausnehmen, mit der man als Bot schreiben kann.
+# TODO
+- Wiederherstellung der Funktion, um allen Wichteln über den Bot zu schreiben
+- Verbesserung der Änderungsfunktion (entweder Auswahl, was geändert werden soll oder Knopf pro Frage, um das Alte beizubehalten)
+- Viele neue versteckte Befehle
+- Der Bot könnte automatisch am Ende der Anmeldephase daran erinnern, die Registrierung abzuschließen.
 
-
+# Alt
 
 -Paketnummern
 -Ganz am Anfang eine Info darüber, was vom Bot gefragt wird. (Eventuell auch mehr Informationen über den Prozess.)

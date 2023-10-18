@@ -5,6 +5,7 @@ import Utils from '../../../../utility/utils';
 
 export class DiscordChannel implements Channel
 {
+    // TODO: Should we include Discord threads here?
     protected channel: Discord.DMChannel | Discord.PartialDMChannel | Discord.TextChannel | null;
 
     public readonly type: ChannelType;

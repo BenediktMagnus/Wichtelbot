@@ -198,7 +198,9 @@ export default class Database
      */
     public log (contactId: string, name: string, message: string, channelId: string|null = null): Sqlite.RunResult
     {
-        const statement = this.logDatabase.prepare('INSERT INTO Log (contactId, name, channelId, message, timestamp) VALUES (?, ?, ?, ?, ?)');
+        const statement = this.logDatabase.prepare(
+            'INSERT INTO Log (contactId, name, channelId, message, timestamp) VALUES (?, ?, ?, ?, ?)'
+        );
 
         const result = statement.run(
             contactId,

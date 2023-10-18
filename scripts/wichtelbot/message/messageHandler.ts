@@ -96,7 +96,8 @@ export default class MessageHandler
             {
                 for (const path of stateCommandDefinition.paths)
                 {
-                    this.prepareCommandInfo(path.command,
+                    this.prepareCommandInfo(
+                        path.command,
                         (command: string): void =>
                         {
                             const stateCommand = new StateCommand(stateCommandDefinition.state, command);
@@ -226,6 +227,8 @@ export default class MessageHandler
 
         if (message.channel.type == ChannelType.Server)
         {
+            // TODO: Should we include threads here? -> This would also be needed to be set in the Discord implementation!
+
             if (!message.content.startsWith(Config.main.commandPrefix))
             {
                 // We ignore messages on servers that do not start with the defined message prefix.
