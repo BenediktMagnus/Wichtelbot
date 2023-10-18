@@ -5,14 +5,14 @@ import Utils from '../../../../utility/utils';
 
 export class DiscordChannel implements Channel
 {
-    protected channel: Exclude<Discord.TextBasedChannels, Discord.ThreadChannel> | null;
+    protected channel: Discord.DMChannel | Discord.PartialDMChannel | Discord.TextChannel | null;
 
     public readonly type: ChannelType;
 
-    constructor (channel: Discord.Channel|Discord.TextBasedChannels)
+    constructor (channel: Discord.Channel)
     {
         // Determine channel type:
-        if (!channel.isText())
+        if (!channel.isTextBased())
         {
             this.type = ChannelType.Ignore;
             this.channel = null;
@@ -21,12 +21,11 @@ export class DiscordChannel implements Channel
         {
             switch (channel.type)
             {
-                case 'DM':
+                case Discord.ChannelType.DM:
                     this.type = ChannelType.Personal;
                     this.channel = channel;
                     break;
-                case 'GUILD_TEXT':
-                case 'GUILD_NEWS': // TODO: Check what the news channel is for.
+                case Discord.ChannelType.GuildText:
                     this.type = ChannelType.Server;
                     this.channel = channel;
                     break;

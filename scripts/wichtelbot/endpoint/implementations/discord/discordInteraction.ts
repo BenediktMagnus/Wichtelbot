@@ -32,7 +32,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         this.responsibleClient = responsibleClient;
 
         this.hasParameters = false;
-        this.hasComponentOrigin = this.interaction.isButton() || this.interaction.isSelectMenu();
+        this.hasComponentOrigin = this.interaction.isButton() || this.interaction.isStringSelectMenu();
     }
 
     public get author (): DiscordUser
@@ -65,7 +65,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         {
             return this.interaction.customId;
         }
-        else if (this.interaction.isSelectMenu())
+        else if (this.interaction.isStringSelectMenu())
         {
             return this.interaction.values[0]; // TODO: What about multiselect?
         }
@@ -101,7 +101,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
     public async defer (): Promise<void>
     {
         if (this.interaction.isButton()
-        || this.interaction.isSelectMenu())
+        || this.interaction.isStringSelectMenu())
         {
             await this.interaction.deferUpdate();
         }
@@ -121,7 +121,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
         if (this.interaction.isButton()
-            || this.interaction.isSelectMenu())
+            || this.interaction.isStringSelectMenu())
         {
             const actionRow = new Discord.ActionRowBuilder<Discord.ButtonBuilder>();
 
@@ -129,7 +129,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
 
             const messageButton = new Discord.ButtonBuilder();
 
-            if (this.interaction.isSelectMenu())
+            if (this.interaction.isStringSelectMenu())
             {
                 // If it is a select menu, the result is the selected option:
                 messageButton.setLabel(this.interaction.values[0]); // TODO: What about multiselect?

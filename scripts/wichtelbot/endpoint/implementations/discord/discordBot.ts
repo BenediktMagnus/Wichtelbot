@@ -3,10 +3,7 @@ import Config from '../../../../utility/config';
 import { DiscordClient } from './discordClient';
 import { DiscordInteraction } from './discordInteraction';
 import { DiscordMessage } from './discordMessage';
-import { REST as DiscordRestApi } from '@discordjs/rest';
-import { Routes as DiscordRoutes } from 'discord-api-types/v9';
 import MessageHandler from '../../../message/messageHandler';
-import { SlashCommandBuilder } from '@discordjs/builders';
 
 export class DiscordBot
 {
@@ -23,7 +20,6 @@ export class DiscordBot
         const intents = new Discord.IntentsBitField(
             [
                 Discord.GatewayIntentBits.Guilds,
-                Discord.GatewayIntentBits.GuildMembers,
                 Discord.GatewayIntentBits.GuildMessages,
                 Discord.GatewayIntentBits.DirectMessages,
                 Discord.GatewayIntentBits.DirectMessageReactions,
@@ -31,12 +27,14 @@ export class DiscordBot
             ]
         );
 
-        const partials = ['CHANNEL'];
+        const partials = [
+            Discord.Partials.Channel,
+        ];
 
         this.nativeClient = new Discord.Client(
             {
                 intents: intents,
-                partials: ['CHANNEL']
+                partials: partials
                 // NOTE: The partial is needed to receive direct messages, see https://github.com/discordjs/discord.js/issues/5687.
                 // FIXME: Partials need special handling, see https://discordjs.guide/popular-topics/partials.html#handling-partial-data.
             }
@@ -95,14 +93,14 @@ export class DiscordBot
         return loginName;
     }
 
-    private loadCommands (): SlashCommandBuilder[]
+    private loadCommands (): Discord.SlashCommandBuilder[]
     {
-        const slashCommands: SlashCommandBuilder[] = [];
+        const slashCommands: Discord.SlashCommandBuilder[] = [];
 
         // Public commands:
         for (const command of this.messageHandler.handlingDefinition.publicCommands)
         {
-            const slashCommand = new SlashCommandBuilder();
+            const slashCommand = new Discord.SlashCommandBuilder();
             slashCommand.setDefaultPermission(true);
 
             const commandName = this.formatCommand(command.commandInfo.commands[0]); // Only the first command name is used.
@@ -136,9 +134,9 @@ export class DiscordBot
         return result;
     }
 
-    private async registerCommands (commands: SlashCommandBuilder[]): Promise<void>
+    private async registerCommands (commands: Discord.SlashCommandBuilder[]): Promise<void>
     {
-        const discordRestApi = new DiscordRestApi(
+        const discordRestApi = new Discord.REST(
             {
                 version: '9'
             }
@@ -155,7 +153,7 @@ export class DiscordBot
         for (const guild of guilds)
         {
             await discordRestApi.put(
-                DiscordRoutes.applicationGuildCommands(
+                Discord.Routes.applicationGuildCommands(
                     Config.bot.clientId, guild.id
                 ),
                 {
