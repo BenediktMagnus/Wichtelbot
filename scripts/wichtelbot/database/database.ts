@@ -70,6 +70,9 @@ export default class Database
             try
             {
                 database.exec(sql);
+
+                // Set the newly created database to the current version:
+                database.pragma(`user_version = ${this.databaseVersion[describerFileName]}`);
             }
             catch (error)
             {
