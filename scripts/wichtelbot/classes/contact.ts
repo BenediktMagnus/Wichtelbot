@@ -10,7 +10,7 @@ export interface ContactCoreData
 
 export interface ContactData extends ContactCoreData
 {
-    nickname: string;
+    nickname: string|null; // TODO: The nickname is rarely used (mostly the name comes from the message author). Do we really need it?
     lastUpdateTime: number;
     type: ContactType;
     state: State;
@@ -33,7 +33,7 @@ export default class Contact implements ContactData
     public id: string; // The ID, unique for every contact.
     public tag: string; // The contact's tag, a contextual identifier.
     public name: string; // The base name.
-    public nickname: string; // A setable nickname for the contact for readability purposes, defaults to the name.
+    public nickname: string|null; // A setable nickname for the contact for readability purposes, defaults to the name.
     public lastUpdateTime: number; // Unix time
     public type: ContactType;
     public state: State; // The current state the contact is in, used as communication state.
@@ -48,22 +48,14 @@ export default class Contact implements ContactData
         // ContactData:
         if (instanceOfContactData(contactData))
         {
-            if (contactData.nickname == '')
-            {
-                this.nickname = this.name;
-            }
-            else
-            {
-                this.nickname = contactData.nickname;
-            }
-
+            this.nickname = contactData.nickname;
             this.lastUpdateTime = contactData.lastUpdateTime;
             this.type = contactData.type;
             this.state = contactData.state;
         }
         else
         {
-            this.nickname = this.name;
+            this.nickname = null;
             this.lastUpdateTime = 0;
             this.type = ContactType.Contact;
             this.state = State.Nothing;

@@ -23,7 +23,7 @@ export default class Database
     protected readonly dataPath = './data/';
 
     private readonly databaseVersion = {
-        [mainDescriberFileName]: 1,
+        [mainDescriberFileName]: 2,
         [logDesriberFileName]: 0,
     };
 

@@ -57,7 +57,7 @@ export default abstract class ContactTestUtility
 
         const contactData = {
             ...contactCoreData,
-            nickname: contactCoreData.name,
+            nickname: GeneralTestUtility.createRandomString(),
             lastUpdateTime: GeneralTestUtility.createRandomInteger(),
             type: ContactType.Contact,
             state: ContactTestUtility.createRandomState(),
@@ -68,7 +68,7 @@ export default abstract class ContactTestUtility
 
     public static createRandomContact (): Contact
     {
-        const contactCoreData = ContactTestUtility.createRandomContactCoreData();
+        const contactCoreData = ContactTestUtility.createRandomContactData();
 
         const contact = new Contact(contactCoreData);
 

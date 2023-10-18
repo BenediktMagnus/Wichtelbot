@@ -4,7 +4,7 @@ CREATE TABLE `contact` (
     `id` TEXT NOT NULL UNIQUE,
     `tag` TEXT NOT NULL UNIQUE,
     `name` TEXT NOT NULL UNIQUE,
-    `nickname` TEXT NOT NULL UNIQUE,
+    `nickname` TEXT,
     `lastUpdateTime` INTEGER NOT NULL DEFAULT 0,
     `type` TEXT NOT NULL,
     `state` TEXT NOT NULL,

@@ -89,7 +89,7 @@ export default class TokenString
 
         map.set('name', contact.name);
         map.set('tag', contact.tag);
-        map.set('nickname', contact.nickname);
+        map.set('nickname', contact.nickname ?? contact.name);
 
         if (contactData instanceof Member)
         {
