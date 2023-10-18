@@ -7,7 +7,7 @@
     "confirmDeregistration": "Bist du sicher, dass du dich vom Wichteln abmelden möchtest?",
     "contactingFailedResponse": "Ich konnte dich nicht erreichen, {contact.nickname}. Hast du Direktnachrichten von Servermitgliedern erlaubt?",
     "contactingTooEarly": "Die Anmeldephase beginnt erst am {date.day}.{date.month}.{date.year} um {date.hour}:{date.minute} Uhr.",
-    "contactingRegistration": "Hallo, {contact.nickname}!\nSchön, dass du am Achterwichteln teilnehmen willst!\nSchreibe „registrieren“, um den Anmeldevorgang zu starten.",
+    "contactingRegistration": "Hallo, {contact.nickname}!\nSchön, dass du am Achterwichteln „{var.currentEventName}“ teilnehmen willst!\nSchreibe „registrieren“, um den Anmeldevorgang zu starten.",
     "contactingResponse": "Hohoho, {contact.nickname}, ich habe dir geschrieben!",
     "contactingAlreadyRegistered": "Hallo, {contact.nickname}!\nDu hast dich bereits für das Wichteln registriert.",
     "contactingTooLate": "Die Anmeldephase ist leider vorbei. Aber das nächste Wichteln kommt bestimmt!",

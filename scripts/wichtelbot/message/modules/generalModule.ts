@@ -120,7 +120,8 @@ export default class GeneralModule
 
             try
             {
-                const privateMessage = text.process(message.author);
+                const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
+                const privateMessage = text.process(message.author, parameters);
                 await message.author.send(privateMessage);
 
                 answer = Localisation.texts.contactingResponse.process(message.author);
