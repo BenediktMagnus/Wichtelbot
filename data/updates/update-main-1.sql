@@ -1,0 +1,5 @@
+BEGIN TRANSACTION;
+
+ALTER TABLE `information` ADD COLUMN `steamFriendshipCode` TEXT NOT NULL DEFAULT '';
+
+COMMIT;

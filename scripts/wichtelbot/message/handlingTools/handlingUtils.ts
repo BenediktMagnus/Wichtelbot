@@ -46,6 +46,14 @@ export abstract class HandlingUtils
         {
             visualisations.push(
                 {
+                    headline: Localisation.texts.profileSteamFriendshipCode.process(member),
+                    text: member.information.steamFriendshipCode,
+                    type: VisualisationType.Compact
+                }
+            );
+
+            visualisations.push(
+                {
                     headline: Localisation.texts.profileDigitalAddress.process(member),
                     text: member.information.digitalAddress,
                     type: VisualisationType.Compact

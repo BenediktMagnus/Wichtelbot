@@ -9,8 +9,8 @@ import InformationModule from './modules/informationModule';
 import Message from '../endpoint/definitions/message';
 import { ModerationModule } from './modules/moderationModule';
 import State from "../endpoint/definitions/state";
-import TokenString from '../../utility/tokenString';
 import { StateAndText } from './handlingTools/stateAndText';
+import TokenString from '../../utility/tokenString';
 
 interface CommandDefinition
 {
@@ -231,10 +231,10 @@ export default class HandlingDefinition
                 {
                     await this.generalModule.continue(
                         message,
-                        State.InformationDigitalAddress,
-                        Localisation.texts.informationDigitalAddress
+                        State.InformationSteamFriendshipCode,
+                        Localisation.texts.informationSteamFriendshipCode
                     );
-                    await this.informationModule.sendCurrentDigitalAddress(message);
+                    await this.informationModule.sendCurrentSteamFriendshipCode(message);
                 }
                 else
                 {
@@ -281,14 +281,14 @@ export default class HandlingDefinition
 
                     const neededInformationStates = this.informationModule.getListOfNeededInformationStates(message);
 
-                    if (neededInformationStates.includes(State.InformationDigitalAddress))
+                    if (neededInformationStates.includes(State.InformationSteamFriendshipCode))
                     {
                         await this.generalModule.continue(
                             message,
-                            State.InformationDigitalAddress,
-                            Localisation.texts.informationDigitalAddress
+                            State.InformationSteamFriendshipCode,
+                            Localisation.texts.informationSteamFriendshipCode
                         );
-                        await this.informationModule.sendCurrentDigitalAddress(message);
+                        await this.informationModule.sendCurrentSteamFriendshipCode(message);
                     }
                     else if (neededInformationStates.includes(State.InformationInternationalAllowed))
                     {
@@ -309,6 +309,26 @@ export default class HandlingDefinition
                 {
                     await this.generalModule.reply(message, Localisation.texts.notUnderstood);
                 }
+            }
+        },
+        // Information, SteamFriendshipCode:
+        {
+            state: State.InformationSteamFriendshipCode,
+            expectsComponentResult: false,
+            paths: null,
+            handlerFunction: async (message: Message): Promise<void> =>
+            {
+                if (message.content.length > this.maxShortMessageLength)
+                {
+                    await this.generalModule.sendMessageTooLong(message, this.maxShortMessageLength);
+
+                    return;
+                }
+
+                this.informationModule.setSteamFriendshipCode(message);
+
+                await this.generalModule.continue(message, State.InformationDigitalAddress, Localisation.texts.informationDigitalAddress);
+                await this.informationModule.sendCurrentDigitalAddress(message);
             }
         },
         // Information, DigitalAddress:

@@ -94,6 +94,7 @@ export default class TokenString
         if (contactData instanceof Member)
         {
             map.set('address', contactData.information.address);
+            map.set('steamFriendshipCode', contactData.information.steamFriendshipCode);
             map.set('digitalAddress', contactData.information.digitalAddress);
             map.set('wishList', contactData.information.wishList);
             map.set('allergies', contactData.information.allergies);

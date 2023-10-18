@@ -371,10 +371,10 @@ export default class Database
         // The information data must nevertheless be created because the former contact had no information.
         const informationStatement = this.mainDatabase.prepare(
             `INSERT INTO
-                information (contactId, lastUpdateTime, giftTypeAsTaker, giftTypeAsGiver, address, country,
+                information (contactId, lastUpdateTime, giftTypeAsTaker, giftTypeAsGiver, address, country, steamFriendshipCode,
                              digitalAddress, internationalAllowed, wishList, allergies, giftExclusion, userExclusion, freeText)
             VALUES
-                (:contactId, :lastUpdateTime, :giftTypeAsTaker, :giftTypeAsGiver, :address, :country,
+                (:contactId, :lastUpdateTime, :giftTypeAsTaker, :giftTypeAsGiver, :address, :country, :steamFriendshipCode,
                  :digitalAddress, :internationalAllowed, :wishList, :allergies, :giftExclusion, :userExclusion, :freeText)`
         );
 
@@ -481,10 +481,9 @@ export default class Database
             `UPDATE
                 information
             SET
-                lastUpdateTime = :lastUpdateTime, giftTypeAsTaker = :giftTypeAsTaker,
-                giftTypeAsGiver = :giftTypeAsGiver, address = :address, country = :country,
-                digitalAddress = :digitalAddress, internationalAllowed = :internationalAllowed,
-                wishList = :wishList, allergies = :allergies, giftExclusion = :giftExclusion,
+                lastUpdateTime = :lastUpdateTime, giftTypeAsTaker = :giftTypeAsTaker, giftTypeAsGiver = :giftTypeAsGiver,
+                address = :address, country = :country, steamFriendshipCode = :steamFriendshipCode, digitalAddress = :digitalAddress,
+                internationalAllowed = :internationalAllowed, wishList = :wishList, allergies = :allergies, giftExclusion = :giftExclusion,
                 userExclusion = :userExclusion, freeText = :freeText
             WHERE
                 contactId = :contactId`

@@ -75,6 +75,7 @@ interface Texts
     informationGiftTypeAsGiver: TokenString;
     informationGiftTypeAsTaker: TokenString;
     informationInternationalAllowed: TokenString;
+    informationSteamFriendshipCode: TokenString;
     informationUserExclusion: TokenString;
     informationWishList: TokenString;
     maybeResponse: TokenString;
@@ -97,6 +98,7 @@ interface Texts
     profileGiftType: TokenString;
     profileCounty: TokenString;
     profileAddress: TokenString;
+    profileSteamFriendshipCode: TokenString;
     profileDigitalAddress: TokenString;
     profileWishlist: TokenString;
     profileAllergies: TokenString;

@@ -75,6 +75,7 @@ export default class InformationModule
             case GiftType.All:
                 result.push(State.InformationAddress);
                 result.push(State.InformationAllergies);
+                result.push(State.InformationSteamFriendshipCode);
                 result.push(State.InformationDigitalAddress);
                 break;
             case GiftType.Analogue:
@@ -82,6 +83,7 @@ export default class InformationModule
                 result.push(State.InformationAllergies);
                 break;
             case GiftType.Digital:
+                result.push(State.InformationSteamFriendshipCode);
                 result.push(State.InformationDigitalAddress);
                 break;
             case GiftType.Nothing:
@@ -132,6 +134,13 @@ export default class InformationModule
         const localisedCountry = Localisation.translateCountry(member.information.country);
 
         await this.sendCurrentInformationValue(message, member, localisedCountry);
+    }
+
+    public async sendCurrentSteamFriendshipCode (message: Message): Promise<void>
+    {
+        const member = this.database.getMember(message.author.id);
+
+        await this.sendCurrentInformationValue(message, member, member.information.steamFriendshipCode);
     }
 
     public async sendCurrentDigitalAddress (message: Message): Promise<void>
@@ -215,6 +224,15 @@ export default class InformationModule
         const member = this.database.getMember(message.author.id);
 
         member.information.country = message.command; // We need the country normalised. Commands are lowercase and trimmed, so useful.
+
+        this.database.updateMember(member);
+    }
+
+    public setSteamFriendshipCode (message: Message): void
+    {
+        const member = this.database.getMember(message.author.id);
+
+        member.information.steamFriendshipCode = message.content;
 
         this.database.updateMember(member);
     }

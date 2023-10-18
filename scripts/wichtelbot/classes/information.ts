@@ -8,6 +8,7 @@ export interface InformationData
     giftTypeAsGiver: GiftType;
     address: string;
     country: string;
+    steamFriendshipCode: string;
     digitalAddress: string;
     internationalAllowed: boolean;
     wishList: string;
@@ -25,6 +26,7 @@ export default class Information implements InformationData
     public giftTypeAsGiver: GiftType;
     public address: string;
     public country: string;
+    public steamFriendshipCode: string;
     public digitalAddress: string;
     public internationalAllowed: boolean;
     public wishList: string;
@@ -41,6 +43,7 @@ export default class Information implements InformationData
         this.giftTypeAsGiver = GiftType.Nothing;
         this.address = '';
         this.country = '';
+        this.steamFriendshipCode = '';
         this.digitalAddress = '';
         this.internationalAllowed = false;
         this.wishList = '';

@@ -9,6 +9,7 @@ enum State
     InformationGiftTypeAsGiver = 'informationGiftTypeAsGiver',
     InformationAddress = 'informationAddress',
     InformationCountry = 'informationCountry',
+    InformationSteamFriendshipCode = 'informationSteamFriendshipCode',
     InformationDigitalAddress = 'informationDigitalAddress',
     InformationInternationalAllowed = 'informationInternationalAllowed',
     InformationWishList = 'informationWishList',
