@@ -14,11 +14,18 @@ import { State } from '../endpoint/definitions';
 import Utils from '../../utility/utils';
 import Wichtel from '../classes/wichtel';
 
+const mainDescriberFileName = 'main';
+const logDesriberFileName = 'log';
+type DatabaseDescriberFileName = typeof mainDescriberFileName | typeof logDesriberFileName;
+
 export default class Database
 {
-    protected readonly mainDescriberFileName = 'main';
-    protected readonly logDesriberFileName = 'log';
     protected readonly dataPath = './data/';
+
+    private readonly databaseVersion = {
+        [mainDescriberFileName]: 1,
+        [logDesriberFileName]: 0,
+    };
 
     /**
      * The main database containing all important tables.
@@ -35,11 +42,11 @@ export default class Database
      */
     constructor (mainFileName: string, logFileName: string, inMemory = false)
     {
-        this.mainDatabase = this.openOrCreateDatabase(mainFileName, this.mainDescriberFileName, inMemory);
-        this.logDatabase = this.openOrCreateDatabase(logFileName, this.logDesriberFileName, inMemory);
+        this.mainDatabase = this.openOrCreateDatabase(mainFileName, mainDescriberFileName, inMemory);
+        this.logDatabase = this.openOrCreateDatabase(logFileName, logDesriberFileName, inMemory);
     }
 
-    protected openOrCreateDatabase (databaseName: string, describerFileName: string, inMemory: boolean): Sqlite.Database
+    protected openOrCreateDatabase (databaseName: string, describerFileName: DatabaseDescriberFileName, inMemory: boolean): Sqlite.Database
     {
         const databaseFilePath = inMemory ? ':memory:' : this.dataPath + databaseName + '.sqlite';
 
@@ -87,6 +94,9 @@ export default class Database
         {
             // If this is an old file, call vaccuum to defragment the database file:
             database.exec('VACUUM;');
+
+            // Update the database if necessary:
+            this.updateDatabase(database, describerFileName);
         }
 
         // One call to optimise after each closed database connection
@@ -94,6 +104,30 @@ export default class Database
         database.pragma('optimize');
 
         return database;
+    }
+
+    /**
+     * Updates the database to the current version.
+     * @param database
+     */
+    private updateDatabase (database: Sqlite.Database, describerFileName: DatabaseDescriberFileName): void
+    {
+        let version = database.pragma('user_version', { simple: true }) as number;
+
+        while (version < this.databaseVersion[describerFileName])
+        {
+            // NOTE: The version is updated first because the update always contains the number in the name to which it is updated.
+            version++;
+
+            const sql = fs.readFileSync(this.dataPath + `updates/update-${describerFileName}-${version}.sql`, 'utf8');
+
+            database.exec(sql);
+
+            // Update the database version:
+            // NOTE: It is recommended to update the database version after each step so that in case of an update error
+            //       the wrong version is not left in the database.
+            database.pragma(`user_version = ${version}`);
+        }
     }
 
     /**
