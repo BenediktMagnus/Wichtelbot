@@ -44,13 +44,17 @@ export abstract class HandlingUtils
 
         if (sendDigital)
         {
-            visualisations.push(
-                {
-                    headline: Localisation.texts.profileSteamFriendshipCode.process(member),
-                    text: member.information.steamFriendshipCode,
-                    type: VisualisationType.Compact
-                }
-            );
+            const steamFriendshipCode = member.information.steamFriendshipCode.trim();
+            if (this.isValidSteamFriendshipCode(steamFriendshipCode))
+            {
+                visualisations.push(
+                    {
+                        headline: Localisation.texts.profileSteamFriendshipCode.process(member),
+                        text: steamFriendshipCode,
+                        type: VisualisationType.Compact
+                    }
+                );
+            }
 
             visualisations.push(
                 {
@@ -97,5 +101,10 @@ export abstract class HandlingUtils
         );
 
         return visualisations;
+    }
+
+    private static isValidSteamFriendshipCode (value: string): boolean
+    {
+        return /^\d+$/.test(value);
     }
 }
