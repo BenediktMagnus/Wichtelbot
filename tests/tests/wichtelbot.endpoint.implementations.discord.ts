@@ -9,6 +9,7 @@ describe('discord client',
     function ()
     {
         let discordClient: Discord.Client;
+        let discordUserMock: Discord.User;
         let discordUser: Discord.User;
         let discordDMChannelMock: Discord.DMChannel;
         let discordDMChannel: Discord.DMChannel;
@@ -21,12 +22,16 @@ describe('discord client',
             function ()
             {
                 discordClient = mockito.instance(mockito.mock(Discord.Client) as Discord.Client);
-                discordUser = mockito.instance(mockito.mock(Discord.User));
+
+                discordUserMock = mockito.mock(Discord.User);
+                mockito.when(discordUserMock.displayName).thenCall(() => discordUser.globalName);
+                discordUser = mockito.instance(discordUserMock);
 
                 discordDMChannelMock = mockito.mock(Discord.DMChannel);
                 discordDMChannel = mockito.instance(discordDMChannelMock);
 
                 discordMessageMock = mockito.mock(Discord.Message);
+                mockito.when(discordMessageMock.attachments).thenReturn(new Discord.Collection());
                 discordMessage = mockito.instance(discordMessageMock);
 
                 discordInteractionMock = mockito.mock(Discord.ButtonInteraction);
@@ -45,7 +50,7 @@ describe('discord client',
                 const testIsBot = true;
 
                 discordUser.id = testId;
-                discordUser.username = testName;
+                discordUser.globalName = testName;
                 discordUser.bot = testIsBot;
 
                 const user = new DiscordEndpoint.User(discordUser);

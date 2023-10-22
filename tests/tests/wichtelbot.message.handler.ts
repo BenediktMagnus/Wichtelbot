@@ -100,7 +100,10 @@ describe('message handler',
 
                 const resultCallback = async (text: string): Promise<void> =>
                 {
-                    assert.strictEqual(text, Localisation.texts.contactingRegistration.process(author));
+                    const parameters = new KeyValuePairList('currentEventName', Config.main.currentEvent.name);
+                    const expectedText = Localisation.texts.contactingRegistration.process(author, parameters);
+
+                    assert.strictEqual(text, expectedText);
                     called = true;
                 };
 

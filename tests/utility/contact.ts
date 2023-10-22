@@ -85,6 +85,7 @@ export default abstract class ContactTestUtility
                 giftTypeAsGiver: ContactTestUtility.getRandomGiftType(),
                 address: GeneralTestUtility.createRandomString(),
                 country: GeneralTestUtility.createRandomString(),
+                steamFriendshipCode: `${GeneralTestUtility.createRandomInteger()}`,
                 digitalAddress: GeneralTestUtility.createRandomString(),
                 internationalAllowed: GeneralTestUtility.createRandomBoolean(),
                 wishList: GeneralTestUtility.createRandomString(),
