@@ -17,6 +17,7 @@ interface Commands
     changeInformation: CommandInfo;
     contacting: CommandInfo;
     deregistration: CommandInfo;
+    file: CommandInfo;
     goodAfternoon: CommandInfo;
     goodEvening: CommandInfo;
     goodMorning: CommandInfo;
@@ -60,6 +61,7 @@ interface Texts
     countrySelectPlaceholder: TokenString;
     deregistration: TokenString;
     deregistrationCancelled: TokenString;
+    fileReceived: TokenString;
     goodAfternoon: TokenString;
     goodEvening: TokenString;
     goodMorning: TokenString;

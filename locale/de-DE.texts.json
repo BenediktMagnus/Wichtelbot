@@ -15,6 +15,7 @@
     "countrySelectPlaceholder": "Land auswählen",
     "deregistration": "Schade, {contact.nickname}! Ich hab dich vom Wichteln abgemeldet. Wenn du wieder mitmachen möchtest, schreibe „registrieren“.",
     "deregistrationCancelled": "Puh, nochmal Glück gehabt! Schön, dass du dabei bleibst!",
+    "fileReceived": "Eine Datei? Puh, dafür habe ich keinen Platz. Schicke mir doch lieber einen kurzen Text!",
     "goodAfternoon": "Guten Tag, {contact.nickname}!",
     "goodEvening": "Guten Abend, {contact.nickname}!",
     "goodMorning": "Guten Morgen, {contact.nickname}!",

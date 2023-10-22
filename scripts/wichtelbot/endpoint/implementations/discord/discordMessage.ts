@@ -4,6 +4,7 @@ import { DiscordChannel } from './discordChannel';
 import { DiscordClient } from './discordClient';
 import { DiscordUser } from './discordUser';
 import { DiscordUtils } from './discordUtils';
+import Localisation from '../../../../utility/localisation';
 import { MessageWithParser } from '../../base/messageWithParser';
 import Utils from '../../../../utility/utils';
 
@@ -28,7 +29,14 @@ export class DiscordMessage extends MessageWithParser implements Message
 
     public get content (): string
     {
-        return this.message.content;
+        if ((this.message.attachments.size != 0) && (this.message.content.length == 0))
+        {
+            return Localisation.commands.file.commands[0];
+        }
+        else
+        {
+            return this.message.content;
+        }
     }
 
     public get author (): DiscordUser

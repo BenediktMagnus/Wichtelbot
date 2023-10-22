@@ -30,6 +30,9 @@
         "commands": ["abmelden"],
         "info": "Hebt die Registrierung auf und meldet dich vom Wichteln ab."
     },
+    "file": {
+        "commands": ["Datei"]
+    },
     "goodAfternoon": {
         "commands": [
             "guten Tag",

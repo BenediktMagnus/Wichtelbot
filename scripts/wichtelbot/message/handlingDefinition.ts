@@ -88,6 +88,10 @@ export default class HandlingDefinition
                     result: Localisation.texts.sternenrose,
                 },
                 {
+                    command: Localisation.commands.file,
+                    result: Localisation.texts.fileReceived,
+                },
+                {
                     command: Localisation.commands.goodMorning,
                     result: Localisation.texts.goodMorning,
                 },
