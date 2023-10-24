@@ -331,7 +331,7 @@ export default class InformationModule
 
         // Send an overview of all information gathered in the form of the own profile:
         const profileOverviewText = Localisation.texts.registrationProfileOverview.process(member);
-        const profileVisualisations = HandlingUtils.getProfileVisualisations(member);
+        const profileVisualisations = HandlingUtils.getProfileVisualisations(member, true);
         await message.reply(profileOverviewText, profileVisualisations);
     }
 }

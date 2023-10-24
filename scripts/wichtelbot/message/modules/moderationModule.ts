@@ -130,7 +130,7 @@ export class ModerationModule
             }
 
             const profileOverviewText = Localisation.texts.wichtelProfileDistribution.process(giver);
-            const profileVisualisations = HandlingUtils.getProfileVisualisations(taker);
+            const profileVisualisations = HandlingUtils.getProfileVisualisations(taker, false);
 
             const giverUser = await message.client.fetchUser(giver.id);
             await giverUser.send(profileOverviewText, profileVisualisations);

@@ -5,7 +5,12 @@ import Member from "../../classes/member";
 
 export abstract class HandlingUtils
 {
-    public static getProfileVisualisations (member: Member): Visualisation[]
+    /**
+     * @param member The member to get the visualisations for.
+     * @param fullInfo Whether to return the full information or only the ones relevant for the gift giver Wichtel.
+     * @returns The visualisations for the profile information of the given member.
+     */
+    public static getProfileVisualisations (member: Member, fullInfo: boolean): Visualisation[]
     {
         const visualisations: Visualisation[] = [
             {
@@ -44,22 +49,36 @@ export abstract class HandlingUtils
 
         if (sendDigital)
         {
-            const steamFriendshipCode = member.information.steamFriendshipCode.trim();
-            if (this.isValidSteamFriendshipCode(steamFriendshipCode))
-            {
-                visualisations.push(
-                    {
-                        headline: Localisation.texts.profileSteamFriendshipCode.process(member),
-                        text: steamFriendshipCode,
-                        type: VisualisationType.Compact
-                    }
-                );
-            }
-
             visualisations.push(
                 {
                     headline: Localisation.texts.profileDigitalAddress.process(member),
                     text: member.information.digitalAddress,
+                    type: VisualisationType.Compact
+                }
+            );
+
+            if (fullInfo)
+            {
+                const steamFriendshipCode = member.information.steamFriendshipCode.trim();
+                if (this.isValidSteamFriendshipCode(steamFriendshipCode))
+                {
+                    visualisations.push(
+                        {
+                            headline: Localisation.texts.profileSteamFriendshipCode.process(member),
+                            text: steamFriendshipCode,
+                            type: VisualisationType.Compact
+                        }
+                    );
+                }
+            }
+        }
+
+        if (fullInfo && (member.information.userExclusion != ''))
+        {
+            visualisations.push(
+                {
+                    headline: Localisation.texts.profileUserExclusion.process(member),
+                    text: member.information.userExclusion,
                     type: VisualisationType.Compact
                 }
             );

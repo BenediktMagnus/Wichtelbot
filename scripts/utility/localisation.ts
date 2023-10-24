@@ -103,6 +103,7 @@ interface Texts
     profileAddress: TokenString;
     profileSteamFriendshipCode: TokenString;
     profileDigitalAddress: TokenString;
+    profileUserExclusion: TokenString;
     profileWishlist: TokenString;
     profileAllergies: TokenString;
     profileExclusion: TokenString;
