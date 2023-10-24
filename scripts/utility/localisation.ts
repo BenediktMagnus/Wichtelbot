@@ -34,6 +34,7 @@ interface Commands
     moddingStatus: CommandInfo;
     no: CommandInfo;
     registration: CommandInfo;
+    showInformation: CommandInfo;
     sternenrose: CommandInfo;
     thankYou: CommandInfo;
     writeOwnGiftGiver: CommandInfo;

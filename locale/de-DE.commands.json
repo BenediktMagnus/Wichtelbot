@@ -135,6 +135,10 @@
         "commands": ["registrieren"],
         "info": "Startet den Registrierungsprozess."
     },
+    "showInformation": {
+            "commands": ["Angaben anzeigen", "anzeigen"],
+            "info": "Zeigt den Überblick über die gemachten Angaben nochmals an."
+    },
     "sternenrose": {
         "commands": ["sternenrose"]
     },

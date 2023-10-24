@@ -480,6 +480,10 @@ export default class HandlingDefinition
                 {
                     command: Localisation.commands.deregistration,
                     result: Localisation.texts.confirmDeregistration,
+                },
+                {
+                    command: Localisation.commands.showInformation,
+                    result: Localisation.texts.registrationProfileOverview,
                 }
             ],
             handlerFunction: async (message: Message, result: TokenString): Promise<void> =>
@@ -491,6 +495,10 @@ export default class HandlingDefinition
                 else if (result === Localisation.texts.confirmDeregistration)
                 {
                     await this.generalModule.continue(message, State.ConfirmDeregistration, result, ComponentBuilder.yesNo);
+                }
+                else if (result === Localisation.texts.registrationProfileOverview)
+                {
+                    await this.informationModule.sendProfileOverview(message);
                 }
             }
         },

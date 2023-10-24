@@ -329,7 +329,13 @@ export default class InformationModule
 
         await message.reply(answer);
 
-        // Send an overview of all information gathered in the form of the own profile:
+        await this.sendProfileOverview(message);
+    }
+
+    public async sendProfileOverview (message: Message): Promise<void>
+    {
+        const member = this.database.getMember(message.author.id);
+
         const profileOverviewText = Localisation.texts.registrationProfileOverview.process(member);
         const profileVisualisations = HandlingUtils.getProfileVisualisations(member, true);
         await message.reply(profileOverviewText, profileVisualisations);
