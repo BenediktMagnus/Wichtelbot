@@ -214,6 +214,32 @@ export default class Database
     }
 
     /**
+     * Returns if the database has something with the given value for the given select query.
+     * @param selectQuery The query to select something in the database to check if it exists.
+     * @param value The value that will be given to the statement as execution parameter.
+     * @returns True if something is found, otherwise false.
+     */
+    private hasSomething (selectQuery: string, value: any): boolean
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                CASE
+                    WHEN EXISTS
+                        (${selectQuery} LIMIT 1)
+                    THEN 1
+                    ELSE 0
+                END`
+        );
+
+        // Will make the get method to return the value of the first column instead of an object for all
+        // columns. Since we only want one value this makes it much easier:
+        statement.pluck(true);
+
+        const result = !!statement.get(value);
+
+        return result;
+    }
+    /**
      * Runs the given statement with the given parameters and returns the result as a number.
      */
     private getCount (statement: Sqlite.Statement, parameters: unknown): number
@@ -227,22 +253,9 @@ export default class Database
 
     public hasContact (contactId: string): boolean
     {
-        const statement = this.mainDatabase.prepare(
-            `SELECT
-                CASE
-                    WHEN EXISTS
-                        (SELECT 1 FROM contact WHERE id = ? LIMIT 1)
-                    THEN 1
-                    ELSE 0
-                END`
-        );
+        const selectQuery = 'SELECT 1 FROM contact WHERE id = ?';
 
-        // Will make the get method to return the value of the first column
-        // instead of an object for all columns. Since we only want one value
-        // this makes it much easier:
-        statement.pluck(true);
-
-        const result = !!statement.get(contactId);
+        const result = this.hasSomething(selectQuery, contactId);
 
         return result;
     }
@@ -333,22 +346,9 @@ export default class Database
      */
     public hasInformation (contactId: string): boolean
     {
-        const statement = this.mainDatabase.prepare(
-            `SELECT
-                CASE
-                    WHEN EXISTS
-                        (SELECT 1 FROM information WHERE contactId = ? LIMIT 1)
-                    THEN 1
-                    ELSE 0
-                END`
-        );
+        const selectQuery = 'SELECT 1 FROM information WHERE contactId = ?';
 
-        // Will make the get method to return the value of the first column
-        // instead of an object for all columns. Since we only want one value
-        // this makes it much easier:
-        statement.pluck(true);
-
-        const result = !!statement.get(contactId); // Make sure the value is definitely a boolean.
+        const result = this.hasSomething(selectQuery, contactId);
 
         return result;
     }
