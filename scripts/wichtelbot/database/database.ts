@@ -11,6 +11,8 @@ import Member from '../classes/member';
 import { ParcelStatistics } from './parcelStatistics';
 import Sqlite from 'better-sqlite3';
 import { State } from '../endpoint/definitions';
+import { TableName } from './tableName';
+import { TableObject } from './tableObject';
 import Utils from '../../utility/utils';
 import Wichtel from '../classes/wichtel';
 
