@@ -241,6 +241,115 @@ export default class Database
 
         return result;
     }
+
+    /**
+     * Generic insert of a table row.
+     * @param tableName The name of the table.
+     * @param tableInsert An object that contains all values for the table row.
+     * @returns The ID of the inserted row.
+     */
+    private insert<TObject extends object> (tableName: TableName, tableInsert: TObject): number
+    {
+        const tableObject = new TableObject(tableInsert);
+
+        const statement = this.mainDatabase.prepare(`
+            INSERT INTO
+                ${tableName} (${tableObject.getJoinedColumnNames()})
+            VALUES
+                (${tableObject.getJoinedValueKeys()})`
+        );
+
+        const bindables = tableObject.getBindables();
+
+        const runResult = statement.run(bindables);
+
+        return runResult.lastInsertRowid as number;
+    }
+
+    /**
+     * Generic select of a table row.
+     * @param tableName The name of the table.
+     * @param tableGet An object that contains all values the row must match.
+     * @return The row as an object or undefined if no row was found.
+     */
+    private get<TObject extends object, TGet extends object> (tableName: TableName, tableGet: TGet): TObject|undefined
+    {
+        const tableGetObject = new TableObject(tableGet);
+
+        const statement = this.mainDatabase.prepare(
+            `SELECT * FROM
+                ${tableName}
+            WHERE
+                ${tableGetObject.getJoinedSetStatements()}`
+        );
+
+        const bindables = tableGetObject.getBindables();
+
+        const result = statement.get(bindables) as TObject|undefined;
+
+        return result;
+    }
+
+    /**
+     * Generic select of multiple/all table rows.
+     * @param tableName The name of the table.
+     * @param tableGet An object that contains all values the rows must match.
+     * @return The rows as an array of objects.
+     */
+    private all<TObject extends object, TGet extends object> (tableName: TableName, tableGet?: TGet): TObject[]
+    {
+        if (tableGet === undefined)
+        {
+            const statement = this.mainDatabase.prepare(
+                `SELECT * FROM ${tableName}`
+            );
+
+            const result = statement.all() as TObject[];
+
+            return result;
+        }
+        else
+        {
+            const tableGetObject = new TableObject(tableGet);
+
+            const statement = this.mainDatabase.prepare(
+                `SELECT * FROM
+                    ${tableName}
+                    WHERE
+                    ${tableGetObject.getJoinedSetStatements()}`
+            );
+
+            const bindables = tableGetObject.getBindables();
+
+            const result = statement.all(bindables) as TObject[];
+
+            return result;
+        }
+    }
+
+    /**
+     * Generic update of a table row.
+     * @param tableName The name of the table.
+     * @param tableUpdate An object that contains the ID of the row as well as all columns to update.
+     */
+    private update<TObject extends {id: number}> (tableName: TableName, tableUpdate: TObject): void
+    {
+        // TODO: It must be possible to update via some other column than the ID.
+
+        const tableObject = new TableObject(tableUpdate);
+
+        const statement = this.mainDatabase.prepare(
+            `UPDATE
+                ${tableName}
+            SET
+                ${tableObject.getJoinedSetStatements()}
+            WHERE
+                id = :id`
+        );
+
+        statement.run(tableObject.getBindables());
+    }
+
     /**
      * Runs the given statement with the given parameters and returns the result as a number.
      */
