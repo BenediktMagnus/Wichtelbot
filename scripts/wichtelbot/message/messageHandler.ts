@@ -307,6 +307,9 @@ export default class MessageHandler
                             const answer = Localisation.texts.notUnderstood.process(message.author);
                             await message.reply(answer);
 
+                            /* TODO: If the contact is in State.Nothing, should we inform him about that he needs to initiate the Wichtel
+                                     registration via the server command and cannot do this via private message? */
+
                             break;
                         }
                 }
@@ -326,19 +329,26 @@ export default class MessageHandler
 
     private getAvailableCommands (state: State): CommandInfo[]
     {
+        // TODO: This code is a bit ugly and should be improved.
+
         let availableStateCommands = this.commandListsForEveryState.get(state);
         if (availableStateCommands === undefined)
         {
             availableStateCommands = [];
         }
 
-        let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
-        if (availableStatelessCommands === undefined)
-        {
-            availableStatelessCommands = [];
-        }
+        let availableCommands: CommandInfo[] = availableStateCommands;
 
-        const availableCommands = availableStateCommands.concat(availableStatelessCommands);
+        if (state != State.Nothing)
+        {
+            let availableStatelessCommands = this.commandListsForEveryState.get(State.Nothing);
+            if (availableStatelessCommands === undefined)
+            {
+                availableStatelessCommands = [];
+            }
+
+            availableCommands = availableStateCommands.concat(availableStatelessCommands);
+        }
 
         return availableCommands;
     }
