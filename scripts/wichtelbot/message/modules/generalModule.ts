@@ -104,6 +104,12 @@ export default class GeneralModule
                     {
                         // Not registered in THIS event yet.
                         text = Localisation.texts.contactingRegistration;
+
+                        if (contact.state == State.Nothing)
+                        {
+                            contact.state = State.New;
+                            this.database.updateContact(contact);
+                        }
                     }
                     else
                     {
