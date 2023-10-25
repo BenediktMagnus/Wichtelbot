@@ -590,7 +590,11 @@ export default class HandlingDefinition
         },
         {
             commandInfo: Localisation.commands.moddingEndRegistration, // TODO: Remove with cron feature that does this automatically.
-            handlerFunction: async (message: Message): Promise<void> => this.moderationModule.endRegistration(message)
+            handlerFunction: async (message: Message): Promise<void> =>
+            {
+                this.moderationModule.prepareWishedUserExclusions();
+                await this.moderationModule.endRegistration(message);
+            }
         },
         {
             commandInfo: Localisation.commands.moddingRunAssignment,

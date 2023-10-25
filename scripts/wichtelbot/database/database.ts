@@ -4,6 +4,7 @@ import { Exclusion, ExclusionData } from '../classes/exclusion';
 import { Relationship, RelationshipData } from '../classes/relationship';
 import Config from '../../utility/config';
 import ContactType from '../types/contactType';
+import { ExclusionReason } from '../types/exclusionReason';
 import GiftType from '../types/giftType';
 import { GiftTypeStatistics } from './giftTypeStatistics';
 import { InformationData } from '../classes/information';
@@ -650,6 +651,15 @@ export default class Database
 
             statement.run(parameters);
         }
+    }
+
+    public deleteUserExclusionWishes (): void
+    {
+        const statement = this.mainDatabase.prepare(
+            'DELETE FROM exclusion WHERE reason = ?'
+        );
+
+        statement.run(ExclusionReason.Wish);
     }
 
     public getRelationships (): Relationship[]

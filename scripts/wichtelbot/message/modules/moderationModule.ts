@@ -1,6 +1,8 @@
 import { Message, State } from "../../endpoint/definitions";
 import Config from "../../../utility/config";
 import Database from "../../database/database";
+import { Exclusion } from '../../classes/exclusion';
+import { ExclusionReason } from '../../types/exclusionReason';
 import { HandlingUtils } from "../handlingTools/handlingUtils";
 import { KeyValuePairList } from "../../../utility/keyValuePair";
 import Localisation from "../../../utility/localisation";
@@ -112,6 +114,50 @@ export class ModerationModule
         const answer = Localisation.texts.moderationRegistrationEnded.process(message.author, parameters);
 
         await message.reply(answer);
+    }
+
+    /**
+     * Extract the user exclusions from all members that have completed the registration and save them as exclusion wishes.
+     */
+    public prepareWishedUserExclusions (): void
+    {
+        this.database.deleteUserExclusionWishes();
+
+        const exclusions: Exclusion[] = [];
+
+        const members = this.database.getMembersByState(State.Waiting);
+
+        for (const member of members)
+        {
+            if (member.information.userExclusion == '-') // TODO: Bad hard coded value.
+            {
+                continue;
+            }
+
+            // TODO: The username handling here is Discord specific. This should be unified/standardised or abstracted.
+            const userExclusionString = member.information.userExclusion.toLowerCase();
+            const userExclusions = userExclusionString.split(/[^a-z0-9\-_]+/);
+
+            for (const excludedUsername of userExclusions)
+            {
+                if (this.database.hasContact(excludedUsername))
+                {
+                    const excludedContact = this.database.getContact(excludedUsername);
+
+                    const exclusion = new Exclusion(
+                        {
+                            giverId: member.id,
+                            takerId: excludedContact.id,
+                            reason: ExclusionReason.Wish
+                        }
+                    );
+
+                    exclusions.push(exclusion);
+                }
+            }
+        }
+
+        this.database.saveUserExclusions(exclusions);
     }
 
     public async distributeWichtelProfiles (message: Message): Promise<void>
