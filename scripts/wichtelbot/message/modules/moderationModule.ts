@@ -210,11 +210,13 @@ export class ModerationModule
 
             if (HandlingUtils.isValidSteamFriendshipCode(code))
             {
-                codes.push(wichtel.information.steamFriendshipCode);
+                const codeWithName = `${code} (${wichtel.name})`;
+                codes.push(codeWithName);
             }
         }
 
         const codesString = codes.join('\n');
+        const receiverNames: string[] = [];
 
         for (const wichtel of wichtels)
         {
@@ -223,9 +225,11 @@ export class ModerationModule
 
             const user = await message.client.fetchUser(wichtel.id);
             await user.send(text);
+
+            receiverNames.push(wichtel.name);
         }
 
-        const receiversString = wichtels.map(wichtel => wichtel.name).join('\n');
+        const receiversString = receiverNames.join('\n');
 
         const parameters = new KeyValuePairList();
         parameters.addPair('steamFriendshipCodes', `${codesString}`);
