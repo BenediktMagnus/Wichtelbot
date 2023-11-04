@@ -216,7 +216,6 @@ export class ModerationModule
         }
 
         const codesString = codes.join('\n');
-        const receiverNames: string[] = [];
 
         for (const wichtel of wichtels)
         {
@@ -225,15 +224,11 @@ export class ModerationModule
 
             const user = await message.client.fetchUser(wichtel.id);
             await user.send(text);
-
-            receiverNames.push(wichtel.name);
         }
 
-        const receiversString = receiverNames.join('\n');
-
         const parameters = new KeyValuePairList();
-        parameters.addPair('steamFriendshipCodes', `${codesString}`);
-        parameters.addPair('contactNames', `${receiversString}`);
+        parameters.addPair('codeCount', `${codes.length}`);
+        parameters.addPair('receiverCount', `${wichtels.length}`);
         const answer = Localisation.texts.moderationSteamFriendshipCodesDistributed.process(message.author, parameters);
 
         await message.reply(answer);
