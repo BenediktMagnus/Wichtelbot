@@ -138,6 +138,7 @@ export class ModerationModule
             const userExclusionString = member.information.userExclusion.toLowerCase();
             const userExclusions = userExclusionString.split(/[^a-z0-9\-_]+/);
 
+            let counter = 0;
             for (const excludedUsername of userExclusions)
             {
                 if (this.database.hasContactTag(excludedUsername))
@@ -153,6 +154,12 @@ export class ModerationModule
                     );
 
                     exclusions.push(exclusion);
+                }
+
+                counter += 1;
+                if (counter >= 3) // TODO: This should not be hard coded but part of the config.
+                {
+                    break;
                 }
             }
         }
