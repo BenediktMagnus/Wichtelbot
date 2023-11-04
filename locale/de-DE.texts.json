@@ -40,6 +40,7 @@
     "noCommandsAvailable": "Derzeit stehen keine besonderen Befehle zur Verfügung.",
     "notUnderstood": "Häää? Probiers nochmal.",
     "oldInformation": "Dies findet sich aktuell dazu in meiner Datenbank:\n>>> {var.informationValue}",
+    "ownTakerProfile": "Ein Gedächtnis wie ein Goldfisch, was?",
     "messageFromGiftGiverOrTaker": "*hust*",
     "messageFromGiftGiverHeadline": "Von deinem Wichtelpaten...",
     "messageFromGiftTakerHeadline": "Von deinem Wichtelkind...",

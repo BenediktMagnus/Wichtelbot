@@ -139,8 +139,17 @@
         "info": "Startet den Registrierungsprozess."
     },
     "showInformation": {
-            "commands": ["Angaben anzeigen", "anzeigen"],
-            "info": "Zeigt den Überblick über die gemachten Angaben nochmals an."
+        "commands": ["Angaben anzeigen", "anzeigen"],
+        "info": "Zeigt den Überblick über die gemachten Angaben nochmals an."
+    },
+    "showOwnTakerProfile": {
+        "commands": [
+            "Wer ist nochmal mein Wichtelkind",
+            "Wichtelkind",
+            "Steckbrief zeigen",
+            "Steckbrief"
+        ],
+        "info": "Zeigt den Steckbrief deines Wichtelkindes... nochmal."
     },
     "sternenrose": {
         "commands": ["sternenrose"]

@@ -5,13 +5,13 @@ import { ComponentBuilder } from './handlingTools/componentBuilder';
 import Config from '../../utility/config';
 import GeneralModule from './modules/generalModule';
 import GiftType from '../types/giftType';
+import { HandlingUtils } from './handlingTools/handlingUtils';
 import InformationModule from './modules/informationModule';
 import Message from '../endpoint/definitions/message';
 import { ModerationModule } from './modules/moderationModule';
 import State from "../endpoint/definitions/state";
 import { StateAndText } from './handlingTools/stateAndText';
 import TokenString from '../../utility/tokenString';
-import { HandlingUtils } from './handlingTools/handlingUtils';
 
 interface CommandDefinition
 {
@@ -546,11 +546,25 @@ export default class HandlingDefinition
                         state: State.MessageToGiftTaker,
                         text: Localisation.texts.writeOwnGiftTaker
                     },
-                }
+                },
+                {
+                    command: Localisation.commands.showOwnTakerProfile,
+                    result: {
+                        state: State.Wichteling,
+                        text: Localisation.texts.ownTakerProfile
+                    },
+                },
             ],
             handlerFunction: async (message: Message, result: StateAndText): Promise<void> =>
             {
-                await this.generalModule.continue(message, result.state, result.text);
+                if (result.text == Localisation.texts.ownTakerProfile)
+                {
+                    await this.generalModule.sendOwnTakerProfile(message);
+                }
+                else
+                {
+                    await this.generalModule.continue(message, result.state, result.text);
+                }
             }
         },
         // Message to gift giver/taker:

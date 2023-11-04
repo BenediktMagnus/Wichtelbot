@@ -36,6 +36,7 @@ interface Commands
     no: CommandInfo;
     registration: CommandInfo;
     showInformation: CommandInfo;
+    showOwnTakerProfile: CommandInfo;
     sternenrose: CommandInfo;
     thankYou: CommandInfo;
     writeOwnGiftGiver: CommandInfo;
@@ -88,6 +89,7 @@ interface Texts
     noCommandsAvailable: TokenString;
     notUnderstood: TokenString;
     oldInformation: TokenString;
+    ownTakerProfile: TokenString;
     messageFromGiftGiverOrTaker: TokenString;
     messageFromGiftGiverHeadline: TokenString;
     messageFromGiftTakerHeadline: TokenString;

@@ -4,6 +4,7 @@ import Config from '../../../utility/config';
 import Contact from '../../classes/contact';
 import ContactType from '../../types/contactType';
 import Database from '../../database/database';
+import { HandlingUtils } from "../handlingTools/handlingUtils";
 import { KeyValuePairList } from '../../../utility/keyValuePair';
 import Member from '../../classes/member';
 import Message from '../../endpoint/definitions/message';
@@ -297,5 +298,15 @@ export default class GeneralModule
         };
 
         await takerUser.send(messageText, [messageVisualisation]);
+    }
+
+    public async sendOwnTakerProfile (message: Message): Promise<void>
+    {
+        const giver = this.database.getWichtel(message.author.id);
+        const taker = this.database.getWichtel(giver.takerId);
+
+        const profileOverviewText = Localisation.texts.ownTakerProfile.process(taker);
+        const profileVisualisations = HandlingUtils.getProfileVisualisations(taker, false);
+        await message.reply(profileOverviewText, profileVisualisations);
     }
 }
