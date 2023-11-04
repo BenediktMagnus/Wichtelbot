@@ -190,4 +190,41 @@ export class ModerationModule
 
         await message.reply(answer);
     }
+
+    public async distributeSteamFriendshipCodes (message: Message): Promise<void>
+    {
+        const wichtels = this.database.getWichtels();
+
+        const codes: string[] = [];
+
+        for (const wichtel of wichtels)
+        {
+            const code = wichtel.information.steamFriendshipCode.trim();
+
+            if (HandlingUtils.isValidSteamFriendshipCode(code))
+            {
+                codes.push(wichtel.information.steamFriendshipCode);
+            }
+        }
+
+        const codesString = codes.join('\n');
+
+        for (const wichtel of wichtels)
+        {
+            const parameters = new KeyValuePairList('steamFriendshipCodes', codesString);
+            const text = Localisation.texts.steamFriendshipCodeDistribution.process(wichtel, parameters);
+
+            const user = await message.client.fetchUser(wichtel.id);
+            await user.send(text);
+        }
+
+        const receiversString = wichtels.map(wichtel => wichtel.name).join('\n');
+
+        const parameters = new KeyValuePairList();
+        parameters.addPair('steamFriendshipCodes', `${codesString}`);
+        parameters.addPair('contactNames', `${receiversString}`);
+        const answer = Localisation.texts.moderationSteamFriendshipCodesDistributed.process(message.author, parameters);
+
+        await message.reply(answer);
+    }
 }

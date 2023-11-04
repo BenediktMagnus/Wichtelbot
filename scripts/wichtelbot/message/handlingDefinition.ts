@@ -585,6 +585,10 @@ export default class HandlingDefinition
 
     public moderatorCommands: CommandDefinition[] = [
         {
+            commandInfo: Localisation.commands.moddingDistributeSteamFriendshipCodes,
+            handlerFunction: async (message: Message): Promise<void> => this.moderationModule.distributeSteamFriendshipCodes(message)
+        },
+        {
             commandInfo: Localisation.commands.moddingDistributeWichtelProfiles,
             handlerFunction: async (message: Message): Promise<void> => this.moderationModule.distributeWichtelProfiles(message)
         },

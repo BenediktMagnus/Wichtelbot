@@ -569,6 +569,48 @@ export default class Database
     }
 
     /**
+     * @returns A list of all wichtels in the database.
+     */
+    public getWichtels (): Wichtel[]
+    {
+        const statement = this.mainDatabase.prepare(
+            `SELECT
+                contact.*, information.*, relationship.*
+            FROM
+                contact
+            LEFT JOIN
+                information
+                    ON information.contactId = contact.id
+            LEFT JOIN
+                relationship
+                    ON relationship.giverId = contact.id
+            WHERE
+                contact.type = ?`
+        );
+
+        statement.expand(true); // Expands the result to have one sub-object for each table.
+
+        type ResultData = {
+            contact: ContactData,
+            information: InformationData,
+            relationship: RelationshipData
+        };
+
+        const resultData = statement.all(ContactType.Wichtel) as ResultData[];
+
+        const wichtels: Wichtel[] = [];
+
+        for (const result of resultData)
+        {
+            const wichtel = new Wichtel(result.contact, result.information, result.relationship);
+
+            wichtels.push(wichtel);
+        }
+
+        return wichtels;
+    }
+
+    /**
      * Will return the type of contact that can be found for this ID. \
      * If no contact is found, the given contactCoreData will be returned instead.
      */

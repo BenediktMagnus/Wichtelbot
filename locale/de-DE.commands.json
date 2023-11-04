@@ -95,8 +95,11 @@
     "maybe": {
         "commands": ["vielleicht", "vllt", "eventuell", "evtl"]
     },
-    "moddingDistributeWichtelProfiles":
-    {
+    "moddingDistributeSteamFriendshipCodes": {
+        "commands": ["SteamfreundschaftscodesVerteilen"],
+        "info": "Verteilt die Steamfreundschaftscodes an alle Wichtel."
+    },
+    "moddingDistributeWichtelProfiles": {
         "commands": [
             "SteckbriefeVerteilen"
         ],

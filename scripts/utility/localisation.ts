@@ -28,6 +28,7 @@ interface Commands
     informationBothAnalogueAndDigital: CommandInfo;
     informationDigital: CommandInfo;
     maybe: CommandInfo;
+    moddingDistributeSteamFriendshipCodes: CommandInfo;
     moddingDistributeWichtelProfiles: CommandInfo;
     moddingEndRegistration: CommandInfo;
     moddingRunAssignment: CommandInfo; // TODO: Rename "modding" commands to "moderation".
@@ -97,6 +98,7 @@ interface Texts
     moderationStatus: TokenString;
     moderationStatusEventPhase: TokenString;
     moderationStatusEventPhaseWithNextPhase: TokenString;
+    moderationSteamFriendshipCodesDistributed: TokenString;
     modsCalled: TokenString;
     profileName: TokenString;
     profileGiftType: TokenString;
@@ -113,6 +115,7 @@ interface Texts
     registrationCancelled: TokenString;
     registrationProfileOverview: TokenString;
     sentComponentText: TokenString;
+    steamFriendshipCodeDistribution: TokenString;
     sternenrose: TokenString;
     thankYouResponse: TokenString;
     wichtelProfileDistribution: TokenString;
