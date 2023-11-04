@@ -140,9 +140,9 @@ export class ModerationModule
 
             for (const excludedUsername of userExclusions)
             {
-                if (this.database.hasContact(excludedUsername))
+                if (this.database.hasContactTag(excludedUsername))
                 {
-                    const excludedContact = this.database.getContact(excludedUsername);
+                    const excludedContact = this.database.getContactByTag(excludedUsername);
 
                     const exclusion = new Exclusion(
                         {

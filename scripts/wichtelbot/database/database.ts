@@ -261,6 +261,15 @@ export default class Database
         return result;
     }
 
+    public hasContactTag (contactTag: string): boolean
+    {
+        const selectQuery = 'SELECT 1 FROM contact WHERE tag = ?';
+
+        const result = this.hasSomething(selectQuery, contactTag);
+
+        return result;
+    }
+
     /**
      * NOTE: The contact object's lastUpdateTime will be updated.
      * TODO: Give the save methods a better name like "insert" or "create" or "saveNew".
@@ -292,6 +301,24 @@ export default class Database
         if (contactData === undefined)
         {
             throw new Error(`Contact with ID ${contactId} not found.`);
+        }
+
+        const contact = new Contact(contactData);
+
+        return contact;
+    }
+
+    public getContactByTag (contactTag: string): Contact
+    {
+        const statement = this.mainDatabase.prepare(
+            'SELECT * FROM contact WHERE tag = ?'
+        );
+
+        const contactData = statement.get(contactTag) as ContactData|undefined;
+
+        if (contactData === undefined)
+        {
+            throw new Error(`Contact with tag ${contactTag} not found.`);
         }
 
         const contact = new Contact(contactData);
