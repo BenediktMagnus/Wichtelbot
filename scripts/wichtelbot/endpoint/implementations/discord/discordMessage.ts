@@ -62,6 +62,15 @@ export class DiscordMessage extends MessageWithParser implements Message
     {
         const splittetText = Utils.splitTextNaturally(text, DiscordUtils.maxMessageWithMentionLength);
 
-        await DiscordUtils.sendMultiMessage(this.message.channel.send.bind(this.message.channel), splittetText, additions);
+        if (!this.message.channel.isSendable())
+        {
+            console.error(
+                `ERROR: Cannot answer message ${this.message.id} in channel ${this.message.channel.id} from user ${this.message.author.id}.`
+            );
+        }
+        else
+        {
+            await DiscordUtils.sendMultiMessage(this.message.channel.send.bind(this.message.channel), splittetText, additions);
+        }
     }
 }

@@ -153,7 +153,7 @@ export class DiscordInteraction extends MessageWithParser implements Message
             );
 
             let sendMessageFunction: SendMessage;
-            if (this.interaction.channel !== null)
+            if (this.interaction.channel?.isSendable())
             {
                 sendMessageFunction = this.interaction.channel.send.bind(this.interaction.channel);
             }
